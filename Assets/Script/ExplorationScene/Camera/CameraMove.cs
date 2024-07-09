@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
     // Start is called before the first frame update
-    // 여긴 카메라 이동
+    // 수정 위치
     public GameObject MainMoveCamera;
     public GameObject Player;
     public GameObject guider;
