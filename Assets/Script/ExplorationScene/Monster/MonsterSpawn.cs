@@ -65,20 +65,22 @@ public class MonsterSpawn : MonoBehaviour
                 monster[i].SetActive(true);
                 switch(Random.Range(0,3))
                 {
+                    //움직이고 있을 때(도망치고 있을 때)의 맞은편에서 나오도록 설계한 코드 
                     case 0:
                         if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
                         {
                             signX *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
                             signY *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
-                            monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 13) / 10.0f), playerPos.z);
+                            monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         }
-                        else monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 13) / 10.0f), playerPos.z);
+                        else monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
+                    //아니면 완전 랜덤 리스폰
                     case 1:
-                        monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(8, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(3, 5) / 10.0f), playerPos.z);
+                        monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
                     case 2:
-                        monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(8, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(7, 10) / 10.0f), playerPos.z);
+                        monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
                 }
                 monster[i].GetComponent<MonsterState>().monsterRespawn();
@@ -141,18 +143,18 @@ public class MonsterSpawn : MonoBehaviour
                         case 0:
                             if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
                             {
-                                signX = guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
-                                signY = guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
-                                monster[EnabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(8, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(5, 13) / 10.0f), playerPos.z);
+                                signX *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
+                                signY *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
+                                monster[EnabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
                             }
-                            else monster[EnabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(9, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(7, 15) / 10.0f), playerPos.z);
+                            else monster[EnabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
 
                             break;
                         case 1:
-                            monster[EnabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(9, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(7, 15) / 10.0f), playerPos.z);
+                            monster[EnabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
                             break;
                         case 2:
-                            monster[EnabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(9, 15) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(7, 15) / 10.0f), playerPos.z);
+                            monster[EnabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
                             break;
                     }
                     monster[EnabledMonster-1].GetComponent<MonsterState>().setInGame();
