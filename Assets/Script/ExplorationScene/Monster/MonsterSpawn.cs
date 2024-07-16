@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 한정도 잘생겼다
 public class MonsterSpawn : MonoBehaviour
 {
     public GameObject player;
