@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ÇÑÁ¤µµ Àß»ý°å´Ù
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½
 public class MonsterSpawn : MonoBehaviour
 {
     public GameObject player;
@@ -66,7 +66,7 @@ public class MonsterSpawn : MonoBehaviour
                 monster[i].SetActive(true);
                 switch(Random.Range(0,3))
                 {
-                    //¿òÁ÷ÀÌ°í ÀÖÀ» ¶§(µµ¸ÁÄ¡°í ÀÖÀ» ¶§)ÀÇ ¸ÂÀºÆí¿¡¼­ ³ª¿Àµµ·Ï ¼³°èÇÑ ÄÚµå 
+                    //ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ 
                     case 0:
                         if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
                         {
@@ -76,7 +76,7 @@ public class MonsterSpawn : MonoBehaviour
                         }
                         else monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
-                    //¾Æ´Ï¸é ¿ÏÀü ·£´ý ¸®½ºÆù
+                    //ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     case 1:
                         monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
@@ -161,8 +161,8 @@ public class MonsterSpawn : MonoBehaviour
                     monster[EnabledMonster-1].GetComponent<MonsterState>().setInGame();
                 }
             }
-           
+           //test for test
         }
 
     }
-}
+} 
