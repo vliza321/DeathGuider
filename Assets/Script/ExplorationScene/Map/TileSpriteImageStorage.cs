@@ -7,26 +7,15 @@ public class TileSpriteImageStorage
 {
     public Sprite[] TileSpriteImage;
     public Sprite BaseTileSpriteImage;
-    public int[] RandConst;
-    public int[] RenderRandConst;
+    public Vector2 RandConst;
+    public Vector2 RenderRandConst;
 
     private void Awake()
     {
-        for(int i=0;i<RandConst.Length;i++)
-        {
-            RandConst[i] = Random.Range(5, 20);
-            RenderRandConst[i] = Random.Range(5, 20);
-        }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+        RandConst.x = Random.Range(5, 20);
+        RandConst.y = Random.Range(5, 20);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        RenderRandConst.x = Random.Range(5, 20);
+        RenderRandConst.y = Random.Range(5, 20);
     }
 }

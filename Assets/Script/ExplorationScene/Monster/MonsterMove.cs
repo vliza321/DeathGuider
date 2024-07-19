@@ -46,7 +46,7 @@ public class MonsterMove : MonoBehaviour
 
                 break;
             case false:
-                guider = Player.GetComponent<PlayerSwap>().Guider;
+                //guider = Player.GetComponent<PlayerSwap>().Guider;
                 playerPos = guider.transform.position;
                 MonsterLocalScale = MonsterObject.transform.position;
                 distance = Vector3.Distance(guider.transform.position, MonsterLocalScale);

@@ -13,14 +13,15 @@ public class TileSet
     public GameObject[] tile;
     public TileMap TileMap;
     public GameObject TileSpriteImageStorage;
-    
+    private TileSpriteImageStorage TileSpriteImageStorages;
     private void Awake()
     {
         TileMap = this.transform.parent.gameObject.GetComponent<TileMap>();
-        for(int i = 0;i<tile.Length;i++)
+        TileSpriteImageStorages = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>();
+        for (int i = 0;i<tile.Length;i++)
         {
             tile[i] = this.transform.GetChild(i).gameObject;
-            tile[i].GetComponent<SpriteRenderer>().sprite = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().BaseTileSpriteImage;
+            tile[i].GetComponent<SpriteRenderer>().sprite = TileSpriteImageStorages.BaseTileSpriteImage;
         }
     }
 
@@ -41,11 +42,11 @@ public class TileSet
 
     public void ChangeTile(int a, int b)
     {
-        tile[Mathf.Abs(TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().RandConst[0] * (absColumn % 4) - TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().RandConst[1] * (absRow%4)) % 100].GetComponent<SpriteRenderer>().sprite
-           = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().BaseTileSpriteImage;
+        tile[Mathf.Abs((int)(TileSpriteImageStorages.RandConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.RandConst.y) * (absRow%4)) % 100].GetComponent<SpriteRenderer>().sprite
+           = TileSpriteImageStorages.BaseTileSpriteImage;
         absRow += a;
         absColumn += b;
-        tile[Mathf.Abs(TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().RandConst[0] * (absColumn%4) - TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().RandConst[1] * (absRow % 4)) % 100].GetComponent<SpriteRenderer>().sprite
-           = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().TileSpriteImage[Mathf.Abs(TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().RenderRandConst[0] * (absColumn % 4) - TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().RenderRandConst[1] * (absRow % 4)) % 8];
+        tile[Mathf.Abs((int)(TileSpriteImageStorages.RandConst.x) * (absColumn%4) - (int)(TileSpriteImageStorages.RandConst.y) * (absRow % 4)) % 100].GetComponent<SpriteRenderer>().sprite
+           = TileSpriteImageStorages.TileSpriteImage[Mathf.Abs((int)(TileSpriteImageStorages.RenderRandConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.RenderRandConst.y) * (absRow % 4)) % 8];
     }
 }

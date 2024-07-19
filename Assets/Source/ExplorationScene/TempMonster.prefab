@@ -82,7 +82,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -158,7 +158,8 @@ MonoBehaviour:
   MonsterObject: {fileID: 0}
   MonsterLocalScale: {x: 0, y: 0}
   MonsterVelocityVector: {x: 0, y: 0}
-  MonsterPosition: {x: 0, y: 0}
   MoveSpeeds: 7
-  MoveSpeedss: 0
   distance: 0
+  guider: {fileID: 0}
+  isKnockBack: 0
+  knockBackTimer: 0
