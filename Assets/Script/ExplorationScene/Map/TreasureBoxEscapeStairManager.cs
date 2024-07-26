@@ -50,7 +50,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
 
     public void EventSwapTile( int column, int row)
     {
-        EscapeStair.transform.GetChild(0).gameObject.transform.position += new Vector3( 12.8f * (-row), 12.8f * (-column));
-        TreasureBox.transform.GetChild(0).gameObject.transform.position += new Vector3( 1.28f * (-row), 12.8f * (-column));
+        EscapeStair.transform.GetChild(0).gameObject.transform.position += new Vector3( 12.8f * (row), 12.8f * (-column));
+        TreasureBox.transform.GetChild(0).gameObject.transform.position += new Vector3( 1.28f * (row), 12.8f * (-column));
     }
 }
