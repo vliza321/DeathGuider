@@ -7,8 +7,8 @@ public class TileSpriteImageStorage
 {
     public Sprite[] TileSpriteImage;
     public Sprite BaseTileSpriteImage;
-    public Vector2 RandConst;
-    public Vector2 RenderRandConst;
+    public Vector2Int RandConst;
+    public Vector2Int RenderRandConst;
 
     private void Awake()
     {
