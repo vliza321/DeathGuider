@@ -7,7 +7,7 @@ public class UpgradeFloor : MonoBehaviour
 {
     public GameObject floorPrefab; // 類 Щ葬ゅ
     public Transform parentTransform; // 類曖 睡賅 お楠蝶イ 撲薑
-    private int floorCount = 1; // 類 熱
+    public int floorCount = 1; // 類 熱
 
     public void CreateFloor()
     {
