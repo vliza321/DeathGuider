@@ -6,18 +6,16 @@ using UnityEngine;
 
 public class TreasureBoxEscapeStairManager : MonoBehaviour
 {
-    public Vector2Int treasureBoxConst; // 보물상자의 타일 맵 안에서 xy위치
-    public Vector2Int escapeStairConst; // 탈출계단의 타일 맵 안에서 xy위치
+    private Vector2Int treasureBoxConst; // 보물상자의 타일 맵 안에서 xy위치
+    private Vector2Int escapeStairConst; // 탈출계단의 타일 맵 안에서 xy위치
 
-    public Vector2Int RandConst; // 보물상자와 탈출계단의 타일 셋 안에서 xy위치
+    private Vector2Int RandConst; // 보물상자와 탈출계단의 타일 셋 안에서 xy위치
 
+    private GameObject TreasureBox;
+    private GameObject EscapeStair;
 
-    public GameObject TileSpriteImageStorage;
-    public GameObject TreasureBox;
-    public GameObject EscapeStair;
-
-    public int stairPosition;
-    public int boxPosition;
+    private int stairPosition;
+    private int boxPosition;
 
     //Test
     private List<GameObject> TreasureBoxList;
@@ -29,10 +27,12 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
         TreasureBoxList = new List<GameObject>();
         EscapeStairList = new List<GameObject>();   
 
-        TileSpriteImageStorage = GameObject.Find("TileSpriteImageStorage");
-        RandConst = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>().RandConst;
+        RandConst = GameObject.Find("TileSpriteImageStorage").GetComponent<TileSpriteImageStorage>().RandConst;
 
-        for(int i  = 0; i < TreasureBox.transform.childCount; i++)
+        TreasureBox = this.gameObject.transform.GetChild(0).gameObject;
+        EscapeStair = this.gameObject.transform.GetChild(1).gameObject;
+
+        for (int i  = 0; i < TreasureBox.transform.childCount; i++)
         {
             TreasureBoxList.Add(TreasureBox.transform.GetChild(i).gameObject);
         }
@@ -53,12 +53,12 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
         }
         foreach(var e in EscapeStairList)
         {
-            escapeStairConst.x = Random.Range(0, 20);
-            escapeStairConst.y = Random.Range(0, 20);
+            escapeStairConst.x = Random.Range(0, 30);
+            escapeStairConst.y = Random.Range(0, 30);
 
             stairPosition = Mathf.Abs((int)(RandConst.x) * (escapeStairConst.x % 4) - (int)(RandConst.y) * (escapeStairConst.y % 4)) % 100;
 
-            e.transform.position = new Vector3((escapeStairConst.x - 10) * 12.8f + 0.64f, (escapeStairConst.y - 10) * 12.8f - 0.64f);
+            e.transform.position = new Vector3((escapeStairConst.x - 15) * 12.8f + 0.64f, (escapeStairConst.y - 15) * 12.8f - 0.64f);
             e.transform.position += new Vector3((int)((stairPosition % 10) - 5) * 1.28f, (int)((stairPosition / 10) - 5) * 1.28f);
         }
     }
@@ -70,12 +70,6 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
             TreasureBoxList.Remove(obj);
             obj.gameObject.SetActive(false);
         }
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-
     }
 
     public void EventSwapTile( int column, int row)
