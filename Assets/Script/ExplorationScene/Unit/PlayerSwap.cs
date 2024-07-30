@@ -29,7 +29,7 @@ public class PlayerSwap : MonoBehaviour
 
     void SwapPlayer(int num) // 죽는거 구현 전 임시, 임의로 서로 스왑
     {
-        GameObject swapedobject = Follower.transform.GetChild(1 - 1).gameObject;
+        GameObject swapedobject = Follower.transform.GetChild(0).gameObject;
         MonsterSpawner.GetComponent<MonsterSpawn>().guider = swapedobject;
         swapedobject.transform.GetChild(0).tag = "Player";
 
@@ -53,6 +53,7 @@ public class PlayerSwap : MonoBehaviour
 
         Guider = this.gameObject.transform.GetChild(0).gameObject;
         CameraManager.GetComponent<CameraMove>().guider = Guider;
+
         MonsterKnockBack();
     }
 

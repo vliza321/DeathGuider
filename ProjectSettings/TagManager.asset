@@ -10,6 +10,8 @@ TagManager:
   - BaseTile
   - Monster
   - follower
+  - Manager
+  - HP
   layers:
   - Default
   - TransparentFX

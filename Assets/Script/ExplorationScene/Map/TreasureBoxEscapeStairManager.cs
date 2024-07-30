@@ -17,13 +17,28 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     private int stairPosition;
     private int boxPosition;
 
-    //Test
     private List<GameObject> TreasureBoxList;
     private List<GameObject> EscapeStairList;
 
+    public List<GameObject> treasureBoxList
+    {
+        get { return TreasureBoxList; }        
+    }
+    public List<GameObject> escapeStairList
+    {
+        get { return EscapeStairList; }
+    }
+
+    private GameObject Player;
+    public GameObject player
+    {
+        get { return TreasureBox; }
+    }
 
     private void Awake()
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
+
         TreasureBoxList = new List<GameObject>();
         EscapeStairList = new List<GameObject>();   
 
@@ -63,11 +78,35 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
         }
     }
 
-    public void RemoveGameObjectInList(GameObject obj)
+    public void AddInStairList(GameObject obj)
+    {
+        if(obj.tag == "Stair")
+        {
+            EscapeStairList.Add(obj);
+        }
+    }
+    public void AddInBoxList(GameObject obj)
+    {
+        if (obj.tag == "Box")
+        {
+            TreasureBoxList.Add(obj);
+        }
+    }
+
+    public void RemoveGameObjectInBoxList(GameObject obj)
     {
         if (obj.tag == "Box")
         {
             TreasureBoxList.Remove(obj);
+            obj.gameObject.SetActive(false);
+        }
+    }
+
+    public void RemoveGameObjectInStairList(GameObject obj)
+    {
+        if (obj.tag == "Stair")
+        {
+            EscapeStairList.Remove(obj);
             obj.gameObject.SetActive(false);
         }
     }
