@@ -103,8 +103,6 @@ public class MonsterState : MonoBehaviour
                 canmove = false;
                 alive = false;
             }
-           
-            
         }
     }
 }

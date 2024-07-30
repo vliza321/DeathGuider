@@ -32,7 +32,15 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     private GameObject Player;
     public GameObject player
     {
-        get { return TreasureBox; }
+        get { return Player; }
+        set 
+        {
+            Player = value.gameObject;
+            for(int i = 0;i<this.transform.childCount;i++)
+            {
+                this.transform.GetChild(i).GetComponent<DirectionalSign>().Player = value.transform;
+            }
+        }
     }
 
     private void Awake()

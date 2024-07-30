@@ -161,7 +161,6 @@ public class MonsterSpawn : MonoBehaviour
                     monster[EnabledMonster-1].GetComponent<MonsterState>().setInGame();
                 }
             }
-           //test for test
         }
 
     }

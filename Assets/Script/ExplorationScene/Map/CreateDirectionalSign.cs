@@ -33,7 +33,7 @@ public class CreateDirectionalSign : MonoBehaviour
             temt = Instantiate(BoxPrefeb, new Vector3(transform.position.x + 0.0f, transform.position.y + 0.0f, transform.position.z + 0.0f), Quaternion.identity);
             temt.transform.parent = this.transform;
         }
-        if(this.transform.parent.name == "Stair")
+        else if(this.transform.parent.name == "Stair")
         {
             temt = Instantiate(StairPrefeb, new Vector3(transform.position.x + 0.0f, transform.position.y + 0.0f, transform.position.z + 0.0f), Quaternion.identity);
             temt.transform.parent = this.transform;

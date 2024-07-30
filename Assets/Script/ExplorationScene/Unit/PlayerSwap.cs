@@ -8,6 +8,22 @@ public class PlayerSwap : MonoBehaviour
     public GameObject Guider;
     public GameObject CameraManager;
     public GameObject MonsterSpawner;
+
+    private TreasureBoxEscapeStairManager treasureBoxEscapeStairManager;
+
+    private void Awake()
+    {
+        GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
+        foreach (GameObject manager in Manager)
+        {
+            if (manager.name == "TreasureBoxEscapeStairManager")
+            {
+                treasureBoxEscapeStairManager = manager.GetComponent<TreasureBoxEscapeStairManager>();
+                break;
+            }
+            Manager = null;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +69,7 @@ public class PlayerSwap : MonoBehaviour
 
         Guider = this.gameObject.transform.GetChild(0).gameObject;
         CameraManager.GetComponent<CameraMove>().guider = Guider;
-
+        treasureBoxEscapeStairManager.player = swapedobject;
         MonsterKnockBack();
     }
 
