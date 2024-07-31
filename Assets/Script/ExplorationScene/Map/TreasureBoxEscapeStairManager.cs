@@ -29,7 +29,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
         get { return EscapeStairList; }
     }
 
-    private GameObject Player;
+    public GameObject Player;
     public GameObject player
     {
         get { return Player; }
@@ -38,7 +38,10 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
             Player = value.gameObject;
             for(int i = 0;i<this.transform.childCount;i++)
             {
-                this.transform.GetChild(i).GetComponent<DirectionalSign>().Player = value.transform;
+                for(int j =0;j<this.transform.GetChild(i).transform.childCount;j++ )
+                {
+                   this.transform.GetChild(i).transform.GetChild(j).transform.GetChild(0).GetComponent<DirectionalSign>().Player = value.transform;
+                }
             }
         }
     }
@@ -128,7 +131,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
 
         foreach (var t in TreasureBoxList)
         {
-            t.transform.position += new Vector3(1.28f * (row), 12.8f * (-column));
+            t.transform.position += new Vector3(12.8f * (row), 12.8f * (-column));
         }
     }
 }
