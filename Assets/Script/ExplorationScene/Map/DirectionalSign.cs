@@ -14,7 +14,7 @@ public class DirectionalSign : MonoBehaviour
     public Vector3 playerToObj;
     public float playerToObjDistance;
     public float playerToObjAngle;
-    
+    public float screenDiagonalAngle;
     public Vector3 lastPosition;
     
     private float absAngle;
@@ -36,6 +36,8 @@ public class DirectionalSign : MonoBehaviour
         lastPosition = new Vector3(0, 0, 0);
         absAngle = 0;
         playerToObjDistance = 0;
+        playerToObjAngle = 0;
+        screenDiagonalAngle = 0;
         try
         {
             TreasureBoxEscapeStairManager = targetObj.parent.transform.parent.GetComponent<TreasureBoxEscapeStairManager>();
@@ -74,76 +76,59 @@ public class DirectionalSign : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        screenDiagonalAngle = MathF.Atan2(Screen.height, Screen.width);
         playerToObj = new Vector2(targetObj.position.x - player.position.x, targetObj.position.y - player.position.y);
         playerToObjDistance = Vector2.Distance(targetObj.position,player.position);
-        playerToObjAngle = MathF.Atan2(playerToObj.x, playerToObj.y)*180.0f/MathF.PI;
+        playerToObjAngle = MathF.Atan2(playerToObj.y, playerToObj.x);// * 180.0f / MathF.PI;// + 180.0f;
         absAngle = MathF.Abs(playerToObjAngle); 
         // 화면 밖에 있을때 예외 처리
         if(MathF.Abs(playerToObj.x) > MathF.Abs(Screen.width/200+0.64f) || MathF.Abs(playerToObj.y) > MathF.Abs(Screen.height/200+0.64f)) // 가로가 화면 밖에 있을때
         {
-            this.transform.eulerAngles = new Vector3(0, 0, -playerToObjAngle );
-            if (absAngle == 90.0f ) // +y축 위 경우
+            //회전 오류 수정 요망
+            this.transform.eulerAngles = new Vector3(0, 0, (playerToObjAngle) * (180.0f / MathF.PI));
+
+            if(absAngle < screenDiagonalAngle)
             {
-                lastPosition.y = 0.0f;
-                if(playerToObjAngle < 0)
+                lastPosition.x = (-playerToObj.x + (Screen.width / 200))/4;
+                lastPosition.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
+            }
+            else 
+            {                
+                if (absAngle>89.888f && absAngle < 90.111f)
                 {
-                    lastPosition.x = +((Screen.height / 2) / 100 + playerToObj.y) / 4;
+                    lastPosition.x = 0f;
                 }
+
+                else if (absAngle > screenDiagonalAngle && absAngle < screenDiagonalAngle + MathF.PI/2.0f)
+                {
+                    //x좌표 오류 수정 요망
+                    lastPosition.x = (-playerToObj.x + MathF.Tan(playerToObjAngle) * (Screen.height / 200)) / 4;
+
+                    if (playerToObjAngle < 0)
+                    {
+                        lastPosition.y = (-playerToObj.y - (Screen.height / 200)) / 4;
+                    }
+                    else if (playerToObjAngle > 0)
+                    {
+                        lastPosition.y = (-playerToObj.y + (Screen.height / 200)) / 4;
+                    }
+                }
+
                 else
                 {
-                    lastPosition.x = -((Screen.height / 2) / 100 - playerToObj.y) / 4;
+                    lastPosition.x = (-playerToObj.x - (Screen.width / 200)) / 4;
+                    lastPosition.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
                 }
             }
-            else if (absAngle <= 45f) // 높이가 고정인 상황
-            {
-                lastPosition.x = (-playerToObj.x + (Screen.height / 2) / 100 * MathF.Tan(playerToObjAngle / 180 * MathF.PI))/4;
-                lastPosition.y = (-playerToObj.y + (Screen.height / 2) / 100)/4;
-
-            }
-            else if (absAngle >  45f || absAngle < 90f) // 높이가 고정인 상황
-            {
-                lastPosition.x = (-playerToObj.x + (Screen.height / 2) / 100 * MathF.Tan(playerToObjAngle / 180 * MathF.PI)) / 4;
-                lastPosition.y = (-playerToObj.y + (Screen.height / 2) / 100) / 4;
-
-            }
-            else // 너비가 고정인 상황
-            {
-                lastPosition.x = (-playerToObj.x + (Screen.width / 2) / 100)/4;
-                lastPosition.y = (-playerToObj.y + ((Screen.width / 2) / 100) / MathF.Tan(playerToObjAngle / 180 * MathF.PI))/4;
-            }
-            
         }
+        // 오브젝트가 화면 안에 있을 때 예외 처리
         else 
         {
             this.transform.eulerAngles = new Vector3(0, 0, 180 );
             lastPosition.x = 0;
             lastPosition.y = 0.128f*3;
         }
-        /*
-        if (absAngle == 90f)
-        {
-            if (playerToObjAngle > 0)
-            {
-                lastPosition.x =  (Screen.width / 2) / 100 - playerToObj.x ;
-                lastPosition.y = -playerToObj.y;
-            }
-            else
-            {
-                lastPosition.x = (Screen.width / 2) / 100 - playerToObj.x;
-                lastPosition.y = -playerToObj.y;
-            }
-        }
-        else if (absAngle < 45f || absAngle > 135f) // 높이가 고정인 상황
-        {
-            lastPosition.x = -playerToObj.x + (Screen.height/2) / 100 * MathF.Tan(playerToObjAngle / 180 * MathF.PI);
-            lastPosition.y = -playerToObj.y + (Screen.height/2) / 100;
 
-        }
-        else // 너비가 고정인 상황
-        {
-            lastPosition.x = -playerToObj.x + (Screen.width / 2) / 100;
-            lastPosition.y = -playerToObj.y + ((Screen.width / 2) / 100) / MathF.Tan(playerToObjAngle / 180 * MathF.PI); 
-        }*/
         this.transform.localPosition = new Vector3 (lastPosition.x,lastPosition.y,0);
     }
 }
