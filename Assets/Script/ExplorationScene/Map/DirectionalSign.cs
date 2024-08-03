@@ -8,15 +8,17 @@ using UnityEditor.SearchService;
 
 public class DirectionalSign : MonoBehaviour
 {
-    public TreasureBoxEscapeStairManager TreasureBoxEscapeStairManager;
-    public Transform player;
-    public Transform targetObj;
-    public Vector3 playerToObj;
-    public float playerToObjDistance;
-    public float playerToObjAngle;
-    public float screenDiagonalAngle;
-    public Vector3 lastPosition;
+    private TreasureBoxEscapeStairManager TreasureBoxEscapeStairManager;
+    private Transform player;
+    private Transform targetObj;
+    private Vector3 playerToObj;
+    private float playerToObjDistance;
+    private float playerToObjAngle;
+    private float screenDiagonalAngle;
+    private Vector3 lastPosition;
     
+
+
     private float absAngle;
 
     public Transform Player
@@ -85,7 +87,7 @@ public class DirectionalSign : MonoBehaviour
         if(MathF.Abs(playerToObj.x) > MathF.Abs(Screen.width/200+0.64f) || MathF.Abs(playerToObj.y) > MathF.Abs(Screen.height/200+0.64f)) // 가로가 화면 밖에 있을때
         {
             //회전 오류 수정 요망
-            this.transform.eulerAngles = new Vector3(0, 0, (playerToObjAngle) * (180.0f / MathF.PI));
+            this.transform.eulerAngles = new Vector3(0, 0, -90 + (playerToObjAngle) * (180.0f) / MathF.PI);
 
             if(absAngle < screenDiagonalAngle)
             {
@@ -97,20 +99,29 @@ public class DirectionalSign : MonoBehaviour
                 if (absAngle>89.888f && absAngle < 90.111f)
                 {
                     lastPosition.x = 0f;
-                }
-
-                else if (absAngle > screenDiagonalAngle && absAngle < screenDiagonalAngle + MathF.PI/2.0f)
-                {
-                    //x좌표 오류 수정 요망
-                    lastPosition.x = (-playerToObj.x + MathF.Tan(playerToObjAngle) * (Screen.height / 200)) / 4;
-
                     if (playerToObjAngle < 0)
                     {
-                        lastPosition.y = (-playerToObj.y - (Screen.height / 200)) / 4;
+                        lastPosition.y = (-playerToObj.y - (Screen.height / 200)) / 4 + 0.032f;
                     }
                     else if (playerToObjAngle > 0)
                     {
-                        lastPosition.y = (-playerToObj.y + (Screen.height / 200)) / 4;
+                        lastPosition.y = (-playerToObj.y + (Screen.height / 200)) / 4 - 0.032f;
+                    }
+                }
+
+                else if (absAngle > screenDiagonalAngle && absAngle < MathF.PI - screenDiagonalAngle)
+                {
+                    //x좌표 오류 수정 요망
+
+                    if (playerToObjAngle < 0)
+                    {
+                        lastPosition.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) / 4;
+                        lastPosition.y = (-playerToObj.y - (Screen.height / 200)) / 4 + 0.032f;
+                    }
+                    else if (playerToObjAngle > 0)
+                    {
+                        lastPosition.x = (-playerToObj.x + MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) / 4;
+                        lastPosition.y = (-playerToObj.y + (Screen.height / 200)) / 4 - 0.032f;
                     }
                 }
 

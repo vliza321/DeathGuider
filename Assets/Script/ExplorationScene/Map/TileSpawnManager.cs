@@ -80,7 +80,7 @@ public class TileSpawnManager : MonoBehaviour
                 BaseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(5,0);
                 BaseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(5,0);
             }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(5, 0);
+            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(4, 0);
         }
         if (BaseTileMap[0].GetComponent<TileMap>().Column <= 0 || BaseTileMap[1].GetComponent<TileMap>().Column <= 0)
         {
@@ -104,7 +104,7 @@ public class TileSpawnManager : MonoBehaviour
                 BaseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,5);
                 BaseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,5);
             }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(0, 5);
+            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(0, 4);
         }
 
         if (BaseTileMap[0].GetComponent<TileMap>().Row >= 10 || BaseTileMap[1].GetComponent<TileMap>().Row >= 10)
@@ -129,7 +129,7 @@ public class TileSpawnManager : MonoBehaviour
                 BaseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile( -5,0);
                 BaseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile( -5,0);
             }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(-5, 0);
+            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(-4, 0);
         }
         if (BaseTileMap[0].GetComponent<TileMap>().Column >= 10 || BaseTileMap[1].GetComponent<TileMap>().Column >= 10)
         {
@@ -153,7 +153,7 @@ public class TileSpawnManager : MonoBehaviour
                 BaseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,-5);
                 BaseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,-5);
             }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(0,-5);
+            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(0,-4);
         }
     }
 }
