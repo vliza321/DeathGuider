@@ -29,7 +29,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
         get { return EscapeStairList; }
     }
 
-    public GameObject Player;
+    private GameObject Player;
     public GameObject player
     {
         get { return Player; }
