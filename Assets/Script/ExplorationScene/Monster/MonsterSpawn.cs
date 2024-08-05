@@ -66,7 +66,6 @@ public class MonsterSpawn : MonoBehaviour
                 monster[i].SetActive(true);
                 switch(Random.Range(0,3))
                 {
-                    //�����̰� ���� ��(����ġ�� ���� ��)�� ���������� �������� ������ �ڵ� 
                     case 0:
                         if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
                         {
@@ -76,7 +75,6 @@ public class MonsterSpawn : MonoBehaviour
                         }
                         else monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
-                    //�ƴϸ� ���� ���� ������
                     case 1:
                         monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;

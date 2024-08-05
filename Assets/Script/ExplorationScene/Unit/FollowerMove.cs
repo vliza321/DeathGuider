@@ -27,13 +27,13 @@ public class FollowerMove : MonoBehaviour
         FollowerVelocityVector = new Vector2(0, 0);
 
         Guider = Player.GetComponent<PlayerSwap>().guider;
-        MoveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed;
+        MoveSpeeds = Guider.GetComponent<PlayerMove>().moveSpeed;
 
         Parent = this.gameObject.transform.parent.gameObject;
 
         FrontguiderLocalscale = FrontGuider.transform.localScale;
 
-        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().MoveSpeed;
+        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().moveSpeed;
     }
 
     // Update is called once per frame
@@ -54,7 +54,7 @@ public class FollowerMove : MonoBehaviour
             MoveSpeeds = guiderMoveSpeed+1.0f;
         }
 
-        if (distance >= 12.8f) { MoveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed + 3.0f; }
+        if (distance >= 12.8f) { MoveSpeeds = Guider.GetComponent<PlayerMove>().moveSpeed + 3.0f; }
         this.gameObject.transform.localScale = new Vector3(FrontguiderLocalscale.x, FrontguiderLocalscale.y, FrontguiderLocalscale.z);
 
     }

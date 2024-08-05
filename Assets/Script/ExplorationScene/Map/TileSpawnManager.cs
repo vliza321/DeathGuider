@@ -13,7 +13,7 @@ public class TileSpawnManager : MonoBehaviour
     public GameObject treasureBoxEscapeStairManager;
     private GameObject guider;
     private int followercounter;
-
+    private GameObject PlayerAttackDirectional;
     private void Awake()
     {
         BaseTileMap = new GameObject[2];
@@ -25,6 +25,7 @@ public class TileSpawnManager : MonoBehaviour
     {
         guider = Player.GetComponent<PlayerSwap>().guider;
         followercounter = Follower.GetComponent<Follower>().followercounter;
+        PlayerAttackDirectional = Player.transform.GetChild(1).gameObject;
     }
 
     public void swapTileMap(Transform transform, int row, int column)
@@ -68,6 +69,7 @@ public class TileSpawnManager : MonoBehaviour
             BaseTileMap[1].GetComponent<TileMap>().Row = 5;
             BaseTileMap[0].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
             guider.transform.position = new Vector3(guider.transform.position.x, guider.transform.position.y - 12.8f * 4, guider.transform.position.z);
+            PlayerAttackDirectional.transform.position = new Vector3(PlayerAttackDirectional.transform.position.x, PlayerAttackDirectional.transform.position.y - 12.8f * 4, PlayerAttackDirectional.transform.position.z);
             BaseTileMap[1].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
             for(int i = 0; i <followercounter;i++)
             {
@@ -92,6 +94,7 @@ public class TileSpawnManager : MonoBehaviour
             BaseTileMap[1].GetComponent<TileMap>().Column = 5;
             BaseTileMap[0].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
             guider.transform.position = new Vector3(guider.transform.position.x + 12.8f * 4, guider.transform.position.y, guider.transform.position.z);
+            PlayerAttackDirectional.transform.position = new Vector3(PlayerAttackDirectional.transform.position.x + 12.8f * 4, PlayerAttackDirectional.transform.position.y, PlayerAttackDirectional.transform.position.z);
             BaseTileMap[1].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
             for (int i = 0; i < followercounter; i++)
             {
@@ -117,6 +120,7 @@ public class TileSpawnManager : MonoBehaviour
             BaseTileMap[1].GetComponent<TileMap>().Row = 5;
             BaseTileMap[0].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
             guider.transform.position = new Vector3(guider.transform.position.x, guider.transform.position.y + 12.8f * 4, guider.transform.position.z);
+            PlayerAttackDirectional.transform.position = new Vector3(PlayerAttackDirectional.transform.position.x, PlayerAttackDirectional.transform.position.y + 12.8f * 4, PlayerAttackDirectional.transform.position.z);
             BaseTileMap[1].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
             for (int i = 0; i < followercounter; i++)
             {
@@ -141,6 +145,7 @@ public class TileSpawnManager : MonoBehaviour
             BaseTileMap[1].GetComponent<TileMap>().Column = 5;
             BaseTileMap[0].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
             guider.transform.position = new Vector3(guider.transform.position.x - 12.8f * 4, guider.transform.position.y, guider.transform.position.z);
+            PlayerAttackDirectional.transform.position = new Vector3(PlayerAttackDirectional.transform.position.x - 12.8f * 4, PlayerAttackDirectional.transform.position.y, PlayerAttackDirectional.transform.position.z);
             BaseTileMap[1].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
             for (int i = 0; i < followercounter; i++)
             {

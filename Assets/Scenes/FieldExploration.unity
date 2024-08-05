@@ -12393,12 +12393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 160926489}
-  PlayerPosition: {x: 0, y: 0}
-  PlayerVelocityVector: {x: 0, y: 0}
-  canmove: 0
   MoveSpeed: 3
-  MoveSpeeds: 0
 --- !u!70 &160926494
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -63989,8 +63984,8 @@ GameObject:
   - component: {fileID: 785383750}
   - component: {fileID: 785383751}
   m_Layer: 0
-  m_Name: Player
-  m_TagString: Untagged
+  m_Name: PlayerManager
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82512,12 +82507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1024109783}
-  PlayerPosition: {x: 0, y: 0}
-  PlayerVelocityVector: {x: 0, y: 0}
-  canmove: 0
   MoveSpeed: 3
-  MoveSpeeds: 0
 --- !u!114 &1024109789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128312,12 +128302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1599589451}
-  PlayerPosition: {x: 0, y: 0}
-  PlayerVelocityVector: {x: 0, y: 0}
-  canmove: 0
   MoveSpeed: 3
-  MoveSpeeds: 0
 --- !u!70 &1599589456
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -133440,12 +133425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1663642827}
-  PlayerPosition: {x: 0, y: 0}
-  PlayerVelocityVector: {x: 0, y: 0}
-  canmove: 0
   MoveSpeed: 3
-  MoveSpeeds: 0
 --- !u!70 &1663642832
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -159506,12 +159486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 1968013559}
-  PlayerPosition: {x: 0, y: 0}
-  PlayerVelocityVector: {x: 0, y: 0}
-  canmove: 0
   MoveSpeed: 3
-  MoveSpeeds: 0
 --- !u!70 &1968013565
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

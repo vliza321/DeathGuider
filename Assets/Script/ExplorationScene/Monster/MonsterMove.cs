@@ -24,11 +24,11 @@ public class MonsterMove : MonoBehaviour
         MonsterVelocityVector = new Vector2(0, 0);
 
         guider = Player.GetComponent<PlayerSwap>().guider;
-        MoveSpeeds = guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
+        MoveSpeeds = guider.GetComponent<PlayerMove>().moveSpeed / 5.0f;
         playerPos = guider.transform.position;
         isKnockBack = false;
         knockBackTimer = 10;
-        guiderMoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
+        guiderMoveSpeed = guider.GetComponent<PlayerMove>().moveSpeed;
     }
 
     // Update is called once per frame
