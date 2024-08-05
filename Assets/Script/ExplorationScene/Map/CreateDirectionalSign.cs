@@ -11,22 +11,6 @@ public class CreateDirectionalSign : MonoBehaviour
     [SerializeField]
     private GameObject StairPrefeb;
 
-    private void Awake()
-    {
-        /*
-        GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
-        foreach (GameObject manager in Manager)
-        {
-            if (manager.name == "TreasureBoxEscapeStairDirectionalSignManager")
-            {
-                TreasureBoxEscapeStairDirectionalSignManager = manager;
-                break;
-            }
-            Manager = null;
-        }
-        BoxPrefeb = TreasureBoxEscapeStairDirectionalSignManager.transform.GetChild(0).gameObject;
-        StairPrefeb = TreasureBoxEscapeStairDirectionalSignManager.transform.GetChild(1).gameObject;*/
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -50,11 +34,5 @@ public class CreateDirectionalSign : MonoBehaviour
             }
         }
         temt = null;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

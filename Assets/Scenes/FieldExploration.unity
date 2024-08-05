@@ -1139,8 +1139,8 @@ GameObject:
   - component: {fileID: 24145780}
   - component: {fileID: 24145781}
   m_Layer: 10
-  m_Name: Follower
-  m_TagString: Untagged
+  m_Name: FollowerManager
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12381,8 +12381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dcbce02eb843b45ba34398ecdaad0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileManager: {fileID: 1646080977}
-  triggerflag: 0
 --- !u!114 &160926493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64026,10 +64024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d097cd4491726304bbe7b7bbd7c9186c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Follower: {fileID: 24145779}
-  Guider: {fileID: 1024109783}
-  CameraManager: {fileID: 1471784445}
-  MonsterSpawner: {fileID: 991177185}
 --- !u!1 &785466583
 GameObject:
   m_ObjectHideFlags: 0
@@ -82536,8 +82530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dcbce02eb843b45ba34398ecdaad0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileManager: {fileID: 1646080977}
-  triggerflag: 0
 --- !u!70 &1024109790
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -117483,7 +117475,7 @@ GameObject:
   - component: {fileID: 1471784446}
   m_Layer: 0
   m_Name: CameraManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128308,8 +128300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dcbce02eb843b45ba34398ecdaad0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileManager: {fileID: 1646080977}
-  triggerflag: 0
 --- !u!114 &1599589455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132007,9 +131997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f83d065c8c3c6646a9824d1d20127a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseTileMap:
-  - {fileID: 123058750}
-  - {fileID: 1675836112}
   TileSpriteImageStorage: {fileID: 455858801}
   Player: {fileID: 785383749}
   EnableMonsters: {fileID: 991177185}
@@ -133441,8 +133428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dcbce02eb843b45ba34398ecdaad0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileManager: {fileID: 1646080977}
-  triggerflag: 0
 --- !u!114 &1663642831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159509,8 +159494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89dcbce02eb843b45ba34398ecdaad0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileManager: {fileID: 1646080977}
-  triggerflag: 0
 --- !u!114 &1968013564
 MonoBehaviour:
   m_ObjectHideFlags: 0

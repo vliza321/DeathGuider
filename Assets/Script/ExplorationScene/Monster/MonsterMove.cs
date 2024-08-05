@@ -23,7 +23,7 @@ public class MonsterMove : MonoBehaviour
         MonsterObject = this.gameObject;
         MonsterVelocityVector = new Vector2(0, 0);
 
-        guider = Player.GetComponent<PlayerSwap>().Guider;
+        guider = Player.GetComponent<PlayerSwap>().guider;
         MoveSpeeds = guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
         playerPos = guider.transform.position;
         isKnockBack = false;

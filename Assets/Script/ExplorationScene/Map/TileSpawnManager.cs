@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class TileSpawnManager : MonoBehaviour
 {
-    public GameObject[] BaseTileMap;
-    public GameObject TileSpriteImageStorage;
+    private GameObject[] BaseTileMap;
+    [SerializeField]
+    private GameObject TileSpriteImageStorage;
     public GameObject Player;
     public GameObject EnableMonsters;
     public GameObject Follower;
     public GameObject treasureBoxEscapeStairManager;
-    GameObject guider;
-    int followercounter;
-    // Start is called before the first frame update
-    void Awake()
+    private GameObject guider;
+    private int followercounter;
+
+    private void Awake()
     {
-
+        BaseTileMap = new GameObject[2];
+        BaseTileMap[0] = this.transform.GetChild(0).gameObject;
+        BaseTileMap[1] = this.transform.GetChild(1).gameObject;
     }
-
     // Update is called once per frame
     void Start()
     {
-        guider = Player.GetComponent<PlayerSwap>().Guider;
+        guider = Player.GetComponent<PlayerSwap>().guider;
         followercounter = Follower.GetComponent<Follower>().followercounter;
     }
 
     public void swapTileMap(Transform transform, int row, int column)
     {
-        guider = Player.GetComponent<PlayerSwap>().Guider;
+        guider = Player.GetComponent<PlayerSwap>().guider;
         BaseTileMap[0].GetComponent<TileMap>().Row += row - 2;
         BaseTileMap[0].GetComponent<TileMap>().Column += column - 2;
         BaseTileMap[1].GetComponent<TileMap>().Row += row - 2;

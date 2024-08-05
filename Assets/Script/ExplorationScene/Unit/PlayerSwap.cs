@@ -4,30 +4,52 @@ using UnityEngine;
 
 public class PlayerSwap : MonoBehaviour
 {
-    public GameObject Follower;
-    public GameObject Guider;
-    public GameObject CameraManager;
-    public GameObject MonsterSpawner;
+    private GameObject FollowerManager;
+    private GameObject CameraManager;
+    private GameObject MonsterSpawnerManager;
 
+    private GameObject Guider;
+    private GameObject swapedobject;
     private TreasureBoxEscapeStairManager treasureBoxEscapeStairManager;
 
+    public GameObject guider
+    {
+        get
+        {
+            return Guider;
+        }
+    }
     private void Awake()
     {
+        Guider = this.transform.GetChild(0).gameObject;
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)
         {
             if (manager.name == "TreasureBoxEscapeStairManager")
             {
                 treasureBoxEscapeStairManager = manager.GetComponent<TreasureBoxEscapeStairManager>();
-                break;
             }
-            Manager = null;
+            if(manager.name == "MonsterSpawnManager")
+            {
+                MonsterSpawnerManager = manager.transform.gameObject;
+            }
+            if(manager.name == "CameraManager")
+            {
+                CameraManager = manager.transform.gameObject;
+            }
+            if(manager.name == "FollowerManager")
+            {
+                FollowerManager = manager.transform.gameObject;
+            }
         }
+
+        Manager = null;
     }
     // Start is called before the first frame update
     void Start()
     {
         Guider.GetComponent<FollowerMove>().enabled = false;
+        swapedobject = FollowerManager.transform.GetChild(0).gameObject;
     }
     //this.gameObject.GetComponent<PlayerState>().enabled = false;
     // Update is called once per frame
@@ -43,10 +65,10 @@ public class PlayerSwap : MonoBehaviour
         }
     }
 
-    void SwapPlayer(int num) // 죽는거 구현 전 임시, 임의로 서로 스왑
+    public void SwapPlayer(int num) // 죽는거 구현 전 임시, 임의로 서로 스왑
     {
-        GameObject swapedobject = Follower.transform.GetChild(0).gameObject;
-        MonsterSpawner.GetComponent<MonsterSpawn>().guider = swapedobject;
+        swapedobject = FollowerManager.transform.GetChild(0).gameObject;
+        MonsterSpawnerManager.GetComponent<MonsterSpawn>().guider = swapedobject;
         swapedobject.transform.GetChild(0).tag = "Player";
 
         swapedobject.transform.parent = this.gameObject.transform;
@@ -57,12 +79,13 @@ public class PlayerSwap : MonoBehaviour
         swapedobject.tag = "Player";
         swapedobject.GetComponent<SpriteRenderer>().sortingOrder = 1;
         swapedobject.transform.position = Guider.transform.position;
+        swapedobject.transform.SetAsFirstSibling();
 
         Guider.transform.GetChild(0).tag = "Untagged";
         Guider.GetComponent<FollowerMove>().enabled = true;
         Guider.GetComponent<PlayerMove>().enabled = false;
         Guider.GetComponent<PlayerInRegion>().enabled = false;
-        Guider.transform.parent = Follower.transform;
+        Guider.transform.parent = FollowerManager.transform;
         Guider.layer = 10;
         Guider.tag = "follower";
         Guider.GetComponent<SpriteRenderer>().sortingOrder = 0;
@@ -75,7 +98,7 @@ public class PlayerSwap : MonoBehaviour
 
     void MonsterKnockBack()
     {
-        MonsterSpawn ms = MonsterSpawner.GetComponent<MonsterSpawn>();
+        MonsterSpawn ms = MonsterSpawnerManager.GetComponent<MonsterSpawn>();
         for (int i =0; i < ms.EnabledMonster;i++)
         {
             if (ms.monster[i].GetComponent<MonsterMove>().distance < 9.0f)

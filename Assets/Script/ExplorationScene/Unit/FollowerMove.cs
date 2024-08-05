@@ -26,14 +26,10 @@ public class FollowerMove : MonoBehaviour
         Follower = this.gameObject;
         FollowerVelocityVector = new Vector2(0, 0);
 
-        Guider = Player.GetComponent<PlayerSwap>().Guider;
+        Guider = Player.GetComponent<PlayerSwap>().guider;
         MoveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed;
-/*        if (FrontGuider.transform.gameObject.layer != this.gameObject.layer) { MoveSpeeds = FrontGuider.GetComponent<PlayerMove>().MoveSpeed; }
-        else { MoveSpeeds = FrontGuider.GetComponent<PlayerMove>().MoveSpeed / 5.0f; }*/
-        //playerPos = FrontGuider.transform.position;
 
         Parent = this.gameObject.transform.parent.gameObject;
-        //parent.GetComponent<Follower>().printdebug();
 
         FrontguiderLocalscale = FrontGuider.transform.localScale;
 

@@ -16,7 +16,7 @@ public class CameraMove : MonoBehaviour
 
     private void Start()
     {
-        guider = Player.GetComponent<PlayerSwap>().Guider;
+        guider = Player.GetComponent<PlayerSwap>().guider;
     }
     // Update is called once per frame
     void Update()

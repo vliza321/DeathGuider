@@ -12,7 +12,7 @@ public class DirectionalSign : MonoBehaviour
     private Transform player;
     private Transform targetObj;
     private Vector3 playerToObj;
-    private float playerToObjDistance;
+
     private float playerToObjAngle;
     private float screenDiagonalAngle;
     private Vector3 lastPosition;
@@ -37,7 +37,6 @@ public class DirectionalSign : MonoBehaviour
     {
         lastPosition = new Vector3(0, 0, 0);
         absAngle = 0;
-        playerToObjDistance = 0;
         playerToObjAngle = 0;
         screenDiagonalAngle = 0;
         try
@@ -72,7 +71,6 @@ public class DirectionalSign : MonoBehaviour
         playerToObj = new Vector2(targetObj.position.x - player.position.x, targetObj.position.y - player.position.y);
         playerToObjAngle = MathF.Atan2(playerToObj.x, playerToObj.y) * 180.0f / MathF.PI;
         this.transform.eulerAngles = new Vector3(0, 0,-playerToObjAngle);
-        playerToObjDistance = Vector2.Distance(targetObj.position,player.position);
     }
 
     // Update is called once per frame
@@ -80,13 +78,12 @@ public class DirectionalSign : MonoBehaviour
     {
         screenDiagonalAngle = MathF.Atan2(Screen.height, Screen.width);
         playerToObj = new Vector2(targetObj.position.x - player.position.x, targetObj.position.y - player.position.y);
-        playerToObjDistance = Vector2.Distance(targetObj.position,player.position);
         playerToObjAngle = MathF.Atan2(playerToObj.y, playerToObj.x);// * 180.0f / MathF.PI;// + 180.0f;
         absAngle = MathF.Abs(playerToObjAngle); 
         // 화면 밖에 있을때 예외 처리
         if(MathF.Abs(playerToObj.x) > MathF.Abs(Screen.width/200+0.64f) || MathF.Abs(playerToObj.y) > MathF.Abs(Screen.height/200+0.64f)) // 가로가 화면 밖에 있을때
         {
-            //회전 오류 수정 요망
+            
             this.transform.eulerAngles = new Vector3(0, 0, -90 + (playerToObjAngle) * (180.0f) / MathF.PI);
 
             if(absAngle < screenDiagonalAngle)
@@ -95,7 +92,8 @@ public class DirectionalSign : MonoBehaviour
                 lastPosition.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
             }
             else 
-            {                
+            {      
+                /*
                 if (absAngle>89.888f && absAngle < 90.111f)
                 {
                     lastPosition.x = 0f;
@@ -107,15 +105,15 @@ public class DirectionalSign : MonoBehaviour
                     {
                         lastPosition.y = (-playerToObj.y + (Screen.height / 200)) / 4 - 0.032f;
                     }
-                }
+                }*/
 
-                else if (absAngle > screenDiagonalAngle && absAngle < MathF.PI - screenDiagonalAngle)
+                if (absAngle > screenDiagonalAngle && absAngle < MathF.PI - screenDiagonalAngle)
                 {
                     //x좌표 오류 수정 요망
 
                     if (playerToObjAngle < 0)
                     {
-                        lastPosition.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) / 4;
+                        lastPosition.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200) ) / 4 ;
                         lastPosition.y = (-playerToObj.y - (Screen.height / 200)) / 4 + 0.032f;
                     }
                     else if (playerToObjAngle > 0)
