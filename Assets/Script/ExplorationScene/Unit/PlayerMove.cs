@@ -55,7 +55,7 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.GetComponent<PlayerState>().canmove) canmove = 1;
+        if (this.gameObject.GetComponent<PlayerState>().CanMove) canmove = 1;
         else canmove = 0;
         playerVelocityVector.x = Input.GetAxisRaw("Horizontal");
         playerVelocityVector.y = Input.GetAxisRaw("Vertical");

@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    public bool alive; // 살았는지 죽었는지만
-    public bool canmove; // 움직이는지 멈췄는지만
-    public int dontMoveTimer;
+    private bool alive; // 살았는지 죽었는지만
+    private bool canMove; // 움직이는지 멈췄는지만
+    private int dontMoveTimer;
     // Start is called before the first frame update
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
+    public bool Alive
+    {
+        get { return alive; }
+        set { alive = value; }
+    }
 
     private void Awake()
     {
@@ -16,7 +26,7 @@ public class PlayerState : MonoBehaviour
     void Start()
     {
         alive = true;
-        canmove = true;
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -28,7 +38,7 @@ public class PlayerState : MonoBehaviour
         }
         if (dontMoveTimer <= 0)
         {
-            canmove = true;
+            canMove = true;
         }
         
     }
@@ -36,6 +46,6 @@ public class PlayerState : MonoBehaviour
     public void dontMove(int dontmovetimer)
     {
         dontMoveTimer = dontmovetimer;
-        canmove = false;
+        canMove = false;
     }
 }
