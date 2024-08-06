@@ -16,10 +16,11 @@ public class FollowerMove : MonoBehaviour
 
     public Vector3 playerPos;
     public Vector3 FrontguiderLocalscale;
-    public GameObject FrontGuider;
-    public GameObject Guider;
-    public GameObject Parent;
-    float guiderMoveSpeed;
+    [SerializeField]
+    private GameObject FrontGuider;
+    private GameObject Guider;
+
+    private float guiderMoveSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,8 +29,6 @@ public class FollowerMove : MonoBehaviour
 
         Guider = Player.GetComponent<PlayerSwap>().guider;
         MoveSpeeds = Guider.GetComponent<PlayerMove>().moveSpeed;
-
-        Parent = this.gameObject.transform.parent.gameObject;
 
         FrontguiderLocalscale = FrontGuider.transform.localScale;
 

@@ -6,25 +6,23 @@ public class CameraMove : MonoBehaviour
 {
     // Start is called before the first frame update
     // 수정 위치
-    public GameObject MainMoveCamera;
-    public GameObject Player;
-    public GameObject guider;
+    private GameObject MainMoveCamera;
+    private GameObject Player;
+    [SerializeField]
+    private GameObject guider;
+    public GameObject Guider
+    {
+        get { return guider; }
+        set { guider = value; } 
+    }
     void Awake()
     {
         MainMoveCamera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
-    private void Start()
-    {
-        guider = Player.GetComponent<PlayerSwap>().guider;
-    }
     // Update is called once per frame
     void Update()
     {
         MainMoveCamera.transform.position = new Vector3((float)guider.transform.position.x, (float)guider.transform.position.y, -10f);
-    }
-
-    private void FixedUpdate()
-    {
     }
 }

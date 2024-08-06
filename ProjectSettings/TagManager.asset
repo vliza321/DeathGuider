@@ -12,6 +12,7 @@ TagManager:
   - follower
   - Manager
   - HP
+  - Storage
   layers:
   - Default
   - TransparentFX

@@ -53,7 +53,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
         TreasureBoxList = new List<GameObject>();
         EscapeStairList = new List<GameObject>();   
 
-        RandConst = GameObject.Find("TileSpriteImageStorage").GetComponent<TileSpriteImageStorage>().RandConst;
+        RandConst = GameObject.Find("TileSpriteImageStorage").GetComponent<TileSpriteImageStorage>().randConst;
 
         TreasureBox = this.gameObject.transform.GetChild(0).gameObject;
         EscapeStair = this.gameObject.transform.GetChild(1).gameObject;

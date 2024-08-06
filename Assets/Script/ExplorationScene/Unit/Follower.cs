@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class Follower : MonoBehaviour
 {
-    public GameObject Player;
-    public GameObject guider;
-    public GameObject[] follower;
+    private GameObject[] follower;
     
-    public int followercounter;
+    private int followerCounter;
+    public int FollowerCounter
+    {
+        get { return followerCounter; }
+        set { followerCounter = value; }
+    }
+    private GameObject player;
+    public GameObject Player
+    {
+        get { return player; }
+        set { player = value; }
+    }
+
     private void Awake()
     {
-        for(int i =0; i<this.transform.childCount;i++)
+
+        followerCounter = this.transform.childCount;
+        follower = new GameObject[followerCounter];
+        for (int i =0; i< followerCounter; i++)
         {
             follower[i] = this.transform.GetChild(i).gameObject;
         }
-        followercounter = follower.Length;
     }
 
     // Start is called before the first frame update
@@ -29,12 +41,6 @@ public class Follower : MonoBehaviour
             follower[i].gameObject.layer = this.gameObject.layer;
         }
     } 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void printdebug()
     {

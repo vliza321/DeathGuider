@@ -21,8 +21,8 @@ public class PlayerInRegion : MonoBehaviour
         int column;
         if (collision.gameObject.CompareTag("TileSet") )
         {
-            row = collision.GetComponent<TileSet>().Row;
-            column = collision.GetComponent<TileSet>().Column;
+            row = collision.GetComponent<TileSet>().row;
+            column = collision.GetComponent<TileSet>().column;
 
             if (triggerflag == false)
             {
@@ -43,8 +43,8 @@ public class PlayerInRegion : MonoBehaviour
         int column;
         if (collision.gameObject.CompareTag("TileSet"))
         {
-            row = collision.GetComponent<TileSet>().Row;
-            column = collision.GetComponent<TileSet>().Column;
+            row = collision.GetComponent<TileSet>().row;
+            column = collision.GetComponent<TileSet>().column;
             if (triggerflag == false)
             {
 

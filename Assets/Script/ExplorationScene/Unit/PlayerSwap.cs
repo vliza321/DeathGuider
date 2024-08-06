@@ -6,7 +6,7 @@ public class PlayerSwap : MonoBehaviour
 {
     private GameObject FollowerManager;
     private GameObject CameraManager;
-    private GameObject MonsterSpawnerManager;
+    private GameObject MonsterSpawnManager;
 
     private GameObject Guider;
     private GameObject swapedobject;
@@ -31,7 +31,7 @@ public class PlayerSwap : MonoBehaviour
             }
             if(manager.name == "MonsterSpawnManager")
             {
-                MonsterSpawnerManager = manager.transform.gameObject;
+                MonsterSpawnManager = manager.transform.gameObject;
             }
             if(manager.name == "CameraManager")
             {
@@ -50,6 +50,7 @@ public class PlayerSwap : MonoBehaviour
     {
         Guider.GetComponent<FollowerMove>().enabled = false;
         swapedobject = FollowerManager.transform.GetChild(0).gameObject;
+        CameraManager.GetComponent<CameraMove>().Guider = Guider;
     }
     //this.gameObject.GetComponent<PlayerState>().enabled = false;
     // Update is called once per frame
@@ -68,7 +69,7 @@ public class PlayerSwap : MonoBehaviour
     public void SwapPlayer(int num) // 죽는거 구현 전 임시, 임의로 서로 스왑
     {
         swapedobject = FollowerManager.transform.GetChild(0).gameObject;
-        MonsterSpawnerManager.GetComponent<MonsterSpawn>().guider = swapedobject;
+        MonsterSpawnManager.GetComponent<MonsterSpawn>().PlayerSwap(swapedobject);
         swapedobject.transform.GetChild(0).tag = "Player";
 
         swapedobject.transform.parent = this.gameObject.transform;
@@ -91,21 +92,21 @@ public class PlayerSwap : MonoBehaviour
         Guider.GetComponent<SpriteRenderer>().sortingOrder = 0;
 
         Guider = this.gameObject.transform.GetChild(0).gameObject;
-        CameraManager.GetComponent<CameraMove>().guider = Guider;
+        CameraManager.GetComponent<CameraMove>().Guider = Guider;
         treasureBoxEscapeStairManager.player = swapedobject;
         MonsterKnockBack();
     }
 
     void MonsterKnockBack()
     {
-        MonsterSpawn ms = MonsterSpawnerManager.GetComponent<MonsterSpawn>();
+        MonsterSpawn ms = MonsterSpawnManager.GetComponent<MonsterSpawn>();
         for (int i =0; i < ms.EnabledMonster;i++)
         {
-            if (ms.monster[i].GetComponent<MonsterMove>().distance < 9.0f)
+            if (ms.Monster[i].GetComponent<MonsterMove>().distance < 9.0f)
             { 
-                ms.monster[i].GetComponent<MonsterMove>().isKnockBack = true;
-                ms.monster[i].GetComponent<MonsterMove>().knockBackTimer = 300 - 300 * (int)(ms.monster[i].GetComponent<MonsterMove>().distance / 9.0f);
-                ms.monster[i].GetComponent<MonsterMove>().MonsterVelocityVector *= -2;
+                ms.Monster[i].GetComponent<MonsterMove>().isKnockBack = true;
+                ms.Monster[i].GetComponent<MonsterMove>().knockBackTimer = 300 - 300 * (int)(ms.Monster[i].GetComponent<MonsterMove>().distance / 9.0f);
+                ms.Monster[i].GetComponent<MonsterMove>().monsterVelocityVector *= -2;
 
             }
         }
