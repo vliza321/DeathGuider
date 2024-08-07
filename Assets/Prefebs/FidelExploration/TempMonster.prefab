@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 7657921244377067819}
   - component: {fileID: 5671460441188048800}
   - component: {fileID: 7743492814158391574}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TempMonster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7743492814158391579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.25, y: -7.36, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119,11 +119,11 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.6}
-  m_Size: {x: 0.5, y: 1.15}
+  m_Offset: {x: 0.02738524, y: 0.004123807}
+  m_Size: {x: 0.3590096, y: 0.9991805}
   m_Direction: 0
 --- !u!114 &5671460441188048800
 MonoBehaviour:
@@ -137,11 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc03c7fc0192cb42927b980e2f1bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
-  alive: 0
-  canmove: 0
-  monsterNum: 0
-  inGame: 0
 --- !u!114 &7743492814158391574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,10 +151,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
   MonsterObject: {fileID: 0}
-  MonsterLocalScale: {x: 0, y: 0}
-  MonsterVelocityVector: {x: 0, y: 0}
-  MoveSpeeds: 7
-  distance: 0
-  guider: {fileID: 0}
-  isKnockBack: 0
-  knockBackTimer: 0
+  Guider: {fileID: 0}

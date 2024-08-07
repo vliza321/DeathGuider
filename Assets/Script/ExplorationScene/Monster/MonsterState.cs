@@ -5,11 +5,19 @@ using UnityEngine;
 public class MonsterState : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField]
     private float hp;
     private bool alive; // 살았는지 죽었는지만
     private bool canmove; // 움직이는지 멈췄는지만
     private int monsterNum;
     private bool inGame;
+    private int attackPoint;
+    public int AttactPoint
+    { 
+        get { return attackPoint; } 
+        set { attackPoint = value; } 
+    }
+
     // delete public 
     //public int spawnCounter;
 
@@ -94,7 +102,7 @@ public class MonsterState : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if(collision.gameObject.CompareTag("Weapon"))
         {
             hp--;
             if (hp <= 0)

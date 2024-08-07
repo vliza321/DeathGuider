@@ -13,6 +13,7 @@ TagManager:
   - Manager
   - HP
   - Storage
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -22,9 +23,9 @@ TagManager:
   - UI
   - Tile
   - World
-  - Player
-  - PlayerHP
   - follower
+  - PlayerHP
+  - Player
   - Box
   - Stair
   - 

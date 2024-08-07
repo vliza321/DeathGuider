@@ -12,11 +12,12 @@ public class Follower : MonoBehaviour
         get { return followerCounter; }
         set { followerCounter = value; }
     }
-    private GameObject player;
-    public GameObject Player
+    [SerializeField]
+    private GameObject playerManager;
+    public GameObject PlayerManager
     {
-        get { return player; }
-        set { player = value; }
+        get { return playerManager; }
+        set { playerManager = value; }
     }
 
     private void Awake()

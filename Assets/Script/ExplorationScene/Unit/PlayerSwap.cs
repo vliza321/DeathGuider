@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class PlayerSwap : MonoBehaviour
 {
-    private GameObject FollowerManager;
-    private GameObject CameraManager;
-    private GameObject MonsterSpawnManager;
+    private GameObject followerManager;
+    private GameObject cameraManager;
+    private GameObject monsterSpawnManager;
 
-    private GameObject Guider;
-    private GameObject swapedobject;
+    private GameObject guider;
+    private GameObject swapedObject;
     private TreasureBoxEscapeStairManager treasureBoxEscapeStairManager;
-
-    public GameObject guider
+    private AttackDirectional attackDirectional;
+    public GameObject Guider
     {
         get
         {
-            return Guider;
+            return guider;
         }
     }
     private void Awake()
     {
-        Guider = this.transform.GetChild(0).gameObject;
+        attackDirectional = this.transform.GetChild(1).gameObject.GetComponent<AttackDirectional>();
+        guider = this.transform.GetChild(0).gameObject;
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)
         {
@@ -31,28 +32,26 @@ public class PlayerSwap : MonoBehaviour
             }
             if(manager.name == "MonsterSpawnManager")
             {
-                MonsterSpawnManager = manager.transform.gameObject;
+                monsterSpawnManager = manager.transform.gameObject;
             }
             if(manager.name == "CameraManager")
             {
-                CameraManager = manager.transform.gameObject;
+                cameraManager = manager.transform.gameObject;
             }
             if(manager.name == "FollowerManager")
             {
-                FollowerManager = manager.transform.gameObject;
+                followerManager = manager.transform.gameObject;
             }
         }
 
         Manager = null;
+
+        followerManager.GetComponent<Follower>().PlayerManager = this.gameObject;
+        guider.GetComponent<FollowerMove>().enabled = false;
+        swapedObject = followerManager.transform.GetChild(0).gameObject;
+        cameraManager.GetComponent<CameraMove>().Guider = guider;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        Guider.GetComponent<FollowerMove>().enabled = false;
-        swapedobject = FollowerManager.transform.GetChild(0).gameObject;
-        CameraManager.GetComponent<CameraMove>().Guider = Guider;
-    }
-    //this.gameObject.GetComponent<PlayerState>().enabled = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -68,38 +67,39 @@ public class PlayerSwap : MonoBehaviour
 
     public void SwapPlayer(int num) // 죽는거 구현 전 임시, 임의로 서로 스왑
     {
-        swapedobject = FollowerManager.transform.GetChild(0).gameObject;
-        MonsterSpawnManager.GetComponent<MonsterSpawn>().PlayerSwap(swapedobject);
-        swapedobject.transform.GetChild(0).tag = "Player";
+        swapedObject = followerManager.transform.GetChild(0).gameObject;
+        monsterSpawnManager.GetComponent<MonsterSpawn>().PlayerSwap(swapedObject);
+        swapedObject.transform.GetChild(0).tag = "Player";
 
-        swapedobject.transform.parent = this.gameObject.transform;
-        swapedobject.GetComponent<FollowerMove>().enabled = false;
-        swapedobject.GetComponent<PlayerMove>().enabled = true;
-        swapedobject.GetComponent<PlayerInRegion>().enabled = true;
-        swapedobject.layer = 8;
-        swapedobject.tag = "Player";
-        swapedobject.GetComponent<SpriteRenderer>().sortingOrder = 1;
-        swapedobject.transform.position = Guider.transform.position;
-        swapedobject.transform.SetAsFirstSibling();
+        swapedObject.transform.parent = this.gameObject.transform;
+        swapedObject.GetComponent<FollowerMove>().enabled = false;
+        swapedObject.GetComponent<PlayerMove>().enabled = true;
+        swapedObject.GetComponent<PlayerInRegion>().enabled = true;
+        swapedObject.layer = 8;
+        swapedObject.tag = "Player";
+        swapedObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        swapedObject.transform.position = guider.transform.position;
+        swapedObject.transform.SetAsFirstSibling();
 
-        Guider.transform.GetChild(0).tag = "Untagged";
-        Guider.GetComponent<FollowerMove>().enabled = true;
-        Guider.GetComponent<PlayerMove>().enabled = false;
-        Guider.GetComponent<PlayerInRegion>().enabled = false;
-        Guider.transform.parent = FollowerManager.transform;
-        Guider.layer = 10;
-        Guider.tag = "follower";
-        Guider.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        guider.transform.GetChild(0).tag = "Untagged";
+        guider.GetComponent<FollowerMove>().enabled = true;
+        guider.GetComponent<PlayerMove>().enabled = false;
+        guider.GetComponent<PlayerInRegion>().enabled = false;
+        guider.transform.parent = followerManager.transform;
+        guider.layer = 10;
+        guider.tag = "follower";
+        guider.GetComponent<SpriteRenderer>().sortingOrder = 0;
 
-        Guider = this.gameObject.transform.GetChild(0).gameObject;
-        CameraManager.GetComponent<CameraMove>().Guider = Guider;
-        treasureBoxEscapeStairManager.player = swapedobject;
+        guider = this.gameObject.transform.GetChild(0).gameObject;
+        cameraManager.GetComponent<CameraMove>().Guider = guider;
+        treasureBoxEscapeStairManager.player = swapedObject;
+        attackDirectional.Guider = swapedObject;
         MonsterKnockBack();
     }
 
     void MonsterKnockBack()
     {
-        MonsterSpawn ms = MonsterSpawnManager.GetComponent<MonsterSpawn>();
+        MonsterSpawn ms = monsterSpawnManager.GetComponent<MonsterSpawn>();
         for (int i =0; i < ms.EnabledMonster;i++)
         {
             if (ms.Monster[i].GetComponent<MonsterMove>().distance < 9.0f)

@@ -73,7 +73,7 @@ public class MonsterSpawn : MonoBehaviour
     void Start()
     {
         monster[0].GetComponent<MonsterState>().setInGame();
-        guider = player.GetComponent<PlayerSwap>().guider;
+        guider = player.GetComponent<PlayerSwap>().Guider;
         //monsterState = monster
     }
     public void PlayerSwap(GameObject Guider)
