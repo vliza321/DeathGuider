@@ -16,28 +16,23 @@ public class FollowerMove : MonoBehaviour
 
     public Vector3 playerPos;
     public Vector3 FrontguiderLocalscale;
-    public GameObject FrontGuider;
-    public GameObject Guider;
-    public GameObject Parent;
-    float guiderMoveSpeed;
+    [SerializeField]
+    private GameObject FrontGuider;
+    private GameObject Guider;
+
+    private float guiderMoveSpeed;
     // Start is called before the first frame update
     void Start()
     {
         Follower = this.gameObject;
         FollowerVelocityVector = new Vector2(0, 0);
 
-        Guider = Player.GetComponent<PlayerSwap>().Guider;
-        MoveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed;
-/*        if (FrontGuider.transform.gameObject.layer != this.gameObject.layer) { MoveSpeeds = FrontGuider.GetComponent<PlayerMove>().MoveSpeed; }
-        else { MoveSpeeds = FrontGuider.GetComponent<PlayerMove>().MoveSpeed / 5.0f; }*/
-        //playerPos = FrontGuider.transform.position;
-
-        Parent = this.gameObject.transform.parent.gameObject;
-        //parent.GetComponent<Follower>().printdebug();
+        Guider = Player.GetComponent<PlayerSwap>().guider;
+        MoveSpeeds = Guider.GetComponent<PlayerMove>().moveSpeed;
 
         FrontguiderLocalscale = FrontGuider.transform.localScale;
 
-        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().MoveSpeed;
+        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().moveSpeed;
     }
 
     // Update is called once per frame
@@ -58,7 +53,7 @@ public class FollowerMove : MonoBehaviour
             MoveSpeeds = guiderMoveSpeed+1.0f;
         }
 
-        if (distance >= 12.8f) { MoveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed + 3.0f; }
+        if (distance >= 12.8f) { MoveSpeeds = Guider.GetComponent<PlayerMove>().moveSpeed + 3.0f; }
         this.gameObject.transform.localScale = new Vector3(FrontguiderLocalscale.x, FrontguiderLocalscale.y, FrontguiderLocalscale.z);
 
     }

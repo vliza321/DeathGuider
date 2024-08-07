@@ -5,26 +5,14 @@ using UnityEngine;
 public class PlayerInRegion : MonoBehaviour
 {
     GameObject Player;
-    public GameObject TileManager;
-    public bool triggerflag;
+    private GameObject tileSpawnManager;
+    private bool triggerflag;
     // Start is called before the first frame update
     void Awake()
     {
         Player = this.gameObject;
         triggerflag = true;
-
-    }
-
-    void Start()
-    {
-
-
-
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        tileSpawnManager = GameObject.Find("TileSpawnManager");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,8 +21,8 @@ public class PlayerInRegion : MonoBehaviour
         int column;
         if (collision.gameObject.CompareTag("TileSet") )
         {
-            row = collision.GetComponent<TileSet>().Row;
-            column = collision.GetComponent<TileSet>().Column;
+            row = collision.GetComponent<TileSet>().row;
+            column = collision.GetComponent<TileSet>().column;
 
             if (triggerflag == false)
             {
@@ -42,7 +30,7 @@ public class PlayerInRegion : MonoBehaviour
             }
             else
             {
-                TileManager.GetComponent<TileSpawnManager>().swapTileMap(collision.transform,row,column );
+                tileSpawnManager.GetComponent<TileSpawnManager>().swapTileMap(collision.transform,row,column );
                 triggerflag = false;
             }
         }
@@ -55,8 +43,8 @@ public class PlayerInRegion : MonoBehaviour
         int column;
         if (collision.gameObject.CompareTag("TileSet"))
         {
-            row = collision.GetComponent<TileSet>().Row;
-            column = collision.GetComponent<TileSet>().Column;
+            row = collision.GetComponent<TileSet>().row;
+            column = collision.GetComponent<TileSet>().column;
             if (triggerflag == false)
             {
 
@@ -64,7 +52,7 @@ public class PlayerInRegion : MonoBehaviour
             }
             else
             {
-                TileManager.GetComponent<TileSpawnManager>().swapTileMap(collision.transform, row, column);
+                tileSpawnManager.GetComponent<TileSpawnManager>().swapTileMap(collision.transform, row, column);
             }
         }
         if (collision.gameObject.CompareTag("BaseTile"))

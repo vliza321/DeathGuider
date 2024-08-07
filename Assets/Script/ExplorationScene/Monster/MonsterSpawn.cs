@@ -5,24 +5,57 @@ using UnityEngine;
 // ������ �߻����
 public class MonsterSpawn : MonoBehaviour
 {
-    public GameObject player;
+    [SerializeField]
+    private GameObject player;
+    [SerializeField]
+    private int monstercounter;
+    [SerializeField]
+    private int MaxMonster;
+    private int enabledMonster;
+    public int EnabledMonster
+    {
+        get { return enabledMonster; }
+    }
+    private GameObject[] monster;
+    public GameObject[] Monster
+    {
+        get { return monster; }
+        set { monster = value; }
+    }
 
-    public int monstercounter;
-    public int EnabledMonster;
-    public int MaxMonster; 
-    public GameObject[] monster;
-    public int[] monsterRespawnTimer;
-    public int[] monsterSpawnTimer;
-    public bool[] spawnTimerCanDoWork;
+    private int[] monsterRespawnTimer;
+    private int[] monsterSpawnTimer;
+    private bool[] spawnTimerCanDoWork;
 
-    public GameObject guider;
-    public MonsterState monsterState;
+    private GameObject guider;
+    private MonsterState monsterState;
+
+    public GameObject Player
+    { 
+        get {  return player; } 
+        set { player = value; }
+    }
     // Start is called before the first frame update
     void Awake()
     {
+        GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
+        foreach (GameObject manager in Manager)
+        {
+            if (manager.name == "PlayerManager")
+            {
+                Player = manager.transform.gameObject;
+            }
+        }
+        Manager = null;
+
+        monster = new GameObject[MaxMonster];
+        monsterRespawnTimer = new int[MaxMonster];
+        monsterSpawnTimer = new int[(int)(MaxMonster/16)];
+        spawnTimerCanDoWork = new bool[(int)(MaxMonster/16)];
+
         monstercounter = this.transform.childCount;
         MaxMonster = this.transform.childCount;
-        EnabledMonster = 1;
+        enabledMonster = 1;
         spawnTimerCanDoWork[0] = true;
         for(int i = 0; i < MaxMonster; i++)
         {
@@ -37,16 +70,22 @@ public class MonsterSpawn : MonoBehaviour
 
 
     }
-
     void Start()
     {
         monster[0].GetComponent<MonsterState>().setInGame();
-        guider = player.GetComponent<PlayerSwap>().Guider;
+        guider = player.GetComponent<PlayerSwap>().guider;
         //monsterState = monster
     }
-
+    public void PlayerSwap(GameObject Guider)
+    {
+        guider = Guider;
+        for (int i = 0; i < MaxMonster; i++)
+        {
+            monster[i].GetComponent<MonsterMove>().guider = Guider;
+        }
+    }
     // Update is called once per frame
-    
+
     private void Update()
     {
         float signX;
@@ -66,7 +105,6 @@ public class MonsterSpawn : MonoBehaviour
                 monster[i].SetActive(true);
                 switch(Random.Range(0,3))
                 {
-                    //�����̰� ���� ��(����ġ�� ���� ��)�� ���������� �������� ������ �ڵ� 
                     case 0:
                         if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
                         {
@@ -76,7 +114,6 @@ public class MonsterSpawn : MonoBehaviour
                         }
                         else monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
-                    //�ƴϸ� ���� ���� ������
                     case 1:
                         monster[i].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.z);
                         break;
@@ -94,34 +131,34 @@ public class MonsterSpawn : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    if (EnabledMonster > 1) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 1) spawnTimerCanDoWork[i] = true;
                     break;
                 case 1:
-                    if (EnabledMonster > 3) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 3) spawnTimerCanDoWork[i] = true;
                     break;
                 case 2:
-                    if (EnabledMonster > 5) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 5) spawnTimerCanDoWork[i] = true;
                     break;
                 case 3:
-                    if (EnabledMonster > 8) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 8) spawnTimerCanDoWork[i] = true;
                     break;
                 case 4:
-                    if (EnabledMonster > 13) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 13) spawnTimerCanDoWork[i] = true;
                     break;
                 case 5:
-                    if (EnabledMonster > 21) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 21) spawnTimerCanDoWork[i] = true;
                     break;
                 case 6:
-                    if (EnabledMonster >34) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster >34) spawnTimerCanDoWork[i] = true;
                     break;
                 case 7:
-                    if (EnabledMonster > 55) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 55) spawnTimerCanDoWork[i] = true;
                     break;
                 case 8:
-                    if (EnabledMonster > 89) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 89) spawnTimerCanDoWork[i] = true;
                     break;
                 case 9:
-                    if (EnabledMonster > 144) spawnTimerCanDoWork[i] = true;
+                    if (enabledMonster > 144) spawnTimerCanDoWork[i] = true;
                     break;
 
             }
@@ -134,11 +171,11 @@ public class MonsterSpawn : MonoBehaviour
                 if (Random.Range(0, 2) == 1) signY = 1;
                 else signY = -1;
                 monsterSpawnTimer[i] = 1500;
-                if(EnabledMonster < MaxMonster)
+                if(enabledMonster < MaxMonster)
                 {
 
-                    EnabledMonster++;
-                    monster[EnabledMonster-1].SetActive(true);
+                    enabledMonster++;
+                    monster[enabledMonster-1].SetActive(true);
                     switch (Random.Range(0, 3))
                     {
                         case 0:
@@ -146,22 +183,21 @@ public class MonsterSpawn : MonoBehaviour
                             {
                                 signX *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
                                 signY *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
-                                monster[EnabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
+                                monster[enabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
                             }
-                            else monster[EnabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
+                            else monster[enabledMonster - 1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
 
                             break;
                         case 1:
-                            monster[EnabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
+                            monster[enabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
                             break;
                         case 2:
-                            monster[EnabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
+                            monster[enabledMonster-1].transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f), playerPos.z);
                             break;
                     }
-                    monster[EnabledMonster-1].GetComponent<MonsterState>().setInGame();
+                    monster[enabledMonster-1].GetComponent<MonsterState>().setInGame();
                 }
             }
-           //test for test
         }
 
     }

@@ -4,18 +4,37 @@ using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
-    public int Row;
-    public int Column;
+    private int row;
+    private int column;
+    public int Row
+    { get { return row; } set { row = value; } }
+    public int Column
+    { get { return column; } set { column = value; } }
+    [SerializeField]
+    private Vector2Int mapSize;
+    public Vector2Int MapSIze
+    {
+        get { return mapSize; }
+        set { mapSize = value; }
+    }
 
-    public GameObject[] TileSet;
+    private GameObject[] tileSet;
+    public GameObject[] TileSet
+    {
+        get { return tileSet; }
+        set {  tileSet = value; }
+    }
 
     public GameObject TileSpriteImageStorage;
     // Start is called before the first frame update
     void Awake()
     {
-        for(int i =0;i<9;i++)
+        TileSet = new GameObject[this.transform.childCount];
+        row = (int)(mapSize.x / 2);
+        column = (int)(mapSize.y/2);
+        for(int i =0;i<9; i++)
         {
-            TileSet[i] = this.transform.GetChild(i).gameObject;
+            tileSet[i] = this.transform.GetChild(i).gameObject;
         }
     }
 

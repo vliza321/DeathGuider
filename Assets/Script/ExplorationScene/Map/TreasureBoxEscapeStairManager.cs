@@ -17,17 +17,43 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     private int stairPosition;
     private int boxPosition;
 
-    //Test
     private List<GameObject> TreasureBoxList;
     private List<GameObject> EscapeStairList;
 
+    public List<GameObject> treasureBoxList
+    {
+        get { return TreasureBoxList; }        
+    }
+    public List<GameObject> escapeStairList
+    {
+        get { return EscapeStairList; }
+    }
+
+    private GameObject Player;
+    public GameObject player
+    {
+        get { return Player; }
+        set 
+        {
+            Player = value.gameObject;
+            for(int i = 0;i<this.transform.childCount;i++)
+            {
+                for(int j =0;j<this.transform.GetChild(i).transform.childCount;j++ )
+                {
+                   this.transform.GetChild(i).transform.GetChild(j).transform.GetChild(0).GetComponent<DirectionalSign>().Player = value.transform;
+                }
+            }
+        }
+    }
 
     private void Awake()
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
+
         TreasureBoxList = new List<GameObject>();
         EscapeStairList = new List<GameObject>();   
 
-        RandConst = GameObject.Find("TileSpriteImageStorage").GetComponent<TileSpriteImageStorage>().RandConst;
+        RandConst = GameObject.Find("TileSpriteImageStorage").GetComponent<TileSpriteImageStorage>().randConst;
 
         TreasureBox = this.gameObject.transform.GetChild(0).gameObject;
         EscapeStair = this.gameObject.transform.GetChild(1).gameObject;
@@ -63,11 +89,35 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
         }
     }
 
-    public void RemoveGameObjectInList(GameObject obj)
+    public void AddInStairList(GameObject obj)
+    {
+        if(obj.tag == "Stair")
+        {
+            EscapeStairList.Add(obj);
+        }
+    }
+    public void AddInBoxList(GameObject obj)
+    {
+        if (obj.tag == "Box")
+        {
+            TreasureBoxList.Add(obj);
+        }
+    }
+
+    public void RemoveGameObjectInBoxList(GameObject obj)
     {
         if (obj.tag == "Box")
         {
             TreasureBoxList.Remove(obj);
+            obj.gameObject.SetActive(false);
+        }
+    }
+
+    public void RemoveGameObjectInStairList(GameObject obj)
+    {
+        if (obj.tag == "Stair")
+        {
+            EscapeStairList.Remove(obj);
             obj.gameObject.SetActive(false);
         }
     }
@@ -81,7 +131,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
 
         foreach (var t in TreasureBoxList)
         {
-            t.transform.position += new Vector3(1.28f * (row), 12.8f * (-column));
+            t.transform.position += new Vector3(12.8f * (row), 12.8f * (-column));
         }
     }
 }

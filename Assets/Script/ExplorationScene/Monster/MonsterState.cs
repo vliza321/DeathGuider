@@ -5,11 +5,11 @@ using UnityEngine;
 public class MonsterState : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float hp;
-    public bool alive; // 살았는지 죽었는지만
-    public bool canmove; // 움직이는지 멈췄는지만
-    public int monsterNum;
-    public bool inGame;
+    private float hp;
+    private bool alive; // 살았는지 죽었는지만
+    private bool canmove; // 움직이는지 멈췄는지만
+    private int monsterNum;
+    private bool inGame;
     // delete public 
     //public int spawnCounter;
 
@@ -103,8 +103,6 @@ public class MonsterState : MonoBehaviour
                 canmove = false;
                 alive = false;
             }
-           
-            
         }
     }
 }
