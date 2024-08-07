@@ -1,102 +1,104 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BusPrisonerUI : MonoBehaviour
 {
-    public ScrollRect scrollRect; // ScrollRect ÂüÁ¶
-    public RectTransform content; // Content ÂüÁ¶
+    public PrisonerDataUI prisonerDataUI; // Prisoner Data UI ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
+    public ScrollRect scrollRect; // ScrollRect ì°¸ì¡°
+    public RectTransform content; // Content ì°¸ì¡°
     public DateSystem dateSystem;
     public Button changeDateButton;
-    public Button[] rejectButtons; // °¢ ÁË¼ö¿¡ ´ëÇÑ Reject ¹öÆ° ¹è¿­
-    public Button[] transferButtons; // °¢ ÁË¼ö¿¡ ´ëÇÑ Transfer ¹öÆ° ¹è¿­
+    public Button[] rejectButtons; // ê° ì£„ìˆ˜ì— ëŒ€í•œ Reject ë²„íŠ¼ ë°°ì—´
+    public Button[] transferButtons; // ê° ì£„ìˆ˜ì— ëŒ€í•œ Transfer ë²„íŠ¼ ë°°ì—´
 
-    public Text[] nameTexts; // 6°³ÀÇ Text UI ¿ä¼Ò ¹è¿­
-    public Text[] hpTexts; // 6°³ÀÇ HP Text UI ¿ä¼Ò ¹è¿­
-    public Text[] proficiencyTexts; // 6°³ÀÇ ¼÷·Ãµµ Text UI ¿ä¼Ò ¹è¿­
-    public Text[] strengthTexts; // 6°³ÀÇ Èû Text UI ¿ä¼Ò ¹è¿­
-    public Text[] crimeTexts; // 6°³ÀÇ ¹üÁË Text UI ¿ä¼Ò ¹è¿­
-    public Image[] prisonerImages; // °¢ ÁË¼ö¿¡ ´ëÇÑ ÀÌ¹ÌÁö ¹è¿­ (¿É¼Ç)
-    //public Image warningImage; // °ø°£ ºÎÁ· °æ°í ÀÌ¹ÌÁö
+    public TextMeshProUGUI[] nameTexts; // 6ê°œì˜ Text UI ìš”ì†Œ ë°°ì—´
+    public Text[] hpTexts; // 6ê°œì˜ HP Text UI ìš”ì†Œ ë°°ì—´
+    public Text[] proficiencyTexts; // 6ê°œì˜ ìˆ™ë ¨ë„ Text UI ìš”ì†Œ ë°°ì—´
+    public Text[] strengthTexts; // 6ê°œì˜ í˜ Text UI ìš”ì†Œ ë°°ì—´
+    public Text[] crimeTexts; // 6ê°œì˜ ë²”ì£„ Text UI ìš”ì†Œ ë°°ì—´
+    public Image[] prisonerImages; // ê° ì£„ìˆ˜ì— ëŒ€í•œ ì´ë¯¸ì§€ ë°°ì—´ (ì˜µì…˜)
     public GameObject warningImage;
 
-    private readonly char[] name1 = new char[] { '¤¡', '¤¢', '¤¤', '¤§', '¤¨', '¤©', '¤±', '¤²', '¤³', '¤µ', '¤¶', '¤·', '¤¸', '¤¹', '¤º', '¤»', '¤¼', '¤½', '¤¾' };
-    private readonly char[] name2 = new char[] { '¤¿', '¤À', '¤Á', '¤Â', '¤Ã', '¤Ä', '¤Å', '¤Æ', '¤Ç', '¤È', '¤É', '¤Ê', '¤Ë', '¤Ì', '¤Í', '¤Î', '¤Ï', '¤Ğ', '¤Ñ', '¤Ò', '¤Ó' };
-    private readonly char[] name3 = new char[] { '\0', '¤¡', '¤¢', '¤£', '¤¤', '¤¥', '¤¦', '¤§', '¤©', '¤ª', '¤«', '¤¬', '¤­', '¤®', '¤¯', '¤°', '¤±', '¤²', '¤´', '¤µ', '¤¶', '¤·', '¤¸', '¤º', '¤»', '¤¼', '¤½', '¤¾' };
+    private readonly char[] name1 = new char[] { 'ã„±', 'ã„²', 'ã„´', 'ã„·', 'ã„¸', 'ã„¹', 'ã…', 'ã…‚', 'ã…ƒ', 'ã……', 'ã…†', 'ã…‡', 'ã…ˆ', 'ã…‰', 'ã…Š', 'ã…‹', 'ã…Œ', 'ã…', 'ã…' };
+    private readonly char[] name2 = new char[] { 'ã…', 'ã…', 'ã…‘', 'ã…’', 'ã…“', 'ã…”', 'ã…•', 'ã…–', 'ã…—', 'ã…˜', 'ã…™', 'ã…š', 'ã…›', 'ã…œ', 'ã…', 'ã…', 'ã…Ÿ', 'ã… ', 'ã…¡', 'ã…¢', 'ã…£' };
+    private readonly char[] name3 = new char[] { '\0', 'ã„±', 'ã„²', 'ã„³', 'ã„´', 'ã„µ', 'ã„¶', 'ã„·', 'ã„¹', 'ã„º', 'ã„»', 'ã„¼', 'ã„½', 'ã„¾', 'ã„¿', 'ã…€', 'ã…', 'ã…‚', 'ã…„', 'ã……', 'ã…†', 'ã…‡', 'ã…ˆ', 'ã…Š', 'ã…‹', 'ã…Œ', 'ã…', 'ã…' };
 
-    private readonly string[] firstNames = new string[] { "±è", "ÀÌ", "¹Ú", "ÃÖ", "Á¤", "°­", "Á¶", "À±", "Àå", "ÀÓ" };
-    private readonly string[] crimes = new string[] { "¹æÈ­", "»ìÀÎ", "ÆĞ·û", "»ç±â", "Àıµµ" };
+    private readonly string[] firstNames = new string[] { "ê¹€", "ì´", "ë°•", "ìµœ", "ì •", "ê°•", "ì¡°", "ìœ¤", "ì¥", "ì„" };
+    private readonly string[] crimes = new string[] { "ë°©í™”", "ì‚´ì¸", "íŒ¨ë¥œ", "ì‚¬ê¸°", "ì ˆë„" };
 
     private List<string> currentPrisonerNames = new List<string>();
     private List<int> currentPrisonerHPs = new List<int>();
     private List<int> currentPrisonerProficiencies = new List<int>();
     private List<int> currentPrisonerStrength = new List<int>();
     private List<string> currentPrisonerCrimes = new List<string>();
+    private List<int> currentPrisonerErosions = new List<int>();
 
-    public UpgradeFloor upgradeFloor; // UpgradeFloor ½ºÅ©¸³Æ® ÂüÁ¶
-    public Transform prisonerParent; // ÇÏÀÌ¾î¶óÅ°ÀÇ prisoner ¿ÀºêÁ§Æ®
-    private int currentPrisonerCount = 0; // ÇöÀç Ãß°¡µÈ ¼ö°¨ÀÚ ¼ö¸¦ ÃßÀûÇÏ´Â Ä«¿îÅÍ
-
-
+    public UpgradeFloor upgradeFloor; // UpgradeFloor ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
+    public int currentPrisonerCount = 0; // í˜„ì¬ ì¶”ê°€ëœ ìˆ˜ê°ì ìˆ˜ë¥¼ ì¶”ì í•˜ëŠ” ì¹´ìš´í„°
+    public GameObject prisonerUIPrefab;
+    public RectTransform uiContentParent;
+    public float prefabSpacing = 10f;
     void Start()
     {
-        // ScrollRectÀÇ À§Ä¡¸¦ ÃÊ±âÈ­
+        // ScrollRectì˜ ìœ„ì¹˜ë¥¼ ì´ˆê¸°í™”
         scrollRect.verticalNormalizedPosition = 1f;
 
-        // ³¯Â¥ º¯°æ ¹öÆ°¿¡ ¸®½º³Ê Ãß°¡
+        // ë‚ ì§œ ë³€ê²½ ë²„íŠ¼ì— ë¦¬ìŠ¤ë„ˆ ì¶”ê°€
         if (changeDateButton != null)
         {
             changeDateButton.onClick.AddListener(OnChangeDateButtonClick);
         }
 
-        // Reject ¹öÆ°¿¡ ¸®½º³Ê Ãß°¡
+        // Reject ë²„íŠ¼ì— ë¦¬ìŠ¤ë„ˆ ì¶”ê°€
         if (rejectButtons != null)
         {
             for (int i = 0; i < rejectButtons.Length; i++)
             {
-                int index = i; // ·ÎÄÃ º¯¼ö·Î ÀÎµ¦½º ÀúÀå
+                int index = i; // ë¡œì»¬ ë³€ìˆ˜ë¡œ ì¸ë±ìŠ¤ ì €ì¥
                 rejectButtons[i].onClick.AddListener(() => OnRejectButtonClick(index));
             }
         }
 
-        // Transfer ¹öÆ°¿¡ ¸®½º³Ê Ãß°¡
+        // Transfer ë²„íŠ¼ì— ë¦¬ìŠ¤ë„ˆ ì¶”ê°€
         if (transferButtons != null)
         {
             for (int i = 0; i < transferButtons.Length; i++)
             {
-                int index = i; // ·ÎÄÃ º¯¼ö·Î ÀÎµ¦½º ÀúÀå
+                int index = i; // ë¡œì»¬ ë³€ìˆ˜ë¡œ ì¸ë±ìŠ¤ ì €ì¥
                 transferButtons[i].onClick.AddListener(() => OnTransferButtonClick(index));
             }
         }
 
-        // ³¯Â¥ º¯°æ ÀÌº¥Æ® ±¸µ¶
+        // ë‚ ì§œ ë³€ê²½ ì´ë²¤íŠ¸ êµ¬ë…
         if (dateSystem != null)
         {
             dateSystem.OnDateChanged += UpdatePrisoner;
-            // ÃÊ±âÈ­ ½Ã Ã¹ ³¯Â¥¿¡ ¸Â´Â ÀÌ¸§°ú Ã¼·Â ¼³Á¤
+            // ì´ˆê¸°í™” ì‹œ ì²« ë‚ ì§œì— ë§ëŠ” ì´ë¦„ê³¼ ì²´ë ¥ ì„¤ì •
             UpdatePrisoner();
         }
 
-        // ScrollRectÀÇ À§Ä¡¸¦ ÃÊ±âÈ­ÇÏ´Â ÄÚ·çÆ¾ ½ÃÀÛ
+        // ScrollRectì˜ ìœ„ì¹˜ë¥¼ ì´ˆê¸°í™”í•˜ëŠ” ì½”ë£¨í‹´ ì‹œì‘
         StartCoroutine(SetScrollPosition());
 
-        // UpgradeFloor ½ºÅ©¸³Æ® ÂüÁ¶ ¼³Á¤
+        // UpgradeFloor ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡° ì„¤ì •
         upgradeFloor = FindObjectOfType<UpgradeFloor>();
 
-        // °æ°í ÀÌ¹ÌÁö ÃÊ±â ¼û±è
+        // ê²½ê³  ì´ë¯¸ì§€ ì´ˆê¸° ìˆ¨ê¹€
         if (warningImage != null)
         {
             warningImage.gameObject.SetActive(false);
         }
 
-        // ÇÏÀÌ¾î¶óÅ°ÀÇ prisoner ¿ÀºêÁ§Æ® Ã£±â
-        prisonerParent = GameObject.Find("StoredPrisoner")?.transform;
+        // ì´ˆê¸° UI ì½˜í…ì¸  ë†’ì´ ì¡°ì •
+        //AdjustContentHeight();
     }
 
     void OnDestroy()
     {
-        // ³¯Â¥ º¯°æ ÀÌº¥Æ® ±¸µ¶ ÇØÁ¦
+        // ë‚ ì§œ ë³€ê²½ ì´ë²¤íŠ¸ êµ¬ë… í•´ì œ
         if (dateSystem != null)
         {
             dateSystem.OnDateChanged -= UpdatePrisoner;
@@ -105,7 +107,7 @@ public class BusPrisonerUI : MonoBehaviour
 
     IEnumerator SetScrollPosition()
     {
-        // UI ·¹ÀÌ¾Æ¿ôÀÌ ¿Ï·áµÉ ¶§±îÁö ÇÑ ÇÁ·¹ÀÓ ´ë±â
+        // UI ë ˆì´ì•„ì›ƒì´ ì™„ë£Œë  ë•Œê¹Œì§€ í•œ í”„ë ˆì„ ëŒ€ê¸°
         yield return null;
         scrollRect.verticalNormalizedPosition = 1f;
     }
@@ -120,79 +122,184 @@ public class BusPrisonerUI : MonoBehaviour
 
     void OnRejectButtonClick(int index)
     {
-        // ÀÎµ¦½º¿¡ ÇØ´çÇÏ´Â ÁË¼ö¸¦ Á¦°ÅÇÕ´Ï´Ù.
+        // ì¸ë±ìŠ¤ì— í•´ë‹¹í•˜ëŠ” ì£„ìˆ˜ë¥¼ ì œê±°í•©ë‹ˆë‹¤.
         if (index >= 0 && index < currentPrisonerNames.Count)
         {
+            // ë°ì´í„° ì œê±°
             currentPrisonerNames.RemoveAt(index);
             currentPrisonerHPs.RemoveAt(index);
             currentPrisonerProficiencies.RemoveAt(index);
             currentPrisonerStrength.RemoveAt(index);
             currentPrisonerCrimes.RemoveAt(index);
+            currentPrisonerErosions.RemoveAt(index); // ì¹¨ì‹ë„ ë°ì´í„°ë„ ì œê±°
 
-            // UI ¾÷µ¥ÀÌÆ®
+            // UI ì—…ë°ì´íŠ¸
             SetPrisoner();
+            DisplayAllPrisonerData();
+
+            // ContentHeight ì¡°ì •
+            //AdjustContentHeight();
         }
     }
 
-    public void OnTransferButtonClick(int index)
+    void OnTransferButtonClick(int index)
     {
-        if (upgradeFloor == null || prisonerParent == null)
+        if (upgradeFloor == null || uiContentParent == null || prisonerDataUI == null)
         {
-            Debug.LogError("UpgradeFloor or prisonerParent is not set.");
+            Debug.LogError("UpgradeFloor, uiContentParent or prisonerDataUI is not set.");
             return;
         }
 
-        int floorCapacity = upgradeFloor.floorCount * 4; // ÇÑ Ãş´ç ÃÖ´ë 4¸í ¼ö¿ë °¡´É
-        int currentCapacity = prisonerParent.childCount; // ÇöÀç ÃşÀÇ ¼ö°¨ÀÚ ¼ö
+        int floorCapacity = upgradeFloor.GetCapacityForCurrentFloor(); // í˜„ì¬ ì¸µì˜ ìˆ˜ìš© í•œê³„
+        int currentCapacity = uiContentParent.childCount; // í˜„ì¬ ì¸µì˜ ìˆ˜ê°ì ìˆ˜
 
+        // ìƒˆë¡œìš´ í”„ë¦¬í© ì¶”ê°€
         if (index >= 0 && index < currentPrisonerNames.Count)
         {
+            // ìˆ˜ìš© í•œê³„ë¥¼ ì´ˆê³¼í•˜ëŠ” ê²½ìš° ê²½ê³  ì´ë¯¸ì§€ í‘œì‹œ ë° ì´ë™ ì‘ì—… ì¤‘ë‹¨
             if (currentCapacity >= floorCapacity)
             {
-                // °ø°£ ºÎÁ· ½Ã °æ°í ÀÌ¹ÌÁö Ç¥½Ã
                 if (warningImage != null)
                 {
-                    warningImage.SetActive(true);
+                    warningImage.SetActive(true); // ê²½ê³  ì´ë¯¸ì§€ í‘œì‹œ
                 }
+                return; // ì´ë™ ì‘ì—… ì¤‘ë‹¨
             }
-            else
+
+            // ê²½ê³  ì´ë¯¸ì§€ê°€ ì´ë¯¸ ë¹„í™œì„±í™”ëœ ê²½ìš° ë‹¤ì‹œ í™œì„±í™”
+            if (warningImage != null && warningImage.activeSelf)
             {
-                // °ø°£ÀÌ ÃæºĞÇÒ °æ¿ì, ¼ö°¨ÀÚ Á¤º¸¸¦ ÇÏÀÌ¾î¶óÅ°¿¡ ÀÌµ¿
-                GameObject prisonerObj = new GameObject("Prisoner_" + (currentPrisonerCount + 1)); // °íÀ¯ ÀÌ¸§ ¼³Á¤
-                prisonerObj.transform.SetParent(prisonerParent);
+                warningImage.SetActive(false);
+            }
+            // ìˆ˜ê°ì ì´ë™ ì‘ì—…
+            AddPrisonerPrefab(index);
 
-                StoredPrisoner prisonerScript = prisonerObj.AddComponent<StoredPrisoner>();
-                prisonerScript.prisonerName = currentPrisonerNames[index];
-                prisonerScript.hp = currentPrisonerHPs[index];
-                prisonerScript.proficiency = currentPrisonerProficiencies[index];
-                prisonerScript.strength = currentPrisonerStrength[index];
-                prisonerScript.crime = currentPrisonerCrimes[index];
+            // ë¦¬ìŠ¤íŠ¸ì—ì„œ ì œê±°
+            currentPrisonerNames.RemoveAt(index);
+            currentPrisonerHPs.RemoveAt(index);
+            currentPrisonerProficiencies.RemoveAt(index);
+            currentPrisonerStrength.RemoveAt(index);
+            currentPrisonerCrimes.RemoveAt(index);
+            currentPrisonerErosions.RemoveAt(index);
 
-                // ¸®½ºÆ®¿¡¼­ Á¦°Å
-                currentPrisonerNames.RemoveAt(index);
-                currentPrisonerHPs.RemoveAt(index);
-                currentPrisonerProficiencies.RemoveAt(index);
-                currentPrisonerStrength.RemoveAt(index);
-                currentPrisonerCrimes.RemoveAt(index);
+            // UI ì—…ë°ì´íŠ¸
+            SetPrisoner();
+            DisplayAllPrisonerData();
+        }
+    }
+    void AddPrisonerPrefab(int index)
+    {
+        MoveExistingPrefabsDown();
+        ++currentPrisonerCount;
+        AdjustContentHeight();
+        // ìƒˆë¡œìš´ í”„ë¦¬í©ì„ ìƒì„±í•©ë‹ˆë‹¤.
+        GameObject prisonerUI = Instantiate(prisonerUIPrefab, uiContentParent);
 
-                // ¼ö°¨ÀÚ Ä«¿îÅÍ Áõ°¡
-                currentPrisonerCount++;
+        // RectTransform ê°€ì ¸ì˜¤ê¸°
+        RectTransform rectTransform = prisonerUI.GetComponent<RectTransform>();
 
-                // UI ¾÷µ¥ÀÌÆ®
-                SetPrisoner();
+        if (rectTransform != null)
+        {
+            // í”„ë¦¬í©ì˜ ë†’ì´ì™€ ì½˜í…ì¸ ì˜ ë†’ì´
+            float prefabHeight = rectTransform.rect.height;
+
+            float contentHeight = uiContentParent.GetComponent<RectTransform>().rect.height;
+            Debug.Log(contentHeight);
+            // í”„ë¦¬í©ì˜ ìœ„ì¹˜ë¥¼ ì½˜í…ì¸ ì˜ ìµœìƒë‹¨ì— ë§ì¶”ê¸° ìœ„í•œ yOffset ê³„ì‚°
+            //float yOffset = (prefabHeight) * currentPrisonerCount - prefabSpacing;
+            float yOffset = (contentHeight / 2) - prefabSpacing;
+            // ìƒˆ í”„ë¦¬í©ì˜ y ìœ„ì¹˜
+            rectTransform.anchoredPosition = new Vector2(0, yOffset); //ì´ê±´ í”„ë¦¬í© ìƒì„± ìŠ¤í¬ë¦½íŠ¸
+            
+        }
+
+        ScrollRect scrollRect = uiContentParent.GetComponentInParent<ScrollRect>();
+        if (scrollRect != null)
+        {
+            scrollRect.verticalNormalizedPosition = 1;
+        }
+
+        // StoredPrisoner ì»´í¬ë„ŒíŠ¸ì— ë°ì´í„° ì„¤ì •
+        StoredPrisoner prisonerScript = prisonerUI.GetComponent<StoredPrisoner>();
+        if (prisonerScript != null)
+        {
+            prisonerScript.prisonerName = currentPrisonerNames[index];
+            prisonerScript.hp = currentPrisonerHPs[index];
+            prisonerScript.proficiency = currentPrisonerProficiencies[index];
+            prisonerScript.strength = currentPrisonerStrength[index];
+            prisonerScript.crime = currentPrisonerCrimes[index];
+            prisonerScript.erosion = currentPrisonerErosions[index];
+        }
+        // uiContentParentì˜ ë†’ì´ë¥¼ ì¡°ì •
+    }
+
+    void MoveExistingPrefabsDown()
+    {
+
+        for (int i = 0; i < uiContentParent.childCount; i++)
+        {
+            Transform child = uiContentParent.GetChild(i);
+            RectTransform rectTransform = child.GetComponent<RectTransform>();
+
+            if (rectTransform != null)
+            {
+                // í”„ë¦¬í©ì˜ í˜„ì¬ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+                Vector2 newPosition = rectTransform.anchoredPosition;
+
+                // í”„ë¦¬í©ì„ ì•„ë˜ë¡œ ì´ë™ì‹œí‚¤ê¸° ìœ„í•´ ìœ„ì¹˜ë¥¼ ì¡°ì •í•©ë‹ˆë‹¤.
+                newPosition.y -= prefabSpacing+ 80; // ëª¨ë“  ê¸°ì¡´ í”„ë¦¬í©ì„ ë‚´ë ¤ì„œ ìƒˆ í”„ë¦¬í©ì„ ìµœìƒë‹¨ì— ë§ì¶¤
+                //80ì˜ ìˆ«ìëŠ” í”„ë¦¬í©ì´ ì¦ê°€í• ë•Œ ë¹„ìœ¨ì„ ë§ì¶°ì£¼ê¸° ìœ„í•œ ìˆ˜
+                rectTransform.anchoredPosition = newPosition;
             }
         }
     }
 
+    void AdjustContentHeight()
+    {
+        RectTransform contentRectTransform = uiContentParent.GetComponent<RectTransform>();
+
+        // í”„ë¦¬í©ì˜ ë†’ì´ì™€ ê°„ê²©
+        RectTransform prefabRectTransform = prisonerUIPrefab.GetComponent<RectTransform>();
+        float prefabHeight = prefabRectTransform.rect.height;
+
+        // ì´ ë†’ì´ ê³„ì‚° 180 360
+        float totalHeight = (prefabSpacing + (prefabHeight)) * (currentPrisonerCount);
+
+        // Contentì˜ ë†’ì´ë¥¼ ì¡°ì •
+        contentRectTransform.sizeDelta = new Vector2(contentRectTransform.sizeDelta.x, totalHeight);
+
+        // Contentì˜ y ìœ„ì¹˜ë¥¼ ì¡°ì • -> ì•„ë˜ë¡œë§Œ ì¦ê°€
+        contentRectTransform.anchoredPosition = new Vector2(contentRectTransform.anchoredPosition.x, -totalHeight);
+    }
+
+    void DisplayAllPrisonerData()
+    {
+        if (prisonerDataUI == null)
+        {
+            Debug.LogError("prisonerDataUI is not set.");
+            return;
+        }
+
+        // ìˆ˜ê°ì ì •ë³´ë¥¼ ë°°ì—´ë¡œ ì „ë‹¬
+        prisonerDataUI.DisplayPrisonerData(
+            currentPrisonerNames.ToArray(),
+            currentPrisonerHPs.ToArray(),
+            currentPrisonerProficiencies.ToArray(),
+            currentPrisonerStrength.ToArray(),
+            currentPrisonerCrimes.ToArray(),
+            currentPrisonerErosions.ToArray()
+        );
+    }
 
     private void UpdatePrisoner()
     {
-        // ·£´ıÇÑ ÀÌ¸§°ú Á¤º¸¸¦ »ı¼ºÇÕ´Ï´Ù.
+        // ëœë¤í•œ ì´ë¦„ê³¼ ì •ë³´ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
         currentPrisonerNames.Clear();
         currentPrisonerHPs.Clear();
         currentPrisonerProficiencies.Clear();
         currentPrisonerStrength.Clear();
         currentPrisonerCrimes.Clear();
+        currentPrisonerErosions.Clear(); // ì¹¨ì‹ë„ ë°ì´í„°ë„ ì´ˆê¸°í™”
 
         for (int i = 0; i < 6; i++)
         {
@@ -201,23 +308,25 @@ public class BusPrisonerUI : MonoBehaviour
             currentPrisonerProficiencies.Add(Random.Range(1, 11));
             currentPrisonerStrength.Add(Random.Range(1, 11));
             currentPrisonerCrimes.Add(crimes[Random.Range(0, crimes.Length)]);
+            currentPrisonerErosions.Add(0);
         }
 
-        // ÇöÀç ¼±ÅÃµÈ ÁË¼ö ÀÌ¸§µé·Î ÅØ½ºÆ® ¼³Á¤
+        // í˜„ì¬ ì„ íƒëœ ì£„ìˆ˜ ì´ë¦„ë“¤ë¡œ í…ìŠ¤íŠ¸ ì„¤ì •
         SetPrisoner();
+        DisplayAllPrisonerData();
     }
 
-    private void SetPrisoner()
+    void SetPrisoner()
     {
         for (int i = 0; i < nameTexts.Length; i++)
         {
             if (i < currentPrisonerNames.Count)
             {
                 nameTexts[i].text = currentPrisonerNames[i];
-                hpTexts[i].text = "Ã¼·Â: " + currentPrisonerHPs[i];
-                proficiencyTexts[i].text = "¼÷·Ãµµ: " + currentPrisonerProficiencies[i];
-                strengthTexts[i].text = "Èû: " + currentPrisonerStrength[i];
-                crimeTexts[i].text = "¹üÁË: " + currentPrisonerCrimes[i];
+                hpTexts[i].text = "ì²´ë ¥: " + currentPrisonerHPs[i];
+                proficiencyTexts[i].text = "ìˆ™ë ¨ë„: " + currentPrisonerProficiencies[i];
+                strengthTexts[i].text = "í˜: " + currentPrisonerStrength[i];
+                crimeTexts[i].text = "ë²”ì£„: " + currentPrisonerCrimes[i];
 
                 if (prisonerImages[i] != null)
                 {
@@ -226,7 +335,7 @@ public class BusPrisonerUI : MonoBehaviour
             }
             else
             {
-                // Á¤º¸°¡ ¾ø´Â °æ¿ì UI ¿ä¼Ò¸¦ ¼û±é´Ï´Ù.
+                // ì •ë³´ê°€ ì—†ëŠ” ê²½ìš° UI ìš”ì†Œë¥¼ ìˆ¨ê¹ë‹ˆë‹¤.
                 nameTexts[i].text = "";
                 hpTexts[i].text = "";
                 proficiencyTexts[i].text = "";
@@ -239,13 +348,13 @@ public class BusPrisonerUI : MonoBehaviour
                 }
             }
 
-            // Reject ¹öÆ° È°¼ºÈ­/ºñÈ°¼ºÈ­
+            // Reject ë²„íŠ¼ í™œì„±í™”/ë¹„í™œì„±í™”
             if (rejectButtons[i] != null)
             {
                 rejectButtons[i].gameObject.SetActive(i < currentPrisonerNames.Count);
             }
 
-            // Transfer ¹öÆ° È°¼ºÈ­/ºñÈ°¼ºÈ­
+            // Transfer ë²„íŠ¼ í™œì„±í™”/ë¹„í™œì„±í™”
             if (transferButtons[i] != null)
             {
                 transferButtons[i].gameObject.SetActive(i < currentPrisonerNames.Count);
@@ -266,18 +375,23 @@ public class BusPrisonerUI : MonoBehaviour
         int index2 = Random.Range(0, name2.Length);
         int index3 = Random.Range(0, name3.Length);
 
-        int fName = name1[index1] - '¤¡';
-        int sName = name2[index2] - '¤¿';
-        int tName = name3[index3] == '\0' ? 0 : name3[index3] - '¤¡' + 1;
+        int fName = name1[index1] - 'ã„±';
+        int sName = name2[index2] - 'ã…';
+        int tName = name3[index3] == '\0' ? 0 : name3[index3] - 'ã„±' + 1;
 
         int unicode = 0xAC00 + (fName * 21 * 28) + (sName * 28) + tName;
 
-        // À¯´ÏÆ¼°¡ ÀĞÁö ¸øÇÏ´Â ¹üÀ§ÀÇ À¯´ÏÄÚµå ¹®ÀÚ ¹èÁ¦
-        if (unicode < 0xAC00 || unicode > 0xD7A3)
+        // í•œê¸€ ë²”ìœ„ì— ìˆëŠ”ì§€ í™•ì¸
+        if (unicode >= 0xAC00 && unicode <= 0xD7A3)
         {
-            unicode = 0xAC00; // ±âº»°ªÀ¸·Î ¼³Á¤
+            return (char)unicode;
         }
-
-        return (char)unicode;
+        else
+        {
+            // í•œê¸€ ë²”ìœ„ê°€ ì•„ë‹ˆë©´, ë‹¤ì‹œ ì‹œë„í•˜ë„ë¡
+            return CreateRandomKoreanChar();
+        }
     }
+
+
 }

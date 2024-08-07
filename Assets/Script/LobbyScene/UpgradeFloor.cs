@@ -27,4 +27,9 @@ public class UpgradeFloor : MonoBehaviour
         // 층 수 증가
         floorCount++;
     }
+
+    public int GetCapacityForCurrentFloor()
+    {
+        return floorCount * 4; // 각 층당 최대 4명
+    }
 }
