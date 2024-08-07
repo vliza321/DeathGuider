@@ -20,7 +20,7 @@ public class CreateDirectionalSign : MonoBehaviour
         {
             temt = Instantiate(BoxPrefeb, new Vector3(transform.position.x + 0.0f, transform.position.y + 0.0f, transform.position.z + 0.0f), Quaternion.identity);
             temt.transform.parent = this.transform;
-            if(temt.active == false)
+            if(temt.activeSelf == false)
             {
                 temt.SetActive(true);
             }
@@ -29,7 +29,7 @@ public class CreateDirectionalSign : MonoBehaviour
         {
             temt = Instantiate(StairPrefeb, new Vector3(transform.position.x + 0.0f, transform.position.y + 0.0f, transform.position.z + 0.0f), Quaternion.identity);
             temt.transform.parent = this.transform;
-            if (temt.active == false)
+            if (temt.activeSelf == false)
             {
                 temt.SetActive(true);
             }
