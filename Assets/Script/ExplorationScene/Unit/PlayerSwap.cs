@@ -93,7 +93,7 @@ public class PlayerSwap : MonoBehaviour
         guider = this.gameObject.transform.GetChild(0).gameObject;
         cameraManager.GetComponent<CameraMove>().Guider = guider;
         treasureBoxEscapeStairManager.player = swapedObject;
-        attackDirectional.Guider = swapedObject;
+        //attackDirectional.Guider = swapedObject;
         MonsterKnockBack();
     }
 
