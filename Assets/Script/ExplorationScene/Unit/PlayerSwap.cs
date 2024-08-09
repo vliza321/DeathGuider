@@ -74,6 +74,7 @@ public class PlayerSwap : MonoBehaviour
         swapedObject.transform.parent = this.gameObject.transform;
         swapedObject.GetComponent<FollowerMove>().enabled = false;
         swapedObject.GetComponent<PlayerMove>().enabled = true;
+        swapedObject.GetComponent<PlayerMove>().MoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
         swapedObject.GetComponent<PlayerInRegion>().enabled = true;
         swapedObject.layer = 8;
         swapedObject.tag = "Player";
@@ -93,7 +94,8 @@ public class PlayerSwap : MonoBehaviour
         guider = this.gameObject.transform.GetChild(0).gameObject;
         cameraManager.GetComponent<CameraMove>().Guider = guider;
         treasureBoxEscapeStairManager.player = swapedObject;
-        //attackDirectional.Guider = swapedObject;
+        attackDirectional.Guider = swapedObject;
+        attackDirectional.GuiderMove = swapedObject.GetComponent<PlayerMove>();
         MonsterKnockBack();
     }
 

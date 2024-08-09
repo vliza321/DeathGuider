@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     // Start is called before the first frame update
 
     private GameObject player;
+    [SerializeField]
     private Vector3 playerVelocityVector;
     private Vector3 playerLocalScale;
     private int canmove;
@@ -15,6 +16,9 @@ public class PlayerMove : MonoBehaviour
     private float moveSpeed; // 추후 관련 스탯 처리 스크립트 만든 후 수정
     [SerializeField]
     private Vector3 attackTargetPoint;
+    [SerializeField]
+    private Vector3 attackTargetVector;
+    [SerializeField]
     private GameObject attackDirectional;
     public Vector3 AttackTargetPoint
     {
@@ -51,14 +55,16 @@ public class PlayerMove : MonoBehaviour
     }
     private void Awake()
     {
-        attackDirectional = this.transform.GetChild(0).gameObject;
+        attackDirectional = this.transform.parent.GetChild(1).gameObject;
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;
         canmove = 1;
-        playerVelocityVector.x = 1;
+        playerVelocityVector.x = -1;
         playerVelocityVector.y = 0;
-        attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 3;
+        attackTargetVector.x = -1;
+        attackTargetVector.y = 0;
+        attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 2.5f;
     }
 
     void Start()
@@ -80,8 +86,9 @@ public class PlayerMove : MonoBehaviour
         }
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
-           attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 3;
+            attackTargetVector = playerVelocityVector.normalized;
         }
+        attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.5f;
     }
 
     private void FixedUpdate()

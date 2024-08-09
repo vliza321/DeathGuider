@@ -8,18 +8,22 @@ using UnityEngine.UIElements;
 
 public class AttackDirectional : MonoBehaviour
 {
-    [SerializeField]
-    GameObject targetObj;
-    [SerializeField]
-    private float distanceWithPlayer;
-    public GameObject guider;
-    public Vector3 target;
+    private GameObject guider;
+    private Vector3 target;
     private PlayerMove guiderMove;
     private bool isMove;
+    private float playerToTargetAngle;
+    private float playerToObjAngle;
+
+    private float PI;
+
+    private float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
+    private float rotateAngle;
+    private Vector2 directionalVector2;
     public bool IsMove
     {
         get { return isMove; }
-        set 
+        set
         {
             if (isMove)
             {
@@ -31,14 +35,11 @@ public class AttackDirectional : MonoBehaviour
             }
         }
     }
-    public Vector2 playerToObjVector;
-    public float playerToTargetAngle;
-    public float playerToObjAngle;
-    private float PI;
-    public float rotateAnglePerFrame;
-    public float rotateAngle;
-    public Vector2 directionalVector2;
-    public Vector2 directionalVelocity;
+    public PlayerMove GuiderMove
+    {
+        get { return guiderMove; }
+        set { guiderMove = value; }
+    }
     public GameObject Guider
     {
         get { return guider; }
@@ -47,7 +48,6 @@ public class AttackDirectional : MonoBehaviour
     private void Awake()
     {
         isMove = true;
-        distanceWithPlayer = 3.0f;
         PI = Mathf.PI;  
     }
     private void Start()
@@ -63,55 +63,52 @@ public class AttackDirectional : MonoBehaviour
         playerToTargetAngle = Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x);
         playerToObjAngle = Mathf.Atan2(this.gameObject.transform.position.y - guider.transform.position.y, this.gameObject.transform.position.x - guider.transform.position.x);
 
-        rotateAnglePerFrame = 0.01f ;
+        rotateAnglePerFrame = 0.05f ;
     }
 
     private void Update()
     {
-        distanceWithPlayer = Vector3.Distance(this.transform.position, guider.transform.position);
-        targetObj.transform.position = target;
-        // 공격 방향 지시기의 벡터 연산
-        playerToObjVector.x = target.x - guider.transform.position.x;
-        playerToObjVector.y = target.y - guider.transform.position.y;
         // 방향 지시기 이동할 최종 각도 계산
         target = guiderMove.AttackTargetPoint;
-        playerToTargetAngle = Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x);
-        playerToObjAngle = Mathf.Atan2(this.gameObject.transform.position.y - guider.transform.position.y, this.gameObject.transform.position.x - guider.transform.position.x);
+        playerToTargetAngle = (Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x) + 2 * PI) % (2*PI);
+        playerToObjAngle = (Mathf.Atan2(this.gameObject.transform.position.y - guider.transform.position.y, this.gameObject.transform.position.x - guider.transform.position.x) + 2 * PI) %(2*PI);
         //방향 지시기가 이동해야할 최종 각도
         rotateAngle = (playerToTargetAngle - playerToObjAngle);
     }
 
     private void FixedUpdate()
     {
-        directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
-        directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
-
-        directionalVelocity = directionalVector2.normalized * Time.deltaTime * rotateAnglePerFrame;
-        //directionalVelocity = directionalVelocity.normalized * Time.fixedDeltaTime;
-        if (isMove)
+        if (rotateAngle < 0.0111f && rotateAngle > -0.0111f)
         {
-            rotateAnglePerFrame = 0.01f;
-            this.transform.eulerAngles = new Vector3(0, 0, playerToObjAngle * 180 / PI - 90);
-
+            isMove = false;
         }
         else
         {
-            rotateAnglePerFrame = 0.0f;
+            isMove = true;
         }
 
-        this.transform.position = new Vector3(directionalVector2.x + guider.transform.position.x, directionalVector2.y + guider.transform.position.y,0);
-
-        /*
-        if (rotateAngle > 0.0111f)
+        if (isMove == false)
         {
-            this.transform.eulerAngles = new Vector3(rotateAngle, 0, 0);
-            attackDirectionalVelocity.x = this.transform.position.x * MathF.Cos(rotateAngle) - this.transform.position.y * MathF.Sin(rotateAngle);
-            attackDirectionalVelocity.y = this.transform.position.x * MathF.Sin(rotateAngle) + this.transform.position.y * MathF.Cos(rotateAngle);
-            this.transform.position = new Vector3(attackDirectionalVelocity.x, attackDirectionalVelocity.y, 0) + guider.transform.position;
+            rotateAnglePerFrame = 0.0f;
+            directionalVector2.x = target.x - guider.transform.position.x;
+            directionalVector2.y = target.y - guider.transform.position.y;
         }
-        //this.transform.position = target;
-        //this.transform.Translate(this.transform.position.x * MathF.Cos(rotateAngle) - this.transform.position.y * MathF.Sin(rotateAngle), 
-        //  this.transform.position.x * MathF.Sin(rotateAngle) + this.transform.position.y * MathF.Cos(rotateAngle), 0);
-    */
+        else
+        {
+            if ((rotateAngle > 0 && rotateAngle < PI)|| rotateAngle < -PI)
+            {
+                rotateAnglePerFrame = 0.05f;
+            }
+            else
+            {
+                rotateAnglePerFrame = -0.05f;
+            }
+            directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
+            directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
+
+            this.transform.eulerAngles = new Vector3(0, 0, playerToObjAngle * 180 / PI - 90);
+        }
+        this.transform.position = new Vector3(directionalVector2.x + guider.transform.position.x, directionalVector2.y + guider.transform.position.y, 0);
+        this.transform.eulerAngles = new Vector3(0, 0, -90 + (playerToObjAngle) * (180.0f) / MathF.PI);
     }
 }

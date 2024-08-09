@@ -93,19 +93,6 @@ public class DirectionalSign : MonoBehaviour
             }
             else 
             {      
-                /*
-                if (absAngle>89.888f && absAngle < 90.111f)
-                {
-                    lastPosition.x = 0f;
-                    if (playerToObjAngle < 0)
-                    {
-                        lastPosition.y = (-playerToObj.y - (Screen.height / 200)) / 4 + 0.032f;
-                    }
-                    else if (playerToObjAngle > 0)
-                    {
-                        lastPosition.y = (-playerToObj.y + (Screen.height / 200)) / 4 - 0.032f;
-                    }
-                }*/
 
                 if (absAngle > screenDiagonalAngle && absAngle < MathF.PI - screenDiagonalAngle)
                 {
