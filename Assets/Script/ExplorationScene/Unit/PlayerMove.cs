@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Vector3 attackTargetVector;
     [SerializeField]
-    private GameObject attackDirectional;
+    private AttackDirectional attackDirectional;
     public Vector3 AttackTargetPoint
     {
         get { return attackTargetPoint; }
@@ -48,14 +48,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public GameObject AttactDirectional
+    public AttackDirectional AttactDirectional
     {
         get { return attackDirectional; }
         set { attackDirectional = value; }
     }
     private void Awake()
     {
-        attackDirectional = this.transform.parent.GetChild(1).gameObject;
+        attackDirectional = this.transform.parent.GetChild(1).gameObject.GetComponent<AttackDirectional>();
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;
@@ -64,7 +64,7 @@ public class PlayerMove : MonoBehaviour
         playerVelocityVector.y = 0;
         attackTargetVector.x = -1;
         attackTargetVector.y = 0;
-        attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 2.5f;
+        attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 2.0f;
     }
 
     void Start()
@@ -88,15 +88,20 @@ public class PlayerMove : MonoBehaviour
         {
             attackTargetVector = playerVelocityVector.normalized;
         }
-        attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.5f;
+        attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.0f;
+        if(Input.GetAxisRaw("AttackDirectionalBind") > 0)
+        {
+            attackDirectional.IsMove = false;
+        }
+        else
+        {
+            attackDirectional.IsMove = true;
+        }
     }
 
     private void FixedUpdate()
     {
         playerVelocityVector = playerVelocityVector.normalized * moveSpeed * Time.fixedDeltaTime;
-        //PlayerPosition.x = Player.GetComponent<Transform>().position.x;
-        //PlayerPosition.y = Player.GetComponent<Transform>().position.y;
-        //Player.transform.position = new Vector2(PlayerPosition.x + playerVelocityVector.x *canmove, PlayerPosition.y + playerVelocityVector.y*canmove);
         player.transform.Translate(playerVelocityVector.x, playerVelocityVector.y, 0);
     }
 }

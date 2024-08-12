@@ -75,6 +75,7 @@ public class PlayerSwap : MonoBehaviour
         swapedObject.GetComponent<FollowerMove>().enabled = false;
         swapedObject.GetComponent<PlayerMove>().enabled = true;
         swapedObject.GetComponent<PlayerMove>().MoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
+        swapedObject.GetComponent<PlayerMove>().AttactDirectional = attackDirectional;
         swapedObject.GetComponent<PlayerInRegion>().enabled = true;
         swapedObject.layer = 8;
         swapedObject.tag = "Player";

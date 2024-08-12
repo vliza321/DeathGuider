@@ -38,7 +38,6 @@ public class TileSpawnManager : MonoBehaviour
         }
         Manager = null;
 
-
         BaseTileMap = new GameObject[2];
         BaseTileMap[0] = this.transform.GetChild(0).gameObject;
         BaseTileMap[1] = this.transform.GetChild(1).gameObject;

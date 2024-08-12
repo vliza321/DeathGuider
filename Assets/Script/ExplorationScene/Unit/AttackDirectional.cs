@@ -8,9 +8,11 @@ using UnityEngine.UIElements;
 
 public class AttackDirectional : MonoBehaviour
 {
+    public float distance;
     private GameObject guider;
     private Vector3 target;
     private PlayerMove guiderMove;
+    [SerializeField]
     private bool isMove;
     private float playerToTargetAngle;
     private float playerToObjAngle;
@@ -20,19 +22,13 @@ public class AttackDirectional : MonoBehaviour
     private float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
     private float rotateAngle;
     private Vector2 directionalVector2;
+    public GameObject targetobj;
     public bool IsMove
     {
         get { return isMove; }
         set
         {
-            if (isMove)
-            {
-                isMove = false;
-            }
-            else
-            {
-                isMove = true;
-            }
+            isMove = value;
         }
     }
     public PlayerMove GuiderMove
@@ -63,11 +59,13 @@ public class AttackDirectional : MonoBehaviour
         playerToTargetAngle = Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x);
         playerToObjAngle = Mathf.Atan2(this.gameObject.transform.position.y - guider.transform.position.y, this.gameObject.transform.position.x - guider.transform.position.x);
 
-        rotateAnglePerFrame = 0.05f ;
+        rotateAnglePerFrame = 0.175f ;
     }
 
     private void Update()
     {
+        targetobj.transform.position = target;
+        distance = Vector2.Distance(target, this.transform.position);
         // 방향 지시기 이동할 최종 각도 계산
         target = guiderMove.AttackTargetPoint;
         playerToTargetAngle = (Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x) + 2 * PI) % (2*PI);
@@ -78,37 +76,30 @@ public class AttackDirectional : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rotateAngle < 0.0111f && rotateAngle > -0.0111f)
-        {
-            isMove = false;
-        }
-        else
-        {
-            isMove = true;
-        }
-
         if (isMove == false)
         {
             rotateAnglePerFrame = 0.0f;
             directionalVector2.x = target.x - guider.transform.position.x;
             directionalVector2.y = target.y - guider.transform.position.y;
         }
-        else
+        else // if( isMove == true )
         {
-            if ((rotateAngle > 0 && rotateAngle < PI)|| rotateAngle < -PI)
+            if (Vector2.Distance(target, this.transform.position) > 0.3f)
             {
-                rotateAnglePerFrame = 0.05f;
+                if ((rotateAngle > 0 && rotateAngle < PI) || rotateAngle < -PI)
+                {
+                    rotateAnglePerFrame = 0.175f;
+                }
+                else
+                {
+                    rotateAnglePerFrame = -0.175f;
+                }
+                directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
+                directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
             }
-            else
-            {
-                rotateAnglePerFrame = -0.05f;
-            }
-            directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
-            directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
-
-            this.transform.eulerAngles = new Vector3(0, 0, playerToObjAngle * 180 / PI - 90);
         }
+        directionalVector2 = directionalVector2.normalized * 2.0f;
         this.transform.position = new Vector3(directionalVector2.x + guider.transform.position.x, directionalVector2.y + guider.transform.position.y, 0);
-        this.transform.eulerAngles = new Vector3(0, 0, -90 + (playerToObjAngle) * (180.0f) / MathF.PI);
+        this.transform.eulerAngles = new Vector3(0, 0, (playerToObjAngle) * (180.0f) / MathF.PI - 90);
     }
 }
