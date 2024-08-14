@@ -32,14 +32,7 @@ public class PrisonerDataUI : MonoBehaviour
         prisonerUIImage.SetActive(false);
     }
 
-    public void DisplayPrisonerData(
-        string[] names,
-        int[] hps,
-        int[] proficiencies,
-        int[] strengths,
-        string[] crimes,
-        int[] erosions
-    )
+    public void DisplayPrisonerData(string[] names, int[] hps, int[] proficiencies, int[] strengths, string[] crimes, int[] erosions)
     {
         // 최대 수감자 수는 UI 요소 배열의 길이와 맞춰야 합니다.
         int maxCount = Mathf.Min(names.Length, nameTexts.Length);

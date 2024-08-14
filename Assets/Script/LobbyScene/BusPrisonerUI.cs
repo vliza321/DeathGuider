@@ -7,6 +7,8 @@ using TMPro;
 public class BusPrisonerUI : MonoBehaviour
 {
     public PrisonerDataUI prisonerDataUI; // Prisoner Data UI 스크립트 참조
+    public StoredPrisoner storedPrisoner;
+
     public ScrollRect scrollRect; // ScrollRect 참조
     public RectTransform content; // Content 참조
     public DateSystem dateSystem;
@@ -29,18 +31,15 @@ public class BusPrisonerUI : MonoBehaviour
     private readonly string[] firstNames = new string[] { "김", "이", "박", "최", "정", "강", "조", "윤", "장", "임" };
     private readonly string[] crimes = new string[] { "방화", "살인", "패륜", "사기", "절도" };
 
-    private List<string> currentPrisonerNames = new List<string>();
-    private List<int> currentPrisonerHPs = new List<int>();
-    private List<int> currentPrisonerProficiencies = new List<int>();
-    private List<int> currentPrisonerStrength = new List<int>();
-    private List<string> currentPrisonerCrimes = new List<string>();
-    private List<int> currentPrisonerErosions = new List<int>();
 
     public UpgradeFloor upgradeFloor; // UpgradeFloor 스크립트 참조
-    public int currentPrisonerCount = 0; // 현재 추가된 수감자 수를 추적하는 카운터
-    public GameObject prisonerUIPrefab;
-    public RectTransform uiContentParent;
-    public float prefabSpacing = 10f;
+    public List<string> BusPrisonerNames = new List<string>();
+    public List<int> BusPrisonerHPs = new List<int>();
+    public List<int> BusPrisonerProficiencies = new List<int>();
+    public List<int> BusPrisonerStrength = new List<int>();
+    public List<string> BusPrisonerCrimes = new List<string>();
+    public List<int> BusPrisonerErosions = new List<int>();
+
     void Start()
     {
         // ScrollRect의 위치를 초기화
@@ -91,9 +90,6 @@ public class BusPrisonerUI : MonoBehaviour
         {
             warningImage.gameObject.SetActive(false);
         }
-
-        // 초기 UI 콘텐츠 높이 조정
-        //AdjustContentHeight();
     }
 
     void OnDestroy()
@@ -122,39 +118,34 @@ public class BusPrisonerUI : MonoBehaviour
 
     void OnRejectButtonClick(int index)
     {
-        // 인덱스에 해당하는 죄수를 제거합니다.
-        if (index >= 0 && index < currentPrisonerNames.Count)
+        if (index >= 0 && index < BusPrisonerNames.Count)
         {
             // 데이터 제거
-            currentPrisonerNames.RemoveAt(index);
-            currentPrisonerHPs.RemoveAt(index);
-            currentPrisonerProficiencies.RemoveAt(index);
-            currentPrisonerStrength.RemoveAt(index);
-            currentPrisonerCrimes.RemoveAt(index);
-            currentPrisonerErosions.RemoveAt(index); // 침식도 데이터도 제거
+            BusPrisonerNames.RemoveAt(index);
+            BusPrisonerHPs.RemoveAt(index);
+            BusPrisonerProficiencies.RemoveAt(index);
+            BusPrisonerStrength.RemoveAt(index);
+            BusPrisonerCrimes.RemoveAt(index);
 
             // UI 업데이트
             SetPrisoner();
             DisplayAllPrisonerData();
-
-            // ContentHeight 조정
-            //AdjustContentHeight();
         }
     }
 
     void OnTransferButtonClick(int index)
     {
-        if (upgradeFloor == null || uiContentParent == null || prisonerDataUI == null)
+        if (upgradeFloor == null || prisonerDataUI == null)
         {
-            Debug.LogError("UpgradeFloor, uiContentParent or prisonerDataUI is not set.");
+            Debug.LogError("UpgradeFloor or prisonerDataUI is not set.");
             return;
         }
 
         int floorCapacity = upgradeFloor.GetCapacityForCurrentFloor(); // 현재 층의 수용 한계
-        int currentCapacity = uiContentParent.childCount; // 현재 층의 수감자 수
+        int currentCapacity = storedPrisoner.uiContentParent.childCount; // 현재 층의 수감자 수
 
         // 새로운 프리펩 추가
-        if (index >= 0 && index < currentPrisonerNames.Count)
+        if (index >= 0 && index < BusPrisonerNames.Count)
         {
             // 수용 한계를 초과하는 경우 경고 이미지 표시 및 이동 작업 중단
             if (currentCapacity >= floorCapacity)
@@ -172,104 +163,19 @@ public class BusPrisonerUI : MonoBehaviour
                 warningImage.SetActive(false);
             }
             // 수감자 이동 작업
-            AddPrisonerPrefab(index);
+            storedPrisoner.AddPrisonerPrefab(index);
 
             // 리스트에서 제거
-            currentPrisonerNames.RemoveAt(index);
-            currentPrisonerHPs.RemoveAt(index);
-            currentPrisonerProficiencies.RemoveAt(index);
-            currentPrisonerStrength.RemoveAt(index);
-            currentPrisonerCrimes.RemoveAt(index);
-            currentPrisonerErosions.RemoveAt(index);
+            BusPrisonerNames.RemoveAt(index);
+            BusPrisonerHPs.RemoveAt(index);
+            BusPrisonerProficiencies.RemoveAt(index);
+            BusPrisonerStrength.RemoveAt(index);
+            BusPrisonerCrimes.RemoveAt(index);
 
             // UI 업데이트
             SetPrisoner();
             DisplayAllPrisonerData();
         }
-    }
-    void AddPrisonerPrefab(int index)
-    {
-        MoveExistingPrefabsDown();
-        ++currentPrisonerCount;
-        AdjustContentHeight();
-        // 새로운 프리펩을 생성합니다.
-        GameObject prisonerUI = Instantiate(prisonerUIPrefab, uiContentParent);
-
-        // RectTransform 가져오기
-        RectTransform rectTransform = prisonerUI.GetComponent<RectTransform>();
-
-        if (rectTransform != null)
-        {
-            // 프리펩의 높이와 콘텐츠의 높이
-            float prefabHeight = rectTransform.rect.height;
-
-            float contentHeight = uiContentParent.GetComponent<RectTransform>().rect.height;
-            Debug.Log(contentHeight);
-            // 프리펩의 위치를 콘텐츠의 최상단에 맞추기 위한 yOffset 계산
-            //float yOffset = (prefabHeight) * currentPrisonerCount - prefabSpacing;
-            float yOffset = (contentHeight / 2) - prefabSpacing;
-            // 새 프리펩의 y 위치
-            rectTransform.anchoredPosition = new Vector2(0, yOffset); //이건 프리펩 생성 스크립트
-            
-        }
-
-        ScrollRect scrollRect = uiContentParent.GetComponentInParent<ScrollRect>();
-        if (scrollRect != null)
-        {
-            scrollRect.verticalNormalizedPosition = 1;
-        }
-
-        // StoredPrisoner 컴포넌트에 데이터 설정
-        StoredPrisoner prisonerScript = prisonerUI.GetComponent<StoredPrisoner>();
-        if (prisonerScript != null)
-        {
-            prisonerScript.prisonerName = currentPrisonerNames[index];
-            prisonerScript.hp = currentPrisonerHPs[index];
-            prisonerScript.proficiency = currentPrisonerProficiencies[index];
-            prisonerScript.strength = currentPrisonerStrength[index];
-            prisonerScript.crime = currentPrisonerCrimes[index];
-            prisonerScript.erosion = currentPrisonerErosions[index];
-        }
-        // uiContentParent의 높이를 조정
-    }
-
-    void MoveExistingPrefabsDown()
-    {
-
-        for (int i = 0; i < uiContentParent.childCount; i++)
-        {
-            Transform child = uiContentParent.GetChild(i);
-            RectTransform rectTransform = child.GetComponent<RectTransform>();
-
-            if (rectTransform != null)
-            {
-                // 프리펩의 현재 위치를 가져옵니다.
-                Vector2 newPosition = rectTransform.anchoredPosition;
-
-                // 프리펩을 아래로 이동시키기 위해 위치를 조정합니다.
-                newPosition.y -= prefabSpacing+ 80; // 모든 기존 프리펩을 내려서 새 프리펩을 최상단에 맞춤
-                //80의 숫자는 프리펩이 증가할때 비율을 맞춰주기 위한 수
-                rectTransform.anchoredPosition = newPosition;
-            }
-        }
-    }
-
-    void AdjustContentHeight()
-    {
-        RectTransform contentRectTransform = uiContentParent.GetComponent<RectTransform>();
-
-        // 프리펩의 높이와 간격
-        RectTransform prefabRectTransform = prisonerUIPrefab.GetComponent<RectTransform>();
-        float prefabHeight = prefabRectTransform.rect.height;
-
-        // 총 높이 계산 180 360
-        float totalHeight = (prefabSpacing + (prefabHeight)) * (currentPrisonerCount);
-
-        // Content의 높이를 조정
-        contentRectTransform.sizeDelta = new Vector2(contentRectTransform.sizeDelta.x, totalHeight);
-
-        // Content의 y 위치를 조정 -> 아래로만 증가
-        contentRectTransform.anchoredPosition = new Vector2(contentRectTransform.anchoredPosition.x, -totalHeight);
     }
 
     void DisplayAllPrisonerData()
@@ -279,36 +185,36 @@ public class BusPrisonerUI : MonoBehaviour
             Debug.LogError("prisonerDataUI is not set.");
             return;
         }
-
+        
         // 수감자 정보를 배열로 전달
         prisonerDataUI.DisplayPrisonerData(
-            currentPrisonerNames.ToArray(),
-            currentPrisonerHPs.ToArray(),
-            currentPrisonerProficiencies.ToArray(),
-            currentPrisonerStrength.ToArray(),
-            currentPrisonerCrimes.ToArray(),
-            currentPrisonerErosions.ToArray()
+            BusPrisonerNames.ToArray(),
+            BusPrisonerHPs.ToArray(),
+            BusPrisonerProficiencies.ToArray(),
+            BusPrisonerStrength.ToArray(),
+            BusPrisonerCrimes.ToArray(),
+            BusPrisonerErosions.ToArray()
         );
     }
 
     private void UpdatePrisoner()
     {
         // 랜덤한 이름과 정보를 생성합니다.
-        currentPrisonerNames.Clear();
-        currentPrisonerHPs.Clear();
-        currentPrisonerProficiencies.Clear();
-        currentPrisonerStrength.Clear();
-        currentPrisonerCrimes.Clear();
-        currentPrisonerErosions.Clear(); // 침식도 데이터도 초기화
+        BusPrisonerNames.Clear();
+        BusPrisonerHPs.Clear();
+        BusPrisonerProficiencies.Clear();
+        BusPrisonerStrength.Clear();
+        BusPrisonerCrimes.Clear();
+        BusPrisonerErosions.Clear();
 
         for (int i = 0; i < 6; i++)
         {
-            currentPrisonerNames.Add(GenerateRandomName());
-            currentPrisonerHPs.Add(Random.Range(1, 11));
-            currentPrisonerProficiencies.Add(Random.Range(1, 11));
-            currentPrisonerStrength.Add(Random.Range(1, 11));
-            currentPrisonerCrimes.Add(crimes[Random.Range(0, crimes.Length)]);
-            currentPrisonerErosions.Add(0);
+            BusPrisonerNames.Add(GenerateRandomName());
+            BusPrisonerHPs.Add(Random.Range(1, 11));
+            BusPrisonerProficiencies.Add(Random.Range(1, 11));
+            BusPrisonerStrength.Add(Random.Range(1, 11));
+            BusPrisonerCrimes.Add(crimes[Random.Range(0, crimes.Length)]);
+            BusPrisonerErosions.Add(0);
         }
 
         // 현재 선택된 죄수 이름들로 텍스트 설정
@@ -318,15 +224,17 @@ public class BusPrisonerUI : MonoBehaviour
 
     void SetPrisoner()
     {
+        int maxPrisoners = Mathf.Min(nameTexts.Length, BusPrisonerNames.Count);
+
         for (int i = 0; i < nameTexts.Length; i++)
         {
-            if (i < currentPrisonerNames.Count)
+            if (i < maxPrisoners)
             {
-                nameTexts[i].text = currentPrisonerNames[i];
-                hpTexts[i].text = "체력: " + currentPrisonerHPs[i];
-                proficiencyTexts[i].text = "숙련도: " + currentPrisonerProficiencies[i];
-                strengthTexts[i].text = "힘: " + currentPrisonerStrength[i];
-                crimeTexts[i].text = "범죄: " + currentPrisonerCrimes[i];
+                nameTexts[i].text = BusPrisonerNames[i];
+                hpTexts[i].text = "체력: " + BusPrisonerHPs[i];
+                proficiencyTexts[i].text = "숙련도: " + BusPrisonerProficiencies[i];
+                strengthTexts[i].text = "힘: " + BusPrisonerStrength[i];
+                crimeTexts[i].text = "범죄: " + BusPrisonerCrimes[i];
 
                 if (prisonerImages[i] != null)
                 {
@@ -351,16 +259,17 @@ public class BusPrisonerUI : MonoBehaviour
             // Reject 버튼 활성화/비활성화
             if (rejectButtons[i] != null)
             {
-                rejectButtons[i].gameObject.SetActive(i < currentPrisonerNames.Count);
+                rejectButtons[i].gameObject.SetActive(i < maxPrisoners);
             }
 
             // Transfer 버튼 활성화/비활성화
             if (transferButtons[i] != null)
             {
-                transferButtons[i].gameObject.SetActive(i < currentPrisonerNames.Count);
+                transferButtons[i].gameObject.SetActive(i < maxPrisoners);
             }
         }
     }
+
 
     private string GenerateRandomName()
     {
@@ -392,6 +301,4 @@ public class BusPrisonerUI : MonoBehaviour
             return CreateRandomKoreanChar();
         }
     }
-
-
 }
