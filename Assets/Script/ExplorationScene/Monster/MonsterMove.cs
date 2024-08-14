@@ -57,11 +57,11 @@ public class MonsterMove : MonoBehaviour
     {
         Player = this.transform.parent.GetComponent<MonsterSpawn>().Player;
         Guider = Player.transform.GetChild(0).gameObject;
-        MoveSpeeds = Guider.GetComponent<PlayerMove>().moveSpeed / 5.0f;
+        MoveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
         playerPos = Guider.transform.position;
         IsKnockBack = false;
         KnockBackTimer = 10;
-        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().moveSpeed;
+        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().MoveSpeed;
     }
 
     // Update is called once per frame

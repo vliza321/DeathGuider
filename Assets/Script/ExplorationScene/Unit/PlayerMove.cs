@@ -7,15 +7,19 @@ public class PlayerMove : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    private GameObject Player;
-    private Vector2 PlayerPosition;
+    private GameObject player;
+    [SerializeField]
     private Vector3 playerVelocityVector;
-    Vector3 PlayerLocalScale;
+    private Vector3 playerLocalScale;
     private int canmove;
     [SerializeField]
-    private float MoveSpeed; // 추후 관련 스탯 처리 스크립트 만든 후 수정
+    private float moveSpeed; // 추후 관련 스탯 처리 스크립트 만든 후 수정
     [SerializeField]
     private Vector3 attackTargetPoint;
+    [SerializeField]
+    private Vector3 attackTargetVector;
+    [SerializeField]
+    private AttackDirectional attackDirectional;
     public Vector3 AttackTargetPoint
     {
         get { return attackTargetPoint; }
@@ -32,32 +36,40 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public float moveSpeed
+    public float MoveSpeed
     {
         get
         {
-            return MoveSpeed;
+            return moveSpeed;
         }
         set
         {
-            MoveSpeed = value;
+            moveSpeed = value;
         }
     }
 
+    public AttackDirectional AttactDirectional
+    {
+        get { return attackDirectional; }
+        set { attackDirectional = value; }
+    }
     private void Awake()
     {
-        Player = this.gameObject;
-        Player.transform.position = new Vector2(0,0);
-
+        attackDirectional = this.transform.parent.GetChild(1).gameObject.GetComponent<AttackDirectional>();
+        player = this.gameObject;
+        player.transform.position = new Vector2(0,0);
+        playerLocalScale = player.transform.localScale;
+        canmove = 1;
+        playerVelocityVector.x = -1;
+        playerVelocityVector.y = 0;
+        attackTargetVector.x = -1;
+        attackTargetVector.y = 0;
+        attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 2.0f;
     }
 
     void Start()
     {
-        Player = this.gameObject;
-        PlayerLocalScale = Player.transform.localScale;
-        canmove = 1;
-        playerVelocityVector.x = 1;
-        playerVelocityVector.y = 0;
+
     }
 
     // Update is called once per frame
@@ -69,21 +81,27 @@ public class PlayerMove : MonoBehaviour
         playerVelocityVector.y = Input.GetAxisRaw("Vertical");
         if(Input.GetAxisRaw("Horizontal")!=0)
         {
-            if (Input.GetAxisRaw("Horizontal") > 0) { Player.transform.localScale = new Vector3((-1)* PlayerLocalScale.x, PlayerLocalScale.y, PlayerLocalScale.z); } //뒤집기
-            else { Player.transform.localScale = new Vector3(PlayerLocalScale.x, PlayerLocalScale.y, PlayerLocalScale.z); }
+            if (Input.GetAxisRaw("Horizontal") > 0) { player.transform.localScale = new Vector3((-1)* playerLocalScale.x, playerLocalScale.y, playerLocalScale.z); } //뒤집기
+            else { player.transform.localScale = new Vector3(playerLocalScale.x, playerLocalScale.y, playerLocalScale.z); }
         }
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
-           attackTargetPoint = Player.transform.position + playerVelocityVector.normalized * 3;
+            attackTargetVector = playerVelocityVector.normalized;
+        }
+        attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.0f;
+        if(Input.GetAxisRaw("AttackDirectionalBind") > 0)
+        {
+            attackDirectional.IsMove = false;
+        }
+        else
+        {
+            attackDirectional.IsMove = true;
         }
     }
 
     private void FixedUpdate()
     {
-        playerVelocityVector = playerVelocityVector.normalized * MoveSpeed * Time.fixedDeltaTime;
-        //PlayerPosition.x = Player.GetComponent<Transform>().position.x;
-        //PlayerPosition.y = Player.GetComponent<Transform>().position.y;
-        //Player.transform.position = new Vector2(PlayerPosition.x + playerVelocityVector.x *canmove, PlayerPosition.y + playerVelocityVector.y*canmove);
-        Player.transform.Translate(playerVelocityVector.x, playerVelocityVector.y, 0);
+        playerVelocityVector = playerVelocityVector.normalized * moveSpeed * Time.fixedDeltaTime;
+        player.transform.Translate(playerVelocityVector.x, playerVelocityVector.y, 0);
     }
 }

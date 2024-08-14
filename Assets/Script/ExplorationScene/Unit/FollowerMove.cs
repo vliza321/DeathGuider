@@ -25,8 +25,8 @@ public class FollowerMove : MonoBehaviour
         Follower = this.gameObject;
         FollowerVelocityVector = new Vector2(0, 0);
        
-        moveSpeeds = Guider.GetComponent<PlayerMove>().moveSpeed;
-        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().moveSpeed;
+        moveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed;
+        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().MoveSpeed;
 
         FrontguiderLocalscale = FrontGuider.transform.localScale;
 
