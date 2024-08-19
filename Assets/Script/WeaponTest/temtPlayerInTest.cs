@@ -54,7 +54,10 @@ public class temtPlayerInTest : MonoBehaviour
             {
                 foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
                 {
-                    if (Input.GetKey(kcode) && !commandManager.CheckKeyInDic(kcode))
+                    if (Input.GetKeyDown(kcode) && !commandManager.CheckKeyInDic(kcode) &&
+                        !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2) && 
+                        !Input.GetMouseButton(3) && !Input.GetMouseButton(4) && !Input.GetMouseButton(5) &&
+                        !Input.GetMouseButton(6))
                     {
                         commandManager.AssignKey(kcode, (KeyCode)(sCurrentKey.text[0] + 32));
                         sCurrentKey.text = (kcode).ToString();

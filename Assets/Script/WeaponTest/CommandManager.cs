@@ -71,19 +71,12 @@ public class CommandManager
             key == KeyCode.Equals || //61
             key == KeyCode.BackQuote //96
         ) { }
-        else
-        {
-            return false;
-        }
+        else return false; 
+        if( 
+            key == KeyCode.W || key == KeyCode.A ||
+            key == KeyCode.S || key == KeyCode.D 
+            ){ return false; }
 
-        if
-        (
-            //¿Ãµø ≈∞ WASD
-            key == KeyCode.W ||
-            key == KeyCode.A ||
-            key == KeyCode.S ||
-            key == KeyCode.D
-        ) { return false; }
         return true;
     }
 
