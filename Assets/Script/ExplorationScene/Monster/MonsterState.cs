@@ -21,6 +21,13 @@ public class MonsterState : MonoBehaviour
     // delete public 
     //public int spawnCounter;
 
+    [SerializeField]
+    private int experiencePoints = 10; // 몬스터 처치 시 플레이어에게 줄 경험치
+
+    private ObjectPool monsterPool;
+    private PlayerState playerState;
+
+
     public bool getInGame()
     {
         return inGame;
@@ -71,6 +78,8 @@ public class MonsterState : MonoBehaviour
         hp = 100;
         alive = false;
         canmove = false;
+        monsterPool = FindObjectOfType<ObjectPool>(); 
+        playerState = FindObjectOfType<PlayerState>(); 
     }
     void Start()
     {
@@ -102,14 +111,22 @@ public class MonsterState : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Weapon"))
+        if (collision.gameObject.CompareTag("Weapon"))
         {
             hp--;
             if (hp <= 0)
             {
-                this.gameObject.SetActive(false);
                 canmove = false;
                 alive = false;
+
+                // 경험치 부여
+                if (playerState != null)
+                {
+                    playerState.AddExperience(experiencePoints);
+                }
+
+                // 몬스터 비활성화 및 풀에 반환
+                monsterPool.ReturnObject(this.gameObject);
             }
         }
     }
