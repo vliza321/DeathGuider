@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
 {
-    [SerializeField]   
+  
     private GameObject Player;
     [SerializeField]
     private GameObject MonsterObject;
     private Vector2 MonsterLocalScale;
     private Vector2 MonsterVelocityVector;
+    private float signX;
+    private float signY;
     public Vector2 monsterVelocityVector
     {
         get { return MonsterVelocityVector; } set { MonsterVelocityVector = value; }
@@ -50,6 +52,8 @@ public class MonsterMove : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        signX = 0;
+        signY = 0;
         MonsterObject = this.gameObject;
         MonsterVelocityVector = new Vector2(0, 0);
     }
@@ -62,6 +66,11 @@ public class MonsterMove : MonoBehaviour
         IsKnockBack = false;
         KnockBackTimer = 10;
         guiderMoveSpeed = Guider.GetComponent<PlayerMove>().MoveSpeed;
+        if (Random.Range(0, 2) == 1) signX = 1;
+        else signX = -1;
+        if (Random.Range(0, 2) == 1) signY = 1;
+        else signY = -1;
+        this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);
     }
 
     // Update is called once per frame
@@ -98,17 +107,17 @@ public class MonsterMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float signX;
-        float signY;
-        if (Random.Range(0, 2) == 1) signX = 1;
-        else signX = -1;
-        if (Random.Range(0, 2) == 1) signY = 1;
-        else signY = -1;
-        if (Distance > 30.0f) { this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);  }
+        if (Distance > 30.0f) {
+            if (Random.Range(0, 2) == 1) signX = 1;
+            else signX = -1;
+            if (Random.Range(0, 2) == 1) signY = 1;
+            else signY = -1;
+            this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z); 
+        }
         
         MonsterVelocityVector = MonsterVelocityVector.normalized * MoveSpeeds * Time.fixedDeltaTime * (Mathf.Log10(KnockBackTimer));
 
-        MonsterObject.transform.position = new Vector2(MonsterObject.transform.position.x - MonsterVelocityVector.x, MonsterObject.transform.position.y - MonsterVelocityVector.y);
-
+        //MonsterObject.transform.position = new Vector2(MonsterObject.transform.position.x - MonsterVelocityVector.x, MonsterObject.transform.position.y - MonsterVelocityVector.y);
+        this.transform.Translate(-MonsterVelocityVector.x, -MonsterVelocityVector.y, 0);
     }
 }

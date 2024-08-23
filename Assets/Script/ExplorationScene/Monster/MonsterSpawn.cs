@@ -5,15 +5,19 @@ using UnityEngine;
 // ������ �߻����
 public class MonsterSpawn : MonoBehaviour
 {
+    
     [SerializeField]
-    private objectPool monsterPool;
-    [SerializeField]
+    //private ObjectPool monsterPool;
     private GameObject player;
     [SerializeField]
     private int monstercounter;
     [SerializeField]
     private int MaxMonster;
     private int enabledMonster;
+    private Vector3 playerPos;
+
+    private float signX;
+    private float signY;
     public int EnabledMonster
     {
         get { return enabledMonster; }
@@ -50,7 +54,9 @@ public class MonsterSpawn : MonoBehaviour
         }
         Manager = null;
 
-        
+        signX = 0;
+        signY = 0;
+
         monsterRespawnTimer = new int[MaxMonster];
         monsterSpawnTimer = new int[(int)(MaxMonster/16)];
         spawnTimerCanDoWork = new bool[(int)(MaxMonster/16)];
@@ -73,6 +79,7 @@ public class MonsterSpawn : MonoBehaviour
     void Start()
     {
         guider = player.GetComponent<PlayerSwap>().Guider;
+        playerPos = guider.transform.position;
         //monsterState = monster
     }
 
@@ -84,11 +91,7 @@ public class MonsterSpawn : MonoBehaviour
 
     private void Update()
     {
-        float signX;
-        float signY;
-        Vector3 playerPos = guider.transform.position;
-
-
+        /*
         // 몬스터 리스폰 처리
         for (int i = 0; i < monstercounter; i++)
         {
@@ -106,7 +109,7 @@ public class MonsterSpawn : MonoBehaviour
                 else signX = -1;
                 if (Random.Range(0, 2) == 1) signY = 1;
                 else signY = -1;
-
+                playerPos = guider.transform.position;
                 monsterRespawnTimer[i] = 1000;
 
                 switch (Random.Range(0, 3))
@@ -138,7 +141,7 @@ public class MonsterSpawn : MonoBehaviour
                 else signX = -1;
                 if (Random.Range(0, 2) == 1) signY = 1;
                 else signY = -1;
-
+                playerPos = guider.transform.position;
                 monsterSpawnTimer[i] = 1500;
 
                 enabledMonster++;
@@ -159,6 +162,6 @@ public class MonsterSpawn : MonoBehaviour
 
                 newMonster.GetComponent<MonsterState>().setInGame();
             }
-        }
+        }*/
     }
 }

@@ -83,16 +83,10 @@ public class MonsterState : MonoBehaviour
     }
     void Start()
     {
-        int temt1;
-        int temt2;
-        if (Random.Range(0, 2) == 1) temt1 = 1;
-        else temt1 = -1;
-        if (Random.Range(0, 2) == 1) temt2 = 1;
-        else temt2 = -1;
+
         alive = true;
         canmove = true;
         //spawnCounter = 3000;
-        this.transform.position = new Vector3(temt1 * 12.8f * (Random.Range(5, 15) / 10.0f),  temt2 * 12.8f * (Random.Range(5, 15) / 10.0f),0);
 
     }
 

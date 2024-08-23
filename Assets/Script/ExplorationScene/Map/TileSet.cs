@@ -49,12 +49,6 @@ public class TileSet : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void ChangeTile(int a, int b)
     {
         tile[Mathf.Abs((int)(TileSpriteImageStorages.randConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.randConst.y) * (absRow%4)) % 100].GetComponent<SpriteRenderer>().sprite

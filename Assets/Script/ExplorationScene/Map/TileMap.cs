@@ -37,10 +37,4 @@ public class TileMap : MonoBehaviour
             tileSet[i] = this.transform.GetChild(i).gameObject;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
