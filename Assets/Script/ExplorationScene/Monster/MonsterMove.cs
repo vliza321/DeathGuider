@@ -7,7 +7,7 @@ public class MonsterMove : MonoBehaviour
   
     private GameObject Player;
     [SerializeField]
-    private GameObject MonsterObject;
+    private Transform MonsterObject;
     private Vector2 MonsterLocalScale;
     private Vector2 MonsterVelocityVector;
     private float signX;
@@ -54,7 +54,7 @@ public class MonsterMove : MonoBehaviour
     {
         signX = 0;
         signY = 0;
-        MonsterObject = this.gameObject;
+        MonsterObject = this.transform;
         MonsterVelocityVector = new Vector2(0, 0);
     }
     void Start()
@@ -90,10 +90,10 @@ public class MonsterMove : MonoBehaviour
             case false:
                 //guider = Player.GetComponent<PlayerSwap>().Guider;
                 playerPos = Guider.transform.position;
-                MonsterLocalScale = MonsterObject.transform.position;
+                MonsterLocalScale = MonsterObject.position;
                 Distance = Vector3.Distance(Guider.transform.position, MonsterLocalScale);
-                MonsterVelocityVector.x = MonsterObject.transform.position.x - Guider.transform.position.x;
-                MonsterVelocityVector.y = MonsterObject.transform.position.y - Guider.transform.position.y;
+                MonsterVelocityVector.x = MonsterObject.position.x - Guider.transform.position.x;
+                MonsterVelocityVector.y = MonsterObject.position.y - Guider.transform.position.y;
 
                 if (Distance < 0.5f) { MoveSpeeds = 0.10f; }
                 if ((Distance < 12.0f) && (Distance >= 0.5f))

@@ -7,12 +7,19 @@ public class MonsterSpawn : MonoBehaviour
 {
     
     [SerializeField]
-    //private ObjectPool monsterPool;
+    private ObjectPool monsterPool;
     private GameObject player;
     [SerializeField]
     private int monstercounter;
     [SerializeField]
     private int MaxMonster;
+
+    public int maxMonster
+    {
+        get { return MaxMonster; }
+    }
+
+
     private int enabledMonster;
     private Vector3 playerPos;
 
@@ -44,6 +51,8 @@ public class MonsterSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        monsterPool = new ObjectPool(maxMonster);
+
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)
         {
@@ -111,7 +120,8 @@ public class MonsterSpawn : MonoBehaviour
                 else signY = -1;
                 playerPos = guider.transform.position;
                 monsterRespawnTimer[i] = 1000;
-
+                
+                //몬스터 스폰을 할건데 1. 플레이어 이동 방향 바로 앞에 2. 플레이어 멈춰있을때 3. 완전 랜덤
                 switch (Random.Range(0, 3))
                 {
                     case 0:

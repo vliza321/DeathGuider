@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class ObjectPool
 {
 	[SerializeField]
 	private GameObject prefab;  // 풀링할 객체의 프리팹
 	[SerializeField]
-	private int poolSize = 10;  // 풀의 초기 크기
+	private int poolSize;  // 풀의 초기 크기
 
-	private Queue<GameObject> poolQueue = new Queue<GameObject>();
+	private Queue<GameObject> poolQueue;
 
-	private void Awake()
+	/*
+	private void Awake() // -> Init()
 	{
+		poolSize = 10;
+		poolQueue = new Queue<GameObject>();
 		// 초기 풀 크기만큼 객체를 생성해 큐에 저장
 		for (int i = 0; i < poolSize; i++)
 		{
@@ -21,6 +24,25 @@ public class ObjectPool : MonoBehaviour
 			poolQueue.Enqueue(obj);
 		}
 	}
+
+	public ObjectPool(int MaxMonster)
+    {
+		poolSize = MaxMonster;
+    }
+	/*
+	private void Init()
+    {
+		poolSize = 10;
+		poolQueue = new Queue<GameObject>();
+		// 초기 풀 크기만큼 객체를 생성해 큐에 저장
+		for (int i = 0; i < poolSize; i++)
+		{
+			GameObject obj = Instantiate(prefab);
+			obj.SetActive(false);
+			poolQueue.Enqueue(obj);
+		}
+	}
+	*/
 
 	// 풀에서 객체를 가져옴
 	public GameObject GetObject()
