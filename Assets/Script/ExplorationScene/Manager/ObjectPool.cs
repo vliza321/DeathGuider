@@ -5,14 +5,14 @@ using UnityEngine;
 public class ObjectPool
 {
 	
-	private GameObject prefab;  // 풀링할 객체의 프리팹
+	private GameObject[] prefab;  // 풀링할 객체의 프리팹
 
 	private int poolSize;  // 풀의 초기 크기
 
 	private Queue<GameObject> poolQueue;
 
 
-	public ObjectPool(GameObject prefab, int MaxMonster)
+	public ObjectPool(GameObject[] prefab, int MaxMonster)
     {
         this.prefab = prefab;
         poolQueue = new Queue<GameObject>();
@@ -27,7 +27,7 @@ public class ObjectPool
 
     private GameObject CreateNewObject()
     {
-        GameObject obj = GameObject.Instantiate(prefab);
+        GameObject obj = GameObject.Instantiate(prefab[0]);
         return obj;
     }
 

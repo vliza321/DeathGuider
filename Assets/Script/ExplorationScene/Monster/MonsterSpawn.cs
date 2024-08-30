@@ -41,8 +41,9 @@ public class MonsterSpawn : MonoBehaviour
     private bool[] spawnTimerCanDoWork;
 
     private GameObject guider;
-    
 
+    [SerializeField]
+    private GameObject[] monsterPrefab;
     public GameObject Player
     { 
         get {  return player; } 
@@ -51,7 +52,7 @@ public class MonsterSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        monsterPool = new ObjectPool(maxMonster);
+        monsterPool = new ObjectPool(monsterPrefab,maxMonster) ;
 
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)
@@ -87,7 +88,7 @@ public class MonsterSpawn : MonoBehaviour
     
     void Start()
     {
-        guider = player.GetComponent<PlayerSwap>().Guider;
+        guider = player.GetComponent<PlayerManager>().Guider;
         playerPos = guider.transform.position;
         //monsterState = monster
     }
