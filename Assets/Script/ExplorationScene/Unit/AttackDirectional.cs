@@ -22,7 +22,6 @@ public class AttackDirectional : MonoBehaviour
     private float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
     private float rotateAngle;
     private Vector2 directionalVector2;
-    public GameObject targetobj;
     public bool IsMove
     {
         get { return isMove; }
@@ -64,7 +63,6 @@ public class AttackDirectional : MonoBehaviour
 
     private void Update()
     {
-        targetobj.transform.position = target;
         distance = Vector2.Distance(target, this.transform.position);
         // 방향 지시기 이동할 최종 각도 계산
         target = guiderMove.AttackTargetPoint;

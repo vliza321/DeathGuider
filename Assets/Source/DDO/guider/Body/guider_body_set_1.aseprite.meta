@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 00b74590960fcb74e903725b16fc955c
+guid: bd69fd6932d82ad41af860060319dad9
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -30,7 +30,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 1
+    spriteMeshType: 0
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 100
@@ -69,7 +69,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 1
+    fileImportMode: 0
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -81,7 +81,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   asepriteImporterSettings:
-    fileImportMode: 1
+    fileImportMode: 0
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -93,7 +93,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 0
+  platformSettingsDirtyTick: 638606491031889320
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -117,18 +117,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: "\uC548\uB0B4\uC790 \uBA38\uB9AC 1"
+  - name: guider_body_set_1
     originalName: 
-    pivot: {x: 0.33333334, y: -0.96875}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 42
-      height: 32
-    spriteID: 1f3e5ea6bb921f544a2d4d9b5458ed2d
+      width: 258
+      height: 130
+    spriteID: 595a84b0ad0d14c479f28cb48657c93c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -136,27 +136,100 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: -14, y: -27}
-  spriteSheetImportData: []
+    uvTransform: {x: 4, y: 4}
+  spriteSheetImportData:
+  - name: guider_body_set_1_5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 5
+      y: 69
+      width: 64
+      height: 64
+    spriteID: ea986509550ac7541921678db737d4a7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: guider_body_set_1_6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 69
+      y: 69
+      width: 64
+      height: 64
+    spriteID: 2a201a4f7afa6bb468b249afe3e2cfac
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 1736233549
-    name: "\uC548\uB0B4\uC790 \uBA38\uB9AC 1"
+    guid: 1812411010
+    name: guider_body_set_1
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: "\uC548\uB0B4\uC790 \uBA38\uB9AC 1"
+    - name: guider_body_set_1
       frameIndex: 0
       cellRect:
         x: 0
         y: 0
-        width: 64
-        height: 64
-      spriteId: 1f3e5ea6bb921f544a2d4d9b5458ed2d
+        width: 258
+        height: 130
+      spriteId: 595a84b0ad0d14c479f28cb48657c93c
     linkedCells: []
     parentIndex: -1
-  platformSettings: []
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Server
+    overridden: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 64, y: 64}
+  canvasSize: {x: 258, y: 130}

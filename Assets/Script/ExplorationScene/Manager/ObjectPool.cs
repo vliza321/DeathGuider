@@ -24,7 +24,7 @@ public class ObjectPool
 			poolQueue.Enqueue(obj);
 		}
 	}
-
+	*/
 	public ObjectPool(int MaxMonster)
     {
 		poolSize = MaxMonster;
@@ -45,6 +45,7 @@ public class ObjectPool
 	*/
 
 	// 풀에서 객체를 가져옴
+	/*
 	public GameObject GetObject()
 	{
 		if (poolQueue.Count > 0)
@@ -60,7 +61,7 @@ public class ObjectPool
 			obj.SetActive(true);
 			return obj;
 		}
-	}
+	}*/
 
 	// 객체를 다시 풀에 반환
 	public void ReturnObject(GameObject obj)

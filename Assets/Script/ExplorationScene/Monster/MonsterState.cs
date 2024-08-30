@@ -8,7 +8,7 @@ public class MonsterState : MonoBehaviour
     [SerializeField]
     private float hp;
     private bool alive; // 살았는지 죽었는지만
-    private bool canmove; // 움직이는지 멈췄는지만
+    private bool canMove; // 움직이는지 멈췄는지만
     private int monsterNum;
     private bool inGame;
     private int attackPoint;
@@ -27,65 +27,54 @@ public class MonsterState : MonoBehaviour
     private ObjectPool monsterPool;
     private PlayerState playerState;
 
-
-    public bool getInGame()
+    public ObjectPool MonsterPool
     {
-        return inGame;
+        get { return monsterPool; }
+        set { monsterPool = value; }
+    }
+   
+    public bool InGame
+    {
+        get { return inGame; }
+        set { inGame = value; }
     }
 
-    public void setInGame()
+    public int MonsterNum
     {
-        inGame = true;
-    }
-    public int getMonsterNum()
-    {
-        return monsterNum;
+        get { return monsterNum; }
+        set { monsterNum = value; }
     }
 
-    public void setMonsterNum(int a)
+    public float Hp
     {
-        monsterNum = a;
-    }
-    public float getHp()
-    {
-        return hp;
-    }
-    public void setHp(float a)
-    {
-        hp +=a;
-    }
-    public bool getAlive()
-    {
-        return alive;
-    }
-    public void setAlive(bool a)
-    {
-        alive = a;
+        get { return hp; }
+        set { hp += value; }
     }
 
-    public bool getCanMove()
+    public bool Alive
     {
-        return canmove;
-    }
-    public void setCanMove(bool a)
-    {
-        canmove = a;
+        get { return alive; }
+        set { alive = value; }
     }
 
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
 
     private void Awake()
     {
         hp = 100;
         alive = false;
-        canmove = false;
-        monsterPool = FindObjectOfType<ObjectPool>(); 
+        canMove = false; 
         playerState = FindObjectOfType<PlayerState>(); 
     }
     void Start()
     {
 
         alive = true;
-        canmove = true;
+        canMove = true;
         //spawnCounter = 3000;
 
     }
@@ -100,7 +89,7 @@ public class MonsterState : MonoBehaviour
     {
         hp = 100;
         alive = true;
-        canmove = true;
+        canMove = true;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -110,7 +99,7 @@ public class MonsterState : MonoBehaviour
             hp--;
             if (hp <= 0)
             {
-                canmove = false;
+                canMove = false;
                 alive = false;
 
                 // 경험치 부여

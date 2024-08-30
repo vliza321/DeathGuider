@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Vector3 playerVelocityVector;
     private Vector3 playerLocalScale;
-    private bool canmove;
+    private bool canMove;
     [SerializeField]
     private float moveSpeed; // 추후 관련 스탯 처리 스크립트 만든 후 수정
     [SerializeField]
@@ -59,7 +59,7 @@ public class PlayerMove : MonoBehaviour
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;
-        canmove = true;
+        canMove = true;
         playerVelocityVector.x = -1;
         playerVelocityVector.y = 0;
         attackTargetVector.x = -1;
@@ -75,8 +75,8 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.GetComponent<PlayerState>().CanMove) canmove = true;
-        else canmove = false;
+        if (this.gameObject.GetComponent<PlayerState>().CanMove) canMove = true;
+        else canMove = false;
         playerVelocityVector.x = Input.GetAxisRaw("Horizontal");
         playerVelocityVector.y = Input.GetAxisRaw("Vertical");
         if(Input.GetAxisRaw("Horizontal")!=0)

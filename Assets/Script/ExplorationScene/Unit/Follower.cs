@@ -12,7 +12,6 @@ public class Follower : MonoBehaviour
         get { return followerCounter; }
         set { followerCounter = value; }
     }
-    [SerializeField]
     private GameObject playerManager;
     public GameObject PlayerManager
     {
@@ -41,10 +40,11 @@ public class Follower : MonoBehaviour
             follower[i].gameObject.tag = "follower";
             follower[i].gameObject.layer = this.gameObject.layer;
         }
-    } 
-
-    public void printdebug()
-    {
-        Debug.Log("test");
     }
+
+    public void playerSwap(GameObject guider)
+    { 
+        //follower[0].
+    }
+
 }
