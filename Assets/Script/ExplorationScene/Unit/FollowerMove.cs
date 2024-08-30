@@ -21,7 +21,7 @@ public class FollowerMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Guider = this.transform.parent.GetComponent<Follower>().PlayerManager.transform.GetChild(0).gameObject;
+        Guider = this.transform.parent.GetComponent<FollowerManager>().PlayerManager.transform.GetChild(0).gameObject;
         Follower = this.gameObject;
         FollowerVelocityVector = new Vector2(0, 0);
        

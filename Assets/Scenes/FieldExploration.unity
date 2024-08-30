@@ -63195,6 +63195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d097cd4491726304bbe7b7bbd7c9186c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerUnitCounter: 0
 --- !u!1 &785466583
 GameObject:
   m_ObjectHideFlags: 0
@@ -78490,6 +78491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monstercounter: 160
   MaxMonster: 160
+  monsterPrefab: []
 --- !u!4 &991932834 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7743492814158391572, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
@@ -153481,7 +153483,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -16373036995726357, guid: bd69fd6932d82ad41af860060319dad9, type: 3}
+  m_Sprite: {fileID: 3481528755718432976, guid: bd69fd6932d82ad41af860060319dad9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -164568,8 +164570,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
-  m_Sprite: {fileID: -8886984944474446943, guid: 4c8241675c9abd347b139e674d60c2e0, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 4252561483370570981, guid: 4c8241675c9abd347b139e674d60c2e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0

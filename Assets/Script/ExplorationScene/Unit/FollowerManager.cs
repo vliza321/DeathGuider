@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Follower : MonoBehaviour
+public class FollowerManager : MonoBehaviour
 {
     private GameObject[] follower;
     
@@ -42,9 +42,20 @@ public class Follower : MonoBehaviour
         }
     }
 
-    public void playerSwap(GameObject guider)
-    { 
-        //follower[0].
+    public void SwapGuider(GameObject guider, GameObject firstFollower, CameraMove cameraObj, AttackDirectional attackDirectional)
+    {
+        firstFollower.GetComponent<FollowerMove>().enabled = false;
+        firstFollower.GetComponent<PlayerMove>().enabled = true;
+        firstFollower.GetComponent<PlayerMove>().MoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
+        firstFollower.GetComponent<PlayerInRegion>().enabled = true;
+        firstFollower.GetComponent<PlayerMove>().Camera = cameraObj;
+        firstFollower.GetComponent<PlayerMove>().AttactDirectional = attackDirectional;
+        firstFollower.layer = 8;
+        firstFollower.tag = "Player";
+        //follower[0].GetComponent<SpriteRenderer>().sortingOrder = 1;
+        firstFollower.transform.position = guider.transform.position;
+        firstFollower.transform.parent = guider.transform.parent;
+        firstFollower.transform.SetAsFirstSibling();
     }
 
 }

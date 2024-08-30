@@ -45,14 +45,14 @@ public class TileSpawnManager : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        guider = PlayerManager.GetComponent<PlayerSwap>().Guider;
-        followercounter = FollowerManager.GetComponent<Follower>().FollowerCounter;
+        guider = PlayerManager.GetComponent<PlayerManager>().Guider;
+        followercounter = FollowerManager.GetComponent<FollowerManager>().FollowerCounter;
         //PlayerAttackDirectional = PlayerManager.transform.GetChild(1).gameObject;
     }
 
     public void swapTileMap(Transform transform, int row, int column)
     {
-        guider = PlayerManager.GetComponent<PlayerSwap>().Guider;
+        guider = PlayerManager.GetComponent<PlayerManager>().Guider;
         BaseTileMap[0].GetComponent<TileMap>().Row += row - 2;
         BaseTileMap[0].GetComponent<TileMap>().Column += column - 2;
         BaseTileMap[1].GetComponent<TileMap>().Row += row - 2;

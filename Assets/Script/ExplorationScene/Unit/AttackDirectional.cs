@@ -38,7 +38,10 @@ public class AttackDirectional : MonoBehaviour
     public GameObject Guider
     {
         get { return guider; }
-        set { guider = value; }
+        set { 
+            guider = value;
+            guiderMove = guider.GetComponent<PlayerMove>();
+        }
     }
     private void Awake()
     {
@@ -47,7 +50,7 @@ public class AttackDirectional : MonoBehaviour
     }
     private void Start()
     {
-        guider = this.transform.parent.GetComponent<PlayerSwap>().Guider;
+        guider = this.transform.parent.GetComponent<PlayerManager>().Guider;
         guiderMove = guider.GetComponent<PlayerMove>();
         this.transform.position = guiderMove.AttackTargetPoint;
         rotateAnglePerFrame = 0;

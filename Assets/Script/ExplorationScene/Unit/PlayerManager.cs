@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSwap : MonoBehaviour
+public class PlayerManager : MonoBehaviour
 {
-    private GameObject followerManager;
-    private GameObject cameraManager;
+    private FollowerManager followerManager;
+    private CameraMove cameraManager;
     private GameObject monsterSpawnManager;
 
     private GameObject guider;
     private GameObject swapedObject;
     private TreasureBoxEscapeStairManager treasureBoxEscapeStairManager;
     private AttackDirectional attackDirectional;
+    [SerializeField]
+    private int playerUnitCounter;
     public GameObject Guider
     {
         get
@@ -36,68 +38,58 @@ public class PlayerSwap : MonoBehaviour
             }
             if(manager.name == "CameraManager")
             {
-                cameraManager = manager.transform.gameObject;
+                cameraManager = manager.transform.gameObject.GetComponent<CameraMove>();
             }
             if(manager.name == "FollowerManager")
             {
-                followerManager = manager.transform.gameObject;
+                followerManager = manager.transform.gameObject.GetComponent<FollowerManager>();
             }
         }
 
         Manager = null;
 
-        followerManager.GetComponent<Follower>().PlayerManager = this.gameObject;
+        followerManager.PlayerManager = this.gameObject;
         guider.GetComponent<FollowerMove>().enabled = false;
         swapedObject = followerManager.transform.GetChild(0).gameObject;
-        cameraManager.GetComponent<CameraMove>().Guider = guider;
+        cameraManager.Guider = guider;
+        guider.GetComponent<PlayerMove>().Camera = cameraManager;
+        playerUnitCounter = 1;
     }
 
+    private void Start()
+    {
+        playerUnitCounter += followerManager.gameObject.transform.childCount;
+    }
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SwapPlayer(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            MonsterKnockBack();
+            SwapPlayer();
         }
     }
 
-    public void SwapPlayer(int num) // 죽는거 구현 전 임시, 임의로 서로 스왑
+    public void SwapPlayer() // 죽는거 구현 전 임시, 임의로 서로 스왑
     {
-        swapedObject = followerManager.transform.GetChild(0).gameObject;
+        playerUnitCounter--;
+        if (playerUnitCounter < 0) return;
+
+        //바꿀 대상이 되는 가장 앞에 있는 팔로워 바인딩
+        swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
+
+        //매니저들에서 가지고 있는 가이더 정보 변경
         monsterSpawnManager.GetComponent<MonsterSpawn>().PlayerSwap(swapedObject);
-        swapedObject.transform.GetChild(0).tag = "Player";
-
-        swapedObject.transform.parent = this.gameObject.transform;
-        swapedObject.GetComponent<FollowerMove>().enabled = false;
-        swapedObject.GetComponent<PlayerMove>().enabled = true;
-        swapedObject.GetComponent<PlayerMove>().MoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
-        swapedObject.GetComponent<PlayerMove>().AttactDirectional = attackDirectional;
-        swapedObject.GetComponent<PlayerInRegion>().enabled = true;
-        swapedObject.layer = 8;
-        swapedObject.tag = "Player";
-        swapedObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
-        swapedObject.transform.position = guider.transform.position;
-        swapedObject.transform.SetAsFirstSibling();
-
-        guider.transform.GetChild(0).tag = "Untagged";
-        guider.GetComponent<FollowerMove>().enabled = true;
-        guider.GetComponent<PlayerMove>().enabled = false;
-        guider.GetComponent<PlayerInRegion>().enabled = false;
-        guider.transform.parent = followerManager.transform;
-        guider.layer = 10;
-        guider.tag = "follower";
-        guider.GetComponent<SpriteRenderer>().sortingOrder = 0;
-
-        guider = this.gameObject.transform.GetChild(0).gameObject;
-        cameraManager.GetComponent<CameraMove>().Guider = guider;
+        followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional);
+        cameraManager.Guider = swapedObject;
         treasureBoxEscapeStairManager.player = swapedObject;
         attackDirectional.Guider = swapedObject;
-        attackDirectional.GuiderMove = swapedObject.GetComponent<PlayerMove>();
-        MonsterKnockBack();
+
+        //변경 후 처리 (죽은 가이더 끄기, 몬스터 넉백)
+        guider.transform.parent = followerManager.transform;
+        guider.SetActive(false);
+        guider = swapedObject;
+        //MonsterKnockBack();
+        if(playerUnitCounter == 0) attackDirectional.gameObject.SetActive(false);
     }
 
     void MonsterKnockBack()

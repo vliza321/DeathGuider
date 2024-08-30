@@ -20,6 +20,12 @@ public class PlayerMove : MonoBehaviour
     private Vector3 attackTargetVector;
     [SerializeField]
     private AttackDirectional attackDirectional;
+
+    private CameraMove camera;
+    public CameraMove Camera
+    {
+        set { camera = value; }
+    }
     public Vector3 AttackTargetPoint
     {
         get { return attackTargetPoint; }
@@ -103,5 +109,6 @@ public class PlayerMove : MonoBehaviour
     {
         playerVelocityVector = playerVelocityVector.normalized * moveSpeed * Time.fixedDeltaTime;
         player.transform.Translate(playerVelocityVector.x, playerVelocityVector.y, 0);
+        camera.MoveCamera(playerVelocityVector);
     }
 }
