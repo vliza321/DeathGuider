@@ -11,7 +11,6 @@ public class ObjectPool
 
 	private Queue<GameObject> poolQueue;
 
-
 	public ObjectPool(GameObject[] prefab, int MaxMonster)
     {
         this.prefab = prefab;
@@ -27,8 +26,7 @@ public class ObjectPool
 
     private GameObject CreateNewObject()
     {
-        GameObject obj = GameObject.Instantiate(prefab[0]);
-        return obj;
+        return GameObject.Instantiate(prefab[0]); 
     }
 
     public GameObject GetObject()

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class _INode<T>
 {
 	public T data;
@@ -20,6 +19,8 @@ public class _INode<T>
 		next = null;
 	}
 }
+
+
 public class _IQueue<T>
 {
 	private _INode<T> _dummy;
@@ -52,3 +53,43 @@ public class _IQueue<T>
 
 	}
 }
+
+
+public class ListQueue<T>
+{
+	private List<T> list;
+	public ListQueue()
+    {
+		list = new List<T>();
+    }
+
+	public T rear()
+    {
+		if (list.Count < 1) return default;
+		return list[0];
+    }
+
+	public T front()
+    {
+		if (list.Count < 1) return default;
+		return list[list.Count-1];
+    }
+
+	public void Enqueue(T add)
+    {
+		list.Add(add);
+	}
+
+	public T Dequeue()
+    {
+		if (list.Count < 1) return default;
+		else {
+			T cashingData = list[0];
+			list.RemoveAt(0);
+			return cashingData;
+		}
+    }
+}
+
+
+

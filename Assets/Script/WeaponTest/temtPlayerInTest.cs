@@ -8,9 +8,11 @@ using TMPro;
 
 public class temtPlayerInTest : MonoBehaviour
 {
+    public ListQueue<int> test;
     CommandManager commandManager = null;
     private void Start()
     {
+        test = new ListQueue<int>();
         commandManager = new CommandManager();
         commandManager.Init();
 
@@ -24,7 +26,11 @@ public class temtPlayerInTest : MonoBehaviour
         commandManager.SetCommand(KeyCode.Mouse1, shootM4a1Command);
         commandManager.SetCommand(KeyCode.R, reloadM4a1Command);
         commandManager.SetCommand(KeyCode.F, stabKnifeCommand);
-    }
+        for(int i = 0; i<10;i++)
+        {
+            test.Enqueue(i+1);
+        }
+    }   
 
     private void Update()
     {
@@ -39,6 +45,7 @@ public class temtPlayerInTest : MonoBehaviour
                 }
             }
         }
+        Debug.Log(test.Dequeue());
     }
 
     public void OnButtonClick()
