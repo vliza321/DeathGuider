@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // ������ �߻����
-public class MonsterSpawn : MonoBehaviour
+public class MonsterManager : MonoBehaviour
 {
     
     [SerializeField]
-    private ObjectPool monsterPool;
+    private ObjectPool monsterSpawnPool;
+    [SerializeField]
+    private ObjectPool monsterRespawnPool;
+
+
     private GameObject player;
     [SerializeField]
     private int monstercounter;
@@ -52,7 +56,8 @@ public class MonsterSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        monsterPool = new ObjectPool(monsterPrefab,maxMonster) ;
+        monsterSpawnPool = new ObjectPool(monsterPrefab,maxMonster);
+        monsterRespawnPool = new ObjectPool(maxMonster);
 
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)
@@ -90,7 +95,11 @@ public class MonsterSpawn : MonoBehaviour
     {
         guider = player.GetComponent<PlayerManager>().Guider;
         playerPos = guider.transform.position;
-        //monsterState = monster
+
+        for (int i = 0; i < MaxMonster; i++)
+        {
+            monsterSpawnPool.ReturnObject(this.transform.GetChild(i).gameObject);
+        }
     }
 
     public void PlayerSwap(GameObject Guider)
@@ -137,8 +146,8 @@ public class MonsterSpawn : MonoBehaviour
 
                 monsterState.monsterRespawn();
             }
-        }
-
+        }*/
+        
         // 몬스터 생성 처리
         for (int i = 0; i < 10; i++)
         {
@@ -156,8 +165,7 @@ public class MonsterSpawn : MonoBehaviour
                 monsterSpawnTimer[i] = 1500;
 
                 enabledMonster++;
-                GameObject newMonster = monsterPool.GetObject();
-                monster[enabledMonster - 1] = newMonster;
+                GameObject newMonster = monsterSpawnPool.GetObject();
 
                 switch (Random.Range(0, 3))
                 {
@@ -171,8 +179,8 @@ public class MonsterSpawn : MonoBehaviour
                         break;
                 }
 
-                newMonster.GetComponent<MonsterState>().setInGame();
+                newMonster.GetComponent<MonsterState>().monsterRespawn(player);
             }
-        }*/
+        }
     }
 }

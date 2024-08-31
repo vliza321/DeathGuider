@@ -12,6 +12,8 @@ public class MonsterState : MonoBehaviour
     private int monsterNum;
     private bool inGame;
     private int attackPoint;
+
+    private MonsterMove monsterMove;
     public int AttactPoint
     { 
         get { return attackPoint; } 
@@ -68,7 +70,8 @@ public class MonsterState : MonoBehaviour
         hp = 100;
         alive = false;
         canMove = false; 
-        playerState = FindObjectOfType<PlayerState>(); 
+        playerState = FindObjectOfType<PlayerState>();
+        monsterMove = this.gameObject.GetComponent<MonsterMove>();
     }
     void Start()
     {
@@ -85,11 +88,13 @@ public class MonsterState : MonoBehaviour
 
     }
 
-    public void monsterRespawn()
+    public void monsterRespawn(GameObject Player)
     {
+        
         hp = 100;
         alive = true;
         canMove = true;
+        monsterMove.Player = Player;
     }
 
     private void OnTriggerStay2D(Collider2D collision)

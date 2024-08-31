@@ -78,7 +78,7 @@ public class PlayerManager : MonoBehaviour
         swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
 
         //매니저들에서 가지고 있는 가이더 정보 변경
-        monsterSpawnManager.GetComponent<MonsterSpawn>().PlayerSwap(swapedObject);
+        monsterSpawnManager.GetComponent<MonsterManager>().PlayerSwap(swapedObject);
         followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional);
         cameraManager.Guider = swapedObject;
         treasureBoxEscapeStairManager.player = swapedObject;
@@ -94,15 +94,14 @@ public class PlayerManager : MonoBehaviour
 
     void MonsterKnockBack()
     {
-        MonsterSpawn ms = monsterSpawnManager.GetComponent<MonsterSpawn>();
+        MonsterManager ms = monsterSpawnManager.GetComponent<MonsterManager>();
         for (int i =0; i < ms.EnabledMonster;i++)
         {
-            if (ms.Monster[i].GetComponent<MonsterMove>().distance < 9.0f)
+            if (ms.Monster[i].GetComponent<MonsterMove>().Distance < 9.0f)
             { 
-                ms.Monster[i].GetComponent<MonsterMove>().isKnockBack = true;
-                ms.Monster[i].GetComponent<MonsterMove>().knockBackTimer = 300 - 300 * (int)(ms.Monster[i].GetComponent<MonsterMove>().distance / 9.0f);
-                ms.Monster[i].GetComponent<MonsterMove>().monsterVelocityVector *= -2;
-
+                ms.Monster[i].GetComponent<MonsterMove>().IsKnockBack = true;
+                ms.Monster[i].GetComponent<MonsterMove>().KnockBackTimer = 300 - 300 * (int)(ms.Monster[i].GetComponent<MonsterMove>().Distance / 9.0f);
+                ms.Monster[i].GetComponent<MonsterMove>().MonsterVelocityVector *= -2;
             }
         }
     }

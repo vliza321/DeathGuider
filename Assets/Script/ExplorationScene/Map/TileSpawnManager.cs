@@ -97,7 +97,7 @@ public class TileSpawnManager : MonoBehaviour
             {
                 FollowerManager.transform.GetChild(i).transform.position = new Vector3(FollowerManager.transform.GetChild(i).transform.position.x, FollowerManager.transform.GetChild(i).transform.position.y - 12.8f * 4, FollowerManager.transform.GetChild(i).transform.position.z);
             }
-            for(int i = 0; i < MonsterSpawnManager.GetComponent<MonsterSpawn>().EnabledMonster; i++)
+            for(int i = 0; i < MonsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
             {
                 MonsterSpawnManager.transform.GetChild(i).position = new Vector3(MonsterSpawnManager.transform.GetChild(i).position.x, MonsterSpawnManager.transform.GetChild(i).position.y - 12.8f * 4, MonsterSpawnManager.transform.GetChild(i).position.y);
             }
@@ -122,7 +122,7 @@ public class TileSpawnManager : MonoBehaviour
             {
                 FollowerManager.transform.GetChild(i).transform.position = new Vector3(FollowerManager.transform.GetChild(i).transform.position.x + 12.8f * 4, FollowerManager.transform.GetChild(i).transform.position.y, FollowerManager.transform.GetChild(i).transform.position.z);
             }
-            for (int i = 0; i < MonsterSpawnManager.GetComponent<MonsterSpawn>().EnabledMonster; i++)
+            for (int i = 0; i < MonsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
             {
                 MonsterSpawnManager.transform.GetChild(i).position = new Vector3(MonsterSpawnManager.transform.GetChild(i).position.x + 12.8f * 4, MonsterSpawnManager.transform.GetChild(i).position.y , MonsterSpawnManager.transform.GetChild(i).position.y);
             }
@@ -148,7 +148,7 @@ public class TileSpawnManager : MonoBehaviour
             {
                 FollowerManager.transform.GetChild(i).transform.position = new Vector3(FollowerManager.transform.GetChild(i).transform.position.x, FollowerManager.transform.GetChild(i).transform.position.y + 12.8f * 4, FollowerManager.transform.GetChild(i).transform.position.z);
             }
-            for (int i = 0; i < MonsterSpawnManager.GetComponent<MonsterSpawn>().EnabledMonster; i++)
+            for (int i = 0; i < MonsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
             {
                 MonsterSpawnManager.transform.GetChild(i).position = new Vector3(MonsterSpawnManager.transform.GetChild(i).position.x, MonsterSpawnManager.transform.GetChild(i).position.y + 12.8f * 4, MonsterSpawnManager.transform.GetChild(i).position.y);
             }
@@ -173,7 +173,7 @@ public class TileSpawnManager : MonoBehaviour
             {
                 FollowerManager.transform.GetChild(i).transform.position = new Vector3(FollowerManager.transform.GetChild(i).transform.position.x - 12.8f * 4, FollowerManager.transform.GetChild(i).transform.position.y , FollowerManager.transform.GetChild(i).transform.position.z);
             }
-            for (int i = 0; i < MonsterSpawnManager.GetComponent<MonsterSpawn>().EnabledMonster; i++)
+            for (int i = 0; i < MonsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
             {
                 MonsterSpawnManager.transform.GetChild(i).position = new Vector3(MonsterSpawnManager.transform.GetChild(i).position.x - 12.8f * 4, MonsterSpawnManager.transform.GetChild(i).position.y, MonsterSpawnManager.transform.GetChild(i).position.y);
             }

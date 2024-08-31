@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectPool
 {
 	
-	private GameObject[] prefab;  // 풀링할 객체의 프리팹
+	private GameObject[] prefab;  // 풀링할 객체의 프리팹 -> 2개 
 
 	private int poolSize;  // 풀의 초기 크기
 
@@ -15,18 +15,32 @@ public class ObjectPool
     {
         this.prefab = prefab;
         poolQueue = new Queue<GameObject>();
-
+        Debug.Log("스폰 풀");
+        /*
         for (int i = 0; i < MaxMonster; i++)
         {
             GameObject obj = CreateNewObject();
             obj.SetActive(false);
             poolQueue.Enqueue(obj);
-        }
+        }*/
+    }
+
+    public ObjectPool(int MaxMonster)
+    {
+        poolQueue = new Queue<GameObject>();
+        Debug.Log("리스폰 풀");
+        /*
+        for (int i = 0; i < MaxMonster; i++)
+        {
+            GameObject obj = CreateNewObject();
+            obj.SetActive(false);
+            poolQueue.Enqueue(obj);
+        }*/
     }
 
     private GameObject CreateNewObject()
     {
-        return GameObject.Instantiate(prefab[0]); 
+        return GameObject.Instantiate(prefab[0]);
     }
 
     public GameObject GetObject()
@@ -39,9 +53,7 @@ public class ObjectPool
         }
         else
         {
-            GameObject obj = CreateNewObject();
-            obj.SetActive(true);
-            return obj;
+            return default;
         }
     }
 
