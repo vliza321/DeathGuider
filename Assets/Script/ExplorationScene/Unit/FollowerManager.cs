@@ -39,10 +39,11 @@ public class FollowerManager : MonoBehaviour
             follower[i].GetComponent<FollowerMove>().enabled = true;
             follower[i].gameObject.tag = "follower";
             follower[i].gameObject.layer = this.gameObject.layer;
+            follower[i].GetComponent<CapsuleCollider2D>().enabled = false;
         }
     }
 
-    public void SwapGuider(GameObject guider, GameObject firstFollower, CameraMove cameraObj, AttackDirectional attackDirectional)
+    public void SwapGuider(GameObject guider, GameObject firstFollower, CameraManager cameraObj, AttackDirectional attackDirectional)
     {
         firstFollower.GetComponent<FollowerMove>().enabled = false;
         firstFollower.GetComponent<PlayerMove>().enabled = true;

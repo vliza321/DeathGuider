@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class PlayerInRegion : MonoBehaviour
 {
-    GameObject Player;
-    private GameObject tileSpawnManager;
+    private TileSpawnManager tileSpawnManager;
     private bool triggerflag;
+    private TileSet tileSet;
     // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
-        Player = this.gameObject;
-        triggerflag = true;
-        tileSpawnManager = GameObject.Find("TileSpawnManager");
+        triggerflag = true; 
+        tileSpawnManager = this.transform.parent.parent.GetComponent<TileSpawnManager>();
+        tileSet = this.gameObject.GetComponent<TileSet>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(this.transform.parent.name);
+
         int row;
         int column;
-        if (collision.gameObject.CompareTag("TileSet") )
+        if (collision.gameObject.CompareTag("Player") )
         {
-            row = collision.GetComponent<TileSet>().row;
-            column = collision.GetComponent<TileSet>().column;
+            row = tileSet.row;
+            column = tileSet.column;
 
             if (triggerflag == false)
             {
@@ -30,7 +32,7 @@ public class PlayerInRegion : MonoBehaviour
             }
             else
             {
-                tileSpawnManager.GetComponent<TileSpawnManager>().swapTileMap(collision.transform,row,column );
+                tileSpawnManager.swapTileMap(this.transform,row,column );
                 triggerflag = false;
             }
         }
@@ -39,12 +41,13 @@ public class PlayerInRegion : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
+        Debug.Log(this.transform.parent.name);
         int row;
         int column;
-        if (collision.gameObject.CompareTag("TileSet"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            row = collision.GetComponent<TileSet>().row;
-            column = collision.GetComponent<TileSet>().column;
+            row = tileSet.row;
+            column = tileSet.column;
             if (triggerflag == false)
             {
 
@@ -52,18 +55,17 @@ public class PlayerInRegion : MonoBehaviour
             }
             else
             {
-                tileSpawnManager.GetComponent<TileSpawnManager>().swapTileMap(collision.transform, row, column);
+                tileSpawnManager.GetComponent<TileSpawnManager>().swapTileMap(this.transform, row, column);
             }
         }
-        if (collision.gameObject.CompareTag("BaseTile"))
-        {
-            triggerflag = true;
-        }
+
 
     }
     
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Debug.Log(this.transform.parent.name);
+
         if (collision.gameObject.CompareTag("BaseTile"))
         {
             triggerflag = true;

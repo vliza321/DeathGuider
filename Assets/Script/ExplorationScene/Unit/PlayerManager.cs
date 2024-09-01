@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     private FollowerManager followerManager;
-    private CameraMove cameraManager;
+    private CameraManager cameraManager;
     private GameObject monsterSpawnManager;
 
     private GameObject guider;
@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
             }
             if(manager.name == "CameraManager")
             {
-                cameraManager = manager.transform.gameObject.GetComponent<CameraMove>();
+                cameraManager = manager.transform.gameObject.GetComponent<CameraManager>();
             }
             if(manager.name == "FollowerManager")
             {
@@ -69,7 +69,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void SwapPlayer() // 죽는거 구현 전 임시, 임의로 서로 스왑
+    public void SwapPlayer() 
     {
         playerUnitCounter--;
         if (playerUnitCounter < 0) return;

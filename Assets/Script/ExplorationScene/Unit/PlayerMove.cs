@@ -21,8 +21,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private AttackDirectional attackDirectional;
 
-    private CameraMove camera;
-    public CameraMove Camera
+    private CameraManager camera;
+    public CameraManager Camera
     {
         set { camera = value; }
     }
@@ -109,6 +109,5 @@ public class PlayerMove : MonoBehaviour
     {
         playerVelocityVector = playerVelocityVector.normalized * moveSpeed * Time.fixedDeltaTime;
         player.transform.Translate(playerVelocityVector.x, playerVelocityVector.y, 0);
-        camera.MoveCamera(playerVelocityVector);
     }
 }

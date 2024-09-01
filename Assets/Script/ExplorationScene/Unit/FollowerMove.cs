@@ -40,17 +40,16 @@ public class FollowerMove : MonoBehaviour
         distance = Vector3.Distance(FrontGuider.transform.position, FollowerLocalscale);
         FollowerVelocityVector.x = Follower.transform.position.x - FrontGuider.transform.position.x;
         FollowerVelocityVector.y = Follower.transform.position.y - FrontGuider.transform.position.y;
-        if (distance < 00.18f) { moveSpeeds = 0.0f; }
-        if ((distance < 0.940f) && (distance >= 00.18f))
+        if (distance < 00.1f) { moveSpeeds = 0.0f; }
+        else if (distance < 01.940f)
         {
-            moveSpeeds = guiderMoveSpeed / 1.75f;
+            moveSpeeds = guiderMoveSpeed / 1.5f ;
         }
-        if ((distance < 12.8f) && (distance >= 00.94f))
+        else if (distance < 12.8f)
         {
-            moveSpeeds = guiderMoveSpeed+1.0f;
+            moveSpeeds = guiderMoveSpeed + 0.50f;
         }
-
-        if (distance >= 12.8f) { moveSpeeds = guiderMoveSpeed + 3.0f; }
+        else moveSpeeds = guiderMoveSpeed + 3.0f;
         this.gameObject.transform.localScale = new Vector3(FrontguiderLocalscale.x, FrontguiderLocalscale.y, FrontguiderLocalscale.z);
 
     }
