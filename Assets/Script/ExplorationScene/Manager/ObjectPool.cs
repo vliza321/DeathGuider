@@ -25,6 +25,10 @@ public class ObjectPool
         }*/
     }
 
+    public Queue<GameObject> PoolQueue
+    {
+        get { return poolQueue; }
+    }
     public ObjectPool(int MaxMonster)
     {
         poolQueue = new Queue<GameObject>();

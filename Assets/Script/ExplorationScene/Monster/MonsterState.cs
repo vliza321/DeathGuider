@@ -88,7 +88,7 @@ public class MonsterState : MonoBehaviour
 
     }
 
-    public void monsterRespawn(GameObject Player)
+    public void monsterSpawn(GameObject Player)
     {
         
         hp = 100;
