@@ -41,9 +41,13 @@ public class FollowerMove : MonoBehaviour
         FollowerVelocityVector.x = Follower.transform.position.x - FrontGuider.transform.position.x;
         FollowerVelocityVector.y = Follower.transform.position.y - FrontGuider.transform.position.y;
         if (distance < 00.1f) { moveSpeeds = 0.0f; }
-        else if (distance < 01.940f)
+        else if (distance < 0.940f)
         {
             moveSpeeds = guiderMoveSpeed / 1.5f ;
+        }
+        else if (distance < 4.8f)
+        {
+            moveSpeeds = guiderMoveSpeed;
         }
         else if (distance < 12.8f)
         {

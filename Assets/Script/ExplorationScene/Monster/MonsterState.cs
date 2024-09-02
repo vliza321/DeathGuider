@@ -88,13 +88,14 @@ public class MonsterState : MonoBehaviour
 
     }
 
-    public void monsterSpawn(GameObject Player)
+    public void monsterSpawn(GameObject Player,ObjectPool respawnPool)
     {
         
         hp = 100;
         alive = true;
         canMove = true;
         monsterMove.Player = Player;
+        monsterPool = respawnPool;
     }
 
     private void OnTriggerStay2D(Collider2D collision)

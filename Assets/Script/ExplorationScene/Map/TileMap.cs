@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
+    [SerializeField]
     private int row;
+    [SerializeField]
     private int column;
     public int Row
     { get { return row; } set { row = value; } }

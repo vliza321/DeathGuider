@@ -17,7 +17,6 @@ public class PlayerInRegion : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(this.transform.parent.name);
 
         int row;
         int column;
@@ -41,7 +40,6 @@ public class PlayerInRegion : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(this.transform.parent.name);
         int row;
         int column;
         if (collision.gameObject.CompareTag("Player"))
@@ -64,7 +62,6 @@ public class PlayerInRegion : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log(this.transform.parent.name);
 
         if (collision.gameObject.CompareTag("BaseTile"))
         {

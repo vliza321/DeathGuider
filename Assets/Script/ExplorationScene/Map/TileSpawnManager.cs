@@ -69,7 +69,6 @@ public class TileSpawnManager : MonoBehaviour
 
         if (BaseTileMap[0].GetComponent<TileMap>().Row <= 0 || BaseTileMap[1].GetComponent<TileMap>().Row <= 0)
         {
-            //EditorApplication.isPaused = true;
             BaseTileMap[0].GetComponent<TileMap>().Row = 5;
             BaseTileMap[1].GetComponent<TileMap>().Row = 5;
             if (BaseTileMap[0].activeSelf == true)
@@ -105,19 +104,21 @@ public class TileSpawnManager : MonoBehaviour
         }
         else if (BaseTileMap[0].GetComponent<TileMap>().Column <= 0 || BaseTileMap[1].GetComponent<TileMap>().Column <= 0)
         {
-            BaseTileMap[0].GetComponent<TileMap>().Row = 5;
-            BaseTileMap[1].GetComponent<TileMap>().Row = 5;
+            //EditorApplication.isPaused = true;
+
+            BaseTileMap[0].GetComponent<TileMap>().Column = 5;
+            BaseTileMap[1].GetComponent<TileMap>().Column = 5;
             if (BaseTileMap[0].activeSelf == true)
             {
                 BaseTileMap[0].SetActive(true);
                 BaseTileMap[1].SetActive(true);
-                BaseTileMap[1].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
+                BaseTileMap[1].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
             }
             else
             {
                 BaseTileMap[0].SetActive(true);
                 BaseTileMap[1].SetActive(true);
-                BaseTileMap[0].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
+                BaseTileMap[0].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
             }
             guider.transform.position = new Vector3(guider.transform.position.x + 12.8f * 4, guider.transform.position.y, guider.transform.position.z);
             PlayerAttackDirectional.transform.position = new Vector3(PlayerAttackDirectional.transform.position.x + 12.8f * 4, PlayerAttackDirectional.transform.position.y, PlayerAttackDirectional.transform.position.z);
@@ -174,19 +175,19 @@ public class TileSpawnManager : MonoBehaviour
         }
         else if (BaseTileMap[0].GetComponent<TileMap>().Column >= 10 || BaseTileMap[1].GetComponent<TileMap>().Column >= 10)
         {
-            BaseTileMap[0].GetComponent<TileMap>().Row = 5;
-            BaseTileMap[1].GetComponent<TileMap>().Row = 5;
+            BaseTileMap[0].GetComponent<TileMap>().Column = 5;
+            BaseTileMap[1].GetComponent<TileMap>().Column = 5;
             if (BaseTileMap[0].activeSelf == true)
             {
                 BaseTileMap[0].SetActive(true);
                 BaseTileMap[1].SetActive(true);
-                BaseTileMap[1].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
+                BaseTileMap[1].transform.position = new Vector3( 0, transform.parent.transform.position.y ,transform.parent.position.z);
             }
             else
             {
                 BaseTileMap[0].SetActive(true);
                 BaseTileMap[1].SetActive(true);
-                BaseTileMap[0].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
+                BaseTileMap[0].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
             }
             guider.transform.position = new Vector3(guider.transform.position.x - 12.8f * 4, guider.transform.position.y, guider.transform.position.z);
             PlayerAttackDirectional.transform.position = new Vector3(PlayerAttackDirectional.transform.position.x - 12.8f * 4, PlayerAttackDirectional.transform.position.y , PlayerAttackDirectional.transform.position.z);

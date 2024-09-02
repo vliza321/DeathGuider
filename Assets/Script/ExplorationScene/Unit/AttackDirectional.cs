@@ -43,8 +43,11 @@ public class AttackDirectional : MonoBehaviour
             guiderMove = guider.GetComponent<PlayerMove>();
         }
     }
+
+    private Vector3 cashingVector3;
     private void Awake()
     {
+        cashingVector3 = this.transform.position;
         isMove = true;
         PI = Mathf.PI;  
     }
@@ -100,7 +103,14 @@ public class AttackDirectional : MonoBehaviour
             }
         }
         directionalVector2 = directionalVector2.normalized * 2.0f;
-        this.transform.position = new Vector3(directionalVector2.x + guider.transform.position.x, directionalVector2.y + guider.transform.position.y, 0);
-        this.transform.eulerAngles = new Vector3(0, 0, (playerToObjAngle) * (180.0f) / MathF.PI - 90);
+        cashingVector3.x = directionalVector2.x + guider.transform.position.x;
+        cashingVector3.y = directionalVector2.y + guider.transform.position.y;
+        cashingVector3.z = 0;
+
+        this.transform.position = cashingVector3;
+
+        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI - 90;
+
+        this.transform.eulerAngles = cashingVector3;
     }
 }

@@ -81,11 +81,12 @@ public class MonsterManager : MonoBehaviour
         enabledMonster = 1;
         spawnTimerCanDoWork[0] = true;
         monsterRespawnTimer = 1000;
-        spawnLevel = 0;
+        spawnLevel = 1;
         for (int i = 0; i < 10; i++)
         {
             monsterSpawnTimer[i] = 1500;
         }
+        monsterSpawnTimer[0] = 10;
     }
     
     void Start()
@@ -107,11 +108,9 @@ public class MonsterManager : MonoBehaviour
 
     private void Update()
     {
-
-        // 몬스터 리스폰 처리
         GameObject newMonster;
-
-        if(monsterRespawnTimer > 0)
+        // 몬스터 리스폰 처리
+        if (monsterRespawnTimer > 0)
         {
             monsterRespawnTimer--;
         }
@@ -127,7 +126,7 @@ public class MonsterManager : MonoBehaviour
             while(monsterRespawnPool.PoolQueue.Count != 0)
             {
                 newMonster = monsterRespawnPool.GetObject();
-                newMonster.GetComponent<MonsterState>().monsterSpawn(guider);
+                newMonster.GetComponent<MonsterState>().monsterSpawn(guider,monsterRespawnPool);
                 switch (Random.Range(0, 3))
                 {
                     case 0:
@@ -263,7 +262,7 @@ public class MonsterManager : MonoBehaviour
 
                 if (monsterSpawnPool.PoolQueue.Count == 0) break;
                 newMonster = monsterSpawnPool.GetObject();
-                newMonster.GetComponent<MonsterState>().monsterSpawn(player);
+                newMonster.GetComponent<MonsterState>().monsterSpawn(player,monsterRespawnPool);
                 switch (Random.Range(0, 3))
                 {
                     case 0:

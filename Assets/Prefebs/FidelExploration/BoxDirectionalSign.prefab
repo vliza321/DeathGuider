@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0, g: 0.8565588, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.023721095, b: 0, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,9 +97,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e96aea95b36e6ed41bef5e155a853999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TreasureBoxEscapeStairManager: {fileID: 0}
-  player: {fileID: 0}
-  targetObj: {fileID: 0}
-  playerToObj: {x: 0, y: 0}
-  playerToObjAngle: 0
-  lastPosition: {x: 0, y: 0, z: 0}

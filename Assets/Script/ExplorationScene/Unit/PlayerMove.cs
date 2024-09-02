@@ -21,6 +21,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private AttackDirectional attackDirectional;
 
+    private Animator bodyAnimation;
+    private Animator headAnimation;
     private CameraManager camera;
     public CameraManager Camera
     {
@@ -75,7 +77,8 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-
+        headAnimation = this.transform.GetChild(0).GetComponent<Animator>();
+        bodyAnimation = this.transform.GetChild(1).GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -93,6 +96,13 @@ public class PlayerMove : MonoBehaviour
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             attackTargetVector = playerVelocityVector.normalized;
+            headAnimation.SetBool("isMove",true);
+            bodyAnimation.SetBool("isMove", true);
+        }
+        else
+        {
+            headAnimation.SetBool("isMove", false);
+            bodyAnimation.SetBool("isMove", false);
         }
         attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.0f;
         if(Input.GetAxisRaw("AttackDirectionalBind") > 0)

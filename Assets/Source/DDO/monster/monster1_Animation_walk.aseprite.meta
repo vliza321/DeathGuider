@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd69fd6932d82ad41af860060319dad9
+guid: fbd7c42de0697104a91c03e3360592a5
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -30,7 +30,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 0
+    spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 100
@@ -93,7 +93,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638609186219483733
+  platformSettingsDirtyTick: 638609103417353247
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -117,7 +117,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: guider_body_set_1
+  - name: monster1_Animation_walk
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -128,7 +128,7 @@ ScriptedImporter:
       y: 4
       width: 258
       height: 130
-    spriteID: e867fe4cd9b2dbf478883e744320cac6
+    spriteID: 073b717eeb5e0a84f9437378f016e79f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -138,7 +138,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: guider_body_set_1_5
+  - name: monster1_Animation_walk_5
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -149,7 +149,7 @@ ScriptedImporter:
       y: 69
       width: 64
       height: 64
-    spriteID: 62fb6eac2c1c93d4987541a97d7aafcb
+    spriteID: 31c07f35edff379408246de8e351e51e
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -158,7 +158,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: guider_body_set_1_6
+  - name: monster1_Animation_walk_6
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -169,7 +169,127 @@ ScriptedImporter:
       y: 69
       width: 64
       height: 64
-    spriteID: bf2f43ad46776e9499f5bf3355cbd6e5
+    spriteID: 4f2130f3d4050ae43bcc9fff54980ccf
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: monster1_Animation_walk_7
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 133
+      y: 69
+      width: 64
+      height: 64
+    spriteID: c2c979c43411487419f8760fd894e19d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: monster1_Animation_walk_8
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 197
+      y: 69
+      width: 64
+      height: 64
+    spriteID: eb0587535252356479108f4d969c1233
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: monster1_Animation_walk_10
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 5
+      y: 5
+      width: 64
+      height: 64
+    spriteID: 5e3b4d31896bef145ab64045fb5b7097
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: monster1_Animation_walk_11
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 69
+      y: 5
+      width: 64
+      height: 64
+    spriteID: b8b8deca69d8c5642a1aab8b3d509eea
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: monster1_Animation_walk_12
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 133
+      y: 5
+      width: 64
+      height: 64
+    spriteID: 243cd7477ad2daf4b9d792283d6a6466
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  - name: monster1_Animation_walk_13
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 197
+      y: 5
+      width: 64
+      height: 64
+    spriteID: 5e2b084ae5df7384da344ec901cae34c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -180,20 +300,20 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 1812411010
-    name: guider_body_set_1
+    guid: -450566046
+    name: monster1_Animation_walk
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: guider_body_set_1
+    - name: monster1_Animation_walk
       frameIndex: 0
       cellRect:
         x: 0
         y: 0
         width: 258
         height: 130
-      spriteId: e867fe4cd9b2dbf478883e744320cac6
+      spriteId: 073b717eeb5e0a84f9437378f016e79f
     linkedCells: []
     parentIndex: -1
   platformSettings:

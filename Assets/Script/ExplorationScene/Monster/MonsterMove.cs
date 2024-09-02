@@ -12,6 +12,7 @@ public class MonsterMove : MonoBehaviour
     private Vector2 monsterVelocityVector;
     private float signX;
     private float signY;
+    private SpriteRenderer monsterSpriteRender;
     public Vector2 MonsterVelocityVector
     {
         get { return monsterVelocityVector; } set { monsterVelocityVector = value; }
@@ -62,6 +63,7 @@ public class MonsterMove : MonoBehaviour
         signY = 0;
         monsterObject = this.transform;
         monsterVelocityVector = new Vector2(0, 0);
+        monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
     }
     void Start()
     {
@@ -126,5 +128,8 @@ public class MonsterMove : MonoBehaviour
 
         //MonsterObject.transform.position = new Vector2(MonsterObject.transform.position.x - monsterVelocityVector.x, MonsterObject.transform.position.y - monsterVelocityVector.y);
         this.transform.Translate(-monsterVelocityVector.x, -monsterVelocityVector.y, 0);
+
+        if (monsterVelocityVector.x > 0) monsterSpriteRender.flipX = false;
+        else monsterSpriteRender.flipX = true;
     }
 }
