@@ -12,24 +12,21 @@ public class temtPlayerInTest : MonoBehaviour
     CommandManager commandManager = null;
     private void Start()
     {
-        test = new ListQueue<int>();
+
         commandManager = new CommandManager();
         commandManager.Init();
 
-        M4A1 m4a1 = new M4A1();
-        Sword sword = new Sword();
+        M4A1 m4a1 = new M4A1(1,2,default,default);
+        Sword sword = new Sword(1,2,default,default);
 
-        ShootGunCommand shootM4a1Command = new ShootGunCommand(m4a1);
-        ReloadGunCommand reloadM4a1Command = new ReloadGunCommand(m4a1);
-        StabKnifeCommand stabKnifeCommand = new StabKnifeCommand(sword);
+        ShootLaunchTypeCommand shootM4a1Command = new ShootLaunchTypeCommand(m4a1);
+        ReloadLaunchTypeCommand reloadM4a1Command = new ReloadLaunchTypeCommand(m4a1);
+        StabCloseTypeCommand stabKnifeCommand = new StabCloseTypeCommand(sword);
 
         commandManager.SetCommand(KeyCode.Mouse1, shootM4a1Command);
         commandManager.SetCommand(KeyCode.R, reloadM4a1Command);
         commandManager.SetCommand(KeyCode.F, stabKnifeCommand);
-        for(int i = 0; i<10;i++)
-        {
-            test.Enqueue(i+1);
-        }
+ 
     }   
 
     private void Update()
@@ -45,7 +42,7 @@ public class temtPlayerInTest : MonoBehaviour
                 }
             }
         }
-        Debug.Log(test.Dequeue());
+
     }
 
     public void OnButtonClick()

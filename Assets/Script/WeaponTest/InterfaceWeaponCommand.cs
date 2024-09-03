@@ -3,50 +3,26 @@ public interface InterfaceWeaponCommand
     void Execute();
 }
 
-public class ReloadGunCommand : InterfaceWeaponCommand
+/*
+====================================== 근접형 무기 타입 ============================
+*/
+
+public class StabCloseTypeCommand : InterfaceWeaponCommand
 {
-    private Gun gun;
-    public void Execute()
-    {
-        gun.Reload();
-    }
-
-    public ReloadGunCommand(Gun val)
-    {
-        gun = val;
-    }
-}
-
-public class ShootGunCommand : InterfaceWeaponCommand
-{
-    private Gun gun;
-    public void Execute()
-    {
-        gun.Shoot();
-    }
-
-    public ShootGunCommand(Gun val)
-    {
-        gun = val;
-    }
-}
-
-public class StabKnifeCommand: InterfaceWeaponCommand
-{
-    private Knife knife;
+    private Sword knife;
 
     public void Execute()
     {
         knife.Stab();
     }
 
-    public StabKnifeCommand(Knife val)
+    public StabCloseTypeCommand(Sword val)
     {
         knife = val;
     }
 }
 
-public class SwingSwordCommand : InterfaceWeaponCommand
+public class SwingCloseTypeCommand : InterfaceWeaponCommand
 {
     private Sword sword;
 
@@ -55,8 +31,56 @@ public class SwingSwordCommand : InterfaceWeaponCommand
         sword.Swing();
     }
 
-    public SwingSwordCommand(Sword val)
+    public SwingCloseTypeCommand(Sword val)
     {
         sword = val;
+    }
+}
+/*
+====================================== 발사형 무기 타입 ==============================
+*/
+public class ReloadLaunchTypeCommand : InterfaceWeaponCommand
+{
+    private LaunchType gun;
+    public void Execute()
+    {
+        gun.Reload();
+    }
+
+    public ReloadLaunchTypeCommand(LaunchType val)
+    {
+        gun = val;
+    }
+}
+
+public class ShootLaunchTypeCommand : InterfaceWeaponCommand
+{
+    private LaunchType gun;
+    public void Execute()
+    {
+        gun.Shoot();
+    }
+
+    public ShootLaunchTypeCommand(LaunchType val)
+    {
+        gun = val;
+    }
+}
+/*
+====================================== 위성형 무기 타입 ============================
+*/
+
+public class SpinSwordSatelliteTypeCommand : InterfaceWeaponCommand
+{
+    private SatelliteType spinWeapon;
+    
+    public void Execute()
+    {
+        spinWeapon.Spin();
+    }
+
+    public SpinSwordSatelliteTypeCommand(SatelliteType val)
+    {
+        spinWeapon = val;
     }
 }

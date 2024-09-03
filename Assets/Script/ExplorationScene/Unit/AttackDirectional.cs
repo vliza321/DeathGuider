@@ -112,5 +112,6 @@ public class AttackDirectional : MonoBehaviour
         cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI - 90;
 
         this.transform.eulerAngles = cashingVector3;
+        
     }
 }
