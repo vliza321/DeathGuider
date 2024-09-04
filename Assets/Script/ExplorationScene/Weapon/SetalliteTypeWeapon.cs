@@ -5,35 +5,34 @@ using UnityEngine;
 
 public class SetalliteTypeWeapon : MonoBehaviour
 {
-    public float distance;
 
-    public float playerToObjAngle;
+    private float playerToObjAngle;
 
-    public float PI;
+    private float PI;
 
-    public float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
-    public float rotateAngle;
-    public Vector3 directionalVector;
+    private float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
+    private float rotateAngle;
+    private Vector3 directionalVector;
 
+    private Transform baseParent;
 
-
-    public Vector3 cashingVector3;
+    private Vector3 cashingVector3;
     private void Awake()
     {
+        baseParent = this.transform.parent;
         cashingVector3 = this.transform.position;
         PI = Mathf.PI;
-        distance = Vector3.Distance(Vector3.zero, this.transform.position);
     }
     private void Start()
     {
         rotateAnglePerFrame = 0.01f;
         directionalVector = new Vector3(0, 1, 0);
         rotateAngle = 0.05f;
+        this.transform.parent = this.transform.parent.parent.parent.GetChild(this.transform.parent.parent.parent.childCount - 1);
     }
 
     private void Update()
     {
-        distance = Vector3.Distance(Vector3.zero, this.transform.position);
         //playerToTargetAngle = (Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x) + 2 * PI) % (2 * PI);
         playerToObjAngle = (Mathf.Atan2(this.gameObject.transform.position.y, this.gameObject.transform.position.x) + 2 * PI) % (2 * PI);
         //방향 지시기가 이동해야할 최종 각도
@@ -46,7 +45,7 @@ public class SetalliteTypeWeapon : MonoBehaviour
         directionalVector.z = 0;
         directionalVector = directionalVector.normalized * 2f;
 
-        this.transform.position = directionalVector;
+        this.transform.position = directionalVector + baseParent.position;
 
         cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI ;
 
