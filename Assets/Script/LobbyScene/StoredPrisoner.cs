@@ -15,9 +15,6 @@ public class StoredPrisoner : MonoBehaviour
     public List<int> currentPrisonerStrength = new List<int>();
     public List<string> currentPrisonerCrimes = new List<string>();
     public List<int> currentPrisonerErosions = new List<int>();
-    public List<Sprite> currentPrisonerHeads = new List<Sprite>();
-    public List<Sprite> currentPrisonerBodies = new List<Sprite>();
-
 
     public GameObject prisonerInfo;
     public BusPrisonerUI busPrisonerUI;
@@ -51,9 +48,6 @@ public class StoredPrisoner : MonoBehaviour
         currentPrisonerStrength.Add(busPrisonerUI.BusPrisonerStrength[index]);
         currentPrisonerCrimes.Add(busPrisonerUI.BusPrisonerCrimes[index]);
         currentPrisonerErosions.Add(busPrisonerUI.BusPrisonerErosions[index]);
-        currentPrisonerHeads.Add(busPrisonerUI.BusPrisonerHeads[index]);
-        currentPrisonerBodies.Add(busPrisonerUI.BusPrisonerBodies[index]);
-
 
         StoredPrisonerstat prisonerScript = prisonerUI.GetComponent<StoredPrisonerstat>();
         if (prisonerScript != null)
@@ -64,8 +58,6 @@ public class StoredPrisoner : MonoBehaviour
             prisonerScript.strength = currentPrisonerStrength[index];
             prisonerScript.crime = currentPrisonerCrimes[index];
             prisonerScript.erosion = currentPrisonerErosions[index];
-            prisonerScript.head.sprite = currentPrisonerHeads[index];
-            prisonerScript.body.sprite = currentPrisonerBodies[index];
         }
 
         UpdatePrisonerUI();
@@ -191,8 +183,6 @@ public class StoredPrisoner : MonoBehaviour
                     prisonerStat.strength = currentPrisonerStrength[index];
                     prisonerStat.crime = currentPrisonerCrimes[index];
                     prisonerStat.erosion = currentPrisonerErosions[index];
-                    prisonerStat.head.sprite = currentPrisonerHeads[index];
-                    prisonerStat.body.sprite = currentPrisonerBodies[index];
                     prisonerStat.UpdateUI(); // UI 업데이트 메서드 호출
                 }
             }

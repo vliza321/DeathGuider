@@ -22,13 +22,6 @@ public class BusPrisonerUI : MonoBehaviour
     public Text[] strengthTexts; // 6개의 힘 Text UI 요소 배열
     public Text[] crimeTexts; // 6개의 범죄 Text UI 요소 배열
     public Image[] prisonerImages; // 각 죄수에 대한 이미지 배열 (옵션)
-
-    public Sprite[] prisonerHeads; //  죄수의 얼굴 배열
-    public Sprite[] prisonerBodies; // 죄수의 몸 배열
-
-    public Image[] prisonerHeadsAppearence; //  죄수의 얼굴 배열
-    public Image[] prisonerBodiesAppearence; // 죄수의 몸 배열
-
     public GameObject warningImage;
 
     private readonly char[] name1 = new char[] { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
@@ -46,8 +39,6 @@ public class BusPrisonerUI : MonoBehaviour
     public List<int> BusPrisonerStrength = new List<int>();
     public List<string> BusPrisonerCrimes = new List<string>();
     public List<int> BusPrisonerErosions = new List<int>();
-    public List<Sprite> BusPrisonerHeads = new List<Sprite>();
-    public List<Sprite> BusPrisonerBodies = new List<Sprite>();
 
     void Start()
     {
@@ -135,8 +126,6 @@ public class BusPrisonerUI : MonoBehaviour
             BusPrisonerProficiencies.RemoveAt(index);
             BusPrisonerStrength.RemoveAt(index);
             BusPrisonerCrimes.RemoveAt(index);
-            BusPrisonerHeads.RemoveAt(index);
-            BusPrisonerBodies.RemoveAt(index);
 
             // UI 업데이트
             SetPrisoner();
@@ -182,8 +171,6 @@ public class BusPrisonerUI : MonoBehaviour
             BusPrisonerProficiencies.RemoveAt(index);
             BusPrisonerStrength.RemoveAt(index);
             BusPrisonerCrimes.RemoveAt(index);
-            BusPrisonerHeads.RemoveAt(index);
-            BusPrisonerBodies.RemoveAt(index);
 
             // UI 업데이트
             SetPrisoner();
@@ -219,8 +206,6 @@ public class BusPrisonerUI : MonoBehaviour
         BusPrisonerStrength.Clear();
         BusPrisonerCrimes.Clear();
         BusPrisonerErosions.Clear();
-        BusPrisonerHeads.Clear();
-        BusPrisonerBodies.Clear();
 
         for (int i = 0; i < 6; i++)
         {
@@ -230,9 +215,6 @@ public class BusPrisonerUI : MonoBehaviour
             BusPrisonerStrength.Add(Random.Range(1, 11));
             BusPrisonerCrimes.Add(crimes[Random.Range(0, crimes.Length)]);
             BusPrisonerErosions.Add(0);
-
-            BusPrisonerHeads.Add(prisonerHeads[Random.Range(0, prisonerHeads.Length)]);
-            BusPrisonerBodies.Add(prisonerBodies[Random.Range(0, prisonerBodies.Length)]);
         }
 
         // 현재 선택된 죄수 이름들로 텍스트 설정
@@ -254,8 +236,6 @@ public class BusPrisonerUI : MonoBehaviour
                 strengthTexts[i].text = "힘: " + BusPrisonerStrength[i];
                 crimeTexts[i].text = "범죄: " + BusPrisonerCrimes[i];
 
-                prisonerHeadsAppearence[i].sprite = BusPrisonerHeads[i];
-                prisonerBodiesAppearence[i].sprite = BusPrisonerBodies[i];
                 if (prisonerImages[i] != null)
                 {
                     prisonerImages[i].gameObject.SetActive(true);
@@ -269,9 +249,6 @@ public class BusPrisonerUI : MonoBehaviour
                 proficiencyTexts[i].text = "";
                 strengthTexts[i].text = "";
                 crimeTexts[i].text = "";
-
-                prisonerHeadsAppearence[i].sprite = null;
-                prisonerBodiesAppearence[i].sprite = null;
 
                 if (prisonerImages[i] != null)
                 {

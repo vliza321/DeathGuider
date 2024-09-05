@@ -11,9 +11,6 @@ public class StoredPrisonerstat : MonoBehaviour
     public TextMeshProUGUI proficiencyText;
     public TextMeshProUGUI strengthText;
     public TextMeshProUGUI crimeText;
-    public Image head;
-    public Image body;
-
 
     public string prisonerName;
     public int hp;
