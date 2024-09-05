@@ -1,0 +1,95 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class _INode<T>
+{
+	public T data;
+	public _INode<T> next;
+
+	public _INode(T Data, _INode<T> Next)
+	{
+		data = Data;
+		next = Next;
+	}
+
+	~_INode()
+	{
+		data = default;
+		next = null;
+	}
+}
+
+
+public class _IQueue<T>
+{
+	private _INode<T> _dummy;
+	private _INode<T> _cashingDummy;
+	private int _size;
+	public _INode<T> Rear()
+	{
+		return _dummy.next;
+	}
+
+	public int _Size
+	{
+		get { return _size; }
+	}
+
+
+	public _IQueue(T dummyObject)
+	{
+		_dummy = new _INode<T>(dummyObject, _dummy);
+		_cashingDummy = new _INode<T>(dummyObject, null);
+	}
+
+	public void Enqueue(T addNode)
+	{
+
+	}
+
+	public void Dequeue(T removeNode)
+	{
+
+	}
+}
+
+
+public class ListQueue<T>
+{
+	private List<T> list;
+	public ListQueue()
+    {
+		list = new List<T>();
+    }
+
+	public T rear()
+    {
+		if (list.Count < 1) return default;
+		return list[0];
+    }
+
+	public T front()
+    {
+		if (list.Count < 1) return default;
+		return list[list.Count-1];
+    }
+
+	public void Enqueue(T add)
+    {
+		list.Add(add);
+	}
+
+	public T Dequeue()
+    {
+		if (list.Count < 1) return default;
+		else {
+			T cashingData = list[0];
+			list.RemoveAt(0);
+			return cashingData;
+		}
+    }
+}
+
+
+

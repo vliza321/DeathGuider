@@ -22,7 +22,6 @@ public class AttackDirectional : MonoBehaviour
     private float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
     private float rotateAngle;
     private Vector2 directionalVector2;
-    public GameObject targetobj;
     public bool IsMove
     {
         get { return isMove; }
@@ -39,16 +38,22 @@ public class AttackDirectional : MonoBehaviour
     public GameObject Guider
     {
         get { return guider; }
-        set { guider = value; }
+        set { 
+            guider = value;
+            guiderMove = guider.GetComponent<PlayerMove>();
+        }
     }
+
+    private Vector3 cashingVector3;
     private void Awake()
     {
+        cashingVector3 = this.transform.position;
         isMove = true;
         PI = Mathf.PI;  
     }
     private void Start()
     {
-        guider = this.transform.parent.GetComponent<PlayerSwap>().Guider;
+        guider = this.transform.parent.GetComponent<PlayerManager>().Guider;
         guiderMove = guider.GetComponent<PlayerMove>();
         this.transform.position = guiderMove.AttackTargetPoint;
         rotateAnglePerFrame = 0;
@@ -64,7 +69,6 @@ public class AttackDirectional : MonoBehaviour
 
     private void Update()
     {
-        targetobj.transform.position = target;
         distance = Vector2.Distance(target, this.transform.position);
         // 방향 지시기 이동할 최종 각도 계산
         target = guiderMove.AttackTargetPoint;
@@ -94,12 +98,24 @@ public class AttackDirectional : MonoBehaviour
                 {
                     rotateAnglePerFrame = -0.175f;
                 }
-                directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
-                directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
+                if (!Input.GetKey(KeyCode.Z))
+                {
+                    directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
+                    directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
+                }
+                
             }
         }
         directionalVector2 = directionalVector2.normalized * 2.0f;
-        this.transform.position = new Vector3(directionalVector2.x + guider.transform.position.x, directionalVector2.y + guider.transform.position.y, 0);
-        this.transform.eulerAngles = new Vector3(0, 0, (playerToObjAngle) * (180.0f) / MathF.PI - 90);
+        cashingVector3.x = directionalVector2.x + guider.transform.position.x;
+        cashingVector3.y = directionalVector2.y + guider.transform.position.y;
+        cashingVector3.z = 0;
+
+        this.transform.position = cashingVector3;
+
+        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI - 90;
+
+        this.transform.eulerAngles = cashingVector3;
+        
     }
 }

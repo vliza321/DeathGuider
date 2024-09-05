@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7657921244377067819}
   - component: {fileID: 5671460441188048800}
   - component: {fileID: 7743492814158391574}
+  - component: {fileID: 7453007983137368472}
   m_Layer: 3
   m_Name: TempMonster
   m_TagString: Monster
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7743492814158391579}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -77,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4277902748168651463, guid: 2308708d607ca6a409978619b90f1935, type: 3}
+  m_Sprite: {fileID: -7753558315895064511, guid: fbd7c42de0697104a91c03e3360592a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.28}
+  m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -122,8 +123,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.02738524, y: 0.004123807}
-  m_Size: {x: 0.3590096, y: 0.9991805}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.16, y: 0.64}
   m_Direction: 0
 --- !u!114 &5671460441188048800
 MonoBehaviour:
@@ -137,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc03c7fc0192cb42927b980e2f1bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
+  experiencePoints: 10
 --- !u!114 &7743492814158391574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +152,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54ed9b82e93c9c845934e5ee2773092b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  MonsterObject: {fileID: 0}
-  Guider: {fileID: 0}
+  monsterObject: {fileID: 0}
+  guider: {fileID: 0}
+--- !u!95 &7453007983137368472
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743492814158391579}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b1f049fd82c6dbf4ea30d3bf148ea7fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -77,13 +77,13 @@ public class DirectionalSign : MonoBehaviour
     void FixedUpdate()
     {
         screenDiagonalAngle = MathF.Atan2(Screen.height, Screen.width);
-        playerToObj = new Vector2(targetObj.position.x - player.position.x, targetObj.position.y - player.position.y);
+        playerToObj.x = (targetObj.position.x - player.position.x);
+        playerToObj.y = (targetObj.position.y - player.position.y);
         playerToObjAngle = MathF.Atan2(playerToObj.y, playerToObj.x);// * 180.0f / MathF.PI;// + 180.0f;
         absAngle = MathF.Abs(playerToObjAngle); 
         // 화면 밖에 있을때 예외 처리
         if(MathF.Abs(playerToObj.x) > MathF.Abs(Screen.width/200+0.64f) || MathF.Abs(playerToObj.y) > MathF.Abs(Screen.height/200+0.64f)) // 가로가 화면 밖에 있을때
         {
-            
             this.transform.eulerAngles = new Vector3(0, 0, -90 + (playerToObjAngle) * (180.0f) / MathF.PI);
 
             if(absAngle < screenDiagonalAngle)

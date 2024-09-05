@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Vector3 playerVelocityVector;
     private Vector3 playerLocalScale;
-    private int canmove;
+    private bool canMove;
     [SerializeField]
     private float moveSpeed; // 추후 관련 스탯 처리 스크립트 만든 후 수정
     [SerializeField]
@@ -20,6 +20,14 @@ public class PlayerMove : MonoBehaviour
     private Vector3 attackTargetVector;
     [SerializeField]
     private AttackDirectional attackDirectional;
+
+    private Animator bodyAnimation;
+    private Animator headAnimation;
+    private CameraManager camera;
+    public CameraManager Camera
+    {
+        set { camera = value; }
+    }
     public Vector3 AttackTargetPoint
     {
         get { return attackTargetPoint; }
@@ -55,11 +63,10 @@ public class PlayerMove : MonoBehaviour
     }
     private void Awake()
     {
-        attackDirectional = this.transform.parent.GetChild(1).gameObject.GetComponent<AttackDirectional>();
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;
-        canmove = 1;
+        canMove = true;
         playerVelocityVector.x = -1;
         playerVelocityVector.y = 0;
         attackTargetVector.x = -1;
@@ -69,14 +76,15 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-
+        headAnimation = this.transform.GetChild(0).GetComponent<Animator>();
+        bodyAnimation = this.transform.GetChild(1).GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.GetComponent<PlayerState>().CanMove) canmove = 1;
-        else canmove = 0;
+        if (this.gameObject.GetComponent<PlayerState>().CanMove) canMove = true;
+        else canMove = false;
         playerVelocityVector.x = Input.GetAxisRaw("Horizontal");
         playerVelocityVector.y = Input.GetAxisRaw("Vertical");
         if(Input.GetAxisRaw("Horizontal")!=0)
@@ -87,6 +95,13 @@ public class PlayerMove : MonoBehaviour
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             attackTargetVector = playerVelocityVector.normalized;
+            headAnimation.SetBool("isMove",true);
+            bodyAnimation.SetBool("isMove", true);
+        }
+        else
+        {
+            headAnimation.SetBool("isMove", false);
+            bodyAnimation.SetBool("isMove", false);
         }
         attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.0f;
         if(Input.GetAxisRaw("AttackDirectionalBind") > 0)

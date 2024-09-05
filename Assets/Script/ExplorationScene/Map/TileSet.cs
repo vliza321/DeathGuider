@@ -49,19 +49,13 @@ public class TileSet : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void ChangeTile(int a, int b)
     {
         tile[Mathf.Abs((int)(TileSpriteImageStorages.randConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.randConst.y) * (absRow%4)) % 100].GetComponent<SpriteRenderer>().sprite
            = TileSpriteImageStorages.BaseTileSpriteImage;
         absRow += a;
         absColumn += b;
-        tile[Mathf.Abs((int)(TileSpriteImageStorages.randConst.x) * (absColumn%4) - (int)(TileSpriteImageStorages.randConst.y) * (absRow % 4)) % 100].GetComponent<SpriteRenderer>().sprite
-           = TileSpriteImageStorages.TileSpriteImage[Mathf.Abs((int)(TileSpriteImageStorages.renderRandConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.renderRandConst.y) * (absRow % 4)) % 8];
+        /*tile[Mathf.Abs((int)(TileSpriteImageStorages.randConst.x) * (absColumn%4) - (int)(TileSpriteImageStorages.randConst.y) * (absRow % 4)) % 100].GetComponent<SpriteRenderer>().sprite
+           = TileSpriteImageStorages.TileSpriteImage[Mathf.Abs((int)(TileSpriteImageStorages.renderRandConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.renderRandConst.y) * (absRow % 4)) % 8];*/
     }
 }

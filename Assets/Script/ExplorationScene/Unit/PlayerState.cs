@@ -8,6 +8,26 @@ public class PlayerState : MonoBehaviour
     private bool canMove; // 움직이는지 멈췄는지만
     private int dontMoveTimer;
     // Start is called before the first frame update
+    private int experiencePoints = 0;
+    private int level = 1;
+    private int experienceToNextLevel = 100;
+
+    public int ExperiencePoints // 현재 경험치 읽기
+    {
+        get { return experiencePoints; }
+        private set
+        {
+            experiencePoints = value;
+            CheckLevelUp();
+        }
+    }
+
+    public int Level //레벨 읽기
+    {
+        get { return level; }
+        private set { level = value; }
+    }
+
     public bool CanMove
     {
         get { return canMove; }
@@ -48,4 +68,28 @@ public class PlayerState : MonoBehaviour
         dontMoveTimer = dontmovetimer;
         canMove = false;
     }
+
+    public void AddExperience(int amount) // 경험치를 추가하고 레벨업 여부를 체크
+    {
+        ExperiencePoints += amount; 
+    }
+
+    private void CheckLevelUp() //레벨업 확인 후 처리
+    {
+        while (experiencePoints >= experienceToNextLevel)
+        {
+            experiencePoints -= experienceToNextLevel;
+            LevelUp();
+        }
+    }
+    private void LevelUp() 
+    {
+        level++;
+        experienceToNextLevel = Mathf.RoundToInt(experienceToNextLevel * 1.2f); // 다음 레벨업에 필요한 경험치 증가
+        // 추후 레벨업 시 추가 기능(능력치 증가 등) 구현자리
+        Debug.Log("Level Up! New Level: " + level);
+    }
 }
+
+    
+

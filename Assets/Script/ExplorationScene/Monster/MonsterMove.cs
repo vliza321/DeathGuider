@@ -4,111 +4,132 @@ using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
 {
-    [SerializeField]   
-    private GameObject Player;
+  
+    private GameObject player;
     [SerializeField]
-    private GameObject MonsterObject;
-    private Vector2 MonsterLocalScale;
-    private Vector2 MonsterVelocityVector;
-    public Vector2 monsterVelocityVector
+    private Transform monsterObject;
+    private Vector2 monsterLocalScale;
+    private Vector2 monsterVelocityVector;
+    private float signX;
+    private float signY;
+    private SpriteRenderer monsterSpriteRender;
+    public Vector2 MonsterVelocityVector
     {
-        get { return MonsterVelocityVector; } set { MonsterVelocityVector = value; }
+        get { return monsterVelocityVector; } set { monsterVelocityVector = value; }
     }
 
-    private float MoveSpeeds;
+    private float moveSpeeds;
 
-    private float Distance;
-    public float distance
+    private float distance;
+    public float Distance
     {
-        get { return Distance; }
-        set { Distance = value; }
+        get { return distance; }
+        set { distance = value; }
     }
     private Vector3 playerPos;
+
+    public GameObject Player
+    {
+        get { return player; }
+        set { player = value; }
+    }
     [SerializeField]
-    private GameObject Guider;
-    public GameObject guider
+    private GameObject guider;
+    public GameObject Guider
     {
-        get { return Guider; }
-        set { Guider = value; } 
+        get { return guider; }
+        set { guider = value; } 
     }
 
-    private bool IsKnockBack;
-    public bool isKnockBack
+    private bool isKnockBack;
+    public bool IsKnockBack
     {
-        get { return IsKnockBack; }
-        set { IsKnockBack = value; }
+        get { return isKnockBack; }
+        set { isKnockBack = value; }
     }
 
-    private int KnockBackTimer;
-    public int knockBackTimer
+    private int knockBackTimer;
+    public int KnockBackTimer
     {
-        get { return KnockBackTimer; }
-        set { KnockBackTimer = value; }
+        get { return knockBackTimer; }
+        set { knockBackTimer = value; }
     }
 
     private float guiderMoveSpeed;
     // Start is called before the first frame update
     private void Awake()
     {
-        MonsterObject = this.gameObject;
-        MonsterVelocityVector = new Vector2(0, 0);
+        signX = 0;
+        signY = 0;
+        monsterObject = this.transform;
+        monsterVelocityVector = new Vector2(0, 0);
+        monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
     }
     void Start()
     {
-        Player = this.transform.parent.GetComponent<MonsterSpawn>().Player;
-        Guider = Player.transform.GetChild(0).gameObject;
-        MoveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
-        playerPos = Guider.transform.position;
-        IsKnockBack = false;
-        KnockBackTimer = 10;
-        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().MoveSpeed;
+        Debug.Log("monsterStart");
+        player = this.transform.parent.GetComponent<MonsterManager>().Player;
+        guider = player.transform.GetChild(0).gameObject;
+        moveSpeeds = guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
+        playerPos = guider.transform.position;
+        isKnockBack = false;
+        knockBackTimer = 10;
+        guiderMoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
+        if (Random.Range(0, 2) == 1) signX = 1;
+        else signX = -1;
+        if (Random.Range(0, 2) == 1) signY = 1;
+        else signY = -1;
+        this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (IsKnockBack)
+        switch (isKnockBack)
         {
             case true: 
-                KnockBackTimer--;
-                if(KnockBackTimer < 1)
+                knockBackTimer--;
+                if(knockBackTimer < 1)
                 {
-                    IsKnockBack = false;
-                    KnockBackTimer = 10;
+                    isKnockBack = false;
+                    knockBackTimer = 10;
                 }
 
                 break;
             case false:
                 //guider = Player.GetComponent<PlayerSwap>().Guider;
-                playerPos = Guider.transform.position;
-                MonsterLocalScale = MonsterObject.transform.position;
-                Distance = Vector3.Distance(Guider.transform.position, MonsterLocalScale);
-                MonsterVelocityVector.x = MonsterObject.transform.position.x - Guider.transform.position.x;
-                MonsterVelocityVector.y = MonsterObject.transform.position.y - Guider.transform.position.y;
+                playerPos = guider.transform.position;
+                monsterLocalScale = monsterObject.position;
+                distance = Vector3.Distance(guider.transform.position, monsterLocalScale);
+                monsterVelocityVector.x = monsterObject.position.x - guider.transform.position.x;
+                monsterVelocityVector.y = monsterObject.position.y - guider.transform.position.y;
 
-                if (Distance < 0.5f) { MoveSpeeds = 0.10f; }
-                if ((Distance < 12.0f) && (Distance >= 0.5f))
+                if (distance < 0.5f) { moveSpeeds = 0.10f; }
+                if ((distance < 12.0f) && (distance >= 0.5f))
                 {
-                    MoveSpeeds = guiderMoveSpeed / 2.0f + 0.5f;
+                    moveSpeeds = guiderMoveSpeed / 2.0f + 0.5f;
                 }
-                if (Distance >= 12.0f) { MoveSpeeds = guiderMoveSpeed / 5.0f + 0.1f; }
+                if (distance >= 12.0f) { moveSpeeds = guiderMoveSpeed / 5.0f + 0.1f; }
                 break;
         }
     }
 
     private void FixedUpdate()
     {
-        float signX;
-        float signY;
-        if (Random.Range(0, 2) == 1) signX = 1;
-        else signX = -1;
-        if (Random.Range(0, 2) == 1) signY = 1;
-        else signY = -1;
-        if (Distance > 30.0f) { this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);  }
+        if (distance > 30.0f) {
+            if (Random.Range(0, 2) == 1) signX = 1;
+            else signX = -1;
+            if (Random.Range(0, 2) == 1) signY = 1;
+            else signY = -1;
+            this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z); 
+        }
         
-        MonsterVelocityVector = MonsterVelocityVector.normalized * MoveSpeeds * Time.fixedDeltaTime * (Mathf.Log10(KnockBackTimer));
+        monsterVelocityVector = monsterVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime * (Mathf.Log10(knockBackTimer));
 
-        MonsterObject.transform.position = new Vector2(MonsterObject.transform.position.x - MonsterVelocityVector.x, MonsterObject.transform.position.y - MonsterVelocityVector.y);
+        //MonsterObject.transform.position = new Vector2(MonsterObject.transform.position.x - monsterVelocityVector.x, MonsterObject.transform.position.y - monsterVelocityVector.y);
+        this.transform.Translate(-monsterVelocityVector.x, -monsterVelocityVector.y, 0);
 
+        if (monsterVelocityVector.x > 0) monsterSpriteRender.flipX = false;
+        else monsterSpriteRender.flipX = true;
     }
 }
