@@ -6,14 +6,26 @@ public class PlayerManager : MonoBehaviour
 {
     private FollowerManager followerManager;
     private CameraManager cameraManager;
-    private GameObject monsterSpawnManager;
+    private GameObject monsterManager;
 
     private GameObject guider;
     private GameObject swapedObject;
     private TreasureBoxEscapeStairManager treasureBoxEscapeStairManager;
     private AttackDirectional attackDirectional;
+    public AttackDirectional AttackDirectional
+    {
+        get { return attackDirectional; }
+        set { attackDirectional = value; }
+    }
     [SerializeField]
     private int playerUnitCounter;
+
+    private GameObject weaponEffectPool;
+
+    public GameObject WeaponEffectPool
+    {
+        get { return weaponEffectPool; }
+    }
     public GameObject Guider
     {
         get
@@ -23,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void Awake()
     {
+        weaponEffectPool = this.transform.GetChild(this.transform.childCount - 1).gameObject;
         attackDirectional = this.transform.GetChild(1).gameObject.GetComponent<AttackDirectional>();
         guider = this.transform.GetChild(0).gameObject;
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
@@ -34,7 +47,7 @@ public class PlayerManager : MonoBehaviour
             }
             if(manager.name == "MonsterSpawnManager")
             {
-                monsterSpawnManager = manager.transform.gameObject;
+                monsterManager = manager.transform.gameObject;
             }
             if(manager.name == "CameraManager")
             {
@@ -48,11 +61,13 @@ public class PlayerManager : MonoBehaviour
 
         Manager = null;
 
-        followerManager.PlayerManager = this.gameObject;
-        guider.GetComponent<FollowerMove>().enabled = false;
+        followerManager.PlayerManager = this;
+        followerManager.MatchingAttactDirection(attackDirectional);
+        guider.GetComponent<PlayerMove>().AttactDirectional = attackDirectional;
         swapedObject = followerManager.transform.GetChild(0).gameObject;
         cameraManager.Guider = guider;
         guider.GetComponent<PlayerMove>().Camera = cameraManager;
+        guider.GetComponent<FollowerMove>().enabled = false;
         playerUnitCounter = 1;
     }
 
@@ -78,7 +93,7 @@ public class PlayerManager : MonoBehaviour
         swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
 
         //매니저들에서 가지고 있는 가이더 정보 변경
-        monsterSpawnManager.GetComponent<MonsterManager>().PlayerSwap(swapedObject);
+        monsterManager.GetComponent<MonsterManager>().PlayerSwap(swapedObject);
         followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional);
         cameraManager.Guider = swapedObject;
         treasureBoxEscapeStairManager.player = swapedObject;
@@ -91,10 +106,10 @@ public class PlayerManager : MonoBehaviour
         //MonsterKnockBack();
         if(playerUnitCounter == 0) attackDirectional.gameObject.SetActive(false);
     }
-
+    /*
     void MonsterKnockBack()
     {
-        MonsterManager ms = monsterSpawnManager.GetComponent<MonsterManager>();
+        MonsterManager ms = monsterManager.GetComponent<MonsterManager>();
         for (int i =0; i < ms.EnabledMonster;i++)
         {
             if (ms.Monster[i].GetComponent<MonsterMove>().Distance < 9.0f)
@@ -104,5 +119,5 @@ public class PlayerManager : MonoBehaviour
                 ms.Monster[i].GetComponent<MonsterMove>().MonsterVelocityVector *= -2;
             }
         }
-    }
+    }*/
 }

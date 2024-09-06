@@ -63,7 +63,6 @@ public class PlayerMove : MonoBehaviour
     }
     private void Awake()
     {
-        attackDirectional = this.transform.parent.GetChild(1).gameObject.GetComponent<AttackDirectional>();
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;
