@@ -48,7 +48,7 @@ public class FollowerManager : MonoBehaviour
 
     public void MatchingAttactDirection(AttackDirectional attackDirectional)
     {
-        Debug.Log(attackDirectional.gameObject.name);
+        
         AttackDirectional = attackDirectional;
         followerCounter = this.transform.childCount-1;
         follower = new GameObject[followerCounter];

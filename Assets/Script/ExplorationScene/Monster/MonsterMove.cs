@@ -65,6 +65,11 @@ public class MonsterMove : MonoBehaviour
         monsterObject = this.transform;
         monsterVelocityVector = new Vector2(0, 0);
         monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
+        if (Random.Range(0, 2) == 1) signX = 1;
+        else signX = -1;
+        if (Random.Range(0, 2) == 1) signY = 1;
+        else signY = -1;
+        this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);
     }
     void Start()
     {
@@ -75,11 +80,6 @@ public class MonsterMove : MonoBehaviour
         isKnockBack = false;
         knockBackTimer = 10;
         guiderMoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
-        if (Random.Range(0, 2) == 1) signX = 1;
-        else signX = -1;
-        if (Random.Range(0, 2) == 1) signY = 1;
-        else signY = -1;
-        this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);
     }
 
     // Update is called once per frame

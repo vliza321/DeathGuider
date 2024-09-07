@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 public class PlayerMove : MonoBehaviour
 {
     // Start is called before the first frame update
+    private delegate void AnimGet();
+    AnimGet animGet;
 
     private GameObject player;
     [SerializeField]
@@ -61,8 +63,36 @@ public class PlayerMove : MonoBehaviour
         get { return attackDirectional; }
         set { attackDirectional = value; }
     }
+    private void PlayHeadAnim()
+    {
+        headAnimation.SetBool("isMove", true);
+    }
+    private void PlayBodyAnim()
+    {
+        bodyAnimation.SetBool("isMove", true);
+    }
+
+    private void PauseHeadAnim()
+    {
+        headAnimation.SetBool("isMove", false);
+    }
+    private void PauseBodyAnim()
+    {
+        bodyAnimation.SetBool("isMove", false);
+    }
+
+    private AnimGet playHeadAnim;
+    private AnimGet playBodyAnim;
+    private AnimGet pauseHeadAnim;
+    private AnimGet pauseBodyAnim;
+
     private void Awake()
     {
+        playHeadAnim = new AnimGet(PlayHeadAnim);
+        playBodyAnim = new AnimGet(PlayBodyAnim); 
+        pauseHeadAnim = new AnimGet(PauseHeadAnim); 
+        pauseBodyAnim = new AnimGet(PauseBodyAnim); 
+
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;
@@ -74,10 +104,13 @@ public class PlayerMove : MonoBehaviour
         attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 2.0f;
     }
 
+
+
     void Start()
     {
         headAnimation = this.transform.GetChild(0).GetComponent<Animator>();
         bodyAnimation = this.transform.GetChild(1).GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -95,13 +128,17 @@ public class PlayerMove : MonoBehaviour
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             attackTargetVector = playerVelocityVector.normalized;
-            headAnimation.SetBool("isMove",true);
-            bodyAnimation.SetBool("isMove", true);
+            animGet += playHeadAnim;
+            animGet += playBodyAnim;
+            /*headAnimation.SetBool("isMove",true);
+            bodyAnimation.SetBool("isMove", true);*/
         }
         else
         {
-            headAnimation.SetBool("isMove", false);
-            bodyAnimation.SetBool("isMove", false);
+            animGet += pauseHeadAnim;
+            animGet += pauseBodyAnim;
+            /*headAnimation.SetBool("isMove", false);
+            bodyAnimation.SetBool("isMove", false);*/
         }
         attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.0f;
         if(Input.GetAxisRaw("AttackDirectionalBind") > 0)
@@ -112,6 +149,7 @@ public class PlayerMove : MonoBehaviour
         {
             attackDirectional.IsMove = true;
         }
+        animGet();
     }
 
     private void FixedUpdate()
