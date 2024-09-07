@@ -55,9 +55,12 @@ public class MonsterManager : MonoBehaviour
     }
     private Vector3 currentPos;
     private int spawnLevel;
+
+    private bool playerEscape;
     // Start is called before the first frame update
     void Awake()
     {
+        playerEscape = false;
         monster = new MonsterMove[this.transform.childCount];
         monsterSpawnPool = new ObjectPool(monsterPrefab,maxMonster);
         monsterRespawnPool = new ObjectPool(maxMonster);
@@ -87,7 +90,7 @@ public class MonsterManager : MonoBehaviour
         {
             monsterSpawnTimer[i] = 1500;
         }
-        monsterSpawnTimer[0] = 10;
+        monsterSpawnTimer[0] = 500;
     }
     
     void Start()
@@ -118,12 +121,19 @@ public class MonsterManager : MonoBehaviour
         
     }
     // Update is called once per frame
-
+    public void PlayerEscape()
+    {
+        playerEscape = true;
+        foreach(var m in monster)
+        {
+            m.GetComponent<MonsterState>().CanMove = false;
+        }
+    }
     private void Update()
     {
         GameObject newMonster;
         // 몬스터 리스폰 처리
-        if (monsterRespawnTimer > 0)
+        if (monsterRespawnTimer > 0 && !playerEscape)
         {
             monsterRespawnTimer--;
         }
@@ -260,7 +270,7 @@ public class MonsterManager : MonoBehaviour
         {
             if (spawnTimerCanDoWork[i] == false || monsterSpawnPool.PoolQueue.Count == 0) break;
 
-            if (monsterSpawnTimer[i] > 0) monsterSpawnTimer[i]--;
+            if (monsterSpawnTimer[i] > 0 && !playerEscape) monsterSpawnTimer[i]--;
 
             if (monsterSpawnTimer[i] <= 0 && enabledMonster < MaxMonster)
             {

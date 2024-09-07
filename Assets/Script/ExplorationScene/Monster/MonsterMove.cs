@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
 {
-  
+    private MonsterState monsterState;
     private GameObject player;
     [SerializeField]
     private Transform monsterObject;
@@ -59,6 +59,7 @@ public class MonsterMove : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        monsterState = this.gameObject.GetComponent<MonsterState>();
         signX = 0;
         signY = 0;
         monsterObject = this.transform;
@@ -67,7 +68,6 @@ public class MonsterMove : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log("monsterStart");
         player = this.transform.parent.GetComponent<MonsterManager>().Player;
         guider = player.transform.GetChild(0).gameObject;
         moveSpeeds = guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
@@ -127,7 +127,7 @@ public class MonsterMove : MonoBehaviour
         monsterVelocityVector = monsterVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime * (Mathf.Log10(knockBackTimer));
 
         //MonsterObject.transform.position = new Vector2(MonsterObject.transform.position.x - monsterVelocityVector.x, MonsterObject.transform.position.y - monsterVelocityVector.y);
-        this.transform.Translate(-monsterVelocityVector.x, -monsterVelocityVector.y, 0);
+        if(monsterState.CanMove == true) this.transform.Translate(-monsterVelocityVector.x, -monsterVelocityVector.y, 0);
 
         if (monsterVelocityVector.x > 0) monsterSpriteRender.flipX = false;
         else monsterSpriteRender.flipX = true;

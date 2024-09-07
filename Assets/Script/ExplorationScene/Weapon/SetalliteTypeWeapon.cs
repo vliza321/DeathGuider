@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class SetalliteTypeWeapon : MonoBehaviour
 {
-
+    [SerializeField]
     private float playerToObjAngle;
+    public float debugAngle;
 
     private float PI;
 
@@ -34,7 +35,8 @@ public class SetalliteTypeWeapon : MonoBehaviour
     private void Update()
     {
         //playerToTargetAngle = (Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x) + 2 * PI) % (2 * PI);
-        playerToObjAngle = (Mathf.Atan2(this.gameObject.transform.position.y, this.gameObject.transform.position.x) + 2 * PI) % (2 * PI);
+        playerToObjAngle = (Mathf.Atan2(baseParent.position.y - this.gameObject.transform.position.y, baseParent.position.x - this.gameObject.transform.position.x)  + 2 * PI) % (2 * PI);
+        debugAngle = playerToObjAngle * 180 / PI;
         //방향 지시기가 이동해야할 최종 각도
     }
 
@@ -47,7 +49,7 @@ public class SetalliteTypeWeapon : MonoBehaviour
 
         this.transform.position = directionalVector + baseParent.position;
 
-        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI ;
+        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI - 45;
 
         this.transform.eulerAngles = cashingVector3;
 
