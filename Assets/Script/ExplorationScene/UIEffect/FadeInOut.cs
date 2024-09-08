@@ -12,15 +12,16 @@ public class FadeInOut : MonoBehaviour
 
     private IEnumerator m_FadeOut;
     private IEnumerator m_FadeIn;
+    private Vector2 screenSize;
 
     // Start is called before the first frame update
     void Start()
     {
+        screenSize = new Vector2(Screen.width, Screen.height);
         alpha = 0.01f;
         vectorAlpha = 0.01f;
         m_FadeOut = FadeOut();
         m_FadeIn = FadeIn();
-        this.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
         StartFadeIn();
     }
 
@@ -47,6 +48,9 @@ public class FadeInOut : MonoBehaviour
         alpha = 0.01f;
         while (alpha < 1)
         {
+            screenSize.x = Screen.width;
+            screenSize.y = Screen.height;
+            this.GetComponent<RectTransform>().sizeDelta = screenSize;
             this.gameObject.GetComponent<Image>().color = Color.Lerp(Color.clear, Color.black, alpha);
             alpha += vectorAlpha;
             yield return new WaitForSeconds(vectorAlpha);
@@ -61,6 +65,9 @@ public class FadeInOut : MonoBehaviour
         alpha = 0.01f;
         while(alpha < 1)
         {
+            screenSize.x = Screen.width;
+            screenSize.y = Screen.height;
+            this.GetComponent<RectTransform>().sizeDelta = screenSize;
             this.gameObject.GetComponent<Image>().color = Color.Lerp(Color.black, Color.clear, alpha);
             alpha += vectorAlpha;
             yield return new WaitForSeconds(vectorAlpha);

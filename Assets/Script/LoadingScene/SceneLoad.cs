@@ -12,10 +12,10 @@ public class SceneLoad : MonoBehaviour
     {
         StartCoroutine(LoadScene());
     }
-        IEnumerator LoadScene()
+    IEnumerator LoadScene()
     {
         yield return null;
-        AsyncOperation operation = SceneManager.LoadSceneAsync("Main");
+        AsyncOperation operation = SceneManager.LoadSceneAsync("FieldExploration");
         operation.allowSceneActivation = false;
 
         while (!operation.isDone)
@@ -24,7 +24,8 @@ public class SceneLoad : MonoBehaviour
             if (progressbar.value < 0.9f)
             {
                 progressbar.value = Mathf.MoveTowards(progressbar.value, 0.9f, Time.deltaTime);
-            }else if(operation.progress >= 0.9f)
+            }
+            else if(operation.progress >= 0.9f)
             {
                 progressbar.value = Mathf.MoveTowards(progressbar.value, 1f, Time.deltaTime);
             }
