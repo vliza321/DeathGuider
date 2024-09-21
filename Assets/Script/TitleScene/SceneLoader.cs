@@ -15,7 +15,7 @@ public class SceneLoader : MonoBehaviour
     {
         StartCoroutine(LoadScene());
     }
-    public static void LoadSceneHandle(string _name, int _loadType)// ╥н╣Ыгр ╬ююг юл╦╖╟З ╩У╟тюсюнаЖ юл╬НграЖ╦╕ а╓го╢б е╦ют
+    public static void LoadSceneHandle(string _name, int _loadType)// О©╫н╣О©╫О©╫О©╫ О©╫О©╫О©╫О©╫ О©╫л╦О©╫О©╫О©╫ О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫л╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫О©╫о╢О©╫ е╦О©╫О©╫
     {
         loadScene = _name;
         loadType = _loadType;
@@ -41,9 +41,9 @@ public class SceneLoader : MonoBehaviour
             yield return null;
 
             if (loadType == 0)
-                Debug.Log("╩У ╟тюс");
+                Debug.Log("О©╫О©╫ О©╫О©╫О©╫О©╫");
             else if (loadType == 1)
-                Debug.Log("го╢Ь ╟тюс");
+                Debug.Log("О©╫о╢О©╫ О©╫О©╫О©╫О©╫");
 
             if(progressbar.value < 0.9f)
             {
