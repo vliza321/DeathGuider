@@ -33,20 +33,7 @@ public class FollowerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< HEAD
         for (int i = 0; i < this.transform.childCount; i++)
-=======
-
-    }
-
-    public void MatchingAttactDirection(AttackDirectional attackDirectional)
-    {
-        
-        AttackDirectional = attackDirectional;
-        followerCounter = this.transform.childCount-1;
-        follower = new GameObject[followerCounter];
-        for (int i = 0; i < followerCounter; i++)
->>>>>>> 0db05417940d2f531057a0f210b383f268a77edd
         {
             follower[i].GetComponent<PlayerMove>().enabled = false;
             follower[i].GetComponent<FollowerMove>().enabled = true;

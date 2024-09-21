@@ -14,7 +14,6 @@ TagManager:
   - HP
   - Storage
   - Weapon
-  - UI
   layers:
   - Default
   - TransparentFX
