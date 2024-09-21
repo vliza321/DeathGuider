@@ -11,9 +11,9 @@ public class StoredPrisonerstat : MonoBehaviour
     public TextMeshProUGUI proficiencyText;
     public TextMeshProUGUI strengthText;
     public TextMeshProUGUI crimeText;
-    public Image head;
-    public Image body;
-
+    public TextMeshProUGUI erosionText;
+    public Image headImage;
+    public Image bodyImage;
 
     public string prisonerName;
     public int hp;
@@ -21,6 +21,18 @@ public class StoredPrisonerstat : MonoBehaviour
     public int strength;
     public string crime;
     public int erosion;
+
+    public void SetPrisonerData(string name, int hp, int proficiency, int strength, string crime, int erosion, Sprite headSprite, Sprite bodySprite)
+    {
+        nameText.text = name;
+        hpText.text = "HP: " + hp;
+        proficiencyText.text = "숙련도: " + proficiency;
+        strengthText.text = "근력: " + strength;
+        crimeText.text = "범죄: " + crime;
+        erosionText.text = "침식: " + erosion; // Erosion 업데이트
+        headImage.sprite = headSprite;
+        bodyImage.sprite = bodySprite;
+    }
 
     public void UpdateUI()
     {
