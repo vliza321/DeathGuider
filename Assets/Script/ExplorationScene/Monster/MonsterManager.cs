@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ������ �߻����
+
 public class MonsterManager : MonoBehaviour
 {
     
@@ -55,9 +55,20 @@ public class MonsterManager : MonoBehaviour
     }
     private Vector3 currentPos;
     private int spawnLevel;
+
+    private bool playerEscape;
+
+    private Vector2 screenSize;
     // Start is called before the first frame update
     void Awake()
     {
+<<<<<<< HEAD
+=======
+        screenSize.x = Screen.width;
+        screenSize.y = Screen.height;
+        playerEscape = false;
+        monster = new MonsterMove[this.transform.childCount];
+>>>>>>> 0db05417940d2f531057a0f210b383f268a77edd
         monsterSpawnPool = new ObjectPool(monsterPrefab,maxMonster);
         monsterRespawnPool = new ObjectPool(maxMonster);
 
@@ -86,7 +97,7 @@ public class MonsterManager : MonoBehaviour
         {
             monsterSpawnTimer[i] = 1500;
         }
-        monsterSpawnTimer[0] = 10;
+        monsterSpawnTimer[0] = 500;
     }
     
     void Start()
@@ -105,12 +116,19 @@ public class MonsterManager : MonoBehaviour
         guider = Guider;
     }
     // Update is called once per frame
-
+    public void PlayerEscape()
+    {
+        playerEscape = true;
+        foreach(var m in monster)
+        {
+            m.GetComponent<MonsterState>().CanMove = false;
+        }
+    }
     private void Update()
     {
         GameObject newMonster;
         // 몬스터 리스폰 처리
-        if (monsterRespawnTimer > 0)
+        if (monsterRespawnTimer > 0 && !playerEscape)
         {
             monsterRespawnTimer--;
         }
@@ -127,35 +145,47 @@ public class MonsterManager : MonoBehaviour
             {
                 newMonster = monsterRespawnPool.GetObject();
                 newMonster.GetComponent<MonsterState>().monsterSpawn(guider,monsterRespawnPool);
-                switch (Random.Range(0, 3))
+                switch (Random.Range(0, 4))
                 {
+                    default:
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) / 10.0f);
+                        currentPos.z = playerPos.z;
+                        newMonster.transform.position = currentPos;
+                        break;
                     case 0:
                         if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
                         {
                             signX *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
                             signY *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
-                            currentPos.x = playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f);
-                            currentPos.y = playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f);
+                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) / 10.0f);
+                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) / 10.0f);
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
                         }
                         else
                         {
-                            currentPos.x = playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f);
-                            currentPos.y = playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f);
+                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) / 10.0f);
+                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) / 10.0f);
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
                         }
                         break;
                     case 1:
-                        currentPos.x = playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f);
-                        currentPos.y = playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f);
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(10, 13) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) / 10.0f);
                         currentPos.z = playerPos.z;
                         newMonster.transform.position = currentPos;
                         break;
                     case 2:
-                        currentPos.x = playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f);
-                        currentPos.y = playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f);
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(10, 13) / 10.0f);
+                        currentPos.z = playerPos.z;
+                        newMonster.transform.position = currentPos;
+                        break;
+                    case 3:
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) / 10.0f);
                         currentPos.z = playerPos.z;
                         newMonster.transform.position = currentPos;
                         break;
@@ -247,7 +277,7 @@ public class MonsterManager : MonoBehaviour
         {
             if (spawnTimerCanDoWork[i] == false || monsterSpawnPool.PoolQueue.Count == 0) break;
 
-            if (monsterSpawnTimer[i] > 0) monsterSpawnTimer[i]--;
+            if (monsterSpawnTimer[i] > 0 && !playerEscape) monsterSpawnTimer[i]--;
 
             if (monsterSpawnTimer[i] <= 0 && enabledMonster < MaxMonster)
             {
@@ -263,42 +293,51 @@ public class MonsterManager : MonoBehaviour
                 if (monsterSpawnPool.PoolQueue.Count == 0) break;
                 newMonster = monsterSpawnPool.GetObject();
                 newMonster.GetComponent<MonsterState>().monsterSpawn(player,monsterRespawnPool);
-                switch (Random.Range(0, 3))
+                switch (Random.Range(0, 4))
                 {
+                    default:
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) / 10.0f);
+                        currentPos.z = playerPos.z;
+                        newMonster.transform.position = currentPos;
+                        break;
                     case 0:
                         if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
                         {
                             signX *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
                             signY *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
-                            newMonster.transform.position = new Vector3(
-                                playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f),
-                                playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f),
-                                playerPos.z);
+                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) / 10.0f);
+                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) / 10.0f);
+                            currentPos.z = playerPos.z;
+                            newMonster.transform.position = currentPos;
                         }
                         else
                         {
-                            currentPos.x = playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f);
-                            currentPos.y = playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f);
+                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) / 10.0f);
+                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) / 10.0f);
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
                         }
                         break;
                     case 1:
-                        currentPos.x = playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f);
-                        currentPos.y = playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f);
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) / 10.0f);
                         currentPos.z = playerPos.z;
                         newMonster.transform.position = currentPos;
                         break;
                     case 2:
-                        currentPos.x = playerPos.x + signX * 12.8f * (Random.Range(13, 17) / 10.0f);
-                        currentPos.y = playerPos.y + signY * 12.8f * (Random.Range(10, 15) / 10.0f);
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) / 10.0f);
+                        currentPos.z = playerPos.z;
+                        newMonster.transform.position = currentPos;
+                        break;
+                    case 3:
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) / 10.0f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) / 10.0f);
                         currentPos.z = playerPos.z;
                         newMonster.transform.position = currentPos;
                         break;
                 }
-
-
-
             }
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
 {
-  
+    private MonsterState monsterState;
     private GameObject player;
     [SerializeField]
     private Transform monsterObject;
@@ -59,15 +59,20 @@ public class MonsterMove : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        monsterState = this.gameObject.GetComponent<MonsterState>();
         signX = 0;
         signY = 0;
         monsterObject = this.transform;
         monsterVelocityVector = new Vector2(0, 0);
         monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
+        if (Random.Range(0, 2) == 1) signX = 1;
+        else signX = -1;
+        if (Random.Range(0, 2) == 1) signY = 1;
+        else signY = -1;
+        this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);
     }
     void Start()
     {
-        Debug.Log("monsterStart");
         player = this.transform.parent.GetComponent<MonsterManager>().Player;
         guider = player.transform.GetChild(0).gameObject;
         moveSpeeds = guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
@@ -75,11 +80,6 @@ public class MonsterMove : MonoBehaviour
         isKnockBack = false;
         knockBackTimer = 10;
         guiderMoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
-        if (Random.Range(0, 2) == 1) signX = 1;
-        else signX = -1;
-        if (Random.Range(0, 2) == 1) signY = 1;
-        else signY = -1;
-        this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z);
     }
 
     // Update is called once per frame
@@ -127,7 +127,7 @@ public class MonsterMove : MonoBehaviour
         monsterVelocityVector = monsterVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime * (Mathf.Log10(knockBackTimer));
 
         //MonsterObject.transform.position = new Vector2(MonsterObject.transform.position.x - monsterVelocityVector.x, MonsterObject.transform.position.y - monsterVelocityVector.y);
-        this.transform.Translate(-monsterVelocityVector.x, -monsterVelocityVector.y, 0);
+        if(monsterState.CanMove == true) this.transform.Translate(-monsterVelocityVector.x, -monsterVelocityVector.y, 0);
 
         if (monsterVelocityVector.x > 0) monsterSpriteRender.flipX = false;
         else monsterSpriteRender.flipX = true;
