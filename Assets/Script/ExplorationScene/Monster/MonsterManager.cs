@@ -33,8 +33,8 @@ public class MonsterManager : MonoBehaviour
     {
         get { return enabledMonster; }
     }
-    private GameObject[] monster;
-    public GameObject[] Monster
+    private MonsterMove[] monster;
+    public MonsterMove[] Monster
     {
         get { return monster; }
         set { monster = value; }
@@ -58,6 +58,7 @@ public class MonsterManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        monster = new MonsterMove[this.transform.childCount];
         monsterSpawnPool = new ObjectPool(monsterPrefab,maxMonster);
         monsterRespawnPool = new ObjectPool(maxMonster);
 
@@ -98,11 +99,23 @@ public class MonsterManager : MonoBehaviour
         {
             monsterSpawnPool.ReturnObject(this.transform.GetChild(i).gameObject);
         }
+        for(int i = 0;i<this.transform.childCount;i++)
+        {
+            monster[i] = this.transform.GetChild(i).GetComponent<MonsterMove>() ;
+        }
     }
 
     public void PlayerSwap(GameObject Guider)
     {
         guider = Guider;
+        foreach(var m in monster)
+        {
+            if (m.gameObject.activeSelf == true)
+            {
+                m.Guider = Guider;
+            }
+        }
+        
     }
     // Update is called once per frame
 

@@ -12,34 +12,34 @@ public class FollowerMove : MonoBehaviour
     private float moveSpeeds;
     private float distance;
 
-    private Vector3 FrontguiderLocalscale;
+    private Vector3 frontguiderLocalscale;
     [SerializeField]
-    private GameObject FrontGuider;
+    private GameObject frontGuider;
     [SerializeField]
-    private GameObject Guider;
+    private GameObject guider;
 
     // Start is called before the first frame update
     void Start()
     {
-        Guider = this.transform.parent.GetComponent<FollowerManager>().PlayerManager.transform.GetChild(0).gameObject;
+        guider = this.transform.parent.GetComponent<FollowerManager>().PlayerManager.transform.GetChild(0).gameObject;
         Follower = this.gameObject;
         FollowerVelocityVector = new Vector2(0, 0);
        
-        moveSpeeds = Guider.GetComponent<PlayerMove>().MoveSpeed;
-        guiderMoveSpeed = Guider.GetComponent<PlayerMove>().MoveSpeed;
+        moveSpeeds = guider.GetComponent<PlayerMove>().MoveSpeed;
+        guiderMoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
 
-        FrontguiderLocalscale = FrontGuider.transform.localScale;
+        frontguiderLocalscale = frontGuider.transform.localScale;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        FrontguiderLocalscale = FrontGuider.transform.localScale;
+        frontguiderLocalscale = frontGuider.transform.localScale;
         FollowerLocalscale = Follower.transform.position;
-        distance = Vector3.Distance(FrontGuider.transform.position, FollowerLocalscale);
-        FollowerVelocityVector.x = Follower.transform.position.x - FrontGuider.transform.position.x;
-        FollowerVelocityVector.y = Follower.transform.position.y - FrontGuider.transform.position.y;
+        distance = Vector3.Distance(frontGuider.transform.position, FollowerLocalscale);
+        FollowerVelocityVector.x = Follower.transform.position.x - frontGuider.transform.position.x;
+        FollowerVelocityVector.y = Follower.transform.position.y - frontGuider.transform.position.y;
         if (distance < 00.1f) { moveSpeeds = 0.0f; }
         else if (distance < 0.940f)
         {
@@ -54,7 +54,7 @@ public class FollowerMove : MonoBehaviour
             moveSpeeds = guiderMoveSpeed + 0.50f;
         }
         else moveSpeeds = guiderMoveSpeed + 3.0f;
-        this.gameObject.transform.localScale = new Vector3(FrontguiderLocalscale.x, FrontguiderLocalscale.y, FrontguiderLocalscale.z);
+        this.gameObject.transform.localScale = new Vector3(frontguiderLocalscale.x, frontguiderLocalscale.y, frontguiderLocalscale.z);
 
     }
 
