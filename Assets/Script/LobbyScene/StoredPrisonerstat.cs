@@ -11,9 +11,12 @@ public class StoredPrisonerstat : MonoBehaviour
     public TextMeshProUGUI proficiencyText;
     public TextMeshProUGUI strengthText;
     public TextMeshProUGUI crimeText;
+<<<<<<< HEAD
     public TextMeshProUGUI erosionText;
     public Image headImage;
     public Image bodyImage;
+=======
+>>>>>>> parent of 1d91ec0 (Revert "TitleScene, Loading")
 
     public string prisonerName;
     public int hp;

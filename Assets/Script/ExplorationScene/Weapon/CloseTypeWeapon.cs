@@ -8,41 +8,20 @@ public class CloseTypeWeapon : MonoBehaviour
     private int baseCoolTime;
     private int coolTimer;
     private Animator effectAnim;
-    private PolygonCollider2D effectCollider;
+    private PolygonCollider2D effectcollider;
     [SerializeField]
     private AttackDirectional playerDirectional;
-
-    private Vector3 cashingVector;
-    public CloseTypeWeapon(int baseCoolTime)
-    {
-        this.baseCoolTime = baseCoolTime;
-    }
-
-    private Transform baseParent;
-    
-    public int BaseCoolTime
-    {
-        get { return baseCoolTime; }
-        set { baseCoolTime = value; }
-    }
-
     private void Awake()
     {
-        baseParent = this.transform.parent;
-        cashingVector = new Vector3(0,0,0);
         effectObject = this.gameObject;
         effectAnim = effectObject.GetComponent<Animator>();
-        effectCollider = effectObject.GetComponent<PolygonCollider2D>();
+        effectcollider = effectObject.GetComponent<PolygonCollider2D>();
+        playerDirectional = this.transform.parent.parent.parent.GetChild(1).gameObject.GetComponent<AttackDirectional>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        if (this.transform.parent.parent.CompareTag("follower"))
-        {
-            playerDirectional = this.transform.parent.parent.GetComponent<PlayerMove>().AttactDirectional;
-        }
-        else playerDirectional = this.transform.parent.parent.parent.GetChild(1).gameObject.GetComponent<AttackDirectional>();
-        baseCoolTime = 300; // -> 기본 쿨타임 set함수로 변경
+        baseCoolTime = 300;
         coolTimer = baseCoolTime;
     }
 
@@ -52,19 +31,16 @@ public class CloseTypeWeapon : MonoBehaviour
         coolTimer--;
         if(coolTimer <0)
         {
-            cashingVector = playerDirectional.transform.position;
+            this.transform.position = playerDirectional.transform.position;
             coolTimer = baseCoolTime;
             effectAnim.SetBool("isActive", true);
-            effectCollider.enabled = true;
-            effectAnim.transform.parent = this.transform.parent.parent.parent.GetChild(this.transform.parent.parent.parent.childCount - 1);
+            effectcollider.enabled = true;
         }
-        this.transform.position = cashingVector;
     }
 
     public void QuitAnim()
     {
         effectAnim.SetBool("isActive",false);
-        effectAnim.transform.parent = baseParent;
-        effectCollider.enabled = false;
+        effectcollider.enabled = false;
     }
 }

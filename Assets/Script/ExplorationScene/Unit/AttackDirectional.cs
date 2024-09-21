@@ -98,12 +98,8 @@ public class AttackDirectional : MonoBehaviour
                 {
                     rotateAnglePerFrame = -0.175f;
                 }
-                if (!Input.GetKey(KeyCode.Z))
-                {
-                    directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
-                    directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
-                }
-                
+                directionalVector2.x = directionalVector2.x * MathF.Cos(rotateAnglePerFrame) - directionalVector2.y * MathF.Sin(rotateAnglePerFrame);
+                directionalVector2.y = directionalVector2.x * MathF.Sin(rotateAnglePerFrame) + directionalVector2.y * MathF.Cos(rotateAnglePerFrame);
             }
         }
         directionalVector2 = directionalVector2.normalized * 2.0f;

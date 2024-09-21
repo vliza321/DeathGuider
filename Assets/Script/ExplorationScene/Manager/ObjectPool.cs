@@ -15,6 +15,7 @@ public class ObjectPool
     {
         this.prefab = prefab;
         poolQueue = new Queue<GameObject>();
+        Debug.Log("스폰 풀");
         /*
         for (int i = 0; i < MaxMonster; i++)
         {
@@ -31,6 +32,7 @@ public class ObjectPool
     public ObjectPool(int MaxMonster)
     {
         poolQueue = new Queue<GameObject>();
+        Debug.Log("리스폰 풀");
         /*
         for (int i = 0; i < MaxMonster; i++)
         {

@@ -5,20 +5,10 @@ public class Weapon
     protected int coolTime;
     private GameObject thisWeapon;
     protected Animator animator;
-
+    
     public virtual GameObject ThisWeapon
     {
         get { return thisWeapon; }
-    }
-
-    public Weapon(int damage)
-    {
-        this.damage = damage;
-    }
-    public Weapon(int damage, int coolTime)
-    {
-        this.damage = damage;
-        this.coolTime = coolTime;
     }
     public Weapon(int damage, int coolTime, Animator anim)
     {
@@ -27,7 +17,11 @@ public class Weapon
         this.animator = anim;
     }
 
-
+    public Weapon(int damage, int coolTime)
+    {
+        this.damage = damage;
+        this.coolTime = coolTime;
+    }
 
     ~Weapon()
     {

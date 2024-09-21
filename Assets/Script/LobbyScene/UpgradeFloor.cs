@@ -19,8 +19,8 @@ public class UpgradeFloor : MonoBehaviour
         float FloorHeight = rectTransform.rect.height;
 
         // Ãþ À§Ä¡ ¼³Á¤
-        rectTransform.anchoredPosition = new Vector2(0, floorCount * 224);
-        
+        rectTransform.anchoredPosition = new Vector2(0, floorCount * FloorHeight);
+
         // Ãþ ÀÌ¸§ ¼³Á¤
         newFloor.name = "Floor " + (floorCount + 1) + "Ãþ";
 
