@@ -148,12 +148,15 @@ MonoBehaviour:
   crimeText: {fileID: 5055345641956801403}
   head: {fileID: 650823919151192358}
   body: {fileID: 1508542148365120972}
-  prisonerName: 
-  hp: 0
-  proficiency: 0
-  strength: 0
-  crime: 
-  erosion: 0
+  prisoner:
+    name: 
+    hp: 0
+    proficiency: 0
+    strength: 0
+    crime: 
+    erosion: 0
+    head: {fileID: 0}
+    body: {fileID: 0}
 --- !u!1 &1414062280161597288
 GameObject:
   m_ObjectHideFlags: 0
