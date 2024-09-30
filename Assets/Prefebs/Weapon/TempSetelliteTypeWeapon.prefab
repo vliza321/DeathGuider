@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8607380337454595836}
   - component: {fileID: 8607380337454595839}
+  - component: {fileID: 75630697761367605}
   m_Layer: 10
   m_Name: TempSetelliteTypeWeapon
   m_TagString: Untagged
@@ -85,6 +86,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &75630697761367605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8607380337454595837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e893a4d88ae08747afe6fc7b0d614c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8607380338306538853
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,3 +227,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11a44f8ec8ccd344aee3f9534fa288a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerToObjAngle: 0
+  debugAngle: 0

@@ -15,6 +15,7 @@ TagManager:
   - Storage
   - Weapon
   - UI
+  - DDO
   layers:
   - Default
   - TransparentFX

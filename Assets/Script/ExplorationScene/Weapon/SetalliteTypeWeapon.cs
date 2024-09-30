@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class SetalliteTypeWeapon : MonoBehaviour
 {
+    private WeaponState setalliteTypeWeapon;
     [SerializeField]
     private float playerToObjAngle;
-    public float debugAngle;
+    [SerializeField]
+    private float debugAngle;
 
     private float PI;
 
@@ -18,16 +20,25 @@ public class SetalliteTypeWeapon : MonoBehaviour
     private Transform baseParent;
 
     private Vector3 cashingVector3;
+
     private void Awake()
     {
         baseParent = this.transform.parent;
         cashingVector3 = this.transform.position;
         PI = Mathf.PI;
+        directionalVector = new Vector3(0, 1, 0);
+    }
+
+    public void Init(Vector3 Initdirection)
+    {
+        baseParent = this.transform.parent;
+        cashingVector3 = this.transform.position;
+        PI = Mathf.PI;
+        directionalVector = Initdirection;
     }
     private void Start()
     {
         rotateAnglePerFrame = 0.01f;
-        directionalVector = new Vector3(0, 1, 0);
         rotateAngle = 0.05f;
         this.transform.parent = this.transform.parent.parent.parent.GetChild(this.transform.parent.parent.parent.childCount - 1);
     }
@@ -36,7 +47,7 @@ public class SetalliteTypeWeapon : MonoBehaviour
     {
         //playerToTargetAngle = (Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x) + 2 * PI) % (2 * PI);
         playerToObjAngle = (Mathf.Atan2(baseParent.position.y - this.gameObject.transform.position.y, baseParent.position.x - this.gameObject.transform.position.x)  + 2 * PI) % (2 * PI);
-        debugAngle = playerToObjAngle * 180 / PI;
+        //debugAngle = playerToObjAngle * 180 / PI;
         //방향 지시기가 이동해야할 최종 각도
     }
 
