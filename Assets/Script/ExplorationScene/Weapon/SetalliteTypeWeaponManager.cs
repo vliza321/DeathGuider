@@ -33,7 +33,7 @@ public class SetalliteTypeWeaponManager : MonoBehaviour
             cashingVector3.y = Mathf.Cos(AngleColculateFloat);
 
             instantiateSetallites.GetComponent<SetalliteTypeWeapon>().Init(cashingVector3);
-            Debug.Log(AngleColculateFloat * 180.0f / PI +" "+ cashingVector3.x +" "+ cashingVector3.y);
+            //Debug.Log(AngleColculateFloat * 180.0f / PI +" "+ cashingVector3.x +" "+ cashingVector3.y);
         }
     }
 }

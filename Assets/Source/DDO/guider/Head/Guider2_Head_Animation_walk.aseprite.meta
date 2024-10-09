@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e94193a60639da24c97b497c7528d554
+guid: 92545504c2601f740a07893982c0293e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,7 +93,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638640037193735238
+  platformSettingsDirtyTick: 638640042717303229
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -117,7 +117,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Guider2_Body_Animation_walk
+  - name: Guider2_Head_Animation_walk
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -128,7 +128,7 @@ ScriptedImporter:
       y: 4
       width: 258
       height: 130
-    spriteID: f1f84e765c23ef74aaa1a29c2398f392
+    spriteID: c827514e428b0be4597d30297a466575
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -138,7 +138,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
   spriteSheetImportData:
-  - name: Guider2_Body_Animation_walk_5
+  - name: Guider2_Head_Animation_walk_5
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -149,7 +149,7 @@ ScriptedImporter:
       y: 69
       width: 64
       height: 64
-    spriteID: 1077ca6bef7e53248ae6e05bdf025025
+    spriteID: 08916ed1a6e20854aa125da914326ea2
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -158,7 +158,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Guider2_Body_Animation_walk_6
+  - name: Guider2_Head_Animation_walk_6
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -169,7 +169,7 @@ ScriptedImporter:
       y: 69
       width: 64
       height: 64
-    spriteID: 8a0985ff01ce99643a91fb31e8c0d71d
+    spriteID: 9166f396aba94934599c8a8012b3bc3d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -178,7 +178,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Guider2_Body_Animation_walk_7
+  - name: Guider2_Head_Animation_walk_7
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -189,7 +189,7 @@ ScriptedImporter:
       y: 69
       width: 64
       height: 64
-    spriteID: 1c2e9805fcffd2341a3322410363eb0d
+    spriteID: 6e28ccf63a21ebd418e69d8ed2479259
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -198,7 +198,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Guider2_Body_Animation_walk_8
+  - name: Guider2_Head_Animation_walk_8
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -209,7 +209,7 @@ ScriptedImporter:
       y: 69
       width: 64
       height: 64
-    spriteID: f3da96e8942a5184a8a2ad203c33fef2
+    spriteID: 1a8c9a96a7d8a934d97ee8e562506157
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -218,7 +218,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Guider2_Body_Animation_walk_10
+  - name: Guider2_Head_Animation_walk_10
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -229,7 +229,7 @@ ScriptedImporter:
       y: 5
       width: 64
       height: 64
-    spriteID: 0a5a5b5828dee77468e4056e57b94ee4
+    spriteID: 9d6a12d2c5daf6648adb3aef633ea951
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -238,7 +238,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Guider2_Body_Animation_walk_11
+  - name: Guider2_Head_Animation_walk_11
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -249,7 +249,7 @@ ScriptedImporter:
       y: 5
       width: 64
       height: 64
-    spriteID: 88bca018c860e6047a497b43a3a3b5e7
+    spriteID: 77e000fbcb7311e4b992a23ba797da33
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -258,7 +258,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Guider2_Body_Animation_walk_12
+  - name: Guider2_Head_Animation_walk_12
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -269,7 +269,7 @@ ScriptedImporter:
       y: 5
       width: 64
       height: 64
-    spriteID: dba4c1f251e59b7499774f4ff0b45510
+    spriteID: 722f3aa5afd802b4a98ac4b8bcafe884
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -278,7 +278,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
-  - name: Guider2_Body_Animation_walk_13
+  - name: Guider2_Head_Animation_walk_13
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -289,7 +289,7 @@ ScriptedImporter:
       y: 5
       width: 64
       height: 64
-    spriteID: fabd8cd654a904f4cbdaba2a99f68297
+    spriteID: da3f899b1ac1edc49be29ebd318d0ca7
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -300,20 +300,20 @@ ScriptedImporter:
     uvTransform: {x: 0, y: 0}
   asepriteLayers:
   - layerIndex: 0
-    guid: 1629958626
-    name: Guider2_Body_Animation_walk
+    guid: 1982072392
+    name: Guider2_Head_Animation_walk
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Guider2_Body_Animation_walk
+    - name: Guider2_Head_Animation_walk
       frameIndex: 0
       cellRect:
         x: 0
         y: 0
         width: 258
         height: 130
-      spriteId: f1f84e765c23ef74aaa1a29c2398f392
+      spriteId: c827514e428b0be4597d30297a466575
     linkedCells: []
     parentIndex: -1
   platformSettings:
