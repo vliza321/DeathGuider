@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TerrainSpawner : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject[] terrain;
     // Start is called before the first frame update
     void Start()
     {
