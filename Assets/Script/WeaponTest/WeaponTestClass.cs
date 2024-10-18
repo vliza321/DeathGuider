@@ -1,5 +1,5 @@
 using UnityEngine;
-public class Weapon
+public class WeaponTestClass
 {
     protected int damage;
     protected int coolTime;
@@ -11,16 +11,16 @@ public class Weapon
         get { return thisWeapon; }
     }
 
-    public Weapon(int damage)
+    public WeaponTestClass(int damage)
     {
         this.damage = damage;
     }
-    public Weapon(int damage, int coolTime)
+    public WeaponTestClass(int damage, int coolTime)
     {
         this.damage = damage;
         this.coolTime = coolTime;
     }
-    public Weapon(int damage, int coolTime, Animator anim)
+    public WeaponTestClass(int damage, int coolTime, Animator anim)
     {
         this.damage = damage;
         this.coolTime = coolTime;
@@ -29,7 +29,7 @@ public class Weapon
 
 
 
-    ~Weapon()
+    ~WeaponTestClass()
     {
 
     }
@@ -38,7 +38,7 @@ public class Weapon
 /*
 ====================================== 근접형 무기 타입 ============================
 */
-public class CloseType : Weapon
+public class CloseType : WeaponTestClass
 {
     protected BoxCollider2D collider;
     public CloseType(int a, int b, Animator anim, BoxCollider2D collider) : base(a,b,anim)
@@ -83,7 +83,7 @@ public class Sword : CloseType
 /*
 ====================================== 발사형 무기 타입 ==============================
 */
-public class LaunchType  : Weapon
+public class LaunchType  : WeaponTestClass
 {
     protected GameObject bullet;
     public LaunchType(int a, int b,Animator anim, GameObject bullet) : base(a, b, anim)
@@ -123,7 +123,7 @@ public class M4A1 : LaunchType
 /*
 ====================================== 위성형 무기 타입 ============================
 */
-public class SatelliteType : Weapon
+public class SatelliteType : WeaponTestClass
 {
     public SatelliteType(int a, int b) : base(a, b)
     {

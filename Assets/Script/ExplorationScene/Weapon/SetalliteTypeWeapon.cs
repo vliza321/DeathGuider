@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SetalliteTypeWeapon : MonoBehaviour
 {
-    private WeaponState setalliteTypeWeapon;
+    private Weapon setalliteTypeWeapon;
     [SerializeField]
     private float playerToObjAngle;
     [SerializeField]

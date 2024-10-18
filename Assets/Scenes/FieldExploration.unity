@@ -12399,7 +12399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &160926490
 Transform:
   m_ObjectHideFlags: 0
@@ -12443,11 +12443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocityVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 0
-  attackTargetPoint: {x: 0, y: 0, z: 0}
-  attackTargetVector: {x: 0, y: 0, z: 0}
-  attackDirectional: {fileID: 0}
 --- !u!70 &160926494
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -81704,11 +81699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocityVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 3
-  attackTargetPoint: {x: 0, y: 0, z: 0}
-  attackTargetVector: {x: 0, y: 0, z: 0}
-  attackDirectional: {fileID: 0}
 --- !u!70 &1024109790
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -127680,7 +127670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1599589452
 Transform:
   m_ObjectHideFlags: 0
@@ -127724,11 +127714,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocityVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 0
-  attackTargetPoint: {x: 0, y: 0, z: 0}
-  attackTargetVector: {x: 0, y: 0, z: 0}
-  attackDirectional: {fileID: 0}
 --- !u!70 &1599589456
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -132886,7 +132871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1663642828
 Transform:
   m_ObjectHideFlags: 0
@@ -132930,11 +132915,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocityVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 0
-  attackTargetPoint: {x: 0, y: 0, z: 0}
-  attackTargetVector: {x: 0, y: 0, z: 0}
-  attackDirectional: {fileID: 0}
 --- !u!70 &1663642832
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -158832,7 +158812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1968013560
 Transform:
   m_ObjectHideFlags: 0
@@ -158877,11 +158857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7165459eccabde24498d9f9872ed3ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVelocityVector: {x: 0, y: 0, z: 0}
-  moveSpeed: 0
-  attackTargetPoint: {x: 0, y: 0, z: 0}
-  attackTargetVector: {x: 0, y: 0, z: 0}
-  attackDirectional: {fileID: 0}
 --- !u!70 &1968013565
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -173256,7 +173231,8 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -3660688687179737385, guid: c5add04109f4a99408ae31f90bc8b41b, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7652252251655965907, guid: 2c8dcabd0454af54196ca779bcb48ce5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c8dcabd0454af54196ca779bcb48ce5, type: 3}
 --- !u!1001 &7743492814372358014
 PrefabInstance:

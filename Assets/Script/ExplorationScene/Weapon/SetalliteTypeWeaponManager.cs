@@ -6,7 +6,7 @@ public class SetalliteTypeWeaponManager : MonoBehaviour
 {
     [SerializeField]
     private WeaponType asdf;
-    private WeaponState setalliteTypeWeapon;
+    private Weapon setalliteTypeWeapon;
     private int setalliteCount;
     private GameObject baseSetallite;
     [SerializeField]
@@ -14,8 +14,7 @@ public class SetalliteTypeWeaponManager : MonoBehaviour
     
     private void Awake()
     {
-        setalliteTypeWeapon = new WeaponState(60, 1, "ªÏ¿Œ", WeaponType.Setallite, 2, this.transform.parent.gameObject);
-        baseSetallite = this.transform.GetChild(0).gameObject;
+        baseSetallite = base.transform.GetChild(0).gameObject;
     }
 
     private void Start()
@@ -23,7 +22,7 @@ public class SetalliteTypeWeaponManager : MonoBehaviour
         Vector3 cashingVector3 = new Vector3(0, 1, 0);
         float AngleColculateFloat;
         float PI = Mathf.PI;
-        setalliteCount = (setalliteTypeWeapon.Level / 10) + 1;
+        setalliteCount = 6;
 
         setallite = new GameObject[setalliteCount];
         setallite[0] = baseSetallite;

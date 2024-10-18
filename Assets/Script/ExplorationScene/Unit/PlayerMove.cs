@@ -7,20 +7,15 @@ public class PlayerMove : MonoBehaviour
 {
     // Start is called before the first frame update
     private delegate void AnimGet();
-    AnimGet animGet;
+    private AnimGet animGet;
 
     private GameObject player;
-    [SerializeField]
     private Vector3 playerVelocityVector;
     private Vector3 playerLocalScale;
     private bool canMove;
-    [SerializeField]
     private float moveSpeed; // 추후 관련 스탯 처리 스크립트 만든 후 수정
-    [SerializeField]
     private Vector3 attackTargetPoint;
-    [SerializeField]
     private Vector3 attackTargetVector;
-    [SerializeField]
     private AttackDirectional attackDirectional;
 
     private Animator bodyAnimation;
@@ -91,8 +86,9 @@ public class PlayerMove : MonoBehaviour
         playHeadAnim = new AnimGet(PlayHeadAnim);
         playBodyAnim = new AnimGet(PlayBodyAnim); 
         pauseHeadAnim = new AnimGet(PauseHeadAnim); 
-        pauseBodyAnim = new AnimGet(PauseBodyAnim); 
+        pauseBodyAnim = new AnimGet(PauseBodyAnim);
 
+        moveSpeed = 3.0f;
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloseTypeWeapon : MonoBehaviour
+public class CloseTypeWeapon : Weapon
 {
+    
     private GameObject effectObject;
     private int baseCoolTime;
     private int coolTimer;
@@ -11,13 +12,10 @@ public class CloseTypeWeapon : MonoBehaviour
     private PolygonCollider2D effectCollider;
     [SerializeField]
     private AttackDirectional playerDirectional;
+    private Transform weaponEffectPool;
 
     private Vector3 cashingVector;
     private Transform baseParent;
-    public CloseTypeWeapon(int baseCoolTime)
-    {
-        this.baseCoolTime = baseCoolTime;
-    }
 
     
     public int BaseCoolTime
@@ -26,45 +24,47 @@ public class CloseTypeWeapon : MonoBehaviour
         set { baseCoolTime = value; }
     }
 
-    private void Awake()
+    public CloseTypeWeapon(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool) 
+        : base(baseObjectTransform, effectObject, attackDirectional, effectPool)
     {
-        baseParent = this.transform.parent;
-        cashingVector = new Vector3(0,0,0);
-        effectObject = this.gameObject;
+        weaponEffectPool = effectPool;
+        baseParent = baseObjectTransform;
+        cashingVector = new Vector3(0, 0, 0);
+
+        this.effectObject = effectObject;
         effectAnim = effectObject.GetComponent<Animator>();
         effectCollider = effectObject.GetComponent<PolygonCollider2D>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (this.transform.parent.parent.CompareTag("follower"))
+
+        if (baseObjectTransform.parent.CompareTag("follower"))
         {
-            playerDirectional = this.transform.parent.parent.GetComponent<PlayerMove>().AttactDirectional;
+            playerDirectional = attackDirectional;
         }
-        else playerDirectional = this.transform.parent.parent.parent.GetChild(1).gameObject.GetComponent<AttackDirectional>();
+        else
+        {
+            playerDirectional = attackDirectional;
+        }
+
         baseCoolTime = 300; // -> 기본 쿨타임 set함수로 변경
         coolTimer = baseCoolTime;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Init()
     {
+        
+    }
+
+    public override void Execute()
+    {
+        
         coolTimer--;
-        if(coolTimer <0)
+        if (coolTimer < 0)
         {
             cashingVector = playerDirectional.transform.position;
             coolTimer = baseCoolTime;
             effectAnim.SetBool("isActive", true);
             effectCollider.enabled = true;
-            effectAnim.transform.parent = this.transform.parent.parent.parent.GetChild(this.transform.parent.parent.parent.childCount - 1);
+            effectObject.transform.parent = weaponEffectPool;
+            effectObject.transform.position = cashingVector;
         }
-        this.transform.position = cashingVector;
-    }
-
-    public void QuitAnim()
-    {
-        effectAnim.SetBool("isActive",false);
-        effectAnim.transform.parent = baseParent;
-        effectCollider.enabled = false;
     }
 }

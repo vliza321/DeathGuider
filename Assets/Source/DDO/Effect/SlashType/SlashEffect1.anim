@@ -82,9 +82,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.41666666
-    functionName: QuitAnim
+    functionName: mQuitAnim
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 5d14e0e6c3569c24e87a0be3201460a6, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: 5e7036f7512a8a94bb88fcb2d182877a, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

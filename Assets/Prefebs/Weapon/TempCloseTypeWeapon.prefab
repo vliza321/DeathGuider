@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7652252251655965917}
   - component: {fileID: 7652252251655965905}
   - component: {fileID: 7652252251655965906}
-  - component: {fileID: 7652252251655965907}
+  - component: {fileID: 3508923775355914559}
   - component: {fileID: 7652252251655965910}
   m_Layer: 14
   m_Name: TempWeaponEffect
@@ -108,7 +108,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7652252251655965907
+--- !u!114 &3508923775355914559
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,10 +117,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7652252251655965916}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d14e0e6c3569c24e87a0be3201460a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e7036f7512a8a94bb88fcb2d182877a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDirectional: {fileID: 0}
 --- !u!60 &7652252251655965910
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -162,6 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7652252251940130817}
   - component: {fileID: 7652252251940130822}
+  - component: {fileID: 7702449625418673907}
   m_Layer: 10
   m_Name: TempCloseTypeWeapon
   m_TagString: Untagged
@@ -237,3 +237,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7702449625418673907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652252251940130816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5217ebdea0697a94585a1e08ed36541c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 1
