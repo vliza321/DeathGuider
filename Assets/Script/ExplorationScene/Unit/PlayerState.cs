@@ -12,6 +12,14 @@ public class PlayerState : MonoBehaviour
     private int level = 1;
     private int experienceToNextLevel = 100;
 
+    private GameObject weapon;
+
+    public GameObject Weapon
+    {
+        get { return Weapon; }
+        set { weapon = value; }
+    }
+
     public int ExperiencePoints // 현재 경험치 읽기
     {
         get { return experiencePoints; }
@@ -42,6 +50,7 @@ public class PlayerState : MonoBehaviour
     private void Awake()
     {
         this.gameObject.transform.position = new Vector3(0, 0, 0);
+        weapon = this.transform.GetChild(3).gameObject;
     }
     void Start()
     {
@@ -88,6 +97,11 @@ public class PlayerState : MonoBehaviour
         experienceToNextLevel = Mathf.RoundToInt(experienceToNextLevel * 1.2f); // 다음 레벨업에 필요한 경험치 증가
         // 추후 레벨업 시 추가 기능(능력치 증가 등) 구현자리
         Debug.Log("Level Up! New Level: " + level);
+    }
+
+    private void SwapUnit()
+    {
+
     }
 }
 

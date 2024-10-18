@@ -16,6 +16,13 @@ public class WeaponState
     private string crime;
     private WeaponType weaponType;
     private int growthRate;
+    protected GameObject parentUnit;
+    public GameObject ParentUnit
+    {
+        get { return parentUnit; }
+        set { parentUnit = value; }
+    }
+       
     public int Level
     {
         get { return level; }
@@ -41,13 +48,14 @@ public class WeaponState
         attackPoint += growthRate;
     }
 
-    public WeaponState(int baseLevelIsOne,int attackPointIsInTable, string crimeTypeIsInTable, WeaponType weaponTypeIsInTable, int growthRateIsInTable) 
+    public WeaponState(int baseLevelIsOne,int attackPointIsInTable, string crimeTypeIsInTable, WeaponType weaponTypeIsInTable, int growthRateIsInTable, GameObject parent) 
     {
         level = baseLevelIsOne;
         attackPoint = attackPointIsInTable;
         crime = crimeTypeIsInTable;
         weaponType = weaponTypeIsInTable;
         growthRate = growthRateIsInTable;
+        parentUnit = parent;
         Debug.Log(level);
         if( level != 1)
         {

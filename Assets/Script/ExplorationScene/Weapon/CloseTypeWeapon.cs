@@ -13,12 +13,12 @@ public class CloseTypeWeapon : MonoBehaviour
     private AttackDirectional playerDirectional;
 
     private Vector3 cashingVector;
+    private Transform baseParent;
     public CloseTypeWeapon(int baseCoolTime)
     {
         this.baseCoolTime = baseCoolTime;
     }
 
-    private Transform baseParent;
     
     public int BaseCoolTime
     {

@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     private FollowerManager followerManager;
     private CameraManager cameraManager;
-    private GameObject monsterManager;
+    private MonsterManager monsterManager;
 
     private GameObject guider;
     private GameObject swapedObject;
@@ -47,7 +47,7 @@ public class PlayerManager : MonoBehaviour
             }
             if(manager.name == "MonsterSpawnManager")
             {
-                monsterManager = manager.transform.gameObject;
+                monsterManager = manager.transform.gameObject.GetComponent<MonsterManager>();
             }
             if(manager.name == "CameraManager")
             {
@@ -93,14 +93,14 @@ public class PlayerManager : MonoBehaviour
         swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
 
         //매니저들에서 가지고 있는 가이더 정보 변경
-        monsterManager.GetComponent<MonsterManager>().PlayerSwap(swapedObject);
+        monsterManager.PlayerSwap(swapedObject);
         followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional);
         cameraManager.Guider = swapedObject;
         treasureBoxEscapeStairManager.player = swapedObject;
         attackDirectional.Guider = swapedObject;
 
         //변경 후 처리 (죽은 가이더 끄기, 몬스터 넉백)
-        guider.transform.parent = followerManager.transform;
+        guider.transform.parent = followerManager.transform; guider.transform.SetSiblingIndex(transform.childCount);
         guider.SetActive(false);
         guider = swapedObject;
         //MonsterKnockBack();

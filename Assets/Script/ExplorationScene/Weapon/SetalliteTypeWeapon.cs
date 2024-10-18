@@ -29,12 +29,12 @@ public class SetalliteTypeWeapon : MonoBehaviour
         directionalVector = new Vector3(0, 1, 0);
     }
 
-    public void Init(Vector3 Initdirection)
+    public void Init(Vector3 InitDirection)
     {
         baseParent = this.transform.parent;
         cashingVector3 = this.transform.position;
         PI = Mathf.PI;
-        directionalVector = Initdirection;
+        directionalVector = InitDirection;
     }
     private void Start()
     {
@@ -45,6 +45,7 @@ public class SetalliteTypeWeapon : MonoBehaviour
 
     private void Update()
     {
+        if (baseParent.gameObject.activeSelf == false) this.gameObject.SetActive(false);
         //playerToTargetAngle = (Mathf.Atan2(target.y - guider.transform.position.y, target.x - guider.transform.position.x) + 2 * PI) % (2 * PI);
         playerToObjAngle = (Mathf.Atan2(baseParent.position.y - this.gameObject.transform.position.y, baseParent.position.x - this.gameObject.transform.position.x)  + 2 * PI) % (2 * PI);
         //debugAngle = playerToObjAngle * 180 / PI;
