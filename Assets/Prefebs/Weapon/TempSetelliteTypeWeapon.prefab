@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8607380337454595836}
   - component: {fileID: 8607380337454595839}
-  - component: {fileID: 75630697761367605}
+  - component: {fileID: 2043384867215998390}
   m_Layer: 10
   m_Name: TempSetelliteTypeWeapon
   m_TagString: Untagged
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &75630697761367605
+--- !u!114 &2043384867215998390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,9 +95,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8607380337454595837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e893a4d88ae08747afe6fc7b0d614c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 5217ebdea0697a94585a1e08ed36541c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 0
+  childList: []
 --- !u!1 &8607380338306538853
 GameObject:
   m_ObjectHideFlags: 0

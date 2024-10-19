@@ -21,8 +21,8 @@ public class Weapon : MonoBehaviour
 
     private int growthRate;
     private GameObject parentUnit;
-
-
+    [SerializeField]
+    private List<Transform> childList;
 
     public GameObject ParentUnit
     {
@@ -54,34 +54,38 @@ public class Weapon : MonoBehaviour
         level += 1;
         attackPoint += growthRate;
     }
-
-
-
-    
-    public Weapon()
-    { 
-
-    }
-
-    
-    public Weapon(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool) 
-    {
-
-    }
-
     public void ChangePos(Vector3 vector)
     {
         this.transform.position = vector;
     }
-    public virtual void Execute()
+
+    public Weapon(Transform baseObjectTransform, Transform effectPool)
     {
 
     }
+    public Weapon()
+    { 
+
+    }
+    public Weapon(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool) 
+    {
+
+    }
+    public Weapon(Transform baseObjectTransform, List<Transform> effectObject, AttackDirectional attackDirectional, Transform effectPool)
+    {
+
+    }
+
+
     public virtual void Init()
     {
 
     }
     public virtual void Init(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool)
+    {
+
+    }
+    public virtual void Init(Transform baseObjectTransform, List<Transform> effectObject, AttackDirectional attackDirectional, Transform effectPool)
     {
 
     }
@@ -101,7 +105,25 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    public virtual void Execute()
+    {
+
+    }
+
     private void Awake()
+    {
+        if (this.transform.childCount == 0) return;
+
+        Transform[] temtchild = new Transform[this.transform.childCount];
+        temtchild = GetComponentsInChildren<Transform>();
+        for(int i = 1; i<temtchild.Length;i++)
+        {
+            childList.Add(temtchild[i]);
+        }
+        temtchild = null;
+    }
+
+    private void Start()
     {
         if (weaponType == WeaponType.Close)
         {
@@ -111,10 +133,22 @@ public class Weapon : MonoBehaviour
             this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
             this.transform.parent.parent.GetChild(this.transform.parent.parent.childCount - 1).transform);
         }
-    }
-
-    private void Start()
-    { 
+        if (weaponType == WeaponType.Launch)
+        {
+            Debug.Log("create Launch");
+            weapon = new LaunchTypeWeapon(
+            this.transform,
+            childList,
+            this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
+            this.transform.parent.parent.GetChild(this.transform.parent.parent.childCount - 1).transform);
+        }
+        if (weaponType == WeaponType.Setallite)
+        {
+            Debug.Log("create Setallite");
+            weapon = new SetalliteTypeWeaponManager(
+            this.transform,
+            this.transform.parent.parent.GetChild(this.transform.parent.parent.childCount - 1).transform);
+        }
         weapon.Init();
         this.Init();
     }
