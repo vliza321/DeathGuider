@@ -29,14 +29,20 @@ public class TileMap : MonoBehaviour
 
     public GameObject TileSpriteImageStorage;
     // Start is called before the first frame update
-    void Awake()
+
+    public void Init()
     {
         TileSet = new GameObject[this.transform.childCount];
         row = (int)(mapSize.x / 2);
-        column = (int)(mapSize.y/2);
-        for(int i =0;i<9; i++)
+        column = (int)(mapSize.y / 2);
+        for (int i = 0; i < 9; i++)
         {
             tileSet[i] = this.transform.GetChild(i).gameObject;
         }
+        foreach (var t in tileSet)
+        {
+            t.GetComponent<TileSet>().Init();
+        }
+
     }
 }

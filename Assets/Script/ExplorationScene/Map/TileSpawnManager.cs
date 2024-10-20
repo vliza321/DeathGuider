@@ -6,8 +6,6 @@ using UnityEditor;
 public class TileSpawnManager : MonoBehaviour
 {
     private GameObject[] baseTileMap;
-    [SerializeField]
-    private GameObject tileSpriteImageStorage;
     private GameObject playerManager;
     private GameObject monsterSpawnManager;
     private GameObject followerManager;
@@ -53,14 +51,18 @@ public class TileSpawnManager : MonoBehaviour
         baseTileMap = new GameObject[2];
         baseTileMap[0] = this.transform.GetChild(0).gameObject;
         baseTileMap[1] = this.transform.GetChild(1).gameObject;
+        baseTileMap[0].SetActive(true);
+        baseTileMap[1].SetActive(true);
+        baseTileMap[0].GetComponent<TileMap>().Init();
+        baseTileMap[1].GetComponent<TileMap>().Init();
     }
     // Update is called once per frame
     void Start()
     {
         guider = playerManager.GetComponent<PlayerManager>().Guider;
         followercounter = followerManager.GetComponent<FollowerManager>().FollowerCounter;
-        baseTileMap[1].SetActive(false);
         playerAttackDirectional = playerManager.transform.GetChild(1).gameObject;
+        baseTileMap[1].SetActive(false);
     }
 
     public void swapTileMap(Transform transform, int row, int column)
@@ -150,7 +152,7 @@ public class TileSpawnManager : MonoBehaviour
             treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(0, 4);
         }
 
-        else if (baseTileMap[0].GetComponent<TileMap>().Row >= 10 || baseTileMap[1].GetComponent<TileMap>().Row >= 10)
+        else if (baseTileMap[0].GetComponent<TileMap>().Row >= 10 || baseTileMap[1].GetComponent<TileMap>().Row > 10)
         {
             baseTileMap[0].GetComponent<TileMap>().Row = 5;
             baseTileMap[1].GetComponent<TileMap>().Row = 5;
@@ -184,7 +186,7 @@ public class TileSpawnManager : MonoBehaviour
             }
             treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(-4, 0);
         }
-        else if (baseTileMap[0].GetComponent<TileMap>().Column >= 10 || baseTileMap[1].GetComponent<TileMap>().Column >= 10)
+        else if (baseTileMap[0].GetComponent<TileMap>().Column >= 10 || baseTileMap[1].GetComponent<TileMap>().Column > 10)
         {
             baseTileMap[0].GetComponent<TileMap>().Column = 5;
             baseTileMap[1].GetComponent<TileMap>().Column = 5;

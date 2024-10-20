@@ -88,7 +88,7 @@ public class PlayerMove : MonoBehaviour
         pauseHeadAnim = new AnimGet(PauseHeadAnim); 
         pauseBodyAnim = new AnimGet(PauseBodyAnim);
 
-        moveSpeed = 3.0f;
+        moveSpeed = 3.0f *2;//debug 끝나고 2지울것
         player = this.gameObject;
         player.transform.position = new Vector2(0,0);
         playerLocalScale = player.transform.localScale;

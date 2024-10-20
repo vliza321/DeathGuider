@@ -19,8 +19,9 @@ public class TileSet : MonoBehaviour
         get { return Column; }
         set { Column = value; }
     }
-
+    [SerializeField]
     private int absRow;
+    [SerializeField]
     private int absColumn;
     [SerializeField]
     private GameObject[] tile;
@@ -28,34 +29,46 @@ public class TileSet : MonoBehaviour
     [SerializeField]
     private GameObject TileSpriteImageStorage;
     private TileSpriteImageStorage TileSpriteImageStorages;
-    private void Awake()
+
+    public void Init()
     {
         tile = new GameObject[this.transform.childCount];
         TileMap = this.transform.parent.gameObject.GetComponent<TileMap>();
         TileSpriteImageStorages = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>();
-        for (int i = 0;i<tile.Length;i++)
+        for (int i = 0; i < tile.Length; i++)
         {
             tile[i] = this.transform.GetChild(i).gameObject;
             tile[i].GetComponent<SpriteRenderer>().sprite = TileSpriteImageStorages.BaseTileSpriteImage;
         }
+        absRow = this.Row + TileMap.Row - 2;
+        absColumn = this.Column + TileMap.Column - 2;
+        Debug.Log("start");
+        ChangeTile(0, 0);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        absRow = this.Row + TileMap.Row;
-        absColumn = this.Column + TileMap.Column;
+        /*
+        absRow = this.Row + TileMap.Row - 2;
+        absColumn = this.Column + TileMap.Column - 2;
+        Debug.Log("start");
         ChangeTile(0, 0);
-        
+        */
     }
 
     public void ChangeTile(int a, int b)
     {
-        tile[Mathf.Abs((int)(TileSpriteImageStorages.randConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.randConst.y) * (absRow%4)) % 100].GetComponent<SpriteRenderer>().sprite
+        tile[Mathf.Abs((TileSpriteImageStorages.randConst.x) * (absColumn % 5) 
+            - (TileSpriteImageStorages.randConst.y) * (absRow%5)) % 100].GetComponent<SpriteRenderer>().sprite
            = TileSpriteImageStorages.BaseTileSpriteImage;
+
         absRow += a;
         absColumn += b;
-        /*tile[Mathf.Abs((int)(TileSpriteImageStorages.randConst.x) * (absColumn%4) - (int)(TileSpriteImageStorages.randConst.y) * (absRow % 4)) % 100].GetComponent<SpriteRenderer>().sprite
-           = TileSpriteImageStorages.TileSpriteImage[Mathf.Abs((int)(TileSpriteImageStorages.renderRandConst.x) * (absColumn % 4) - (int)(TileSpriteImageStorages.renderRandConst.y) * (absRow % 4)) % 8];*/
+
+        tile[Mathf.Abs((TileSpriteImageStorages.randConst.x) * (absColumn%5)
+            - (TileSpriteImageStorages.randConst.y) * (absRow % 5)) % 100].GetComponent<SpriteRenderer>().sprite
+           = TileSpriteImageStorages.TileSpriteImage[Mathf.Abs((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5)
+           - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)) % 8];
     }
 }

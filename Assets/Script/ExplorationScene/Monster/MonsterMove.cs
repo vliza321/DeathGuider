@@ -13,6 +13,7 @@ public class MonsterMove : MonoBehaviour
     private float signX;
     private float signY;
     private SpriteRenderer monsterSpriteRender;
+    private Vector3 cashingVector;
     public Vector2 MonsterVelocityVector
     {
         get { return monsterVelocityVector; } set { monsterVelocityVector = value; }
@@ -59,6 +60,7 @@ public class MonsterMove : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        cashingVector = new Vector3(0, 0, 0);
         monsterState = this.gameObject.GetComponent<MonsterState>();
         signX = 0;
         signY = 0;
@@ -121,7 +123,11 @@ public class MonsterMove : MonoBehaviour
             else signX = -1;
             if (Random.Range(0, 2) == 1) signY = 1;
             else signY = -1;
-            this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z); 
+            cashingVector.x = playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f);
+            cashingVector.y = playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f);
+            cashingVector.z = playerPos.z;
+            //this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z); 
+            this.transform.position = cashingVector;
         }
         
         monsterVelocityVector = monsterVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime * (Mathf.Log10(knockBackTimer));

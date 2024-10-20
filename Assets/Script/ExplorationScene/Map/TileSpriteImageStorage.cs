@@ -21,12 +21,14 @@ public class TileSpriteImageStorage
         set { baseTileSpriteImage = value; }
     }
 
+    [SerializeField]
     private Vector2Int RandConst;
     public Vector2Int randConst
     {
         get { return RandConst; }
         set { RandConst = value; }
     }
+    [SerializeField]
     private Vector2Int RenderRandConst;
     public Vector2Int renderRandConst
     {
