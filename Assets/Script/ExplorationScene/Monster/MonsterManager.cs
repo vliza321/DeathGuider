@@ -41,10 +41,10 @@ public class MonsterManager : MonoBehaviour
     }
 
     private int monsterRespawnTimer;
+    [SerializeField]
     private int[] monsterSpawnTimer;
-    private bool[] spawnTimerCanDoWork;
 
-    private GameObject guider;
+    private PlayerMove guider;
 
     [SerializeField]
     private GameObject[] monsterPrefab;
@@ -54,6 +54,7 @@ public class MonsterManager : MonoBehaviour
         set { player = value; }
     }
     private Vector3 currentPos;
+    [SerializeField]
     private int spawnLevel;
 
     private bool playerEscape;
@@ -82,24 +83,22 @@ public class MonsterManager : MonoBehaviour
         signX = 0;
         signY = 0;
 
-        monsterSpawnTimer = new int[(int)(MaxMonster/16)];
-        spawnTimerCanDoWork = new bool[(int)(MaxMonster/16)];
+        monsterSpawnTimer = new int[(int)(MaxMonster/10)];
 
         monstercounter = MaxMonster;
         enabledMonster = 1;
-        spawnTimerCanDoWork[0] = true;
         monsterRespawnTimer = 1000;
         spawnLevel = 1;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < monsterSpawnTimer.Length; i++)
         {
-            monsterSpawnTimer[i] = 1500;
+            monsterSpawnTimer[i] = 1200;
         }
-        monsterSpawnTimer[0] = 500;
+        monsterSpawnTimer[0] = 100;
     }
     
     void Start()
     {
-        guider = player.GetComponent<PlayerManager>().Guider;
+        guider = player.GetComponent<PlayerManager>().Guider.GetComponent<PlayerMove>();
         playerPos = guider.transform.position;
 
         for (int i = 0; i < MaxMonster; i++)
@@ -112,14 +111,14 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
-    public void PlayerSwap(GameObject Guider)
+    public void PlayerSwap(PlayerMove Guider)
     {
         guider = Guider;
         foreach(var m in monster)
         {
             if (m.gameObject.activeSelf == true)
             {
-                m.Guider = Guider;
+                m.Guider = Guider.gameObject;
             }
         }
         
@@ -153,7 +152,7 @@ public class MonsterManager : MonoBehaviour
             while(monsterRespawnPool.PoolQueue.Count != 0)
             {
                 newMonster = monsterRespawnPool.GetObject();
-                newMonster.GetComponent<MonsterState>().monsterSpawn(guider,monsterRespawnPool);
+                newMonster.GetComponent<MonsterState>().monsterSpawn(guider.gameObject,monsterRespawnPool);
                 switch (Random.Range(0, 4))
                 {
                     default:
@@ -163,10 +162,10 @@ public class MonsterManager : MonoBehaviour
                         newMonster.transform.position = currentPos;
                         break;
                     case 0:
-                        if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
+                        if (guider.PlayerVelocityVector.x != 0 && guider.PlayerVelocityVector.y != 0)
                         {
-                            signX *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
-                            signY *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
+                            signX *= guider.PlayerVelocityVector.x;
+                            signY *= guider.PlayerVelocityVector.y;
                             currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) / 10.0f);
                             currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) / 10.0f);
                             currentPos.z = playerPos.z;
@@ -204,89 +203,114 @@ public class MonsterManager : MonoBehaviour
         }
 
         // Do Spawn Monster
-        for (int i = 0; i < 10; i++)
+        switch (spawnLevel)
         {
-            switch (i)
-            {
-                case 0:
-                    if (enabledMonster > 1)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 1:
-                    if (enabledMonster > 3)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 2:
-                    if (enabledMonster > 5)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 3:
-                    if (enabledMonster > 8)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 4:
-                    if (enabledMonster > 13)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 5:
-                    if (enabledMonster > 21)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 6:
-                    if (enabledMonster > 34)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 7:
-                    if (enabledMonster > 55)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 8:
-                    if (enabledMonster > 89)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-                case 9:
-                    if (enabledMonster > 144)
-                    {
-                        spawnTimerCanDoWork[i] = true;
-                        spawnLevel++;
-                    }
-                    break;
-            }
+            case 0:
+                if (enabledMonster > 1)// level 1
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 1:
+                if (enabledMonster > 2)// level 2
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 2:
+                if (enabledMonster > 4)// level 3
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 3:
+                if (enabledMonster > 7)// level 4
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 4:
+                if (enabledMonster > 11)// level 5
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 5:
+                if (enabledMonster > 16)// level 6
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 6:
+                if (enabledMonster > 22)// level 7
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 7:
+                if (enabledMonster > 29)// level 8
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 8:
+                if (enabledMonster > 37)// level 9
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 9:
+                if (enabledMonster > 46)// level 10
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 10:
+                if (enabledMonster > 56)// level 11
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 11:
+                if (enabledMonster > 67)// level 12
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 12:
+                if (enabledMonster > 79)// level 13
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 13:
+                if (enabledMonster > 82)// level 14
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 14:
+                if (enabledMonster > 96)// level 15
+                {
+                    spawnLevel++;
+                }
+                break;
+            case 15:
+                if (enabledMonster > 111)// level 16
+                {
+                    spawnLevel++;
+                }
+                break;
         }
-        
-        // 몬스터 생성 처리
-        for (int i = 0; i < 10; i++)
-        {
-            if (spawnTimerCanDoWork[i] == false || monsterSpawnPool.PoolQueue.Count == 0) break;
 
-            if (monsterSpawnTimer[i] > 0 && !playerEscape) monsterSpawnTimer[i]--;
+        // 몬스터 생성 처리
+        for (int i = 0; i < spawnLevel; i++)
+        {
+            if (monsterSpawnPool.PoolQueue.Count == 0) break;
+
+            if (monsterSpawnTimer[i] > 0 && !playerEscape) { 
+                monsterSpawnTimer[i]--; 
+            }
 
             if (monsterSpawnTimer[i] <= 0 && enabledMonster < MaxMonster)
             {
@@ -311,10 +335,10 @@ public class MonsterManager : MonoBehaviour
                         newMonster.transform.position = currentPos;
                         break;
                     case 0:
-                        if (guider.GetComponent<PlayerMove>().PlayerVelocityVector.x != 0 && guider.GetComponent<PlayerMove>().PlayerVelocityVector.y != 0)
+                        if (guider.PlayerVelocityVector.x != 0 && guider.PlayerVelocityVector.y != 0)
                         {
-                            signX *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.x;
-                            signY *= guider.GetComponent<PlayerMove>().PlayerVelocityVector.y;
+                            signX *= guider.PlayerVelocityVector.x;
+                            signY *= guider.PlayerVelocityVector.y;
                             currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) / 10.0f);
                             currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) / 10.0f);
                             currentPos.z = playerPos.z;

@@ -93,7 +93,7 @@ public class PlayerManager : MonoBehaviour
         swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
 
         //매니저들에서 가지고 있는 가이더 정보 변경
-        monsterManager.PlayerSwap(swapedObject);
+        monsterManager.PlayerSwap(swapedObject.GetComponent<PlayerMove>());
         followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional);
         cameraManager.Guider = swapedObject;
         treasureBoxEscapeStairManager.player = swapedObject;

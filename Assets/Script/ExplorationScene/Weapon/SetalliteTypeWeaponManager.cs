@@ -25,7 +25,7 @@ public class SetalliteTypeWeaponManager : Weapon
         Vector3 cashingVector3 = new Vector3(0, 1, 0);
         float AngleColculateFloat;
         float PI = Mathf.PI;
-        setalliteCount = 6;
+        setalliteCount = 4;
 
         setallite = new SetalliteTypeWeapon[setalliteCount];
         setallite[0] = baseSetallite.GetComponent<SetalliteTypeWeapon>();
