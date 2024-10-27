@@ -127,7 +127,6 @@ public class Weapon : MonoBehaviour
     {
         if (weaponType == WeaponType.Close)
         {
-            Debug.Log("create Close");
             weapon = new CloseTypeWeapon(this.transform,
             this.transform.GetChild(0).gameObject,
             this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
@@ -135,7 +134,6 @@ public class Weapon : MonoBehaviour
         }
         if (weaponType == WeaponType.Launch)
         {
-            Debug.Log("create Launch");
             weapon = new LaunchTypeWeapon(
             this.transform,
             childList,
@@ -144,7 +142,6 @@ public class Weapon : MonoBehaviour
         }
         if (weaponType == WeaponType.Setallite)
         {
-            Debug.Log("create Setallite");
             weapon = new SetalliteTypeWeaponManager(
             this.transform,
             this.transform.parent.parent.GetChild(this.transform.parent.parent.childCount - 1).transform);

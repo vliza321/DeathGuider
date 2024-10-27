@@ -3,11 +3,14 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class CSVManager :MonoBehaviour
 {
     public List<string> FILE_NAME;
-
+    
     public List<Dictionary<string, object>> localUser = new List<Dictionary<string, object>>();
     public List<Dictionary<string, object>> guiderData = new List<Dictionary<string, object>>();
     public List<Dictionary<string, object>> prisonerData = new List<Dictionary<string, object>>();
@@ -19,6 +22,8 @@ public class CSVManager :MonoBehaviour
     public List<Dictionary<string, object>> WeaponInUser = new List<Dictionary<string, object>>();
 
     public List<Dictionary<string, object>> Dialog = new List<Dictionary<string, object>>();
+    
+    public DialogDataList dialogDataList;
     private void Init()
     {
         localUser = new List<Dictionary<string, object>>();
@@ -41,9 +46,9 @@ public class CSVManager :MonoBehaviour
         WeaponInUser = CSVReader.Read("WeaponInUser");
     }
 
-    public string asdf = "kjbkjb";
     private void Awake()
     {
+        dialogDataList.dialogDatas.Clear();
         FILE_NAME = new List<string> { /*
         "localUser",
         "GuiderData","PrisonerData","StageData",
@@ -53,6 +58,7 @@ public class CSVManager :MonoBehaviour
         "Dialog" };
         foreach(var fn in FILE_NAME)
         {
+            //SetFieldByString(fn, GetFieldByString(fn));/*
             object fnValue = GetFieldByString(fn);
             if(fnValue is List<Dictionary<string,object>>fnList)
             {
@@ -65,6 +71,7 @@ public class CSVManager :MonoBehaviour
         {
             Debug.Log(Dialog[i]["CustomerID"] + Dialog[i]["Content"].ToString());
         }
+        ConvertToScriptableObject();
     }
 
     public object GetFieldByString(string fieldName)
@@ -106,4 +113,55 @@ public class CSVManager :MonoBehaviour
         }
     }
 
+    void ConvertToScriptableObject()
+    {
+        DialogData newData = new DialogData();
+        foreach (Dictionary<string, object> dialog in Dialog)
+        {
+            /*if(user.ContainsKey(newData.Content.ToString()))*/
+
+            if (dialog.ContainsKey("Number"))
+                newData.Number = int.Parse(dialog["Number"].ToString());
+            if (dialog.ContainsKey("CUstomerID"))
+                newData.CustomerID = int.Parse(dialog["CustomerID"].ToString());
+            if (dialog.ContainsKey("State"))
+                newData.State = (dialog["State"].ToString());
+            if (dialog.ContainsKey("Content"))
+                newData.State = (dialog["Content"].ToString());
+            if(!dialogDataList.dialogDatas.Exists(d => d.Number == newData.Number))
+            {
+                dialogDataList.dialogDatas.Add(newData);
+            }
+            else
+            {
+                Debug.Log("asdfasdfa");
+            }
+            SaveDialogDataList(newData);
+        }
+        newData = null;
+    }
+
+    public void SaveDialogDataList(DialogData newData)
+    {
+        // 기존 ScriptableObject를 불러오기
+        DialogDataList existingDataList = dialogDataList;
+
+        // 중복 체크 (예시로 id를 기준으로 중복 확인)
+        if (!existingDataList.dialogDatas.Exists(dialog => dialog.Number == newData.Number))
+        {
+            existingDataList.dialogDatas.Add(newData);
+        }
+        // 변경 사항을 에디터에서 저장 (런타임에 적용됨)
+        SaveChanges(existingDataList);
+    }
+
+#if UNITY_EDITOR
+    // ScriptableObject 변경 사항을 저장하는 함수
+    private void SaveChanges(DialogDataList dataList)
+    {
+        EditorUtility.SetDirty(dataList);
+        AssetDatabase.SaveAssets();
+        Debug.Log("ScriptableObject 저장 완료.");
+    }
+#endif
 }

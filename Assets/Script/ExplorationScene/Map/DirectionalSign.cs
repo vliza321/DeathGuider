@@ -15,12 +15,10 @@ public class DirectionalSign : MonoBehaviour
 
     private float playerToObjAngle;
     private float screenDiagonalAngle;
-    private Vector3 lastPosition;
-    
-
 
     private float absAngle;
 
+    private Vector3 cashingVector;
     public Transform Player
     {
         get
@@ -35,7 +33,7 @@ public class DirectionalSign : MonoBehaviour
 
     private void Awake()
     {
-        lastPosition = new Vector3(0, 0, 0);
+        cashingVector = new Vector3(0, 0, 0);
         absAngle = 0;
         playerToObjAngle = 0;
         screenDiagonalAngle = 0;
@@ -84,12 +82,15 @@ public class DirectionalSign : MonoBehaviour
         // 화면 밖에 있을때 예외 처리
         if(MathF.Abs(playerToObj.x) > MathF.Abs(Screen.width/200+0.64f) || MathF.Abs(playerToObj.y) > MathF.Abs(Screen.height/200+0.64f)) // 가로가 화면 밖에 있을때
         {
-            this.transform.eulerAngles = new Vector3(0, 0, -90 + (playerToObjAngle) * (180.0f) / MathF.PI);
+            cashingVector.x = 0;
+            cashingVector.y = 0;
+            cashingVector.z = -90 + (playerToObjAngle) * (180.0f) / MathF.PI;
+            this.transform.eulerAngles = cashingVector;
 
             if(absAngle < screenDiagonalAngle)
             {
-                lastPosition.x = (-playerToObj.x + (Screen.width / 200))/4;
-                lastPosition.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
+                cashingVector.x = (-playerToObj.x + (Screen.width / 200))/4;
+                cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
             }
             else 
             {      
@@ -100,31 +101,36 @@ public class DirectionalSign : MonoBehaviour
 
                     if (playerToObjAngle < 0)
                     {
-                        lastPosition.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200) ) / 4 ;
-                        lastPosition.y = (-playerToObj.y - (Screen.height / 200)) / 4 + 0.032f;
+                        cashingVector.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200) ) / 4 ;
+                        cashingVector.y = (-playerToObj.y - (Screen.height / 200)) / 4 + 0.032f;
                     }
                     else if (playerToObjAngle > 0)
                     {
-                        lastPosition.x = (-playerToObj.x + MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) / 4;
-                        lastPosition.y = (-playerToObj.y + (Screen.height / 200)) / 4 - 0.032f;
+                        cashingVector.x = (-playerToObj.x + MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) / 4;
+                        cashingVector.y = (-playerToObj.y + (Screen.height / 200)) / 4 - 0.032f;
                     }
                 }
 
                 else
                 {
-                    lastPosition.x = (-playerToObj.x - (Screen.width / 200)) / 4;
-                    lastPosition.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
+                    cashingVector.x = (-playerToObj.x - (Screen.width / 200)) / 4;
+                    cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
                 }
             }
         }
         // 오브젝트가 화면 안에 있을 때 예외 처리
         else 
         {
-            this.transform.eulerAngles = new Vector3(0, 0, 180 );
-            lastPosition.x = 0;
-            lastPosition.y = 0.128f*3;
+            cashingVector.x = 0;
+            cashingVector.y = 0;
+            cashingVector.z = 180;
+            this.transform.eulerAngles = cashingVector;
+
+            cashingVector.x = 0;
+            cashingVector.y = 0.128f*3;
+            cashingVector.z = 0;
         }
 
-        this.transform.localPosition = new Vector3 (lastPosition.x,lastPosition.y,0);
+        this.transform.localPosition = cashingVector;
     }
 }

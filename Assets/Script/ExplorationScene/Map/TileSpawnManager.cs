@@ -3,19 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+public enum RangeOut
+{
+    nonRangeOut,
+    rowRangeOut,
+    columnRangeOut,
+    doubleRangeOut
+}
+
 public class TileSpawnManager : MonoBehaviour
 {
-    private GameObject[] baseTileMap;
-    private GameObject playerManager;
-    private GameObject monsterSpawnManager;
+    private TileMap[] baseTileMap;
+    private PlayerManager playerManager;
+    private MonsterManager monsterManager;
     private GameObject followerManager;
-    private GameObject treasureBoxEscapeStairManager;
+    private TreasureBoxEscapeStairManager treasureBoxEscapeStairManager;
     private GameObject guider;
     private int followercounter;
     private GameObject playerAttackDirectional;
     private CameraManager cameraManager;
 
     private GameObject[] weaponEffectPool;
+
+    private RangeOut discriminationState; 
     private void Awake()
     {
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
@@ -23,11 +33,11 @@ public class TileSpawnManager : MonoBehaviour
         {    
             if (manager.name == "PlayerManager")
             {
-                playerManager = manager.transform.gameObject;
+                playerManager = manager.transform.gameObject.GetComponent<PlayerManager>();
             }
             if (manager.name == "MonsterSpawnManager")
             {
-                monsterSpawnManager = manager.transform.gameObject;
+                monsterManager = manager.transform.gameObject.GetComponent<MonsterManager>();
             }
             if (manager.name == "FollowerManager")
             {
@@ -35,7 +45,7 @@ public class TileSpawnManager : MonoBehaviour
             }
             if (manager.name == "TreasureBoxEscapeStairManager")
             {
-                treasureBoxEscapeStairManager = manager.transform.gameObject;
+                treasureBoxEscapeStairManager = manager.transform.gameObject.GetComponent<TreasureBoxEscapeStairManager>();
             }
             if (manager.name == "CameraManager")
             {
@@ -43,207 +53,239 @@ public class TileSpawnManager : MonoBehaviour
             }
         }
         Manager = null;
-
+        discriminationState = RangeOut.nonRangeOut;
         weaponEffectPool = new GameObject[2];
         weaponEffectPool[0] = playerManager.GetComponent<PlayerManager>().WeaponEffectPool;
         weaponEffectPool[1] = followerManager.GetComponent<FollowerManager>().WeaponEffectPool;
 
-        baseTileMap = new GameObject[2];
-        baseTileMap[0] = this.transform.GetChild(0).gameObject;
-        baseTileMap[1] = this.transform.GetChild(1).gameObject;
-        baseTileMap[0].SetActive(true);
-        baseTileMap[1].SetActive(true);
-        baseTileMap[0].GetComponent<TileMap>().Init();
-        baseTileMap[1].GetComponent<TileMap>().Init();
+        baseTileMap = new TileMap[2];
+        baseTileMap[0] = this.transform.GetChild(0).GetComponent<TileMap>();
+        baseTileMap[1] = this.transform.GetChild(1).GetComponent<TileMap>();
+        baseTileMap[0].gameObject.SetActive(true);
+        baseTileMap[1].gameObject.SetActive(true);
+        baseTileMap[0].Init();
+        baseTileMap[1].Init();
     }
     // Update is called once per frame
     void Start()
     {
-        guider = playerManager.GetComponent<PlayerManager>().Guider;
+        guider = playerManager.Guider;
         followercounter = followerManager.GetComponent<FollowerManager>().FollowerCounter;
         playerAttackDirectional = playerManager.transform.GetChild(1).gameObject;
-        baseTileMap[1].SetActive(false);
+        baseTileMap[1].gameObject.SetActive(false);
     }
 
     public void swapTileMap(Transform transform, int row, int column)
     {
-        guider = playerManager.GetComponent<PlayerManager>().Guider;
-        baseTileMap[0].GetComponent<TileMap>().Row += row - 2;
-        baseTileMap[0].GetComponent<TileMap>().Column += column - 2;
-        baseTileMap[1].GetComponent<TileMap>().Row += row - 2;
-        baseTileMap[1].GetComponent<TileMap>().Column += column - 2;
+        guider = playerManager.Guider;
 
-        if (baseTileMap[0].GetComponent<TileMap>().Row <= 0 || baseTileMap[1].GetComponent<TileMap>().Row <= 0)
+        //UnityEditor.EditorApplication.isPaused = true;
+        // spawnManager의 상태 체크 부분
+        if((baseTileMap[0].Row <=1 || baseTileMap[1].Row <= 1) || (baseTileMap[0].Row >= 9 || baseTileMap[1].Row >= 9))
         {
-            baseTileMap[0].GetComponent<TileMap>().Row = 5;
-            baseTileMap[1].GetComponent<TileMap>().Row = 5;
-            if (baseTileMap[0].activeSelf == true)
+            discriminationState = RangeOut.rowRangeOut;
+            if ((baseTileMap[0].Column <= 1 || baseTileMap[1].Column <= 1)||(baseTileMap[0].Column >= 9 || baseTileMap[1].Column >= 9))
             {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[1].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
-
+                discriminationState = RangeOut.doubleRangeOut;
             }
-            else
-            {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[0].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
-            }
-            guider.transform.position = new Vector3(guider.transform.position.x, guider.transform.position.y - 12.8f * 4, guider.transform.position.z);
-            playerAttackDirectional.transform.position = new Vector3(playerAttackDirectional.transform.position.x, playerAttackDirectional.transform.position.y - 12.8f * 4, playerAttackDirectional.transform.position.z);
-            cameraManager.MainMoveCamera.transform.position = new Vector3(cameraManager.MainMoveCamera.transform.position.x, cameraManager.MainMoveCamera.transform.position.y - 12.8f * 4, cameraManager.MainMoveCamera.transform.position.z);
-            for (int i = 0; i < followercounter;i++)
-            {
-                followerManager.transform.GetChild(i).transform.position = new Vector3(followerManager.transform.GetChild(i).transform.position.x, followerManager.transform.GetChild(i).transform.position.y - 12.8f * 4, followerManager.transform.GetChild(i).transform.position.z);
-            }
-            for(int i = 0; i < monsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
-            {
-                monsterSpawnManager.transform.GetChild(i).position = new Vector3(monsterSpawnManager.transform.GetChild(i).position.x, monsterSpawnManager.transform.GetChild(i).position.y - 12.8f * 4, monsterSpawnManager.transform.GetChild(i).position.z);
-            }
-            for (int i = 0; i < baseTileMap[0].GetComponent<TileMap>().TileSet.Length; i++)
-            {
-                baseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(5,0);
-                baseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(5,0);
-            }
-            for(int i = 0; i< weaponEffectPool.Length;i++)
-            {
-                for(int a = 0; a < weaponEffectPool[i].transform.childCount;a++)
-                {
-                    weaponEffectPool[i].transform.GetChild(a).position = new Vector3(weaponEffectPool[i].transform.GetChild(a).position.x, weaponEffectPool[i].transform.GetChild(a).position.y, weaponEffectPool[i].transform.GetChild(a).position.z);
-                }
-            }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(4, 0);
-        }
-        else if (baseTileMap[0].GetComponent<TileMap>().Column <= 0 || baseTileMap[1].GetComponent<TileMap>().Column <= 0)
-        {
-            //EditorApplication.isPaused = true;
-
-            baseTileMap[0].GetComponent<TileMap>().Column = 5;
-            baseTileMap[1].GetComponent<TileMap>().Column = 5;
-            if (baseTileMap[0].activeSelf == true)
-            {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[1].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
-            }
-            else
-            {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[0].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
-            }
-            guider.transform.position = new Vector3(guider.transform.position.x + 12.8f * 4, guider.transform.position.y, guider.transform.position.z);
-            playerAttackDirectional.transform.position = new Vector3(playerAttackDirectional.transform.position.x + 12.8f * 4, playerAttackDirectional.transform.position.y, playerAttackDirectional.transform.position.z);
-            cameraManager.MainMoveCamera.transform.position = new Vector3(cameraManager.MainMoveCamera.transform.position.x + 12.8f * 4, cameraManager.MainMoveCamera.transform.position.y , cameraManager.MainMoveCamera.transform.position.z);
-            for (int i = 0; i < followercounter; i++)
-            {
-                followerManager.transform.GetChild(i).transform.position = new Vector3(followerManager.transform.GetChild(i).transform.position.x + 12.8f * 4, followerManager.transform.GetChild(i).transform.position.y, followerManager.transform.GetChild(i).transform.position.z);
-            }
-            for (int i = 0; i < monsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
-            {
-                monsterSpawnManager.transform.GetChild(i).position = new Vector3(monsterSpawnManager.transform.GetChild(i).position.x + 12.8f * 4, monsterSpawnManager.transform.GetChild(i).position.y , monsterSpawnManager.transform.GetChild(i).position.z);
-            }
-            for (int i = 0; i < baseTileMap[0].GetComponent<TileMap>().TileSet.Length; i++)
-            {
-                baseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,5);
-                baseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,5);
-            }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(0, 4);
-        }
-
-        else if (baseTileMap[0].GetComponent<TileMap>().Row >= 10 || baseTileMap[1].GetComponent<TileMap>().Row > 10)
-        {
-            baseTileMap[0].GetComponent<TileMap>().Row = 5;
-            baseTileMap[1].GetComponent<TileMap>().Row = 5;
-            if (baseTileMap[0].activeSelf == true)
-            {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[1].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
-            }
-            else
-            {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[0].transform.position = new Vector3(transform.parent.transform.position.x, 0, transform.parent.position.z);
-            }
-            guider.transform.position = new Vector3(guider.transform.position.x, guider.transform.position.y + 12.8f * 4, guider.transform.position.z);
-            playerAttackDirectional.transform.position = new Vector3(playerAttackDirectional.transform.position.x , playerAttackDirectional.transform.position.y + 12.8f * 4, playerAttackDirectional.transform.position.z);
-            cameraManager.MainMoveCamera.transform.position = new Vector3(cameraManager.MainMoveCamera.transform.position.x , cameraManager.MainMoveCamera.transform.position.y + 12.8f * 4, cameraManager.MainMoveCamera.transform.position.z);
-            for (int i = 0; i < followercounter; i++)
-            {
-                followerManager.transform.GetChild(i).transform.position = new Vector3(followerManager.transform.GetChild(i).transform.position.x, followerManager.transform.GetChild(i).transform.position.y + 12.8f * 4, followerManager.transform.GetChild(i).transform.position.z);
-            }
-            for (int i = 0; i < monsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
-            {
-                monsterSpawnManager.transform.GetChild(i).position = new Vector3(monsterSpawnManager.transform.GetChild(i).position.x, monsterSpawnManager.transform.GetChild(i).position.y + 12.8f * 4, monsterSpawnManager.transform.GetChild(i).position.z);
-            }
-            for (int i = 0; i < baseTileMap[0].GetComponent<TileMap>().TileSet.Length; i++)
-            {
-                baseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile( -5,0);
-                baseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile( -5,0);
-            }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(-4, 0);
-        }
-        else if (baseTileMap[0].GetComponent<TileMap>().Column >= 10 || baseTileMap[1].GetComponent<TileMap>().Column > 10)
-        {
-            baseTileMap[0].GetComponent<TileMap>().Column = 5;
-            baseTileMap[1].GetComponent<TileMap>().Column = 5;
-            if (baseTileMap[0].activeSelf == true)
-            {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[1].transform.position = new Vector3( 0, transform.parent.transform.position.y ,transform.parent.position.z);
-            }
-            else
-            {
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(true);
-                baseTileMap[0].transform.position = new Vector3(0, transform.parent.transform.position.y, transform.parent.position.z);
-            }
-            guider.transform.position = new Vector3(guider.transform.position.x - 12.8f * 4, guider.transform.position.y, guider.transform.position.z);
-            playerAttackDirectional.transform.position = new Vector3(playerAttackDirectional.transform.position.x - 12.8f * 4, playerAttackDirectional.transform.position.y , playerAttackDirectional.transform.position.z);
-            cameraManager.MainMoveCamera.transform.position = new Vector3(cameraManager.MainMoveCamera.transform.position.x - 12.8f * 4, cameraManager.MainMoveCamera.transform.position.y , cameraManager.MainMoveCamera.transform.position.z);
-            for (int i = 0; i < followercounter; i++)
-            {
-                followerManager.transform.GetChild(i).transform.position = new Vector3(followerManager.transform.GetChild(i).transform.position.x - 12.8f * 4, followerManager.transform.GetChild(i).transform.position.y , followerManager.transform.GetChild(i).transform.position.z);
-            }
-            for (int i = 0; i < monsterSpawnManager.GetComponent<MonsterManager>().EnabledMonster; i++)
-            {
-                monsterSpawnManager.transform.GetChild(i).position = new Vector3(monsterSpawnManager.transform.GetChild(i).position.x - 12.8f * 4, monsterSpawnManager.transform.GetChild(i).position.y, monsterSpawnManager.transform.GetChild(i).position.z);
-            }
-            for (int i = 0; i < baseTileMap[0].GetComponent<TileMap>().TileSet.Length; i++)
-            {
-                baseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,-5);
-                baseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(0,-5);
-            }
-            treasureBoxEscapeStairManager.GetComponent<TreasureBoxEscapeStairManager>().EventSwapTile(0,-4);
         }
         else
         {
-            if (baseTileMap[0].activeSelf == true)
+            discriminationState = RangeOut.nonRangeOut;
+            if ((baseTileMap[0].Column <= 1 || baseTileMap[1].Column <= 1) || (baseTileMap[0].Column >= 9 || baseTileMap[1].Column >= 9))
             {
-                baseTileMap[1].transform.position = transform.position;
-                baseTileMap[1].SetActive(true);
-                baseTileMap[0].SetActive(false);
-                for (int i = 0; i < baseTileMap[0].GetComponent<TileMap>().TileSet.Length; i++)
-                {
-                    baseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(row - 2, column - 2);
-                    baseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(row - 2, column - 2);
-                }
+                discriminationState = RangeOut.columnRangeOut;
             }
-            else
-            {
-                baseTileMap[0].transform.position = transform.position;
-                baseTileMap[0].SetActive(true);
-                baseTileMap[1].SetActive(false);
-                for (int i = 0; i < baseTileMap[0].GetComponent<TileMap>().TileSet.Length; i++)
+        }
+
+        // spawnManager의 상태별 행동
+        switch (discriminationState)
+        {
+            case RangeOut.nonRangeOut:
+                
+                baseTileMap[0].SwapTileMap(row - 2, column - 2);
+                baseTileMap[1].SwapTileMap(row - 2, column - 2);
+
+                if (baseTileMap[0].gameObject.activeSelf == true)
                 {
-                    baseTileMap[0].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(row - 2, column - 2);
-                    baseTileMap[1].GetComponent<TileMap>().TileSet[i].GetComponent<TileSet>().ChangeTile(row - 2, column - 2);
+                    baseTileMap[1].transform.position = transform.position;
+                    baseTileMap[1].gameObject.SetActive(true);
+                    baseTileMap[0].gameObject.SetActive(false);
                 }
-            }
+
+                else
+                {
+                    baseTileMap[0].transform.position = transform.position;
+                    baseTileMap[0].gameObject.SetActive(true);
+                    baseTileMap[1].gameObject.SetActive(false);
+
+                }
+
+                baseTileMap[0].ChangeTile(row - 2, column - 2);
+                baseTileMap[1].ChangeTile(row - 2, column - 2);
+                break;
+
+            case RangeOut.rowRangeOut:
+
+                baseTileMap[0].gameObject.SetActive(true);
+                baseTileMap[1].gameObject.SetActive(true);
+
+                if (baseTileMap[0].gameObject.activeSelf == true)
+                {
+                    if (baseTileMap[0].Row <= 1) baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                    else baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
+
+                }
+
+                else
+                {
+                    if (baseTileMap[1].Row <= 1) baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                    else baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
+                }
+
+                guider.transform.Translate(0 , 12.8f * (baseTileMap[0].Row - 5), 0,Space.Self);
+
+                playerAttackDirectional.transform.Translate(0 , 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+
+                cameraManager.MainMoveCamera.transform.Translate(0 , 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+
+                for (int i = 0; i < followercounter; i++)
+                {
+                   
+                    followerManager.transform.GetChild(i).transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                }
+
+                for (int i = 0; i < monsterManager.EnabledMonster; i++)
+                {
+                    monsterManager.transform.GetChild(i).Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                }
+
+
+                baseTileMap[0].ChangeTile(5,0);
+                baseTileMap[1].ChangeTile(5,0);
+
+                for (int i = 0; i < weaponEffectPool.Length; i++)
+                {
+                    weaponEffectPool[i].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                }
+
+                treasureBoxEscapeStairManager.EventSwapTile((5 - baseTileMap[0].Row ), 0);
+
+                baseTileMap[0].Row = 5;
+                baseTileMap[1].Row = 5;
+
+                break;
+
+            case RangeOut.columnRangeOut:
+
+                baseTileMap[0].gameObject.SetActive(true);
+                baseTileMap[1].gameObject.SetActive(true);
+
+                if (baseTileMap[0].gameObject.activeSelf == true)
+                {
+                    if (baseTileMap[0].Column <= 1) baseTileMap[1].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    else baseTileMap[1].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                }
+
+                else
+                {
+                    if (baseTileMap[0].Column <= 1) baseTileMap[0].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    else baseTileMap[0].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                }
+
+                guider.transform.Translate( 12.8f * (5 - baseTileMap[0].Column),0, 0, Space.Self);
+
+                playerAttackDirectional.transform.Translate(12.8f * (5 - baseTileMap[0].Column ), 0, 0, Space.Self);
+
+                cameraManager.MainMoveCamera.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+
+                for (int i = 0; i < followercounter; i++)
+                {
+                    followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+                }
+
+                for (int i = 0; i < monsterManager.EnabledMonster; i++)
+                {
+                    monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column ), 0, 0, Space.Self);
+                }
+
+
+                baseTileMap[0].ChangeTile(0, 5);
+                baseTileMap[1].ChangeTile(0, 5);
+
+                for (int i = 0; i < weaponEffectPool.Length; i++)
+                {
+                    weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+                }
+
+                treasureBoxEscapeStairManager.EventSwapTile(0, (5 - baseTileMap[0].Column));
+
+                baseTileMap[0].Column = 5;
+                baseTileMap[1].Column = 5;
+
+                break;
+
+            case RangeOut.doubleRangeOut:
+
+                baseTileMap[0].gameObject.SetActive(true);
+                baseTileMap[1].gameObject.SetActive(true);
+
+                if (baseTileMap[0].gameObject.activeSelf == true)
+                {
+                    if (baseTileMap[0].Column <= 1) baseTileMap[1].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    else baseTileMap[1].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                }
+                else
+                {
+                    if (baseTileMap[0].Column <= 1) baseTileMap[0].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    else baseTileMap[0].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                }
+
+                if (baseTileMap[0].gameObject.activeSelf == true)
+                {
+                    if (baseTileMap[0].Row <= 1) baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                    else baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
+
+                }
+                else
+                {
+                    if (baseTileMap[1].Row <= 1) baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                    else baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
+                }
+
+                guider.transform.Translate(12.8f * (5 - baseTileMap[0].Column ), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+
+                playerAttackDirectional.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+
+                cameraManager.MainMoveCamera.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+
+                for (int i = 0; i < followercounter; i++)
+                {
+
+                    followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                }
+
+                for (int i = 0; i < monsterManager.EnabledMonster; i++)
+                {
+                    monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                }
+
+
+                baseTileMap[0].ChangeTile(5, 5);
+                baseTileMap[1].ChangeTile(5, 5);
+
+                for (int i = 0; i < weaponEffectPool.Length; i++)
+                {
+                    weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                }
+
+                treasureBoxEscapeStairManager.EventSwapTile((5 - baseTileMap[0].Column), (baseTileMap[0].Row- 5));
+
+                baseTileMap[0].Row = 5;
+                baseTileMap[1].Row = 5;
+                baseTileMap[0].Column = 5;
+                baseTileMap[1].Column = 5;
+                break;
         }
     }
 }

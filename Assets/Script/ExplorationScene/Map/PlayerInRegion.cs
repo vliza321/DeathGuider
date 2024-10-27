@@ -7,6 +7,7 @@ public class PlayerInRegion : MonoBehaviour
     private TileSpawnManager tileSpawnManager;
     private bool triggerflag;
     private TileSet tileSet;
+    private const string playerTagName = "Player";
     // Start is called before the first frame update
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class PlayerInRegion : MonoBehaviour
 
         int row;
         int column;
-        if (collision.gameObject.CompareTag("Player") )
+        if (collision.gameObject.CompareTag(playerTagName) )
         {
             row = tileSet.row;
             column = tileSet.column;
@@ -42,7 +43,7 @@ public class PlayerInRegion : MonoBehaviour
     {
         int row;
         int column;
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag(playerTagName))
         {
             row = tileSet.row;
             column = tileSet.column;
@@ -53,20 +54,10 @@ public class PlayerInRegion : MonoBehaviour
             }
             else
             {
-                tileSpawnManager.GetComponent<TileSpawnManager>().swapTileMap(this.transform, row, column);
+                tileSpawnManager.swapTileMap(this.transform, row, column);
             }
         }
 
-
-    }
-    
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
-        if (collision.gameObject.CompareTag("BaseTile"))
-        {
-            triggerflag = true;
-        }
 
     }
 }

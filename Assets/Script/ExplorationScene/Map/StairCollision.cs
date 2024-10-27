@@ -8,6 +8,8 @@ public class StairCollision : MonoBehaviour
     private FadeInOut fadeInOutUI;
     private MonsterManager monsterManager;
     private ResultManager resultManager;
+
+    private string playerTagName = "Player";
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +43,7 @@ public class StairCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Player")
+        if(collision.CompareTag(playerTagName))
         {
             resultManager.PlayerEscape();
             monsterManager.PlayerEscape();

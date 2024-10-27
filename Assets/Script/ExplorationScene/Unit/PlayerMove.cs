@@ -126,15 +126,11 @@ public class PlayerMove : MonoBehaviour
             attackTargetVector = playerVelocityVector.normalized;
             animGet += playHeadAnim;
             animGet += playBodyAnim;
-            /*headAnimation.SetBool("isMove",true);
-            bodyAnimation.SetBool("isMove", true);*/
         }
         else
         {
             animGet += pauseHeadAnim;
             animGet += pauseBodyAnim;
-            /*headAnimation.SetBool("isMove", false);
-            bodyAnimation.SetBool("isMove", false);*/
         }
         attackTargetPoint = player.transform.position + attackTargetVector.normalized * 2.0f;
         if(Input.GetAxisRaw("AttackDirectionalBind") > 0)

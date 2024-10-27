@@ -24,7 +24,7 @@ public class TileSet : MonoBehaviour
     [SerializeField]
     private int absColumn;
     [SerializeField]
-    private GameObject[] tile;
+    private SpriteRenderer[] tile;
     private TileMap TileMap;
     [SerializeField]
     private GameObject TileSpriteImageStorage;
@@ -32,12 +32,12 @@ public class TileSet : MonoBehaviour
 
     public void Init()
     {
-        tile = new GameObject[this.transform.childCount];
+        tile = new SpriteRenderer[this.transform.childCount];
         TileMap = this.transform.parent.gameObject.GetComponent<TileMap>();
         TileSpriteImageStorages = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>();
         for (int i = 0; i < tile.Length; i++)
         {
-            tile[i] = this.transform.GetChild(i).gameObject;
+            tile[i] = this.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>();
             tile[i].GetComponent<SpriteRenderer>().sprite = TileSpriteImageStorages.BaseTileSpriteImage;
         }
         absRow = this.Row + TileMap.Row - 2;
@@ -60,14 +60,14 @@ public class TileSet : MonoBehaviour
     public void ChangeTile(int a, int b)
     {
         tile[Mathf.Abs((TileSpriteImageStorages.randConst.x) * (absColumn % 5) 
-            - (TileSpriteImageStorages.randConst.y) * (absRow%5)) % 100].GetComponent<SpriteRenderer>().sprite
+            - (TileSpriteImageStorages.randConst.y) * (absRow%5)) % 100].sprite
            = TileSpriteImageStorages.BaseTileSpriteImage;
 
         absRow += a;
         absColumn += b;
 
         tile[Mathf.Abs((TileSpriteImageStorages.randConst.x) * (absColumn%5)
-            - (TileSpriteImageStorages.randConst.y) * (absRow % 5)) % 100].GetComponent<SpriteRenderer>().sprite
+            - (TileSpriteImageStorages.randConst.y) * (absRow % 5)) % 100].sprite
            = TileSpriteImageStorages.TileSpriteImage[Mathf.Abs((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5)
            - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)) % 8];
     }

@@ -6,10 +6,12 @@ using UnityEngine.UIElements;
 
 public class PlayerHp : MonoBehaviour
 {
-    float HitDelay;
-    float MaxHP;
+    private float HitDelay;
+    private float MaxHP;
     [SerializeField]
-    float HeartPoint;
+    private float HeartPoint;
+
+    private string MonsterTagName = "Monster";
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +39,7 @@ public class PlayerHp : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Monster"))
+        if (collision.gameObject.CompareTag(MonsterTagName))
         {
             HeartPoint--;
             if (HeartPoint <= 0)
@@ -52,7 +54,7 @@ public class PlayerHp : MonoBehaviour
     {
         if (HitDelay == 0)
         {
-            if (collision.gameObject.CompareTag("Monster"))
+            if (collision.gameObject.CompareTag(MonsterTagName))
             {
                 HeartPoint--;
                 if (HeartPoint <= 0)

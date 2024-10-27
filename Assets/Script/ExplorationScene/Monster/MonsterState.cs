@@ -29,6 +29,7 @@ public class MonsterState : MonoBehaviour
     private ObjectPool monsterPool;
     private PlayerState playerState;
 
+    private string weaponTagName = "Weapon";
     public ObjectPool MonsterPool
     {
         get { return monsterPool; }
@@ -100,7 +101,7 @@ public class MonsterState : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Weapon"))
+        if (collision.gameObject.CompareTag(weaponTagName))
         {
             //hp -= collision.GetComponent<WeaponState>().Damage;
             hp--;

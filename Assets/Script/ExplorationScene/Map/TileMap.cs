@@ -20,8 +20,8 @@ public class TileMap : MonoBehaviour
         set { mapSize = value; }
     }
 
-    private GameObject[] tileSet;
-    public GameObject[] TileSet
+    private TileSet[] tileSet;
+    public TileSet[] TileSet
     {
         get { return tileSet; }
         set {  tileSet = value; }
@@ -32,17 +32,30 @@ public class TileMap : MonoBehaviour
 
     public void Init()
     {
-        TileSet = new GameObject[this.transform.childCount];
+        TileSet = new TileSet[this.transform.childCount];
         row = (int)(mapSize.x / 2);
         column = (int)(mapSize.y / 2);
         for (int i = 0; i < 9; i++)
         {
-            tileSet[i] = this.transform.GetChild(i).gameObject;
+            tileSet[i] = this.transform.GetChild(i).gameObject.GetComponent<TileSet>();
         }
         foreach (var t in tileSet)
         {
-            t.GetComponent<TileSet>().Init();
+            t.Init();
         }
 
+    }
+
+    public void ChangeTile(int row, int column)
+    {
+        foreach(var t in tileSet)
+        {
+            t.ChangeTile(row, column);
+        }
+    }
+    public void SwapTileMap(int row, int column)
+    {
+        this.row += row;
+        this.column += column;
     }
 }
