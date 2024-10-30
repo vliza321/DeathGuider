@@ -18,6 +18,7 @@ public class AttackDirectional : MonoBehaviour
     private float playerToObjAngle;
 
     private float PI;
+    private float radian;
 
     private float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
     private float rotateAngle;
@@ -50,6 +51,7 @@ public class AttackDirectional : MonoBehaviour
         cashingVector3 = this.transform.position;
         isMove = true;
         PI = Mathf.PI;  
+        radian = 180 / PI;
     }
     private void Start()
     {
@@ -113,7 +115,7 @@ public class AttackDirectional : MonoBehaviour
 
         this.transform.position = cashingVector3;
 
-        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI - 90;
+        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * radian - 90;
 
         this.transform.eulerAngles = cashingVector3;
         

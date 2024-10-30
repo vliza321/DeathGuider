@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a171cd98cfd097049b8c034a78ee7591, type: 3}
   m_Name: DialogDataList
   m_EditorClassIdentifier: 
-  dialogDatas:
+  DialogDatas:
   - Number: 0
-    CustomerID: 0
-    State: "\uCCAB\uBB38\uC7A5"
-    Content: 
+    CustomerID: 5
+    State: visitGeneral
+    Content: "\uCCAB\uBB38\uC7A5"
   - Number: 1
-    CustomerID: 0
-    State: "\uB2E4\uC74C \uBB38\uC7A5"
-    Content: 
+    CustomerID: 4
+    State: visitGeneral
+    Content: "\uB2E4\uC74C \uBB38\uC7A5"
   - Number: 2
-    CustomerID: 0
-    State: "3\uBC88\uC9F8 \uBB38\uC7A5"
-    Content: 
+    CustomerID: 3
+    State: visitGeneral
+    Content: "3\uBC88\uC9F8 \uBB38\uC7A5"
   - Number: 3
-    CustomerID: 0
-    State: "4\uBC88\uC9F8 \uBB38\uC7A5"
-    Content: 
+    CustomerID: 2
+    State: visitGeneral
+    Content: "4\uBC88\uC9F8 \uBB38\uC7A5"
   - Number: 4
-    CustomerID: 0
-    State: "5\uBC88\uC9F8 \uBB38\uC7A5"
-    Content: 
+    CustomerID: 1
+    State: visitGeneral
+    Content: "5\uBC88\uC9F8 \uBB38\uC7A5"

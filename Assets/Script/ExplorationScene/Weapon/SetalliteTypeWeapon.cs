@@ -12,7 +12,7 @@ public class SetalliteTypeWeapon : MonoBehaviour
     private float debugAngle;
 
     private float PI;
-
+    private float radian;
     private float rotateAnglePerFrame; // 커맨더 패턴 구현시 타켓 돌아가는 속도 조정가능하게 수정
     private float rotateAngle;
     private Vector3 directionalVector;
@@ -30,7 +30,9 @@ public class SetalliteTypeWeapon : MonoBehaviour
         rotateAnglePerFrame = 0.01f;
         rotateAngle = 0.02f;
         this.transform.parent = WeaponEffectPool;
+        radian = 180 / MathF.PI;
     }
+
     public void Execute(Transform baseObject, Transform effectPool)
     {
         if (baseParent.gameObject.activeSelf == false) this.gameObject.SetActive(false);
@@ -42,7 +44,7 @@ public class SetalliteTypeWeapon : MonoBehaviour
 
         this.transform.position = directionalVector + baseParent.position;
 
-        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * (180.0f) / PI - 45;
+        cashingVector3.x = 0; cashingVector3.y = 0; cashingVector3.z = (playerToObjAngle) * radian - 45;
 
         this.transform.eulerAngles = cashingVector3;
     }

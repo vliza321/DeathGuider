@@ -19,6 +19,7 @@ public class DirectionalSign : MonoBehaviour
     private float absAngle;
 
     private Vector3 cashingVector;
+    private float radian;
     public Transform Player
     {
         get
@@ -60,6 +61,7 @@ public class DirectionalSign : MonoBehaviour
         {
             //playerToObj = new Vector2(0.0f,0.0f);
         }
+        radian = 180 / Mathf.PI;
     }
 
     private void Start()
@@ -67,7 +69,7 @@ public class DirectionalSign : MonoBehaviour
         targetObj = this.transform.parent.transform;
 
         playerToObj = new Vector2(targetObj.position.x - player.position.x, targetObj.position.y - player.position.y);
-        playerToObjAngle = MathF.Atan2(playerToObj.x, playerToObj.y) * 180.0f / MathF.PI;
+        playerToObjAngle = MathF.Atan2(playerToObj.x, playerToObj.y) * radian;
         this.transform.eulerAngles = new Vector3(0, 0,-playerToObjAngle);
     }
 
@@ -77,20 +79,22 @@ public class DirectionalSign : MonoBehaviour
         screenDiagonalAngle = MathF.Atan2(Screen.height, Screen.width);
         playerToObj.x = (targetObj.position.x - player.position.x);
         playerToObj.y = (targetObj.position.y - player.position.y);
-        playerToObjAngle = MathF.Atan2(playerToObj.y, playerToObj.x);// * 180.0f / MathF.PI;// + 180.0f;
-        absAngle = MathF.Abs(playerToObjAngle); 
+        playerToObjAngle = MathF.Atan2(playerToObj.y, playerToObj.x);
+        absAngle = (playerToObjAngle >= 0) ? playerToObjAngle : -playerToObjAngle;
+        
         // 화면 밖에 있을때 예외 처리
-        if(MathF.Abs(playerToObj.x) > MathF.Abs(Screen.width/200+0.64f) || MathF.Abs(playerToObj.y) > MathF.Abs(Screen.height/200+0.64f)) // 가로가 화면 밖에 있을때
+        if ( (  ((playerToObj.x >= 0) ? playerToObj.x : -playerToObj.x) > ((Screen.width * 0.005f + 0.64f >= 0) ? Screen.width * 0.005f + 0.64f : -Screen.width * 0.005f + 0.64f))
+            || ((playerToObj.y >= 0) ? playerToObj.y : -playerToObj.y) > ((Screen.width * 0.005f + 0.64f >= 0) ? Screen.width * 0.005f + 0.64f : -Screen.width * 0.005f + 0.64f))
         {
             cashingVector.x = 0;
             cashingVector.y = 0;
-            cashingVector.z = -90 + (playerToObjAngle) * (180.0f) / MathF.PI;
+            cashingVector.z = -90 + (playerToObjAngle) * radian;
             this.transform.eulerAngles = cashingVector;
 
             if(absAngle < screenDiagonalAngle)
             {
-                cashingVector.x = (-playerToObj.x + (Screen.width / 200))/4;
-                cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
+                cashingVector.x = (-playerToObj.x + (Screen.width * 0.005f)) * 0.25f;
+                cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width * 0.005f)) * 0.25f;
             }
             else 
             {      
@@ -101,20 +105,20 @@ public class DirectionalSign : MonoBehaviour
 
                     if (playerToObjAngle < 0)
                     {
-                        cashingVector.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200) ) / 4 ;
-                        cashingVector.y = (-playerToObj.y - (Screen.height / 200)) / 4 + 0.032f;
+                        cashingVector.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200) ) * 0.25f;
+                        cashingVector.y = (-playerToObj.y - (Screen.height * 0.005f)) * 0.25f + 0.032f;
                     }
                     else if (playerToObjAngle > 0)
                     {
-                        cashingVector.x = (-playerToObj.x + MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) / 4;
-                        cashingVector.y = (-playerToObj.y + (Screen.height / 200)) / 4 - 0.032f;
+                        cashingVector.x = (-playerToObj.x + MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) * 0.25f;
+                        cashingVector.y = (-playerToObj.y + (Screen.height * 0.005f)) * 0.25f - 0.032f;
                     }
                 }
 
                 else
                 {
-                    cashingVector.x = (-playerToObj.x - (Screen.width / 200)) / 4;
-                    cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width / 200)) / 4;
+                    cashingVector.x = (-playerToObj.x - (Screen.width * 0.005f)) * 0.25f;
+                    cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width * 0.005f)) * 0.25f;
                 }
             }
         }
@@ -131,6 +135,7 @@ public class DirectionalSign : MonoBehaviour
             cashingVector.z = 0;
         }
 
+        cashingVector.z = 0;
         this.transform.localPosition = cashingVector;
     }
 }

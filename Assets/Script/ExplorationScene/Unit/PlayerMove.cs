@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviour
     private Animator bodyAnimation;
     private Animator headAnimation;
     private CameraManager camera;
+    private PlayerState playerState;
     public CameraManager Camera
     {
         set { camera = value; }
@@ -81,8 +82,11 @@ public class PlayerMove : MonoBehaviour
     private AnimGet pauseHeadAnim;
     private AnimGet pauseBodyAnim;
 
+    private Vector3 cashingVector;
+
     private void Awake()
     {
+        playerState = this.gameObject.GetComponent<PlayerState>();
         playHeadAnim = new AnimGet(PlayHeadAnim);
         playBodyAnim = new AnimGet(PlayBodyAnim); 
         pauseHeadAnim = new AnimGet(PauseHeadAnim); 
@@ -98,6 +102,8 @@ public class PlayerMove : MonoBehaviour
         attackTargetVector.x = -1;
         attackTargetVector.y = 0;
         attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 2.0f;
+
+        cashingVector = Vector3.zero;
     }
 
 
@@ -112,14 +118,24 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.GetComponent<PlayerState>().CanMove) canMove = true;
+        if (playerState.CanMove) canMove = true;
         else canMove = false;
         playerVelocityVector.x = Input.GetAxisRaw("Horizontal");
         playerVelocityVector.y = Input.GetAxisRaw("Vertical");
         if(Input.GetAxisRaw("Horizontal")!=0)
         {
-            if (Input.GetAxisRaw("Horizontal") > 0) { player.transform.localScale = new Vector3((-1)* playerLocalScale.x, playerLocalScale.y, playerLocalScale.z); } //뒤집기
-            else { player.transform.localScale = new Vector3(playerLocalScale.x, playerLocalScale.y, playerLocalScale.z); }
+            if (Input.GetAxisRaw("Horizontal") > 0) {
+                cashingVector.x = (-1) * playerLocalScale.x;
+                cashingVector.y = playerLocalScale.y;
+                cashingVector.z = playerLocalScale.z;
+                player.transform.localScale = cashingVector; 
+            } //뒤집기
+            else {
+                cashingVector.x = playerLocalScale.x;
+                cashingVector.y = playerLocalScale.y;
+                cashingVector.z = playerLocalScale.z;
+                player.transform.localScale = cashingVector;
+            }
         }
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {

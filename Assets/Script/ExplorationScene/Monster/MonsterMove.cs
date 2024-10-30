@@ -109,9 +109,9 @@ public class MonsterMove : MonoBehaviour
                 if (distance < 0.5f) { moveSpeeds = 0.10f; }
                 if ((distance < 12.0f) && (distance >= 0.5f))
                 {
-                    moveSpeeds = guiderMoveSpeed / 2.0f + 0.5f;
+                    moveSpeeds = guiderMoveSpeed * 0.5f + 0.5f;
                 }
-                if (distance >= 12.0f) { moveSpeeds = guiderMoveSpeed / 5.0f + 0.1f; }
+                if (distance >= 12.0f) { moveSpeeds = guiderMoveSpeed * 0.25f + 0.1f; }
                 break;
         }
     }
@@ -123,8 +123,8 @@ public class MonsterMove : MonoBehaviour
             else signX = -1;
             if (Random.Range(0, 2) == 1) signY = 1;
             else signY = -1;
-            cashingVector.x = playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f);
-            cashingVector.y = playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f);
+            cashingVector.x = playerPos.x + signX * 12.8f * (Random.Range(6, 10) * 0.1f);
+            cashingVector.y = playerPos.y + signY * 12.8f * (Random.Range(4, 8) * 0.1f);
             cashingVector.z = playerPos.z;
             //this.transform.position = new Vector3(playerPos.x + signX * 12.8f * (Random.Range(6, 10) / 10.0f), playerPos.y + signY * 12.8f * (Random.Range(4, 8) / 10.0f), playerPos.z); 
             this.transform.position = cashingVector;

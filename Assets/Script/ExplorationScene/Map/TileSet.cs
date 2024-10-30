@@ -59,16 +59,24 @@ public class TileSet : MonoBehaviour
 
     public void ChangeTile(int a, int b)
     {
-        tile[Mathf.Abs((TileSpriteImageStorages.randConst.x) * (absColumn % 5) 
-            - (TileSpriteImageStorages.randConst.y) * (absRow%5)) % 100].sprite
+       /*
+        tile[((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0) 
+            ? (TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) 
+            : -(TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
+            % 100].sprite
            = TileSpriteImageStorages.BaseTileSpriteImage;
 
         absRow += a;
         absColumn += b;
-
-        tile[Mathf.Abs((TileSpriteImageStorages.randConst.x) * (absColumn%5)
-            - (TileSpriteImageStorages.randConst.y) * (absRow % 5)) % 100].sprite
-           = TileSpriteImageStorages.TileSpriteImage[Mathf.Abs((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5)
-           - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)) % 8];
+        /* 코드 수정 오류있음
+        tile[((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0)
+            ? (TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
+            : -(TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
+            % 100].sprite
+           = TileSpriteImageStorages.TileSpriteImage[
+             ((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5) >= 0)
+            ? (TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)
+            : -(TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)
+            % 8];*/
     }
 }

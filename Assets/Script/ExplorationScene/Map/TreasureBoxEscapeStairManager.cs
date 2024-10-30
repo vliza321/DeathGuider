@@ -47,8 +47,10 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     }
     private string boxName = "Box";
     private string stairName = "Stair";
+    private Vector3 cashingVector;
     private void Awake()
     {
+        cashingVector = Vector3.zero;
         Player = GameObject.FindGameObjectWithTag("Player");
 
         TreasureBoxList = new List<GameObject>();
@@ -127,12 +129,18 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     {
         foreach(var e in EscapeStairList)
         {
-            e.transform.position += new Vector3(12.8f * (row), 12.8f * (-column));
+            cashingVector.x = 12.8f * row;
+            cashingVector.y = 12.8f * (-column);
+            cashingVector.z = 0;
+            e.transform.position += cashingVector;
         }
 
         foreach (var t in TreasureBoxList)
         {
-            t.transform.position += new Vector3(12.8f * (row), 12.8f * (-column));
+            cashingVector.x = 12.8f * row;
+            cashingVector.y = 12.8f * (-column);
+            cashingVector.z = 0;
+            t.transform.position += cashingVector;
         }
     }
 }

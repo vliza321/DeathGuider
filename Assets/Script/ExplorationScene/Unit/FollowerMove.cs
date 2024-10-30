@@ -20,9 +20,11 @@ public class FollowerMove : MonoBehaviour
     private Animator bodyAnimation;
     private Animator headAnimation;
 
+    private Vector3 cashingVector;
     // Start is called before the first frame update
     void Start()
     {
+        cashingVector = Vector3.zero;
         headAnimation = this.transform.GetChild(0).GetComponent<Animator>();
         bodyAnimation = this.transform.GetChild(1).GetComponent<Animator>();
         guider = this.transform.parent.GetComponent<FollowerManager>().PlayerManager.transform.GetChild(0).gameObject;
@@ -55,7 +57,7 @@ public class FollowerMove : MonoBehaviour
             bodyAnimation.SetBool("isMove", true);
             if (distance < 0.940f)
             {
-                moveSpeeds = guiderMoveSpeed / 1.5f;
+                moveSpeeds = guiderMoveSpeed * 0.66f;
             }
             else if (distance < 4.8f)
             {
@@ -67,14 +69,19 @@ public class FollowerMove : MonoBehaviour
             }
             else moveSpeeds = guiderMoveSpeed + 3.0f;
         }
-        
-        this.gameObject.transform.localScale = new Vector3(frontguiderLocalscale.x, frontguiderLocalscale.y, frontguiderLocalscale.z);
+        cashingVector.x = frontguiderLocalscale.x;
+        cashingVector.y = frontguiderLocalscale.y;
+        cashingVector.z = frontguiderLocalscale.z;
+        this.gameObject.transform.localScale = cashingVector;
 
     }
 
     private void FixedUpdate()
     {
         followerVelocityVector = followerVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime;
-        follower.transform.position = new Vector2(follower.transform.position.x - followerVelocityVector.x, follower.transform.position.y - followerVelocityVector.y);
+        cashingVector.x = follower.transform.position.x - followerVelocityVector.x;
+        cashingVector.y = follower.transform.position.y - followerVelocityVector.y;
+        cashingVector.z = 0;
+        follower.transform.position = cashingVector;
     }
 }

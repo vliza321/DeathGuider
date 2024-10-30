@@ -79,20 +79,19 @@ public class TileSpawnManager : MonoBehaviour
     {
         guider = playerManager.Guider;
 
-        //UnityEditor.EditorApplication.isPaused = true;
         // spawnManager의 상태 체크 부분
-        if((baseTileMap[0].Row <=1 || baseTileMap[1].Row <= 1) || (baseTileMap[0].Row >= 9 || baseTileMap[1].Row >= 9))
+        if((baseTileMap[0].Row + row - 2 < 1|| baseTileMap[1].Row + row - 2 < 1) || (baseTileMap[0].Row  + row - 2 > 9 || baseTileMap[1].Row + row - 2 > 9))
         {
             discriminationState = RangeOut.rowRangeOut;
-            if ((baseTileMap[0].Column <= 1 || baseTileMap[1].Column <= 1)||(baseTileMap[0].Column >= 9 || baseTileMap[1].Column >= 9))
-            {
+            if ((baseTileMap[0].Column + column - 2 < 1 || baseTileMap[1].Column + column - 2 < 1)||(baseTileMap[0].Column + column - 2> 9 || baseTileMap[1].Column + column - 2 > 9))
+            { 
                 discriminationState = RangeOut.doubleRangeOut;
             }
         }
         else
         {
             discriminationState = RangeOut.nonRangeOut;
-            if ((baseTileMap[0].Column <= 1 || baseTileMap[1].Column <= 1) || (baseTileMap[0].Column >= 9 || baseTileMap[1].Column >= 9))
+            if ((baseTileMap[0].Column + column - 2 < 1 || baseTileMap[1].Column + column - 2 < 1)||(baseTileMap[0].Column + column - 2> 9 || baseTileMap[1].Column + column - 2 > 9))
             {
                 discriminationState = RangeOut.columnRangeOut;
             }
@@ -285,6 +284,8 @@ public class TileSpawnManager : MonoBehaviour
                 baseTileMap[1].Row = 5;
                 baseTileMap[0].Column = 5;
                 baseTileMap[1].Column = 5;
+                
+                EditorApplication.isPaused = true;
                 break;
         }
     }

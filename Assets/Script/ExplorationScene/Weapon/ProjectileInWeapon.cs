@@ -14,7 +14,7 @@ public class ProjectileInWeapon : MonoBehaviour
     private Vector3 worldPosition;
     [SerializeField]
     private float playerToObjAngle;
-    private float PI;
+    private float radian;
     public Transform AttactDirection
     {
         get { return attactDirection;}
@@ -28,7 +28,7 @@ public class ProjectileInWeapon : MonoBehaviour
     private void Awake()
     {
         baseParent = this.transform.parent.gameObject;
-        PI = MathF.PI;
+        radian = 180 / MathF.PI;
         playerToObjAngle = 0;
         moveDirection = new Vector3(0, 0, 0);
         baseRuntime = 500;
@@ -64,9 +64,9 @@ public class ProjectileInWeapon : MonoBehaviour
 
         this.transform.parent = EffectPool;
 
-        cashingVector3.x = MathF.Abs(this.transform.localScale.x);
-        cashingVector3.y = MathF.Abs(this.transform.localScale.y);
-        cashingVector3.z = MathF.Abs(this.transform.localScale.z);
+        cashingVector3.x = (cashingVector3.x >= 0) ? cashingVector3.x : -cashingVector3.x;
+        cashingVector3.y = (cashingVector3.y >= 0) ? cashingVector3.y : -cashingVector3.y;
+        cashingVector3.z = (cashingVector3.z >= 0) ? cashingVector3.z : -cashingVector3.z;
 
         this.transform.localScale = cashingVector3;
 
@@ -77,7 +77,7 @@ public class ProjectileInWeapon : MonoBehaviour
         moveDirection.y = attactDirection.transform.position.y - grandParentPos.y;
         moveDirection = moveDirection.normalized * 0.2f;
 
-        playerToObjAngle = (Mathf.Atan2(moveDirection.y, moveDirection.x)) * 180.0f / PI;
+        playerToObjAngle = (Mathf.Atan2(moveDirection.y, moveDirection.x)) * radian;
         cashingVector3.x = 0;
         cashingVector3.y = 0;
         cashingVector3.z = playerToObjAngle;

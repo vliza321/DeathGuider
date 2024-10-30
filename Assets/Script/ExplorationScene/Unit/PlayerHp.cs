@@ -12,9 +12,11 @@ public class PlayerHp : MonoBehaviour
     private float HeartPoint;
 
     private string MonsterTagName = "Monster";
+    private Vector3 cashingVector;
     // Start is called before the first frame update
     void Start()
     {
+        cashingVector = Vector3.zero;
         HitDelay = 20*Time.deltaTime;
         MaxHP = 100;
         HeartPoint = MaxHP;
@@ -24,7 +26,10 @@ public class PlayerHp : MonoBehaviour
     void Update()
     {
         if (HitDelay > 0) { HitDelay--; }
-        this.transform.position = new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z);
+        cashingVector.x = transform.parent.position.x;
+        cashingVector.y = transform.parent.position.y;
+        cashingVector.z = transform.parent.position.z;
+        this.transform.position = cashingVector;
     }
 
     float GetHp()

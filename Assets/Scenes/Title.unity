@@ -966,7 +966,6 @@ GameObject:
   m_Component:
   - component: {fileID: 836453375}
   - component: {fileID: 836453376}
-  - component: {fileID: 836453377}
   m_Layer: 0
   m_Name: CSVManager
   m_TagString: Untagged
@@ -1003,19 +1002,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FILE_NAME: []
   dialogDataList: {fileID: 11400000, guid: 89ef3da328f97de429e9d2590a31fe66, type: 2}
---- !u!114 &836453377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 836453373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e00aeaf701e54c84b945c8e2b38bdc7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  userDataList: {fileID: 11400000, guid: 89ef3da328f97de429e9d2590a31fe66, type: 2}
 --- !u!1 &1096611473
 GameObject:
   m_ObjectHideFlags: 0
