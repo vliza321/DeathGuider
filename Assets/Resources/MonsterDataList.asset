@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c79b5a79c044024c858982535501a02, type: 3}
+  m_Name: MonsterDataList
+  m_EditorClassIdentifier: 
+  MonsterDatas:
+  - id: 1
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 2
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 3
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 4
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 5
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 6
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 7
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 8
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 9
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100
+  - id: 10
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    HealthPoint: 100

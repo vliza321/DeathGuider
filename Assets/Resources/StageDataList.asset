@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a48f22fa9bbfed645af77150563dcbda, type: 3}
+  m_Name: StageDataList
+  m_EditorClassIdentifier: 
+  StageDatas:
+  - id: 0
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 1
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 0
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 1
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 1
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 1
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 2
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 2
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 2
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 3
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 3
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 3
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 4
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 4
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 4
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 5
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 5
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 5
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 6
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 6
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 6
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 7
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 7
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 7
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 8
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 8
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 8
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 9
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 9
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 9
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100
+  - id: 10
+    IsClear: 0
+    Progress: 0
+    AppearingMonsterId1: 10
+    AppearingMonsterId2: 0
+    AppearingMonsterId3: 0
+    BossMonsterId: 10
+    BossMonsterIsClear: 0
+    BossMonsterHealthPoint: 100

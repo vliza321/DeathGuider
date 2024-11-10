@@ -14,22 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DialogDatas:
   - Number: 0
-    CustomerID: 5
+    CustomerID: 991
     State: visitGeneral
     Content: "\uCCAB\uBB38\uC7A5"
   - Number: 1
-    CustomerID: 4
+    CustomerID: 991
     State: visitGeneral
     Content: "\uB2E4\uC74C \uBB38\uC7A5"
   - Number: 2
-    CustomerID: 3
+    CustomerID: 991
     State: visitGeneral
     Content: "3\uBC88\uC9F8 \uBB38\uC7A5"
   - Number: 3
-    CustomerID: 2
+    CustomerID: 991
     State: visitGeneral
     Content: "4\uBC88\uC9F8 \uBB38\uC7A5"
   - Number: 4
-    CustomerID: 1
+    CustomerID: 991
     State: visitGeneral
     Content: "5\uBC88\uC9F8 \uBB38\uC7A5"
