@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GuiderDataList", menuName = "ScriptableObject/GuiderData")]
-public class GuiderDataList : ScriptableObject
+public class GuiderDataList : DataScriptableObjects
 {
     public List<GuiderData> GuiderDatas = new List<GuiderData>();
 }

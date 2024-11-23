@@ -15,7 +15,7 @@ MonoBehaviour:
   LocalUserDatas:
   - id: 0
     clearStage: 0
-    Gold: 1000
+    Gold: 1002
     DeathEssence: 0
     DarkStrength: 0
     date: 0

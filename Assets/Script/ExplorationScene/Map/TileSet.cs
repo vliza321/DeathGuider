@@ -65,7 +65,7 @@ public class TileSet : MonoBehaviour
             : -(TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
             % 100].sprite
            = TileSpriteImageStorages.BaseTileSpriteImage;
-
+       
         absRow += a;
         absColumn += b;
         /* 코드 수정 오류있음

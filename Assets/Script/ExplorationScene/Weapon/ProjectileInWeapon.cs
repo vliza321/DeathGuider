@@ -64,6 +64,7 @@ public class ProjectileInWeapon : MonoBehaviour
 
         this.transform.parent = EffectPool;
 
+        cashingVector3 = this.transform.localScale;
         cashingVector3.x = (cashingVector3.x >= 0) ? cashingVector3.x : -cashingVector3.x;
         cashingVector3.y = (cashingVector3.y >= 0) ? cashingVector3.y : -cashingVector3.y;
         cashingVector3.z = (cashingVector3.z >= 0) ? cashingVector3.z : -cashingVector3.z;

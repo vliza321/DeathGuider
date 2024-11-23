@@ -1,4 +1,4 @@
-﻿id,Type,Name,Level,AttackPoint,AttackPointLevel,Crime
+id,Type,Name,Level,AttackPoint,AttackPointLevel,Crime
 0,0,기본 근접,1,10,1,0
 1,1,기본 원거리,1,10,1,0
 2,2,기본 위성,1,10,1,0

@@ -33,6 +33,8 @@ public class StairCollision : MonoBehaviour
                 resultManager = m.GetComponent<ResultManager>();
             }
         }
+        UI = null;
+        manager = null;
     }
 
     // Update is called once per frame
@@ -47,7 +49,6 @@ public class StairCollision : MonoBehaviour
         {
             resultManager.PlayerEscape();
             monsterManager.PlayerEscape();
-            fadeInOutUI.StartFadeOut();
         }
     }
 }

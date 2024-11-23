@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MonsterDataList", menuName = "ScriptableObject/MonsterData")]
-public class MonsterDataList : ScriptableObject
+public class MonsterDataList : DataScriptableObjects
 {
     public List<MonsterData> MonsterDatas = new List<MonsterData>();
 }

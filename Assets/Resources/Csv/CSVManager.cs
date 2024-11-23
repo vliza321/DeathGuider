@@ -10,33 +10,31 @@ using System.IO;
 
 public class CSVManager :MonoBehaviour
 {
-    public List<string> FILE_NAME;
-    
-    public List<Dictionary<string, object>> LocalUser = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> Guider = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> Prisoner = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> Stage = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> Monster = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> BossMonster = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> GuiderInUser = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> PrisonerInUser = new List<Dictionary<string, object>>();
-    public List<Dictionary<string, object>> WeaponInUser = new List<Dictionary<string, object>>();
-
-    //CSV파일 파싱 직후 저장 공간
-    public List<Dictionary<string, object>> Dialog = new List<Dictionary<string, object>>();
-
-    public List<ScriptableObject> Datas = new List<ScriptableObject>();
-
-    private void Awake()
-    {
-        FILE_NAME = new List<string> { 
-        /*"LocalUser",
+    private List<string> FILE_NAME = new List<string> { 
+        
+        "LocalUser",
         "Guider","Prisoner","Stage",
         "Monster","BossMonster",
-        "GudierInUser","PrisonerInUser", "WeaponInUser",
-        */
-        "Dialog" };
+        "GuiderInUser","PrisonerInUser", "WeaponInUser",
+        "Dialog" 
+    };
+    
+    private List<Dictionary<string, object>> LocalUser = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Guider = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Prisoner = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Stage = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Monster = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> BossMonster = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> GuiderInUser = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> PrisonerInUser = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> WeaponInUser = new List<Dictionary<string, object>>();
 
+    //CSV파일 파싱 직후 저장 공간
+    private List<Dictionary<string, object>> Dialog = new List<Dictionary<string, object>>();
+
+    public void Initialize()
+    {
+        Debug.Log("CSVManagerInit");
         foreach(var fn in FILE_NAME)
         {
             object fnValue = GetFieldByString(fn);
@@ -47,45 +45,12 @@ public class CSVManager :MonoBehaviour
                 ConvertCSVToScriptableObject(fn, fnList);
             }
         }
-
-        /* 사용시 최초 초기화는 필요없음
-        foreach(var fn in FILE_NAME)
-        {
-            List<Dictionary<string, object>> fnList = new List<Dictionary<string, object>>();
-            fnList = CSVReader.Read(fn);
-            ConvertCSVToScriptableObject(fn, fnList);
-        }*/
-
-        //dialog 출력
-        for (int i = 0; i < Dialog.Count; i++)
-        {
-            Debug.Log(Dialog[i]["Number"].ToString() +" "+Dialog[i]["CustomerID"] + Dialog[i]["Content"].ToString());
-        }
-
-        //dialog 타입 반환
-        Type type = Type.GetType("DialogDataList");
-
-        //dialog 타입 로드
-        DialogDataList ddl = Resources.Load("DialogDataList",type) as DialogDataList;
-
-        //dialog 값 변경
-        foreach(var ddds in ddl.DialogDatas)
-        {
-            ddds.CustomerID = 991;
-        }
-
-
-        //dialog 파일 위치 저장
-        string filePath = Path.Combine(Application.persistentDataPath, "Dialogtest.csv");
-        Debug.Log(filePath);
-        //dialog 파일에 저장
-        SaveToCSV("Dialog", ddl, filePath);
     }
 
-    public object GetFieldByString(string fieldName)
+    private object GetFieldByString(string fieldName)
     {
         // Reflection을 사용하여 필드에 접근
-        FieldInfo field = this.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.Public);
+        FieldInfo field = this.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic );
 
         if (field != null)
         {
@@ -94,17 +59,18 @@ public class CSVManager :MonoBehaviour
         else
         {
             Console.WriteLine($"{fieldName} not found.");
+            Debug.Log($"{fieldName} not found.");
             return null;
         }
     }
 
-    public void SetFieldByString(string fieldName, object value)
+    private void SetFieldByString(string fieldName, object value)
     {
         FieldInfo field = this.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.Public);
         field?.SetValue(this, value);
     }
 
-    void ConvertCSVToScriptableObject(string dataName, List<Dictionary<string, object>> parsedData)
+    private void ConvertCSVToScriptableObject(string dataName, List<Dictionary<string, object>> parsedData)
     {
         //불러올 data파일 + "Data" 문자열을 추가하여 타입을 찾음
         Type type = Type.GetType(dataName + "Data");
@@ -152,7 +118,7 @@ public class CSVManager :MonoBehaviour
     }
 
 
-    public void SaveDataListInScriptableObject(string dataName, object newData)
+    private void SaveDataListInScriptableObject(string dataName, object newData)
     {
         // 동적으로 타입을 가져오기
         Type type = Type.GetType(dataName + "DataList");
@@ -222,69 +188,46 @@ public class CSVManager :MonoBehaviour
             }
 
         }
-
-        // 변경 사항 저장 (에디터에서의 저장)
-        SaveChanges(scriptableObject);
     }
 
-    // ScriptableObject 변경 사항을 저장하는 함수
-    private void SaveChanges<T>(T dataList) where T : ScriptableObject
+    public void SaveToCSVAllFile( )
     {
-        EditorUtility.SetDirty(dataList);
-        AssetDatabase.SaveAssets();
-    }
-
-    // ScriptableObject를 CSV로 저장
-    /*
-    public static void SaveToCSV(string fileName, ScriptableObject data, string filePath)
-    {
-        FieldInfo listField = data.GetType().GetField(fileName);
-        if (listField == null) return;
-
-        var dataList = listField.GetValue(data) as IList<object>;
-        if (dataList == null || dataList.Count == 0) return;
-
-        using (StreamWriter writer = new StreamWriter(filePath))
+        foreach (var fn in FILE_NAME)
         {
-            // CSV 헤더 작성
-            var firstItem = dataList[0];
-            FieldInfo[] fields = firstItem.GetType().GetFields();
+            //scriptableObject의 타입 로드
+            Type type = Type.GetType(fn + "DataList");
+            if (type == null) return;
+            
+            //scriptableObject 로드
+            ScriptableObject ddl = Resources.Load(fn + "DataList", type) as ScriptableObject;
+            if (ddl == null) return;
 
-            // 헤더 작성
-            List<string> headers = new List<string>();
-            foreach (var field in fields)
-            {
-                headers.Add(field.Name);
-            }
-            writer.WriteLine(string.Join(",", headers));
+            //scriptableObject의 파일 위치 저장
+            string filePath = Path.Combine(Application.dataPath + "/Resources", fn + ".csv");
 
-            // 각 항목을 CSV로 작성
-            foreach (var item in dataList)
-            {
-                List<string> values = new List<string>();
-                foreach (var field in fields)
-                {
-                    var value = field.GetValue(item)?.ToString() ?? "";
-                    values.Add(value);
-                }
-                writer.WriteLine(string.Join(",", values));
-            }
+            //dialog 파일에 저장
+            SaveToCSV(fn, ddl, filePath);
         }
-    }*/
-    public static void SaveToCSV(string fileName, ScriptableObject data, string filePath)
+    }
+
+    private static void SaveToCSV(string fileName, ScriptableObject data, string filePath)
     {
         // data 내에 listFieldName에 해당하는 필드를 찾음
         FieldInfo listField = data.GetType().GetField(fileName + "Datas");
         if (listField == null) return;
 
         // 필드를 통해 데이터 리스트를 가져옴
-        var dataList = listField.GetValue(data) as List<DialogData>;
+        var dataList = listField.GetValue(data) as IList;
         if (dataList == null || dataList.Count == 0) return;
 
         using (StreamWriter writer = new StreamWriter(filePath))
         {
+            // 첫 항목의 타입 정보를 기반으로 헤더 생성
+            var firstItem = dataList[0];
+            var itemType = firstItem.GetType();
+            var fields = itemType.GetFields();
+
             // CSV 헤더 작성
-            FieldInfo[] fields = typeof(DialogData).GetFields();
             List<string> headers = new List<string>();
             foreach (var field in fields)
             {
@@ -296,7 +239,7 @@ public class CSVManager :MonoBehaviour
             foreach (var item in dataList)
             {
                 List<string> values = new List<string>();
-                foreach (var field in fields)
+                foreach(var field in fields)
                 {
                     var value = field.GetValue(item)?.ToString() ?? "";
                     values.Add(value);
@@ -304,5 +247,6 @@ public class CSVManager :MonoBehaviour
                 writer.WriteLine(string.Join(",", values));
             }
         }
+
     }
 }

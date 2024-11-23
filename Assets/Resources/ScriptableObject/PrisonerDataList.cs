@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PrisonerDataList", menuName = "ScriptableObject/PrisonerData")]
-public class PrisonerDataList : ScriptableObject
+public class PrisonerDataList : DataScriptableObjects
 {
     public List<PrisonerData> PrisonerDatas = new List<PrisonerData>();
 }

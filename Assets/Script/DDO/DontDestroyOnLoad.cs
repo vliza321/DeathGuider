@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class DontDestroyOnLoad : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        foreach (GameObject ddo in DDO)
+        {
+            if (ddo == this)
+            {
+                break;
+            }
+            else
+            {
+                DontDestroyOnLoad(this);
+            }
+        }
+        DDO = null;
     }
 }

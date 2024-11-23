@@ -9,49 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: cc05757adb88faf40ba9d2d4464e3426, type: 3}
   m_Name: PrisonerInUserDataList
-  m_EditorClassIdentifier: Assembly-CSharp::PrisonerInUserDataList
-  PrisonerInUserDatas:
-  - id: 0
-    Name: "\uC774\uC601\uC0C1"
-    Level: 1
-    HealthPoint: 100
-    NowHealthPoint: 100
-    HealthPointLevel: 1
-    AttackPoint: 10
-    AttackPointLevel: 1
-    Crime1: 0
-    Crime2: 1
-    Crime3: 1
-    Head: 0
-    Body: 0
-    Shadow: 0
-  - id: 1
-    Name: "\uC7A5\uC601\uADDC"
-    Level: 1
-    HealthPoint: 100
-    NowHealthPoint: 100
-    HealthPointLevel: 1
-    AttackPoint: 10
-    AttackPointLevel: 1
-    Crime1: 0
-    Crime2: 1
-    Crime3: 1
-    Head: 0
-    Body: 0
-    Shadow: 0
-  - id: 2
-    Name: "\uD55C\uC815\uB3C4"
-    Level: 1
-    HealthPoint: 100
-    NowHealthPoint: 100
-    HealthPointLevel: 1
-    AttackPoint: 10
-    AttackPointLevel: 1
-    Crime1: 0
-    Crime2: 1
-    Crime3: 1
-    Head: 0
-    Body: 0
-    Shadow: 0
+  m_EditorClassIdentifier: 
+  PrisonerInUserDatas: []

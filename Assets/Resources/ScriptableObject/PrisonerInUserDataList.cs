@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "PrisonerInUserDataList", menuName = "ScriptableObject/PrisonerInUserData")]
 
-public class PrisonerInUserDataList : ScriptableObject
+public class PrisonerInUserDataList : DataScriptableObjects
 {
     public List<PrisonerInUserData> PrisonerInUserDatas = new List<PrisonerInUserData>();
 }

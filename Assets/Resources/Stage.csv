@@ -1,4 +1,4 @@
-﻿id,IsClear,Progress,AppearingMonsterId1,AppearingMonsterId2,AppearingMonsterId3,BossMonsterId,BossMonsterIsClear,BossMonsterHealthPoint
+id,IsClear,Progress,AppearingMonsterId1,AppearingMonsterId2,AppearingMonsterId3,BossMonsterId,BossMonsterIsClear,BossMonsterHealthPoint
 0,0,0,1,0,0,0,0,100
 1,0,0,1,0,0,1,0,100
 2,0,0,2,0,0,2,0,100

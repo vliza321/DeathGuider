@@ -5,7 +5,9 @@ using UnityEngine;
 public class FollowerManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] follower;
+    private ListQueue<FollowerMove> followerList;
+    [SerializeField]
+    private FollowerMove[] follower;
     
     private int followerCounter;
     public int FollowerCounter
@@ -48,35 +50,29 @@ public class FollowerManager : MonoBehaviour
 
     public void MatchingAttactDirection(AttackDirectional attackDirectional)
     {
-        
+        followerList = new ListQueue<FollowerMove>();
         AttackDirectional = attackDirectional;
         followerCounter = this.transform.childCount-1;
-        follower = new GameObject[followerCounter];
+        follower = new FollowerMove[followerCounter];
         for (int i = 0; i < followerCounter; i++)
         {
-            follower[i] = this.transform.GetChild(i).gameObject;
-            follower[i].GetComponent<PlayerMove>().AttactDirectional = attackDirectional;
-            follower[i].GetComponent<PlayerMove>().enabled = false;
-            follower[i].GetComponent<FollowerMove>().enabled = true;
+            followerList.Enqueue(this.transform.GetChild(i).gameObject.GetComponent<FollowerMove>());
+            follower[i] = this.transform.GetChild(i).gameObject.GetComponent<FollowerMove>();
+            follower[i].gameObject.GetComponent<PlayerMove>().AttactDirectional = attackDirectional;
+            follower[i].gameObject.GetComponent<PlayerMove>().enabled = false;
+            follower[i].gameObject.GetComponent<FollowerMove>().enabled = true;
             follower[i].gameObject.tag = "follower";
             follower[i].gameObject.layer = this.gameObject.layer;
-            follower[i].GetComponent<CapsuleCollider2D>().enabled = false;
+            follower[i].gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+            
         }
     }
-    public void SwapGuider(GameObject guider, GameObject firstFollower, CameraManager cameraObj, AttackDirectional attackDirectional)
+    public FollowerMove SwapGuider(GameObject guider, GameObject firstFollower, CameraManager cameraObj, AttackDirectional attackDirectional, FollowerMove guiderFollwerMove)
     {
-        firstFollower.GetComponent<FollowerMove>().enabled = false;
-        firstFollower.GetComponent<PlayerMove>().enabled = true;
-        firstFollower.GetComponent<PlayerMove>().MoveSpeed = guider.GetComponent<PlayerMove>().MoveSpeed;
-        firstFollower.GetComponent<PlayerMove>().Camera = cameraObj;
-        firstFollower.GetComponent<PlayerMove>().AttactDirectional = attackDirectional;
-        firstFollower.GetComponent<CapsuleCollider2D>().enabled = true;
-        firstFollower.layer = 10;
-        firstFollower.tag = "Player";
-        //follower[0].GetComponent<SpriteRenderer>().sortingOrder = 1;
-        firstFollower.transform.position = guider.transform.position;
-        firstFollower.transform.parent = guider.transform.parent;
-        firstFollower.transform.SetAsFirstSibling();
+        var target = followerList.Dequeue();
+        target.SwapGuider(cameraObj);
+        followerList.Enqueue(guiderFollwerMove);
+        return target;
     }
 
 }

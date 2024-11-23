@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "DialogDataList",menuName = "ScriptableObject/DialogData")]
 //FIlENAME + "DataList"
-public class DialogDataList : ScriptableObject
+public class DialogDataList : DataScriptableObjects
 {
     //FIlENAME + "Datas"
     public List<DialogData> DialogDatas = new List<DialogData>();
@@ -18,5 +18,9 @@ public class DialogData
     public int CustomerID;
     public string State;
     public string Content;
+}
+
+public class DataScriptableObjects : ScriptableObject
+{
 
 }

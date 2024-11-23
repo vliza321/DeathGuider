@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LocalUserDataList", menuName = "ScriptableObject/LocalUserData")]
-public class LocalUserDataList : ScriptableObject
+public class LocalUserDataList : DataScriptableObjects
 {
     public List<LocalUserData> LocalUserDatas = new List<LocalUserData>();
 }

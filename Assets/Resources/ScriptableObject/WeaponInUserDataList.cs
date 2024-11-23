@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponInUserDataList", menuName = "ScriptableObject/WeaponInUserData")]
-public class WeaponInUserDataList : ScriptableObject
+public class WeaponInUserDataList : DataScriptableObjects
 {
     public List<WeaponInUserData> WeaponInUserDatas = new List<WeaponInUserData>();
 }

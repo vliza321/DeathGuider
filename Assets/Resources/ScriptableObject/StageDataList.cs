@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "StageDataList", menuName = "ScriptableObject/StageData")]
-public class StageDataList : ScriptableObject
+public class StageDataList : DataScriptableObjects
 { 
     public List<StageData> StageDatas = new List<StageData>();
 }

@@ -33,6 +33,10 @@ public class PlayerManager : MonoBehaviour
             return guider;
         }
     }
+
+    private FollowerMove guiderFollowerMove;
+
+    private ResultManager resultManager;
     private void Awake()
     {
         weaponEffectPool = this.transform.GetChild(this.transform.childCount - 1).gameObject;
@@ -57,6 +61,10 @@ public class PlayerManager : MonoBehaviour
             {
                 followerManager = manager.transform.gameObject.GetComponent<FollowerManager>();
             }
+            if(manager.name == "ResultManager")
+            {
+                resultManager = manager.GetComponent<ResultManager>();
+            }
         }
 
         Manager = null;
@@ -67,6 +75,7 @@ public class PlayerManager : MonoBehaviour
         swapedObject = followerManager.transform.GetChild(0).gameObject;
         cameraManager.Guider = guider;
         guider.GetComponent<PlayerMove>().Camera = cameraManager;
+        guiderFollowerMove = guider.GetComponent<FollowerMove>();
         guider.GetComponent<FollowerMove>().enabled = false;
         playerUnitCounter = 1;
     }
@@ -87,14 +96,18 @@ public class PlayerManager : MonoBehaviour
     public void SwapPlayer() 
     {
         playerUnitCounter--;
-        if (playerUnitCounter < 0) return;
+        swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
+        if (playerUnitCounter == 1) {
+            guider.SetActive(false);
+            resultManager.PlayerEscape();
+            return;
+        }
 
         //바꿀 대상이 되는 가장 앞에 있는 팔로워 바인딩
-        swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
 
         //매니저들에서 가지고 있는 가이더 정보 변경
         monsterManager.PlayerSwap(swapedObject.GetComponent<PlayerMove>());
-        followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional);
+        guiderFollowerMove = followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional,guiderFollowerMove);
         cameraManager.Guider = swapedObject;
         treasureBoxEscapeStairManager.player = swapedObject;
         attackDirectional.Guider = swapedObject;
