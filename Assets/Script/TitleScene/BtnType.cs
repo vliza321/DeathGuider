@@ -19,13 +19,10 @@ public class BtnType : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
         switch (currentType)
         {
             case BTNType.Start:
-                
-                Debug.Log("시작");
                 SceneLoader.LoadSceneHandle("Main", 0);
                 break;
             case BTNType.Quit:
                 Application.Quit();
-                Debug.Log("종료");
                 break;
         }
     }

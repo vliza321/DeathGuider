@@ -118,25 +118,25 @@ public class CSVManager :MonoBehaviour
     }
 
 
-    private void SaveDataListInScriptableObject(string dataName, object newData)
+    private bool SaveDataListInScriptableObject(string dataName, object newData)
     {
         // 동적으로 타입을 가져오기
         Type type = Type.GetType(dataName + "DataList");
         if (type == null)
         {
-            return;
+            return false;
         }
 
         // Resources에서 ScriptableObject 로드
         ScriptableObject scriptableObject = Resources.Load(dataName + "DataList", type) as ScriptableObject;
         if (scriptableObject == null)
         {
-            return;
+            return false;
         }
         FieldInfo field = type.GetField(dataName+"Datas");
         if(field == null)
         {
-            return;
+            return false;
         }
 
         // 동적으로 반환 타입 가져오기
@@ -152,7 +152,7 @@ public class CSVManager :MonoBehaviour
                 dataNumberFieldInfo = newData.GetType().GetField("id");
                 if(dataNumberFieldInfo == null)
                 {
-                    return;
+                    return false;
                 }
             }
 
@@ -167,7 +167,7 @@ public class CSVManager :MonoBehaviour
                     existingNumberFieldInfo = existingData.GetType().GetField("id");
                     if (existingNumberFieldInfo == null)
                     {
-                        return;
+                        return false;
                     }
                 }
                 if (existingNumberFieldInfo != null)
@@ -188,37 +188,47 @@ public class CSVManager :MonoBehaviour
             }
 
         }
+        return true;
     }
 
-    public void SaveToCSVAllFile( )
+    public bool SaveToCSVAllFile()
     {
+        bool result = true;
         foreach (var fn in FILE_NAME)
         {
             //scriptableObject의 타입 로드
             Type type = Type.GetType(fn + "DataList");
-            if (type == null) return;
+            if (type == null) {
+                result = false;
+                return result;
+            }
             
             //scriptableObject 로드
             ScriptableObject ddl = Resources.Load(fn + "DataList", type) as ScriptableObject;
-            if (ddl == null) return;
+            if (ddl == null)
+            {
+                result = false;
+                return result;
+            }
 
             //scriptableObject의 파일 위치 저장
             string filePath = Path.Combine(Application.dataPath + "/Resources", fn + ".csv");
 
             //dialog 파일에 저장
-            SaveToCSV(fn, ddl, filePath);
+            result = SaveToCSV(fn, ddl, filePath);
         }
+        return result;
     }
 
-    private static void SaveToCSV(string fileName, ScriptableObject data, string filePath)
+    private static bool SaveToCSV(string fileName, ScriptableObject data, string filePath)
     {
         // data 내에 listFieldName에 해당하는 필드를 찾음
         FieldInfo listField = data.GetType().GetField(fileName + "Datas");
-        if (listField == null) return;
+        if (listField == null) return false;
 
         // 필드를 통해 데이터 리스트를 가져옴
         var dataList = listField.GetValue(data) as IList;
-        if (dataList == null || dataList.Count == 0) return;
+        if (dataList == null || dataList.Count == 0) return false;
 
         using (StreamWriter writer = new StreamWriter(filePath))
         {
@@ -247,6 +257,7 @@ public class CSVManager :MonoBehaviour
                 writer.WriteLine(string.Join(",", values));
             }
         }
+        return true;
 
     }
 }

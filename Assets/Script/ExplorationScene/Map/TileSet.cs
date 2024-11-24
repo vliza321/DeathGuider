@@ -42,7 +42,6 @@ public class TileSet : MonoBehaviour
         }
         absRow = this.Row + TileMap.Row - 2;
         absColumn = this.Column + TileMap.Column - 2;
-        Debug.Log("start");
         ChangeTile(0, 0);
     }
 

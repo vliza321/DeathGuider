@@ -25,6 +25,57 @@ public class DontDestroyObjectManager : MonoBehaviour
     private StageDataList stageDatas;
     [SerializeField]
     private WeaponInUserDataList weaponInUserDatas;
+
+    public BossMonsterDataList BossMonsterDatas
+    {
+        get { return bossMonsterDatas; }
+    }
+        
+    public DialogDataList DialogDatas
+    {
+        get { return dialogDatas; }
+    }
+
+    public GuiderDataList GuiderDatas
+    {
+        get { return guiderDatas; }
+    }
+
+    public GuiderInUserDataList GuiderInUserDatas
+    {
+        get { return guiderInUserDatas; }
+    }
+
+    public LocalUserDataList LocalUserDatas
+    {
+        get { return localUserDatas; }
+    }
+
+    public MonsterDataList MonsterDatas
+    {
+        get { return monsterDatas; }
+    }
+
+    public PrisonerDataList PrisonerDatas
+    {
+        get { return prisonerDatas; }
+    }
+    
+    public PrisonerInUserDataList PrisonerInuserdatas
+    {
+        get { return prisonerInUserDatas; }
+    }
+
+    public StageDataList StageDatas
+    {
+        get { return stageDatas; }
+    }
+
+    public WeaponInUserDataList WeaponInUserDatas
+    {
+        get { return weaponInUserDatas; }
+    }
+
     private CSVManager csvManager;
     private void Awake()
     {
@@ -92,13 +143,10 @@ public class DontDestroyObjectManager : MonoBehaviour
         stageDatas.StageDatas.Clear();
         weaponInUserDatas.WeaponInUserDatas.Clear();
 
-    }
-    public void Start()
-    {       
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
-        foreach(var ddo in DDO)
+        foreach (var ddo in DDO)
         {
-            if(ddo.name == "CSVManager")
+            if (ddo.name == "CSVManager")
             {
                 csvManager = ddo.GetComponent<CSVManager>();
             }
@@ -107,7 +155,15 @@ public class DontDestroyObjectManager : MonoBehaviour
         csvManager.Initialize();
 
         //localUserDatas.LocalUserDatas[0].Gold++;
-        csvManager.SaveToCSVAllFile();
+        if(!csvManager.SaveToCSVAllFile())
+        {
+            Debug.LogError("Fail Save ScriptalbeObject To CSVFile");
+        }
+    }
+
+    public bool SaveData()
+    {
+        return csvManager.SaveToCSVAllFile();
     }
 }
 
