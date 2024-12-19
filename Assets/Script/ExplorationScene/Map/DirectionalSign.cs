@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.Mathematics;
-using UnityEditor.SearchService;
+//using UnityEditor.SearchService;
 
 
 public class DirectionalSign : MonoBehaviour
@@ -93,8 +93,8 @@ public class DirectionalSign : MonoBehaviour
 
             if(absAngle < screenDiagonalAngle)
             {
-                cashingVector.x = (-playerToObj.x + (Screen.width * 0.005f)) * 0.25f;
-                cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width * 0.005f)) * 0.25f;
+                cashingVector.x = (-playerToObj.x + (Screen.width * 0.00475f)) * 0.25f;
+                cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width * 0.00475f)) * 0.25f;
             }
             else 
             {      
@@ -106,19 +106,19 @@ public class DirectionalSign : MonoBehaviour
                     if (playerToObjAngle < 0)
                     {
                         cashingVector.x = (-playerToObj.x - MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200) ) * 0.25f;
-                        cashingVector.y = (-playerToObj.y - (Screen.height * 0.005f)) * 0.25f + 0.032f;
+                        cashingVector.y = (-playerToObj.y - (Screen.height * 0.00475f)) * 0.25f + 0.032f;
                     }
                     else if (playerToObjAngle > 0)
                     {
                         cashingVector.x = (-playerToObj.x + MathF.Cos(playerToObjAngle) / MathF.Sin(playerToObjAngle) * (Screen.height / 200)) * 0.25f;
-                        cashingVector.y = (-playerToObj.y + (Screen.height * 0.005f)) * 0.25f - 0.032f;
+                        cashingVector.y = (-playerToObj.y + (Screen.height * 0.00475f)) * 0.25f - 0.032f;
                     }
                 }
 
                 else
                 {
-                    cashingVector.x = (-playerToObj.x - (Screen.width * 0.005f)) * 0.25f;
-                    cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width * 0.005f)) * 0.25f;
+                    cashingVector.x = (-playerToObj.x - (Screen.width * 0.00475f)) * 0.25f;
+                    cashingVector.y = (-playerToObj.y + MathF.Sin(playerToObjAngle) * (Screen.width * 0.00475f)) * 0.25f;
                 }
             }
         }

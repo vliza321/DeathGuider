@@ -285,7 +285,7 @@ public class TileSpawnManager : MonoBehaviour
                 baseTileMap[0].Column = 5;
                 baseTileMap[1].Column = 5;
                 
-                EditorApplication.isPaused = true;
+                //EditorApplication.isPaused = true;
                 break;
         }
     }
