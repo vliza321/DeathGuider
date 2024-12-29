@@ -8,6 +8,17 @@ public class DialogDataList : DataScriptableObjects
 {
     //FIlENAME + "Datas"
     public List<DialogData> DialogDatas = new List<DialogData>();
+    public Dictionary<int, DialogData> DialogDataDic = new Dictionary<int, DialogData>();
+
+    public bool TranslateListToDic()
+    {
+        bool result = true;
+        foreach(var data in DialogDatas)
+        {
+            DialogDataDic.Add(data.Number, data);        
+        }
+        return result;
+    }
 }
 
 //FIlENAME + "Data"
