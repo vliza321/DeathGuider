@@ -19,7 +19,7 @@ public class SceneLoader : MonoBehaviour
     {
         loadScene = _name;
         loadType = _loadType;
-        SceneManager.LoadScene("FieldExploration"); //ShiftScene from TitleScene (Go to Loading or Main)
+        SceneManager.LoadScene("Main"); //ShiftScene from TitleScene (Go to Loading or Main)
     }
 
     IEnumerator LoadScene()

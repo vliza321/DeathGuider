@@ -13,7 +13,7 @@ public class StoredPrisoner : MonoBehaviour
     public GameObject prisonerInfo;
     public BusPrisonerUI busPrisonerUI;
 
-    private PrisonerInfoUI prisonerInfoUI;
+    public PrisonerInfoUI prisonerInfoUI;
 
     public void AddPrisonerPrefab(int index)
     {
@@ -39,16 +39,28 @@ public class StoredPrisoner : MonoBehaviour
         }
 
         // 새로운 수감자 추가
+        Prisoner selectedPrisoner = busPrisonerUI.busPrisoners[index];
+
         Prisoner newPrisoner = new Prisoner(
-            busPrisonerUI.BusPrisonerNames[index],
-            busPrisonerUI.BusPrisonerHPs[index],
-            busPrisonerUI.BusPrisonerProficiencies[index],
-            busPrisonerUI.BusPrisonerStrength[index],
-            busPrisonerUI.BusPrisonerCrimes[index],
-            busPrisonerUI.BusPrisonerErosions[index],
-            busPrisonerUI.BusPrisonerHeads[index],
-            busPrisonerUI.BusPrisonerBodies[index]
+            selectedPrisoner.name,
+            selectedPrisoner.hp,
+            selectedPrisoner.proficiency,
+            selectedPrisoner.strength,
+            selectedPrisoner.crime,
+            selectedPrisoner.erosion,
+            selectedPrisoner.head,
+            selectedPrisoner.body
         );
+        //Prisoner newPrisoner = new Prisoner(
+        //    busPrisonerUI.BusPrisonerNames[index],
+        //    busPrisonerUI.BusPrisonerHPs[index],
+        //    busPrisonerUI.BusPrisonerProficiencies[index],
+        //    busPrisonerUI.BusPrisonerStrength[index],
+        //    busPrisonerUI.BusPrisonerCrimes[index],
+        //    busPrisonerUI.BusPrisonerErosions[index],
+        //    busPrisonerUI.BusPrisonerHeads[index],
+        //    busPrisonerUI.BusPrisonerBodies[index]
+        //);
 
         prisoners.Add(newPrisoner);
 
@@ -158,7 +170,7 @@ public class StoredPrisoner : MonoBehaviour
         DecreasePrisonerHP(0, 3); // 인덱스와 감소할 체력을 적절히 수정
     }
 
-    void UpdatePrisonerUI()
+    public void UpdatePrisonerUI()
     {
         for (int i = 0; i < uiContentParent.childCount; i++)
         {
