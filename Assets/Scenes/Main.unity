@@ -2952,10 +2952,14 @@ PrefabInstance:
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
@@ -2963,7 +2967,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1795971467}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 572805632}
+    - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
@@ -2971,15 +2983,31 @@ PrefabInstance:
       value: showPrisonerUI
       objectReference: {fileID: 0}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: UpdatePrisonerUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PrisonerDataUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: StoredPrisoner, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457705286941499281, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2456620745894542620, guid: d5bb1d65d5fd27045808ef77bae1431d, type: 3}
@@ -3683,6 +3711,7 @@ MonoBehaviour:
   prisoners: []
   prisonerInfo: {fileID: 1185500464}
   busPrisonerUI: {fileID: 350462295}
+  prisonerInfoUI: {fileID: 1185500468}
 --- !u!1 &572906627
 GameObject:
   m_ObjectHideFlags: 0
@@ -8475,7 +8504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1185500465
 RectTransform:
   m_ObjectHideFlags: 0

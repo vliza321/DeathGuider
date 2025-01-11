@@ -40,14 +40,17 @@ public class BusPrisonerUI : MonoBehaviour
 
 
     public UpgradeFloor upgradeFloor; // UpgradeFloor 스크립트 참조
-    public List<string> BusPrisonerNames = new List<string>();
-    public List<int> BusPrisonerHPs = new List<int>();
-    public List<int> BusPrisonerProficiencies = new List<int>();
-    public List<int> BusPrisonerStrength = new List<int>();
-    public List<string> BusPrisonerCrimes = new List<string>();
-    public List<int> BusPrisonerErosions = new List<int>();
-    public List<Sprite> BusPrisonerHeads = new List<Sprite>();
-    public List<Sprite> BusPrisonerBodies = new List<Sprite>();
+
+    public List<Prisoner> busPrisoners = new List<Prisoner>();
+
+    //public List<string> BusPrisonerNames = new List<string>();
+    //public List<int> BusPrisonerHPs = new List<int>();
+    //public List<int> BusPrisonerProficiencies = new List<int>();
+    //public List<int> BusPrisonerStrength = new List<int>();
+    //public List<string> BusPrisonerCrimes = new List<string>();
+    //public List<int> BusPrisonerErosions = new List<int>();
+    //public List<Sprite> BusPrisonerHeads = new List<Sprite>();
+    //public List<Sprite> BusPrisonerBodies = new List<Sprite>();
 
     void Start()
     {
@@ -127,21 +130,27 @@ public class BusPrisonerUI : MonoBehaviour
 
     void OnRejectButtonClick(int index)
     {
-        if (index >= 0 && index < BusPrisonerNames.Count)
+        if(index >= 0 && index < busPrisoners.Count)
         {
-            // 데이터 제거
-            BusPrisonerNames.RemoveAt(index);
-            BusPrisonerHPs.RemoveAt(index);
-            BusPrisonerProficiencies.RemoveAt(index);
-            BusPrisonerStrength.RemoveAt(index);
-            BusPrisonerCrimes.RemoveAt(index);
-            BusPrisonerHeads.RemoveAt(index);
-            BusPrisonerBodies.RemoveAt(index);
-
-            // UI 업데이트
+            busPrisoners.RemoveAt(index);
             SetPrisoner();
             DisplayAllPrisonerData();
         }
+        //if (index >= 0 && index < BusPrisonerNames.Count)
+        //{
+        //    // 데이터 제거
+        //    BusPrisonerNames.RemoveAt(index);
+        //    BusPrisonerHPs.RemoveAt(index);
+        //    BusPrisonerProficiencies.RemoveAt(index);
+        //    BusPrisonerStrength.RemoveAt(index);
+        //    BusPrisonerCrimes.RemoveAt(index);
+        //    BusPrisonerHeads.RemoveAt(index);
+        //    BusPrisonerBodies.RemoveAt(index);
+
+        //    // UI 업데이트
+        //    SetPrisoner();
+        //    DisplayAllPrisonerData();
+        //}
     }
 
     void OnTransferButtonClick(int index)
@@ -156,7 +165,7 @@ public class BusPrisonerUI : MonoBehaviour
         int currentCapacity = storedPrisoner.uiContentParent.childCount; // 현재 층의 수감자 수
 
         // 새로운 프리펩 추가
-        if (index >= 0 && index < BusPrisonerNames.Count)
+        if (index >= 0 && index < /*BusPrisonerNames*/busPrisoners.Count)
         {
             // 수용 한계를 초과하는 경우 경고 이미지 표시 및 이동 작업 중단
             if (currentCapacity >= floorCapacity)
@@ -177,13 +186,14 @@ public class BusPrisonerUI : MonoBehaviour
             storedPrisoner.AddPrisonerPrefab(index);
 
             // 리스트에서 제거
-            BusPrisonerNames.RemoveAt(index);
-            BusPrisonerHPs.RemoveAt(index);
-            BusPrisonerProficiencies.RemoveAt(index);
-            BusPrisonerStrength.RemoveAt(index);
-            BusPrisonerCrimes.RemoveAt(index);
-            BusPrisonerHeads.RemoveAt(index);
-            BusPrisonerBodies.RemoveAt(index);
+            busPrisoners.RemoveAt(index);
+            //BusPrisonerNames.RemoveAt(index);
+            //BusPrisonerHPs.RemoveAt(index);
+            //BusPrisonerProficiencies.RemoveAt(index);
+            //BusPrisonerStrength.RemoveAt(index);
+            //BusPrisonerCrimes.RemoveAt(index);
+            //BusPrisonerHeads.RemoveAt(index);
+            //BusPrisonerBodies.RemoveAt(index);
 
             // UI 업데이트
             SetPrisoner();
@@ -201,38 +211,55 @@ public class BusPrisonerUI : MonoBehaviour
         
         // 수감자 정보를 배열로 전달
         prisonerDataUI.DisplayPrisonerData(
-            BusPrisonerNames.ToArray(),
-            BusPrisonerHPs.ToArray(),
-            BusPrisonerProficiencies.ToArray(),
-            BusPrisonerStrength.ToArray(),
-            BusPrisonerCrimes.ToArray(),
-            BusPrisonerErosions.ToArray()
+            busPrisoners.ConvertAll(p => p.name).ToArray(),
+            busPrisoners.ConvertAll(p => p.hp).ToArray(),
+            busPrisoners.ConvertAll(p => p.proficiency).ToArray(),
+            busPrisoners.ConvertAll(p => p.strength).ToArray(),
+            busPrisoners.ConvertAll(p => p.crime).ToArray(),
+            busPrisoners.ConvertAll(p => p.erosion).ToArray()
+        //BusPrisonerNames.ToArray(),
+        //BusPrisonerHPs.ToArray(),
+        //BusPrisonerProficiencies.ToArray(),
+        //BusPrisonerStrength.ToArray(),
+        //BusPrisonerCrimes.ToArray(),
+        //BusPrisonerErosions.ToArray()
         );
     }
 
     private void UpdatePrisoner()
     {
         // 랜덤한 이름과 정보를 생성합니다.
-        BusPrisonerNames.Clear();
-        BusPrisonerHPs.Clear();
-        BusPrisonerProficiencies.Clear();
-        BusPrisonerStrength.Clear();
-        BusPrisonerCrimes.Clear();
-        BusPrisonerErosions.Clear();
-        BusPrisonerHeads.Clear();
-        BusPrisonerBodies.Clear();
+        busPrisoners.Clear();
+        //BusPrisonerNames.Clear();
+        //BusPrisonerHPs.Clear();
+        //BusPrisonerProficiencies.Clear();
+        //BusPrisonerStrength.Clear();
+        //BusPrisonerCrimes.Clear();
+        //BusPrisonerErosions.Clear();
+        //BusPrisonerHeads.Clear();
+        //BusPrisonerBodies.Clear();
 
         for (int i = 0; i < 6; i++)
         {
-            BusPrisonerNames.Add(GenerateRandomName());
-            BusPrisonerHPs.Add(Random.Range(1, 11));
-            BusPrisonerProficiencies.Add(Random.Range(1, 11));
-            BusPrisonerStrength.Add(Random.Range(1, 11));
-            BusPrisonerCrimes.Add(crimes[Random.Range(0, crimes.Length)]);
-            BusPrisonerErosions.Add(0);
+            busPrisoners.Add(new Prisoner(
+                GenerateRandomName(),
+                Random.Range(1, 11),
+                Random.Range(1, 11),
+                Random.Range(1, 11),
+                crimes[Random.Range(0, crimes.Length)],
+                0,
+                prisonerHeads[Random.Range(0, prisonerHeads.Length)],
+                prisonerBodies[Random.Range(0, prisonerBodies.Length)]
+            ));
+            //BusPrisonerNames.Add(GenerateRandomName());
+            //BusPrisonerHPs.Add(Random.Range(1, 11));
+            //BusPrisonerProficiencies.Add(Random.Range(1, 11));
+            //BusPrisonerStrength.Add(Random.Range(1, 11));
+            //BusPrisonerCrimes.Add(crimes[Random.Range(0, crimes.Length)]);
+            //BusPrisonerErosions.Add(0);
 
-            BusPrisonerHeads.Add(prisonerHeads[Random.Range(0, prisonerHeads.Length)]);
-            BusPrisonerBodies.Add(prisonerBodies[Random.Range(0, prisonerBodies.Length)]);
+            //BusPrisonerHeads.Add(prisonerHeads[Random.Range(0, prisonerHeads.Length)]);
+            //BusPrisonerBodies.Add(prisonerBodies[Random.Range(0, prisonerBodies.Length)]);
         }
 
         // 현재 선택된 죄수 이름들로 텍스트 설정
@@ -242,20 +269,28 @@ public class BusPrisonerUI : MonoBehaviour
 
     void SetPrisoner()
     {
-        int maxPrisoners = Mathf.Min(nameTexts.Length, BusPrisonerNames.Count);
+        int maxPrisoners = Mathf.Min(nameTexts.Length, /*BusPrisonerNames*/busPrisoners.Count);
 
         for (int i = 0; i < nameTexts.Length; i++)
         {
             if (i < maxPrisoners)
             {
-                nameTexts[i].text = BusPrisonerNames[i];
-                hpTexts[i].text = "체력: " + BusPrisonerHPs[i];
-                proficiencyTexts[i].text = "숙련도: " + BusPrisonerProficiencies[i];
-                strengthTexts[i].text = "힘: " + BusPrisonerStrength[i];
-                crimeTexts[i].text = "범죄: " + BusPrisonerCrimes[i];
+                nameTexts[i].text = busPrisoners[i].name;
+                hpTexts[i].text = "체력: " + busPrisoners[i].hp;
+                proficiencyTexts[i].text = "숙련도: " + busPrisoners[i].proficiency;
+                strengthTexts[i].text = "힘: " + busPrisoners[i].strength;
+                crimeTexts[i].text = "범죄: " + busPrisoners[i].crime;
 
-                prisonerHeadsAppearence[i].sprite = BusPrisonerHeads[i];
-                prisonerBodiesAppearence[i].sprite = BusPrisonerBodies[i];
+                prisonerHeadsAppearence[i].sprite = busPrisoners[i].head;
+                prisonerBodiesAppearence[i].sprite = busPrisoners[i].body;
+                //nameTexts[i].text = BusPrisonerNames[i];
+                //hpTexts[i].text = "체력: " + BusPrisonerHPs[i];
+                //proficiencyTexts[i].text = "숙련도: " + BusPrisonerProficiencies[i];
+                //strengthTexts[i].text = "힘: " + BusPrisonerStrength[i];
+                //crimeTexts[i].text = "범죄: " + BusPrisonerCrimes[i];
+
+                //prisonerHeadsAppearence[i].sprite = BusPrisonerHeads[i];
+                //prisonerBodiesAppearence[i].sprite = BusPrisonerBodies[i];
                 if (prisonerImages[i] != null)
                 {
                     prisonerImages[i].gameObject.SetActive(true);
