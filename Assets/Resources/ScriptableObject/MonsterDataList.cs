@@ -5,9 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MonsterDataList", menuName = "ScriptableObject/MonsterData")]
 public class MonsterDataList : DataScriptableObjects
 {
-    public List<MonsterData> MonsterDatas = new List<MonsterData>();
-
+    //key ´Â int Çü, MonsterDataÀÇ ID
     public Dictionary<int, MonsterData> MonsterDataDic = new Dictionary<int, MonsterData>();
+
+
+
+    public List<MonsterData> MonsterDatas = new List<MonsterData>();
     public bool TranslateListToDic()
     {
         bool result = true;

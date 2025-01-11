@@ -5,9 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AppearDataList", menuName = "ScriptableObject/AppearData")]
 public class AppearDataList : DataScriptableObjects
 {
-    public List<AppearData> AppearDatas = new List<AppearData>();
-
+    //key 는 (int,int), 순서대로 AppearData의 StageID, MonsterID
     public Dictionary<(int,int), AppearData> AppearDataDic = new Dictionary<(int,int),AppearData>();
+    
+    
+    
+    public List<AppearData> AppearDatas = new List<AppearData>();
     public bool TranslateListToDic()
     {
         bool result = true;

@@ -4,10 +4,13 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "PrototypeUnitDataList", menuName = "ScriptableObject/PrototypeUnitData")]
 public class PrototypeUnitDataList : DataScriptableObjects
-{
+{   
+    //key ´Â int Çü, PrototypeUnitDataÀÇ ID
+    public Dictionary<int, PrototypeUnitData> PrototypeUnitDataDic = new Dictionary<int, PrototypeUnitData>();
+
     public List<PrototypeUnitData> PrototypeUnitDatas = new List<PrototypeUnitData>();
 
-    public Dictionary<int, PrototypeUnitData> PrototypeUnitDataDic = new Dictionary<int, PrototypeUnitData>();
+
     public bool TranslateListToDic()
     {
         bool result = true;

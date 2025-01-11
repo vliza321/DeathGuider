@@ -5,9 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PartyDataList", menuName = "ScriptableObject/PartyData")]
 public class PartyDataList : DataScriptableObjects
 {
+    //key ´Â int Çü, PartyDataÀÇ ID
+    public Dictionary<int, PartyData> PartyDataDic = new Dictionary<int, PartyData>();
+
+
     public List<PartyData> PartyDatas = new List<PartyData>();
 
-    public Dictionary<int, PartyData> PartyDataDic = new Dictionary<int, PartyData>();
     public bool TranslateListToDic()
     {
         bool result = true;

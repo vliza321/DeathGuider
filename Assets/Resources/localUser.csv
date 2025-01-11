@@ -1,2 +1,2 @@
-ID,Day,Gold,DeathEssence,DarkEssence,UnitStanceCounter,WeaponStanceCounter
-0,0,1301,0,0,0,0
+ID,Day,Gold,DeathEssence,DarkEssence,UnitInstanceCounter
+0,0,1000,0,0,0

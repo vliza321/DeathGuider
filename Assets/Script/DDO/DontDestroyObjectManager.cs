@@ -239,7 +239,38 @@ public class DontDestroyObjectManager : MonoBehaviour
         weaponDatas.TranslateListToDic();
 
         //테스트용
-        localUserDatas.LocalUserDatas[0].Gold += 100;
+        /*localUserDatas.LocalUserDatas[0].Gold += 100;
+       
+
+
+        localUserDatas.LocalUserDataDic[0].Gold += 100;
+
+
+        UnitDatas.UnitDataDic[(0, 100, 0)].EXP += 10;
+
+        if(UnitDatas.UnitDataDic[(0, 100, 0)].EXP >= 100)
+        {
+            int temp = UnitDatas.UnitDataDic[(0, 100, 0)].EXP - 100;
+            UnitDatas.UnitDataDic[(0, 100, 0)].Level++;
+            UnitDatas.UnitDataDic[(0, 100, 0)].EXP = temp;
+        }
+
+        int strength = prototypeUnitDatas.PrototypeUnitDataDic[100].Strength + Random.Range(0, 4);
+
+
+
+        unitDatas.UnitDataDic[(0, 100, 0)].ActivityStatus = 0; // 대기 상태 - 기본
+        unitDatas.UnitDataDic[(0, 100, 0)].ActivityStatus = 1; // 훈련 상태 - 훈련소
+        unitDatas.UnitDataDic[(0, 100, 0)].ActivityStatus = 2; // 치유 상태 - 치유의 방
+        unitDatas.UnitDataDic[(0, 100, 0)].ActivityStatus = 3; // 정화 상태 - 안식의 방
+        unitDatas.UnitDataDic[(0, 100, 0)].ActivityStatus = 4; // 전투 상태 - 파티 선택 시
+
+
+        
+
+        //테스트 종료
+        */
+
         if (!SaveData())
         {
             Debug.LogError("Fail Save ScriptalbeObject To CSVFile");
