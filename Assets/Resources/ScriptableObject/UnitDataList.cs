@@ -67,5 +67,4 @@ public class UnitData
     public int ActivityStatus;
     public int HeadID;
     public int BodyID;
-
 }

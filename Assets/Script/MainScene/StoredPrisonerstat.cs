@@ -15,22 +15,35 @@ public class StoredPrisonerstat : MonoBehaviour
     public Image body;
 
     // Prisoner 구조체의 필드
-    public Prisoner prisoner; // Prisoner 구조체 타입으로 변경
+    public PrototypeUnitData prisoner; // Prisoner 구조체 타입으로 변경
+    public Sprite[] headSprites; // 머리 이미지 배열
+    public Sprite[] bodySprites; // 몸 이미지 배열
 
-    public void SetPrisonerData(string name, int hp, int proficiency, int strength, string crime, int erosion, Sprite headSprite, Sprite bodySprite)
+    public void SetPrisonerData(int id, string name, int maxHealthPoint, int strength, int defense, int handicraft, int crime, int headID, int bodyID)
     {
-        prisoner = new Prisoner(name, hp, proficiency, strength, crime, erosion, headSprite, bodySprite);
+        prisoner = new PrototypeUnitData
+        {
+            ID = id,
+            Name = name,
+            MaxHealthPoint = maxHealthPoint,
+            Strength = strength,
+            Defense = defense,
+            Handicraft = handicraft,
+            Crime = crime,
+            HeadID = headID,
+            BodyID = bodyID
+        };
         UpdateUI(); // 데이터 설정 후 UI 업데이트
     }
 
     public void UpdateUI()
     {
-        if (nameText != null) nameText.text = prisoner.name;
-        if (hpText != null) hpText.text = "HP: " + prisoner.hp.ToString();
-        if (proficiencyText != null) proficiencyText.text = "숙련도: " + prisoner.proficiency.ToString();
-        if (strengthText != null) strengthText.text = "근력: " + prisoner.strength.ToString();
-        if (crimeText != null) crimeText.text = "범죄: " + prisoner.crime;
-        if (head != null) head.sprite = prisoner.head; // 머리 이미지 업데이트
-        if (body != null) body.sprite = prisoner.body; // 몸 이미지 업데이트
+        if (nameText != null) nameText.text = prisoner.Name;
+        if (hpText != null) hpText.text = "HP: " + prisoner.MaxHealthPoint.ToString();
+        if (proficiencyText != null) proficiencyText.text = "숙련도: " + prisoner.Handicraft.ToString();
+        if (strengthText != null) strengthText.text = "근력: " + prisoner.Strength.ToString();
+        if (crimeText != null) crimeText.text = "범죄: " + prisoner.Crime.ToString();
+        if (head != null && prisoner.HeadID >= 0) head.sprite = headSprites[prisoner.HeadID];
+        if (body != null && prisoner.BodyID >= 0) body.sprite = bodySprites[prisoner.BodyID];
     }
 }

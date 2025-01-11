@@ -807,8 +807,8 @@ RectTransform:
   m_Father: {fileID: 1231005063}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.26024425}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2002,14 +2002,7 @@ MonoBehaviour:
   - {fileID: 1755542024}
   warningImage: {fileID: 259849845}
   upgradeFloor: {fileID: 2006610080}
-  BusPrisonerNames: []
-  BusPrisonerHPs: 
-  BusPrisonerProficiencies: 
-  BusPrisonerStrength: 
-  BusPrisonerCrimes: []
-  BusPrisonerErosions: 
-  BusPrisonerHeads: []
-  BusPrisonerBodies: []
+  busPrisonerDataList: {fileID: 0}
 --- !u!1 &379953726
 GameObject:
   m_ObjectHideFlags: 0
@@ -4735,7 +4728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &675813440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6875,6 +6868,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947488336}
   m_CullTransparentMesh: 1
+--- !u!1 &950781614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 950781616}
+  - component: {fileID: 950781615}
+  m_Layer: 0
+  m_Name: CSVManager
+  m_TagString: DDO
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &950781615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950781614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad241b98303c2084a9b3745c03f0ed51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &950781616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950781614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 817.24756, y: 466.9389, z: 73893.98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &960668743
 GameObject:
   m_ObjectHideFlags: 0
@@ -8590,6 +8627,8 @@ MonoBehaviour:
   crimeText: {fileID: 960668745}
   headImage: {fileID: 226205758}
   bodyImage: {fileID: 1185686034}
+  headSprites: []
+  bodySprites: []
 --- !u!1 &1185686032
 GameObject:
   m_ObjectHideFlags: 0
@@ -8990,6 +9029,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1348881538}
   m_CullTransparentMesh: 1
+--- !u!1 &1350875211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1350875213}
+  - component: {fileID: 1350875212}
+  m_Layer: 0
+  m_Name: DDOManager
+  m_TagString: DDO
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1350875212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350875211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aeb545870ead7547895777405b927db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appearDatas: {fileID: 0}
+  dialogDatas: {fileID: 0}
+  havePartyDatas: {fileID: 0}
+  localUserDatas: {fileID: 0}
+  monsterDatas: {fileID: 0}
+  partyDatas: {fileID: 0}
+  progressDatas: {fileID: 0}
+  prototypeUnitDatas: {fileID: 0}
+  prototypeWeaponDatas: {fileID: 0}
+  stageDatas: {fileID: 0}
+  unitDatas: {fileID: 0}
+  unitParticipateDatas: {fileID: 0}
+  useWeaponDatas: {fileID: 0}
+  weaponDatas: {fileID: 0}
+--- !u!4 &1350875213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350875211}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 817.24756, y: 466.9389, z: 73893.98}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1380893452
 GameObject:
   m_ObjectHideFlags: 0
@@ -11439,6 +11536,8 @@ MonoBehaviour:
   strengthTexts: []
   crimeTexts: []
   erosionTexts: []
+  idTexts: []
+  defenseTexts: []
 --- !u!1 &1813166095
 GameObject:
   m_ObjectHideFlags: 0

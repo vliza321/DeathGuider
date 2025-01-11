@@ -10,6 +10,8 @@ public class PrisonerDataUI : MonoBehaviour
     public Text[] strengthTexts;
     public Text[] crimeTexts;
     public Text[] erosionTexts;
+    public Text[] idTexts;
+    public Text[] defenseTexts;
 
     void Start()
     {
@@ -32,7 +34,7 @@ public class PrisonerDataUI : MonoBehaviour
         prisonerUIImage.SetActive(false);
     }
 
-    public void DisplayPrisonerData(string[] names, int[] hps, int[] proficiencies, int[] strengths, string[] crimes, int[] erosions)
+    public void DisplayPrisonerData(string[] names, int[] hps, int[] proficiencies, int[] strengths, string[] crimes, int[] ids, int[] defenses)
     {
         // 최대 수감자 수는 UI 요소 배열의 길이와 맞춰야 합니다.
         int maxCount = Mathf.Min(names.Length, nameTexts.Length);
@@ -43,7 +45,8 @@ public class PrisonerDataUI : MonoBehaviour
             proficiencyTexts[i].text = "숙련도: " + proficiencies[i];
             strengthTexts[i].text = "힘: " + strengths[i];
             crimeTexts[i].text = "범죄: " + crimes[i];
-            erosionTexts[i].text = "침식도: " + erosions[i];
+            idTexts[i].text = "ID: " + ids[i];
+            defenseTexts[i].text = "방어력: " + defenses[i];
         }
 
         // 배열의 길이보다 많은 UI 요소는 숨깁니다.
@@ -54,7 +57,8 @@ public class PrisonerDataUI : MonoBehaviour
             proficiencyTexts[i].text = "";
             strengthTexts[i].text = "";
             crimeTexts[i].text = "";
-            erosionTexts[i].text = "";
+            idTexts[i].text = "";
+            defenseTexts[i].text = "";
         }
     }
 }

@@ -8,7 +8,7 @@ public class StoredPrisoner : MonoBehaviour
     public GameObject prisonerUIPrefab;
     public RectTransform uiContentParent;
     public float prefabSpacing = 10f;
-    public List<Prisoner> prisoners = new List<Prisoner>();
+    public List<PrototypeUnitData> prisoners = new List<PrototypeUnitData>();
 
     public GameObject prisonerInfo;
     public BusPrisonerUI busPrisonerUI;
@@ -18,8 +18,10 @@ public class StoredPrisoner : MonoBehaviour
     public void AddPrisonerPrefab(int index)
     {
         MoveExistingPrefabsDown();
-        ++currentPrisonerCount;
+        //++currentPrisonerCount;
         AdjustContentHeight();
+
+        PrototypeUnitData selectedPrisoner = busPrisonerUI.busPrisonerDataList.PrototypeUnitDatas[index];
 
         GameObject prisonerUI = Instantiate(prisonerUIPrefab, uiContentParent);
         RectTransform rectTransform = prisonerUI.GetComponent<RectTransform>();
@@ -38,48 +40,35 @@ public class StoredPrisoner : MonoBehaviour
             scrollRect.verticalNormalizedPosition = 1;
         }
 
-        // 새로운 수감자 추가
-        Prisoner selectedPrisoner = busPrisonerUI.busPrisoners[index];
-
-        Prisoner newPrisoner = new Prisoner(
-            selectedPrisoner.name,
-            selectedPrisoner.hp,
-            selectedPrisoner.proficiency,
-            selectedPrisoner.strength,
-            selectedPrisoner.crime,
-            selectedPrisoner.erosion,
-            selectedPrisoner.head,
-            selectedPrisoner.body
-        );
-        //Prisoner newPrisoner = new Prisoner(
-        //    busPrisonerUI.BusPrisonerNames[index],
-        //    busPrisonerUI.BusPrisonerHPs[index],
-        //    busPrisonerUI.BusPrisonerProficiencies[index],
-        //    busPrisonerUI.BusPrisonerStrength[index],
-        //    busPrisonerUI.BusPrisonerCrimes[index],
-        //    busPrisonerUI.BusPrisonerErosions[index],
-        //    busPrisonerUI.BusPrisonerHeads[index],
-        //    busPrisonerUI.BusPrisonerBodies[index]
-        //);
-
-        prisoners.Add(newPrisoner);
-
+        // UI 업데이트를 위한 데이터 설정
         StoredPrisonerstat prisonerScript = prisonerUI.GetComponent<StoredPrisonerstat>();
         if (prisonerScript != null)
         {
-            prisonerScript.SetPrisonerData(newPrisoner.name, newPrisoner.hp, newPrisoner.proficiency, newPrisoner.strength, newPrisoner.crime, newPrisoner.erosion, newPrisoner.head, newPrisoner.body);
+            prisonerScript.SetPrisonerData(
+                selectedPrisoner.ID,
+                selectedPrisoner.Name,
+                selectedPrisoner.MaxHealthPoint,
+                selectedPrisoner.Strength,
+                selectedPrisoner.Defense,
+                selectedPrisoner.Handicraft,
+                selectedPrisoner.Crime,
+                selectedPrisoner.HeadID,
+                selectedPrisoner.BodyID
+            );
         }
+
+        prisoners.Add(selectedPrisoner);
 
         UpdatePrisonerUI();
 
         Button prefabButton = prisonerUI.GetComponent<Button>();
         if (prefabButton != null)
         {
-            prefabButton.onClick.AddListener(() => OnPrisonerPrefabClicked(newPrisoner));
+            prefabButton.onClick.AddListener(() => OnPrisonerPrefabClicked(selectedPrisoner));
         }
     }
 
-    void OnPrisonerPrefabClicked(Prisoner prisoner)
+    void OnPrisonerPrefabClicked(PrototypeUnitData prisoner)
     {
         if (prisonerInfoUI != null)
         {
@@ -120,7 +109,7 @@ public class StoredPrisoner : MonoBehaviour
 
         for (int i = 0; i < prisoners.Count; i++)
         {
-            if (prisoners[i].hp <= 0) // 수정: prisoners[i]의 hp 확인
+            if (prisoners[i].MaxHealthPoint <= 0) // 수정: prisoners[i]의 hp 확인
             {
                 indicesToRemove.Add(i);
             }
@@ -148,51 +137,32 @@ public class StoredPrisoner : MonoBehaviour
         UpdatePrisonerUI(); // UI 업데이트 호출
     }
 
-    public void DecreasePrisonerHP(int index, int amount)
-    {
-        if (index >= 0 && index < prisoners.Count) // 수정: prisoners 리스트 확인
-        {
-            prisoners[index].hp -= amount; // 수정: prisoners[index]의 hp 감소
-            if (prisoners[index].hp <= 0)
-            {
-                RemovePrisonersWithLowHP();
-            }
-            else
-            {
-                AdjustContentHeight();
-                UpdatePrisonerUI(); // UI 업데이트 호출
-            }
-        }
-    }
-
-    public void OnDecreaseHPButtonClick()
-    {
-        DecreasePrisonerHP(0, 3); // 인덱스와 감소할 체력을 적절히 수정
-    }
-
     public void UpdatePrisonerUI()
     {
         for (int i = 0; i < uiContentParent.childCount; i++)
         {
             Transform child = uiContentParent.GetChild(i);
-            StoredPrisonerstat prisonerStat = child.GetComponent<StoredPrisonerstat>();
-            if (prisonerStat != null)
+            RectTransform rectTransform = child.GetComponent<RectTransform>();
+
+            if (rectTransform != null)
             {
-                int index = i; // 현재 인덱스
-                if (index < prisoners.Count) // 수정: prisoners.Count로 인덱스 확인
+                PrototypeUnitData selectedPrisoner = prisoners[i];  // prisoners 리스트에서 인덱스를 사용해 데이터를 가져옴
+
+                StoredPrisonerstat prisonerStat = child.GetComponent<StoredPrisonerstat>();
+                if (prisonerStat != null)
                 {
-                    // UI 요소 업데이트
                     prisonerStat.SetPrisonerData(
-                        prisoners[index].name,
-                        prisoners[index].hp,
-                        prisoners[index].proficiency,
-                        prisoners[index].strength,
-                        prisoners[index].crime,
-                        prisoners[index].erosion,
-                        prisoners[index].head,
-                        prisoners[index].body
+                        selectedPrisoner.ID,
+                        selectedPrisoner.Name,
+                        selectedPrisoner.MaxHealthPoint,
+                        selectedPrisoner.Strength,
+                        selectedPrisoner.Defense,
+                        selectedPrisoner.Handicraft,
+                        selectedPrisoner.Crime,
+                        selectedPrisoner.HeadID,
+                        selectedPrisoner.BodyID
                     );
-                    prisonerStat.UpdateUI(); // UI 업데이트 메서드 호출
+                    prisonerStat.UpdateUI();
                 }
             }
         }
