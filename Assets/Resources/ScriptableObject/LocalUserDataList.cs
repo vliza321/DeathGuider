@@ -5,9 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LocalUserDataList", menuName = "ScriptableObject/LocalUserData")]
 public class LocalUserDataList : DataScriptableObjects
 {
-    public List<LocalUserData> LocalUserDatas = new List<LocalUserData>();
-    
+    //key ´Â int Çü, LocalUserDataÀÇ ID
     public Dictionary<int, LocalUserData> LocalUserDataDic = new Dictionary<int, LocalUserData>();
+
+
+    public List<LocalUserData> LocalUserDatas = new List<LocalUserData>();
     public bool TranslateListToDic()
     {
         bool result = true;
@@ -26,8 +28,7 @@ public class LocalUserDataList : DataScriptableObjects
             data.Gold = LocalUserDataDic[data.ID].Gold;
             data.DeathEssence = LocalUserDataDic[data.ID].DeathEssence;
             data.DarkEssence = LocalUserDataDic[data.ID].DarkEssence;
-            data.UnitStanceCounter = LocalUserDataDic[data.ID].UnitStanceCounter;
-            data.WeaponStanceCounter = LocalUserDataDic[data.ID].WeaponStanceCounter;
+            data.UnitInstanceCounter = LocalUserDataDic[data.ID].UnitInstanceCounter;
         }
     }
 }
@@ -41,6 +42,5 @@ public class LocalUserData
     public int Gold;
     public int DeathEssence;
     public int DarkEssence;
-    public int UnitStanceCounter;
-    public int WeaponStanceCounter;
+    public int UnitInstanceCounter;
 }

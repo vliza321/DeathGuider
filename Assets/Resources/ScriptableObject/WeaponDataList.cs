@@ -4,10 +4,12 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponDataList", menuName = "ScriptableObject/WeaponData")]
 public class WeaponDataList : DataScriptableObjects
-{
-    public List<WeaponData> WeaponDatas = new List<WeaponData>();
-
+{   
+    //key 는 (int,int,int), 순서대로 WeaponData의 UserID,PrototypeWeaponID, InstanceID 
     public Dictionary<(int, int, int), WeaponData> WeaponDataDic = new Dictionary<(int, int, int), WeaponData>();
+    
+    
+    public List<WeaponData> WeaponDatas = new List<WeaponData>();
 
     public bool TranslateListToDic()
     {
@@ -28,7 +30,6 @@ public class WeaponDataList : DataScriptableObjects
             data.AttackPoint = WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].AttackPoint;
             data.Durability = WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].Durability;
             data.Enforce= WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].Enforce;
-            data.EffectID = WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].EffectID;
         }
     }
 }
@@ -45,5 +46,4 @@ public class WeaponData
     public int Type;
     public int Enforce;
     public int Crime;
-    public int EffectID;
 }

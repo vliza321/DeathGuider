@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DDOLoadTest : MonoBehaviour
+public class AddScriptable : MonoBehaviour
 {
     [SerializeField]
     private DontDestroyObjectManager DDOManager;
@@ -20,9 +20,10 @@ public class DDOLoadTest : MonoBehaviour
         DDO = null;
     }
 
-    void temt()
+    public void OnButtonClick()
     {
-        int a = DDOManager.PrototypeUnitDatas.PrototypeUnitDataDic[100].Strength;
-        var t = DDOManager.UnitDatas.UnitDatas;
+        DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter=0;
+        Debug.Log(DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter);
+        DDOManager.SaveData();
     }
 }

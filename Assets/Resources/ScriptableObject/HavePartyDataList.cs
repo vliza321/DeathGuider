@@ -4,10 +4,13 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "HavePartyDataList", menuName = "ScriptableObject/HavePartyData")]
 public class HavePartyDataList : DataScriptableObjects
-{
-    public List<HavePartyData> HavePartyDatas = new List<HavePartyData>();
-
+{   
+    //key 는 (int,int), 순서대로 HavePartyData의 UserID, PartyID
     public Dictionary<(int,int), HavePartyData> HavePartyDataDic = new Dictionary<(int,int), HavePartyData>();
+    
+    
+    
+    public List<HavePartyData> HavePartyDatas = new List<HavePartyData>();
     public bool TranslateListToDic()
     {
         bool result = true;

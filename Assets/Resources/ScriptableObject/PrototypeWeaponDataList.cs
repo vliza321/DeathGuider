@@ -4,10 +4,12 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "PrototypeWeaponDataList", menuName = "ScriptableObject/PrototypeWeaponData")]
 public class PrototypeWeaponDataList : DataScriptableObjects
-{
-    public List<PrototypeWeaponData> PrototypeWeaponDatas = new List<PrototypeWeaponData>();
-
+{    
+    //key ´Â int Çü, PrototypeWeaponDataÀÇ ID
     public Dictionary<int, PrototypeWeaponData> PrototypeWeaponDataDic = new Dictionary<int, PrototypeWeaponData>();
+
+
+    public List<PrototypeWeaponData> PrototypeWeaponDatas = new List<PrototypeWeaponData>();
     public bool TranslateListToDic()
     {
         bool result = true;
@@ -20,7 +22,10 @@ public class PrototypeWeaponDataList : DataScriptableObjects
 
     public void TranslateDicToListAtSaveDatas()
     {
-
+        foreach (var data in PrototypeWeaponDatas)
+        {
+            data.InstanceCounter = PrototypeWeaponDataDic[data.ID].InstanceCounter;
+        }
     }
 }
 
@@ -32,5 +37,5 @@ public class PrototypeWeaponData
     public int AttackPoint;
     public int Type;
     public int Crime;
-    public int EffectID;
+    public int InstanceCounter;
 }

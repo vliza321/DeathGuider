@@ -4,10 +4,12 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "UseWeaponDataList", menuName = "ScriptableObject/UseWeaponData")]
 public class UseWeaponDataList : DataScriptableObjects
-{
-    public List<UseWeaponData> UseWeaponDatas = new List<UseWeaponData>();
-
+{   
+    //key 는 (int,int,int,int), 순서대로 UseWeaponData의 UserID,PrototypeWeaponID, InstanceID, PartyID 
     public Dictionary<(int, int, int, int), UseWeaponData> UseWeaponDataDic = new Dictionary<(int, int, int, int), UseWeaponData>();
+    
+    
+    public List<UseWeaponData> UseWeaponDatas = new List<UseWeaponData>();
 
     public bool TranslateListToDic()
     {

@@ -5,9 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UnitDataList", menuName = "ScriptableObject/UnitData")]
 public class UnitDataList : DataScriptableObjects
 {
-    public List<UnitData> UnitDatas = new List<UnitData>();
-
+    //key 는 (int,int,int), 순서대로 UnitData의 UserID,PrototypeUnitID, InstanceID 
     public Dictionary<(int, int, int), UnitData> UnitDataDic = new Dictionary<(int, int, int), UnitData>();
+
+    
+    public List<UnitData> UnitDatas = new List<UnitData>();
 
     public bool TranslateListToDic()
     {

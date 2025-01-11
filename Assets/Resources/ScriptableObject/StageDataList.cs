@@ -4,10 +4,14 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "StageDataList", menuName = "ScriptableObject/StageData")]
 public class StageDataList : DataScriptableObjects
-{
+{   
+    //key ´Â int Çü, StageDataÀÇ ID
+    public Dictionary<int, StageData> StageDataDic = new Dictionary<int, StageData>();
+    
+    
     public List<StageData> StageDatas = new List<StageData>();
 
-    public Dictionary<int, StageData> StageDataDic = new Dictionary<int, StageData>();
+
     public bool TranslateListToDic()
     {
         bool result = true;

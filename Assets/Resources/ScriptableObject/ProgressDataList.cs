@@ -4,11 +4,13 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "ProgressDataList", menuName = "ScriptableObject/ProgressData")]
 public class ProgressDataList : DataScriptableObjects
-{
-    public List<ProgressData> ProgressDatas = new List<ProgressData>();
-
+{    
+    //key 는 (int,int), 순서대로 ProgressData의 UserID, StageID
     public Dictionary<(int, int), ProgressData> ProgressDataDic = new Dictionary<(int, int), ProgressData>();
 
+
+
+    public List<ProgressData> ProgressDatas = new List<ProgressData>();
     public bool TranslateListToDic()
     {
         bool result = true;
