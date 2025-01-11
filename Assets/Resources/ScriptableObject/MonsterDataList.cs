@@ -6,14 +6,31 @@ using UnityEngine;
 public class MonsterDataList : DataScriptableObjects
 {
     public List<MonsterData> MonsterDatas = new List<MonsterData>();
+
+    public Dictionary<int, MonsterData> MonsterDataDic = new Dictionary<int, MonsterData>();
+    public bool TranslateListToDic()
+    {
+        bool result = true;
+        foreach (var data in MonsterDatas)
+        {
+            MonsterDataDic.Add(data.ID, data);
+        }
+        return result;
+    }
+
+    public void TranslateDicToListAtSaveDatas()
+    {
+
+    }
 }
 
 
 [System.Serializable]
 public class MonsterData
 {
-    public int id;
+    public int ID;
     public string Name;
-    public int Level;
-    public int HealthPoint;
+    public int MaxHealthPoint;
+    public int Strength;
+    public int Defense;
 }

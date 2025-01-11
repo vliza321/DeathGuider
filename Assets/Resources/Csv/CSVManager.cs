@@ -11,32 +11,44 @@ using System.IO;
 public class CSVManager :MonoBehaviour
 {
     private List<string> FILE_NAME = new List<string> { 
-        
+        "Appear",
+        "Dialog" ,
+        "HaveParty",
         "LocalUser",
-        "Guider","Prisoner","Stage",
-        "Monster","BossMonster",
-        "GuiderInUser","PrisonerInUser", "WeaponInUser",
-        "Dialog" 
+        "Monster",
+        "Party",
+        "Progress",
+        "PrototypeUnit",
+        "PrototypeWeapon",
+        "Stage",
+        "Unit",
+        "UnitParticipate",
+        "UseWeapon",
+        "Weapon"
     };
-    
-    private List<Dictionary<string, object>> LocalUser = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> Guider = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> Prisoner = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> Stage = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> Monster = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> BossMonster = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> GuiderInUser = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> PrisonerInUser = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> WeaponInUser = new List<Dictionary<string, object>>();
-
     //CSV파일 파싱 직후 저장 공간
+    private List<Dictionary<string, object>> Appear = new List<Dictionary<string, object>>();
     private List<Dictionary<string, object>> Dialog = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> HaveParty = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> LocalUser = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Monster = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Party = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Progress = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> PrototypeUnit = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> PrototypeWeapon = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Stage = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Unit = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> UnitParticipate = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> UseWeapon = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> Weapon = new List<Dictionary<string, object>>();
+
 
     public void Initialize()
     {
         Debug.Log("CSVManagerInit");
         foreach(var fn in FILE_NAME)
         {
+            Debug.Log(fn);
             object fnValue = GetFieldByString(fn);
             if(fnValue is List<Dictionary<string,object>>fnList)
             {
@@ -44,6 +56,7 @@ public class CSVManager :MonoBehaviour
                 SetFieldByString(fn, fnList);
                 ConvertCSVToScriptableObject(fn, fnList);
             }
+            Debug.Log(fn);
         }
     }
 
@@ -142,9 +155,11 @@ public class CSVManager :MonoBehaviour
         // 동적으로 반환 타입 가져오기
         var currentList = field.GetValue(scriptableObject);
 
+        
         // IList인지 확인
         if (currentList is IList list)
         {
+            /*
             // 데이터의 Number 속성에 대한 FieldInfo 얻기
             FieldInfo dataNumberFieldInfo = newData.GetType().GetField("Number");
             if (dataNumberFieldInfo == null)
@@ -185,8 +200,9 @@ public class CSVManager :MonoBehaviour
             {
                 // 새로운 데이터 추가
                 list.Add(newData);
-            }
+            }*/
 
+            list.Add(newData);
         }
         return true;
     }
@@ -207,6 +223,7 @@ public class CSVManager :MonoBehaviour
             ScriptableObject ddl = Resources.Load(fn + "DataList", type) as ScriptableObject;
             if (ddl == null)
             {
+                Debug.LogError(fn);
                 result = false;
                 return result;
             }

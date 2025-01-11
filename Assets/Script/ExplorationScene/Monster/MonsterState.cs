@@ -104,7 +104,7 @@ public class MonsterState : MonoBehaviour
         if (collision.gameObject.CompareTag(weaponTagName))
         {
             //hp -= collision.GetComponent<WeaponState>().Damage;
-            hp--;
+            hp-= 5;
             if (hp <= 0)
             {
                 canMove = false;

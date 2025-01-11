@@ -6,26 +6,41 @@ using UnityEngine;
 public class LocalUserDataList : DataScriptableObjects
 {
     public List<LocalUserData> LocalUserDatas = new List<LocalUserData>();
+    
+    public Dictionary<int, LocalUserData> LocalUserDataDic = new Dictionary<int, LocalUserData>();
+    public bool TranslateListToDic()
+    {
+        bool result = true;
+        foreach (var data in LocalUserDatas)
+        {
+            LocalUserDataDic.Add(data.ID, data);
+        }
+        return result;
+    }
+
+    public void TranslateDicToListAtSaveDatas()
+    {
+        foreach (var data in LocalUserDatas)
+        {
+            data.Day = LocalUserDataDic[data.ID].Day;
+            data.Gold = LocalUserDataDic[data.ID].Gold;
+            data.DeathEssence = LocalUserDataDic[data.ID].DeathEssence;
+            data.DarkEssence = LocalUserDataDic[data.ID].DarkEssence;
+            data.UnitStanceCounter = LocalUserDataDic[data.ID].UnitStanceCounter;
+            data.WeaponStanceCounter = LocalUserDataDic[data.ID].WeaponStanceCounter;
+        }
+    }
 }
 
 
 [System.Serializable]
 public class LocalUserData
 {
-    public int id;
-    public int clearStage;
+    public int ID;
+    public int Day;
     public int Gold;
     public int DeathEssence;
-    public int DarkStrength;
-    public int date;
-    public int Gid;
-    public int Pid1;
-    public int Pid2;
-    public int Pid3;
-    public int Pid4;
-    public int Wid1;
-    public int Wid2;
-    public int Wid3;
-    public int Wid4;
-    public int Wid5;
+    public int DarkEssence;
+    public int UnitStanceCounter;
+    public int WeaponStanceCounter;
 }

@@ -1,2 +1,2 @@
-id,clearStage,Gold,DeathEssence,DarkStrength,date,Gid,Pid1,Pid2,Pid3,Pid4,Wid1,Wid2,Wid3,Wid4,Wid5
-0,0,1002,0,0,0,0,0,0,0,0,0,0,0,0,0
+ID,Day,Gold,DeathEssence,DarkEssence,UnitStanceCounter,WeaponStanceCounter
+0,0,1301,0,0,0,0
