@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class MonsterState : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField]
-    private float hp;
-    private bool alive; // 살았는지 죽었는지만
-    private bool canMove; // 움직이는지 멈췄는지만
-    private int monsterNum;
-    private bool inGame;
-    private int attackPoint;
-
     private MonsterMove monsterMove;
-    public int AttactPoint
-    { 
-        get { return attackPoint; } 
-        set { attackPoint = value; } 
+
+    private MonsterData status;
+
+    private bool canMove;
+    private float healthPoint;
+
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
+    public float HealthPoint
+    {
+        get { return healthPoint; }
+        set { healthPoint = value; }
+    }
+    public MonsterData Status
+    {
+        get { return status; }
     }
 
     // delete public 
@@ -36,65 +42,19 @@ public class MonsterState : MonoBehaviour
         set { monsterPool = value; }
     }
    
-    public bool InGame
-    {
-        get { return inGame; }
-        set { inGame = value; }
-    }
-
-    public int MonsterNum
-    {
-        get { return monsterNum; }
-        set { monsterNum = value; }
-    }
-
-    public float Hp
-    {
-        get { return hp; }
-        set { hp += value; }
-    }
-
-    public bool Alive
-    {
-        get { return alive; }
-        set { alive = value; }
-    }
-
-    public bool CanMove
-    {
-        get { return canMove; }
-        set { canMove = value; }
-    }
-
     private void Awake()
     {
-        hp = 100;
-        alive = false;
-        canMove = false; 
+        canMove = false;
+        healthPoint = 100;
         playerState = FindObjectOfType<PlayerState>();
         monsterMove = this.gameObject.GetComponent<MonsterMove>();
     }
-    void Start()
-    {
-
-        alive = true;
-        canMove = true;
-        //spawnCounter = 3000;
-
-    }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void monsterSpawn(GameObject Player,ObjectPool respawnPool)
     {
-        
-        hp = 100;
-        alive = true;
-        canMove = true;
+        canMove = false;
+        healthPoint = 100;
         monsterMove.Player = Player;
         monsterPool = respawnPool;
     }
@@ -104,12 +64,9 @@ public class MonsterState : MonoBehaviour
         if (collision.gameObject.CompareTag(weaponTagName))
         {
             //hp -= collision.GetComponent<WeaponState>().Damage;
-            hp-= 5;
-            if (hp <= 0)
+            healthPoint-= 5;
+            if (healthPoint <= 0)
             {
-                canMove = false;
-                alive = false;
-
                 // 경험치 부여
                 if (playerState != null)
                 {

@@ -12,4 +12,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411d8637c7a42c746b1488b539e08250, type: 3}
   m_Name: UnitDataList
   m_EditorClassIdentifier: 
-  UnitDatas: []
+  UnitDatas:
+  - UserID: 0
+    PrototypeUnitID: 0
+    InstanceID: 0
+    Name: "\uAE30\uBCF8"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 100
+    HealthPoint: 100
+    Strength: 10
+    Defense: 1
+    Handicraft: 1
+    DeathErosion: 0
+    Enforce: 1
+    HealthEnforce: 2
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 1
+    ActivityStatus: 0
+    HeadID: 0
+    BodyID: 0
+  - UserID: 0
+    PrototypeUnitID: 1
+    InstanceID: 0
+    Name: "\uD615\uB2D8"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 100
+    HealthPoint: 100
+    Strength: 10
+    Defense: 1
+    Handicraft: 1
+    DeathErosion: 0
+    Enforce: 1
+    HealthEnforce: 2
+    StrengthEnforce: 1
+    DefenseEnforce: 1
+    HandicraftEnforce: 0
+    Crime: 2
+    ActivityStatus: 0
+    HeadID: 1
+    BodyID: 1
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 7
+    Name: "\uCD5C\uBC04\uAC50"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 1
+    HealthPoint: 1
+    Strength: 14
+    Defense: 97
+    Handicraft: 17
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 1
+    ActivityStatus: 0
+    HeadID: 4
+    BodyID: 0

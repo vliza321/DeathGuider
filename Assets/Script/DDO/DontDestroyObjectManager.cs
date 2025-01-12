@@ -270,11 +270,11 @@ public class DontDestroyObjectManager : MonoBehaviour
 
         //테스트 종료
         */
-
+        /*
         if (!SaveData())
         {
             Debug.LogError("Fail Save ScriptalbeObject To CSVFile");
-        }
+        }*/
 
     }
 
