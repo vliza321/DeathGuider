@@ -13,19 +13,9 @@ MonoBehaviour:
   m_Name: LocalUserDataList
   m_EditorClassIdentifier: 
   LocalUserDatas:
-  - id: 0
-    clearStage: 0
-    Gold: 1002
+  - ID: 0
+    Day: 39
+    Gold: 3501
     DeathEssence: 0
-    DarkStrength: 0
-    date: 0
-    Gid: 0
-    Pid1: 0
-    Pid2: 0
-    Pid3: 0
-    Pid4: 0
-    Wid1: 0
-    Wid2: 0
-    Wid3: 0
-    Wid4: 0
-    Wid5: 0
+    DarkEssence: 0
+    UnitInstanceCounter: 12
