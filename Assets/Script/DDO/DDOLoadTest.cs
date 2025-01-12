@@ -24,5 +24,7 @@ public class DDOLoadTest : MonoBehaviour
     {
         int a = DDOManager.PrototypeUnitDatas.PrototypeUnitDataDic[100].Strength;
         var t = DDOManager.UnitDatas.UnitDatas;
+        DDOManager.UnitDatas.UnitDataDic.Add((0, 100, DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter),new UnitData());
+        DDOManager.UnitDatas.UnitDatas.Add(new UnitData());
     }
 }

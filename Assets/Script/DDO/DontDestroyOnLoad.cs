@@ -7,17 +7,19 @@ public class DontDestroyOnLoad : MonoBehaviour
     void Awake()
     {
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        bool isRegister = false;
         foreach (GameObject ddo in DDO)
         {
             if (ddo == this)
             {
+                isRegister = true;
                 break;
-            }
-            else
-            {
-                DontDestroyOnLoad(this);
             }
         }
         DDO = null;
+        if(!isRegister)
+        {
+            DontDestroyOnLoad(this);
+        }
     }
 }
