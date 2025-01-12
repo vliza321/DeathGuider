@@ -14,6 +14,8 @@ public class BusRandomPrisoner : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
+    public Button changeDaysButton;
+
     private readonly char[] name1 = new char[] { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
     private readonly char[] name2 = new char[] { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ' };
     private readonly char[] name3 = new char[] { '\0', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
@@ -34,7 +36,12 @@ public class BusRandomPrisoner : MonoBehaviour
             DDO = null;
         }
 
-        for(int i=0; i<6; i++)
+        if (changeDaysButton != null)
+        {
+            changeDaysButton.onClick.AddListener(OnChangeDaysButtonClicked);
+        }
+
+        for (int i=0; i<6; i++)
         {
             GenerateRandomPrisoner();
         }
@@ -130,7 +137,6 @@ public class BusRandomPrisoner : MonoBehaviour
             Button acceptButton = unitUI.transform.Find("AcceptButton").GetComponent<Button>();
             if (acceptButton != null)
             {
-                //데이터베이스에 넣을 것들
                 acceptButton.onClick.AddListener(() => AcceptUnitUI(unitUI));
 
 
@@ -215,5 +221,32 @@ public class BusRandomPrisoner : MonoBehaviour
             unitDatas.Remove(unitToRemove);
         }
         Destroy(unitUI); // 해당 프리펩 삭제
+    }
+
+    private void OnChangeDaysButtonClicked()
+    {
+        DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
+
+        if (!DDOManager.SaveData())
+        {
+            Debug.Log("Fail Save Data");
+        }
+
+        unitDatas.Clear();
+        ClearExistingUnitUIs();
+
+        for (int i = 0; i < 6; i++)
+        {
+            GenerateRandomPrisoner();
+        }
+        DisplayUnitDataUI();
+    }
+
+    private void ClearExistingUnitUIs()
+    {
+        foreach (Transform child in gridParent)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
