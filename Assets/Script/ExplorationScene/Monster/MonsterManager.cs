@@ -153,6 +153,7 @@ public class MonsterManager : MonoBehaviour
             {
                 newMonster = monsterRespawnPool.GetObject();
                 newMonster.GetComponent<MonsterState>().monsterSpawn(guider.gameObject,monsterRespawnPool);
+                newMonster.GetComponent<MonsterMove>().ActionState = MonsterActionState.Spawning;
                 switch (Random.Range(0, 4))
                 {
                     default:
@@ -326,51 +327,45 @@ public class MonsterManager : MonoBehaviour
                 if (monsterSpawnPool.PoolQueue.Count == 0) break;
                 newMonster = monsterSpawnPool.GetObject();
                 newMonster.GetComponent<MonsterState>().monsterSpawn(player,monsterRespawnPool);
-                switch (Random.Range(0, 4))
+                newMonster.GetComponent<MonsterMove>().ActionState = MonsterActionState.Spawning;
+                switch (Random.Range(0, 2))
                 {
                     default:
-                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) * 0.1f);
-                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) * 0.1f);
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(10, 20) * 0.0005f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(10, 20) * 0.0005f);
                         currentPos.z = playerPos.z;
                         newMonster.transform.position = currentPos;
                         break;
+                        
                     case 0:
+                        //플레이어가 보고 있는 방향으로 리스폰
                         if (guider.PlayerVelocityVector.x != 0 && guider.PlayerVelocityVector.y != 0)
                         {
                             signX *= guider.PlayerVelocityVector.x;
                             signY *= guider.PlayerVelocityVector.y;
-                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) * 0.1f);
-                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) * 0.1f);
+                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(10, 20) * 0.0005f);
+                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(10, 20) * 0.0005f);
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
                         }
+                        //일반 리스폰
                         else
                         {
-                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) * 0.1f);
-                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) * 0.1f);
+                            currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(10, 20) * 0.0005f);
+                            currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(10, 20) * 0.0005f);
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
                         }
                         break;
                     case 1:
-                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(3, 10) * 0.1f);
-                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(15, 20) * 0.1f);
-                        currentPos.z = playerPos.z;
-                        newMonster.transform.position = currentPos;
-                        break;
-                    case 2:
-                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(15, 20) * 0.1f);
-                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(3, 7) * 0.1f);
-                        currentPos.z = playerPos.z;
-                        newMonster.transform.position = currentPos;
-                        break;
-                    case 3:
-                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(12, 20) * 0.1f);
-                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) * 0.1f);
+                        //일반 리스폰
+                        currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(10, 20) * 0.0005f);
+                        currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(10, 20) * 0.0005f);
                         currentPos.z = playerPos.z;
                         newMonster.transform.position = currentPos;
                         break;
                 }
+                Debug.Log(currentPos.x +","+ currentPos.y);
             }
         }
     }
