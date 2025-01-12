@@ -61,16 +61,16 @@ public class MonsterManager : MonoBehaviour
 
     private Vector2 screenSize;
 
-    private GameObject DDOManager;
-    private GameObject GameManager;
+    private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
     // Start is called before the first frame update
     void Awake()
     {
         screenSize.x = Screen.width;
         screenSize.y = Screen.height;
         playerEscape = false;
-        monster = new MonsterMove[this.transform.childCount];
-        monsterSpawnPool = new ObjectPool(monsterPrefab,maxMonster);
+        monster = new MonsterMove[maxMonster];
+        monsterSpawnPool = new ObjectPool(maxMonster);
         monsterRespawnPool = new ObjectPool(maxMonster);
 
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
@@ -88,14 +88,24 @@ public class MonsterManager : MonoBehaviour
         {
             if (ddo.name == "GameManager")
             {
-                GameManager = ddo.transform.gameObject;
+                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
             if (ddo.name == "DDOManager")
             {
-                DDOManager = ddo.transform.gameObject;
+                DDOManager = ddo.transform.gameObject.GetComponent<DontDestroyObjectManager>();
             }
         }
         Manager = null;
+
+        for (int a = 0; a < maxMonster; a++)
+        {
+            GameObject newMonster = Instantiate(GameManager.monster[GameManager.selectStageID]);
+            newMonster.transform.SetParent(this.transform);
+            newMonster.SetActive(false);
+            monsterSpawnPool.ReturnObject(newMonster);
+            monster[a] = newMonster.GetComponent<MonsterMove>();
+            newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.selectStageID],monsterRespawnPool);
+        }
 
         signX = 0;
         signY = 0;
@@ -117,15 +127,9 @@ public class MonsterManager : MonoBehaviour
     {
         guider = player.GetComponent<PlayerManager>().Guider.GetComponent<PlayerMove>();
         playerPos = guider.transform.position;
-
-        for (int i = 0; i < MaxMonster; i++)
+        foreach (var m in monster)
         {
-            
-            monsterSpawnPool.ReturnObject(this.transform.GetChild(i).gameObject);
-        }
-        for(int i = 0;i<this.transform.childCount;i++)
-        {
-            monster[i] = this.transform.GetChild(i).GetComponent<MonsterMove>() ;
+            m.Init();
         }
     }
 
@@ -147,7 +151,7 @@ public class MonsterManager : MonoBehaviour
         playerEscape = true;
         foreach(var m in monster)
         {
-            m.GetComponent<MonsterState>().CanMove = false;
+            m.CanMove = false;
         }
     }
     private void Update()
@@ -170,7 +174,7 @@ public class MonsterManager : MonoBehaviour
             while(monsterRespawnPool.PoolQueue.Count != 0)
             {
                 newMonster = monsterRespawnPool.GetObject();
-                newMonster.GetComponent<MonsterState>().monsterSpawn(guider.gameObject,monsterRespawnPool);
+                newMonster.GetComponent<MonsterState>().monsterSpawn();
                 newMonster.GetComponent<MonsterMove>().ActionState = MonsterActionState.Spawning;
                 switch (Random.Range(0, 4))
                 {
@@ -344,7 +348,7 @@ public class MonsterManager : MonoBehaviour
 
                 if (monsterSpawnPool.PoolQueue.Count == 0) break;
                 newMonster = monsterSpawnPool.GetObject();
-                newMonster.GetComponent<MonsterState>().monsterSpawn(player,monsterRespawnPool);
+                newMonster.GetComponent<MonsterState>().monsterSpawn();
                 newMonster.GetComponent<MonsterMove>().ActionState = MonsterActionState.Spawning;
                 switch (Random.Range(0, 2))
                 {

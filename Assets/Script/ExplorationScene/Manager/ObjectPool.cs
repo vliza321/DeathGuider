@@ -13,7 +13,6 @@ public class ObjectPool
 
 	public ObjectPool(GameObject[] prefab, int MaxMonster)
     {
-        this.prefab = prefab;
         poolQueue = new Queue<GameObject>();
         /*
         for (int i = 0; i < MaxMonster; i++)
@@ -38,11 +37,6 @@ public class ObjectPool
             obj.SetActive(false);
             poolQueue.Enqueue(obj);
         }*/
-    }
-
-    private GameObject CreateNewObject()
-    {
-        return GameObject.Instantiate(prefab[0]);
     }
 
     public GameObject GetObject()
