@@ -1,3 +1,9 @@
 UserID,PrototypeUnitID,InstanceID,Name,Level,EXP,MaxHealthPoint,HealthPoint,Strength,Defense,Handicraft,DeathErosion,Enforce,HealthEnforce,StrengthEnforce,DefenseEnforce,HandicraftEnforce,Crime,ActivityStatus,HeadID,BodyID
 0,0,0,기본,1,0,100,100,10,1,1,0,1,2,0,0,0,1,0,0,0
 0,1,0,형님,1,0,100,100,10,1,1,0,1,2,1,1,0,2,0,1,1
+0,100,0,강팩먠,1,0,64,64,80,84,7,0,0,0,0,0,0,3,0,3,2
+0,100,1,이햒핀,1,0,92,92,85,57,72,0,0,0,0,0,0,1,0,3,2
+0,100,2,조낓튁,1,0,13,13,97,67,21,0,0,0,0,0,0,0,0,1,1
+0,100,3,최뾡믧,1,0,6,6,48,22,8,0,0,0,0,0,0,3,0,0,2
+0,100,4,최쁔밎,1,0,45,45,20,10,48,0,0,0,0,0,0,6,0,2,0
+0,100,5,정꿻뾴,1,0,66,66,34,12,9,0,0,0,0,0,0,3,0,4,1

@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BusRandomPrisoner : MonoBehaviour
 {
     public List<UnitData> unitDatas = new List<UnitData>();
+    public UnitData testUnit;
+
     public GameObject unitUIPrefab;
     public Transform gridParent;
     public Sprite[] headSprites;
@@ -16,6 +19,8 @@ public class BusRandomPrisoner : MonoBehaviour
     private readonly char[] name3 = new char[] { '\0', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
     private readonly string[] firstNames = new string[] { "김", "이", "박", "최", "정", "강", "조", "윤", "장", "임" };
 
+    private DontDestroyObjectManager DDOManager;
+
     private void Start()
     {
         // DontDestroyOnLoad 객체에서 busPrisonerDataList를 로드
@@ -24,16 +29,9 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             if (ddo.name == "DDOManager")
             {
-                var manager = ddo.GetComponent<DontDestroyObjectManager>();
-                if (manager != null)
-                {
-                    if (unitDatas == null)
-                    {
-                        Debug.LogError("busPrisonerDataList is not found in DontDestroyObjectManager.");
-                    }
-                    break;
-                }
+                DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
+            DDO = null;
         }
 
         for(int i=0; i<6; i++)
@@ -98,26 +96,58 @@ public class BusRandomPrisoner : MonoBehaviour
         }
     }
 
-    private void DisplayUnitDataUI()
+    public void DisplayUnitDataUI()
     {
         foreach (var unit in unitDatas)
         {
             GameObject unitUI = Instantiate(unitUIPrefab, gridParent);
 
-            unitUI.transform.Find("NameText").GetComponent<Text>().text = unit.Name;
-            unitUI.transform.Find("LevelText").GetComponent<Text>().text = "Lv: " + unit.Level;
-            unitUI.transform.Find("HealthText").GetComponent<Text>().text = "HP: " + unit.HealthPoint;
-            unitUI.transform.Find("StrengthText").GetComponent<Text>().text = "STR:" + unit.Strength;
-            unitUI.transform.Find("DefenseText").GetComponent<Text>().text = "STR:" + unit.Strength;
-            string crimeDescription = GetCrimeDescription(unit.Crime);
-            unitUI.transform.Find("CrimeText").GetComponent <Text>().text = "Crime: " + crimeDescription;
+            unitUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = unit.Name;
+            unitUI.transform.Find("LevelText").GetComponent<TextMeshProUGUI>().text = "Lv: " + unit.Level;
+            unitUI.transform.Find("HealthText").GetComponent<TextMeshProUGUI>().text = "HP: " + unit.HealthPoint;
+            unitUI.transform.Find("StrengthText").GetComponent<TextMeshProUGUI>().text = "STR:" + unit.Strength;
+            unitUI.transform.Find("DefenseText").GetComponent<TextMeshProUGUI>().text = "DEF:" + unit.Defense;
+            unitUI.transform.Find("CrimeText").GetComponent<TextMeshProUGUI>().text = "Crime: " + GetCrimeDescription(unit.Crime);
 
-            Sprite headSprite = headSprites[unit.HeadID];
-            unitUI.transform.Find("HeadImage").GetComponent<Image>().sprite = headSprite;
-            Sprite bodySprite = bodySprites[unit.BodyID];
-            unitUI.transform.Find("BodyImage").GetComponent<Image>().sprite = bodySprite;
+            if (unit.HeadID >= 0 && unit.HeadID < headSprites.Length)
+            {
+                unitUI.transform.Find("HeadImage").GetComponent<Image>().sprite = headSprites[unit.HeadID];
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid HeadID: {unit.HeadID}");
+            }
+
+            if (unit.BodyID >= 0 && unit.BodyID < bodySprites.Length)
+            {
+                unitUI.transform.Find("BodyImage").GetComponent<Image>().sprite = bodySprites[unit.BodyID];
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid BodyID: {unit.BodyID}");
+            }
+
+            Button acceptButton = unitUI.transform.Find("AcceptButton").GetComponent<Button>();
+            if (acceptButton != null)
+            {
+                //데이터베이스에 넣을 것들
+                acceptButton.onClick.AddListener(() => AcceptUnitUI(unitUI));
+
+
+            }
+
+            Button rejectButton = unitUI.transform.Find("RejectButton").GetComponent<Button>();
+            if (rejectButton != null)
+            {
+                rejectButton.onClick.AddListener(() => RemoveUnitUI(unitUI));
+            }
+            else
+            {
+                Debug.LogWarning("RejectButton not found in prefab.");
+            }
         }
     }
+
     private string GetCrimeDescription(int crimeId)
     {
         switch (crimeId)
@@ -131,5 +161,59 @@ public class BusRandomPrisoner : MonoBehaviour
             case 6: return "탐닉귀";
             default: return "알 수 없음";
         }
+    }
+
+    private void AcceptUnitUI(GameObject unitUI)
+    {
+        string unitName = unitUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text;
+
+        UnitData unitToRemove = null;
+        foreach (var unit in unitDatas)
+        {
+            if (unit.Name == unitName)
+            {
+                unitToRemove = unit;
+                break;
+            }
+        }
+
+        if (unitToRemove != null)
+        {
+            unitToRemove.UserID = 0;
+            unitToRemove.PrototypeUnitID = 100;
+            unitToRemove.InstanceID = DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter;
+            DDOManager.UnitDatas.UnitDatas.Add(unitToRemove);
+
+            DDOManager.UnitDatas.UnitDataDic.Add((0, 100, DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter), unitToRemove);
+            DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter++;
+            unitDatas.Remove(unitToRemove);
+
+            if(!DDOManager.SaveData())
+            {
+                Debug.Log("Fail Save Data");
+            }
+        }
+        Destroy(unitUI); // 해당 프리펩 삭제
+    }
+
+    private void RemoveUnitUI(GameObject unitUI)
+    {
+        string unitName = unitUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text;
+
+        UnitData unitToRemove = null;
+        foreach(var unit in unitDatas)
+        {
+            if(unit.Name == unitName)
+            {
+                unitToRemove = unit;
+                break;
+            }
+        }
+
+        if(unitToRemove != null)
+        {
+            unitDatas.Remove(unitToRemove);
+        }
+        Destroy(unitUI); // 해당 프리펩 삭제
     }
 }
