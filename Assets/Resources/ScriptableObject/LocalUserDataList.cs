@@ -29,6 +29,7 @@ public class LocalUserDataList : DataScriptableObjects
             data.DeathEssence = LocalUserDataDic[data.ID].DeathEssence;
             data.DarkEssence = LocalUserDataDic[data.ID].DarkEssence;
             data.UnitInstanceCounter = LocalUserDataDic[data.ID].UnitInstanceCounter;
+            data.Floor = LocalUserDataDic[data.ID].Floor;
         }
     }
 }

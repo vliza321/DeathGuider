@@ -6,34 +6,22 @@ public class MonsterState : MonoBehaviour
 {
     private MonsterMove monsterMove;
 
+    [SerializeField]
     private MonsterData status;
-
-    private bool canMove;
+    [SerializeField]
     private float healthPoint;
 
-    public bool CanMove
-    {
-        get { return canMove; }
-        set { canMove = value; }
-    }
+
     public float HealthPoint
     {
         get { return healthPoint; }
         set { healthPoint = value; }
     }
-    public MonsterData Status
-    {
-        get { return status; }
-    }
 
     // delete public 
     //public int spawnCounter;
 
-    [SerializeField]
-    private int experiencePoints = 10; // 몬스터 처치 시 플레이어에게 줄 경험치
-
     private ObjectPool monsterPool;
-    private PlayerState playerState;
 
     private string weaponTagName = "Weapon";
     public ObjectPool MonsterPool
@@ -42,21 +30,19 @@ public class MonsterState : MonoBehaviour
         set { monsterPool = value; }
     }
    
-    private void Awake()
+    public void Init(MonsterData prototypeData, ObjectPool respawnPool)
     {
-        canMove = false;
-        healthPoint = 100;
-        playerState = FindObjectOfType<PlayerState>();
+        healthPoint = prototypeData.MaxHealthPoint;
+        status = prototypeData;
         monsterMove = this.gameObject.GetComponent<MonsterMove>();
+        monsterPool = respawnPool;
     }
 
     // Update is called once per frame
-    public void monsterSpawn(GameObject Player,ObjectPool respawnPool)
+    public void monsterSpawn()
     {
-        canMove = false;
-        healthPoint = 100;
-        monsterMove.Player = Player;
-        monsterPool = respawnPool;
+        healthPoint = status.MaxHealthPoint;
+        monsterMove.ActionState = MonsterActionState.Spawning;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -67,12 +53,6 @@ public class MonsterState : MonoBehaviour
             healthPoint-= 5;
             if (healthPoint <= 0)
             {
-                // 경험치 부여
-                if (playerState != null)
-                {
-                    playerState.AddExperience(experiencePoints);
-                }
-
                 // 몬스터 비활성화 및 풀에 반환
                 monsterPool.ReturnObject(this.gameObject);
             }

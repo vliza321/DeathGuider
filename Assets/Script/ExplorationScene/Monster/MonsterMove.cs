@@ -15,7 +15,7 @@ public class MonsterMove : MonoBehaviour
 {
     [SerializeField]
     private MonsterActionState actionState;
-    private CapsuleCollider2D collider;
+    private CapsuleCollider2D capsuleCollider;
     private MonsterState monsterState;
     private GameObject player;
     
@@ -32,6 +32,7 @@ public class MonsterMove : MonoBehaviour
     private float spawnTimer;
 
     private float moveSpeeds;
+    private bool canMove;
 
     [SerializeField]
     private float distance;
@@ -60,6 +61,11 @@ public class MonsterMove : MonoBehaviour
     }
     private Vector3 playerPos;
 
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
     public GameObject Player
     {
         get { return player; }
@@ -84,24 +90,23 @@ public class MonsterMove : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    private void Awake()
+    public void Init()
     {
+        capsuleCollider = this.GetComponent<CapsuleCollider2D>();
+        monsterState = this.gameObject.GetComponent<MonsterState>();
+        monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
+        player = this.transform.parent.GetComponent<MonsterManager>().Player;
 
         actionState = MonsterActionState.Dying;
         cashingVector = new Vector3(0, 0, 0);
-        monsterState = this.gameObject.GetComponent<MonsterState>();
         signX = 0;
         signY = 0;
         monsterObject = this.transform;
         monsterVelocityVector = new Vector2(0, 0);
-        monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
         spawnTimer = 2;
         knockBackTimer = 1;
-        collider = this.GetComponent<CapsuleCollider2D>();
-    }
-    void Start()
-    {
-        player = this.transform.parent.GetComponent<MonsterManager>().Player;
+        canMove = false;
+
         guider = player.transform.GetChild(0).gameObject;
         moveSpeeds = guider.GetComponent<PlayerMove>().MoveSpeed / 5.0f;
         playerPos = guider.transform.position;
@@ -120,8 +125,8 @@ public class MonsterMove : MonoBehaviour
                 if(spawnTimer <0)
                 {
                     actionState = MonsterActionState.Moving;
-                    collider.enabled = true;
-                    monsterState.CanMove = true;
+                    capsuleCollider.enabled = true;
+                    canMove = true;
                     spawnTimer = 2;
                 }
                 break;
@@ -145,7 +150,7 @@ public class MonsterMove : MonoBehaviour
                 }
                 else
                 {
-                    if(monsterState.CanMove)
+                    if(canMove)
                     {
                         monsterVelocityVector = monsterVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime;
                     }
@@ -158,6 +163,7 @@ public class MonsterMove : MonoBehaviour
                 break;
 
             case MonsterActionState.KnockBack:
+                
                 knockBackTimer -= Time.deltaTime;
                 if (knockBackTimer < 0)
                 {
@@ -183,7 +189,7 @@ public class MonsterMove : MonoBehaviour
                 if (spawnTimer < 0)
                 {
                     this.gameObject.SetActive(false);
-                    collider.enabled = false;
+                    capsuleCollider.enabled = false;
                     spawnTimer = 2;
                 }
                 break;
