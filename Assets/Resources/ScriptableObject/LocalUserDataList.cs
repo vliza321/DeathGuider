@@ -43,4 +43,5 @@ public class LocalUserData
     public int DeathEssence;
     public int DarkEssence;
     public int UnitInstanceCounter;
+    public int Floor;
 }

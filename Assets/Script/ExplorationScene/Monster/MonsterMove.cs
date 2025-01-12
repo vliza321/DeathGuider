@@ -15,7 +15,7 @@ public class MonsterMove : MonoBehaviour
 {
     [SerializeField]
     private MonsterActionState actionState;
-    
+    private CapsuleCollider2D collider;
     private MonsterState monsterState;
     private GameObject player;
     
@@ -86,9 +86,10 @@ public class MonsterMove : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+
         actionState = MonsterActionState.Dying;
         cashingVector = new Vector3(0, 0, 0);
-        //monsterState = this.gameObject.GetComponent<MonsterState>();
+        monsterState = this.gameObject.GetComponent<MonsterState>();
         signX = 0;
         signY = 0;
         monsterObject = this.transform;
@@ -96,6 +97,7 @@ public class MonsterMove : MonoBehaviour
         monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
         spawnTimer = 2;
         knockBackTimer = 1;
+        collider = this.GetComponent<CapsuleCollider2D>();
     }
     void Start()
     {
@@ -118,6 +120,8 @@ public class MonsterMove : MonoBehaviour
                 if(spawnTimer <0)
                 {
                     actionState = MonsterActionState.Moving;
+                    collider.enabled = true;
+                    monsterState.CanMove = true;
                     spawnTimer = 2;
                 }
                 break;
@@ -135,7 +139,22 @@ public class MonsterMove : MonoBehaviour
                 }
                 else if (distance > 12.0f) { moveSpeeds = guiderMoveSpeed * 0.25f + 0.1f; }
 
-                //if (distance > 30.0f) actionState = MonsterActionState.FarAway;
+                if (distance > 30.0f)
+                {
+                    actionState = MonsterActionState.FarAway;
+                }
+                else
+                {
+                    if(monsterState.CanMove)
+                    {
+                        monsterVelocityVector = monsterVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime;
+                    }
+                    else
+                    {
+                        monsterVelocityVector = Vector2.zero;
+                    }
+                    this.transform.Translate(-monsterVelocityVector.x, -monsterVelocityVector.y, 0);
+                }
                 break;
 
             case MonsterActionState.KnockBack:
@@ -156,12 +175,15 @@ public class MonsterMove : MonoBehaviour
                 cashingVector.y = playerPos.y + signY * 12.8f * (Random.Range(4, 8) * 0.1f);
                 cashingVector.z = playerPos.z;
                 this.transform.position = cashingVector;
+                actionState = MonsterActionState.Moving;
                 break;
 
             case MonsterActionState.Dying:
                 spawnTimer -= Time.deltaTime;
                 if (spawnTimer < 0)
                 {
+                    this.gameObject.SetActive(false);
+                    collider.enabled = false;
                     spawnTimer = 2;
                 }
                 break;

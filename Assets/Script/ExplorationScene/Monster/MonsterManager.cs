@@ -60,6 +60,9 @@ public class MonsterManager : MonoBehaviour
     private bool playerEscape;
 
     private Vector2 screenSize;
+
+    private GameObject DDOManager;
+    private GameObject GameManager;
     // Start is called before the first frame update
     void Awake()
     {
@@ -76,6 +79,20 @@ public class MonsterManager : MonoBehaviour
             if (manager.name == "PlayerManager")
             {
                 Player = manager.transform.gameObject;
+            }
+        }
+        Manager = null;
+
+        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        foreach (GameObject ddo in DDO)
+        {
+            if (ddo.name == "GameManager")
+            {
+                GameManager = ddo.transform.gameObject;
+            }
+            if (ddo.name == "DDOManager")
+            {
+                DDOManager = ddo.transform.gameObject;
             }
         }
         Manager = null;
@@ -103,6 +120,7 @@ public class MonsterManager : MonoBehaviour
 
         for (int i = 0; i < MaxMonster; i++)
         {
+            
             monsterSpawnPool.ReturnObject(this.transform.GetChild(i).gameObject);
         }
         for(int i = 0;i<this.transform.childCount;i++)
