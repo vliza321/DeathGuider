@@ -57,57 +57,15 @@ MonoBehaviour:
     BodyID: 1
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 20
-    Name: "\uC815\uD659\uD68D"
+    InstanceID: 43
+    Name: "\uC7A5\uBC94\uD0E7"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 38
-    HealthPoint: 38
-    Strength: 61
-    Defense: 17
-    Handicraft: 85
-    DeathErosion: 0
-    Enforce: 0
-    HealthEnforce: 0
-    StrengthEnforce: 0
-    DefenseEnforce: 0
-    HandicraftEnforce: 0
-    Crime: 2
-    ActivityStatus: 0
-    HeadID: 5
-    BodyID: 0
-  - UserID: 0
-    PrototypeUnitID: 100
-    InstanceID: 21
-    Name: "\uC774\uB00C\uD146"
-    Level: 1
-    EXP: 0
-    MaxHealthPoint: 13
-    HealthPoint: 13
-    Strength: 31
-    Defense: 59
-    Handicraft: 93
-    DeathErosion: 0
-    Enforce: 0
-    HealthEnforce: 0
-    StrengthEnforce: 0
-    DefenseEnforce: 0
-    HandicraftEnforce: 0
-    Crime: 2
-    ActivityStatus: 0
-    HeadID: 4
-    BodyID: 2
-  - UserID: 0
-    PrototypeUnitID: 100
-    InstanceID: 22
-    Name: "\uC784\uB488\uAEBD"
-    Level: 1
-    EXP: 0
-    MaxHealthPoint: 64
-    HealthPoint: 64
-    Strength: 20
-    Defense: 68
-    Handicraft: 22
+    MaxHealthPoint: 83
+    HealthPoint: 83
+    Strength: 9
+    Defense: 46
+    Handicraft: 82
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
@@ -116,47 +74,152 @@ MonoBehaviour:
     HandicraftEnforce: 0
     Crime: 0
     ActivityStatus: 0
+    HeadID: 3
+    BodyID: 1
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 44
+    Name: "\uC7A5\uB3AB\uB37C"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 50
+    HealthPoint: 50
+    Strength: 80
+    Defense: 93
+    Handicraft: 61
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 6
+    ActivityStatus: 0
+    HeadID: 5
+    BodyID: 1
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 45
+    Name: "\uBC15\uBB66\uD249"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 84
+    HealthPoint: 84
+    Strength: 51
+    Defense: 33
+    Handicraft: 66
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 5
+    ActivityStatus: 0
+    HeadID: 0
+    BodyID: 1
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 46
+    Name: "\uAC15\uD5EA\uB412"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 70
+    HealthPoint: 70
+    Strength: 68
+    Defense: 96
+    Handicraft: 43
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 2
+    ActivityStatus: 0
+    HeadID: 2
+    BodyID: 1
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 47
+    Name: "\uBC15\uD74B\uB02C"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 50
+    HealthPoint: 50
+    Strength: 4
+    Defense: 11
+    Handicraft: 25
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 6
+    ActivityStatus: 0
+    HeadID: 3
+    BodyID: 2
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 48
+    Name: "\uCD5C\uADFF\uD135"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 76
+    HealthPoint: 76
+    Strength: 93
+    Defense: 90
+    Handicraft: 41
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 2
+    ActivityStatus: 0
     HeadID: 1
     BodyID: 0
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 23
-    Name: "\uC870\uBFE8\uBDFC"
+    InstanceID: 49
+    Name: "\uCD5C\uD735\uB4E0"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 19
-    HealthPoint: 19
-    Strength: 23
-    Defense: 58
-    Handicraft: 92
+    MaxHealthPoint: 8
+    HealthPoint: 8
+    Strength: 83
+    Defense: 65
+    Handicraft: 4
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
-    Crime: 1
+    Crime: 5
     ActivityStatus: 0
-    HeadID: 1
-    BodyID: 1
+    HeadID: 5
+    BodyID: 0
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 24
-    Name: "\uBC15\uD551\uD748"
+    InstanceID: 50
+    Name: "\uC815\uB050\uB099"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 36
-    HealthPoint: 36
-    Strength: 25
-    Defense: 47
-    Handicraft: 47
+    MaxHealthPoint: 33
+    HealthPoint: 33
+    Strength: 51
+    Defense: 17
+    Handicraft: 24
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
-    Crime: 1
+    Crime: 5
     ActivityStatus: 0
-    HeadID: 2
-    BodyID: 2
+    HeadID: 5
+    BodyID: 0

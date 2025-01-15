@@ -109,49 +109,66 @@ public class FloorSystem : MonoBehaviour
 
     public void DisplayFloorPrisoners()
     {
+        // 기존 자식 객체 제거
         foreach (Transform child in contentParent)
         {
             Destroy(child.gameObject);
         }
 
-        if (DDOManager.UnitDatas.UnitDatas.Count > 0)
+        // UnitDatas가 null이거나 초기화되지 않은 경우 처리
+        if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
         {
-            foreach (var prisoner in DDOManager.UnitDatas.UnitDatas)
+            Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
+            return;
+        }
+
+        // PrototypeUnitID가 100인 데이터만 필터링
+        var filteredPrisoners = DDOManager.UnitDatas.UnitDatas.FindAll(prisoner =>
+        {
+            if (prisoner == null)
             {
-                CreatePrisonerUI(prisoner);
-                Debug.Log("생성 완료");
+                Debug.LogWarning("UnitData 객체가 null입니다.");
+                return false;
             }
 
+            return prisoner.PrototypeUnitID == 100;
+        });
+
+        // 필터링된 데이터가 있는 경우 UI 생성
+        if (filteredPrisoners.Count > 0)
+        {
+            foreach (var prisoner in filteredPrisoners)
+            {
+                CreatePrisonerUI(prisoner);
+                Debug.Log($"PrototypeUnitID 100: {prisoner.Name}");
+            }
         }
         else
         {
-            Debug.LogWarning("보유한 죄수 데이터가 없습니다.");
+            Debug.LogWarning("PrototypeUnitID가 100인 죄수 데이터가 없습니다.");
         }
-
-        float newHeight = CalculateNewHeight();  // 이 값을 실제로 계산하는 코드 필요
 
         // contentParent의 RectTransform 가져오기
         RectTransform contentRect = contentParent.GetComponent<RectTransform>();
 
-        // 레이아웃 그룹 비활성화 (필요시)
-        var layoutGroup = contentParent.GetComponent<VerticalLayoutGroup>();
-        bool layoutGroupActive = layoutGroup != null && layoutGroup.enabled;
-        if (layoutGroupActive) layoutGroup.enabled = false;
+        // GridLayoutGroup에서 셀 크기와 간격 값 확인
+        GridLayoutGroup gridLayoutGroup = contentParent.GetComponent<GridLayoutGroup>();
+        gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount; // 열 수를 1로 고정
+        gridLayoutGroup.constraintCount = 1; // 열 수를 1로 설정
+        float cellHeight = gridLayoutGroup.cellSize.y;  // 셀의 높이
+        float spacingY = gridLayoutGroup.spacing.y;     // 세로 간격
+        float paddingUp = gridLayoutGroup.padding.top;
 
-        // 높이 갱신
-        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, contentRect.rect.height + newHeight);
+        // 새로운 height 계산: 셀 높이 * 항목 수 + 간격
+        float newHeight = (cellHeight + spacingY) * filteredPrisoners.Count - spacingY + paddingUp;
+
+        // 새로운 height 값 반영
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
 
         // 레이아웃 강제 갱신
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
 
-        // 레이아웃 그룹을 다시 활성화 (필요시)
-        if (layoutGroupActive) layoutGroup.enabled = true;
-    }
-
-    private float CalculateNewHeight()
-    {
-        // 자식들의 총 높이나 다른 방식으로 계산
-        return 200f;  // 예시로 200을 더한다고 가정
+        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     private void CreatePrisonerUI(UnitData prisoner)
@@ -184,6 +201,23 @@ public class FloorSystem : MonoBehaviour
         {
             Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
         }
+
+        Button prisonerButton = prisonerUI.transform.Find("FloorPrisonerButton").GetComponent<Button>();
+        if (prisonerButton != null)
+        {
+            prisonerButton.onClick.AddListener(() =>
+            {
+                prisonerButton.onClick.AddListener(() =>
+                {
+                    Debug.Log("Prisoner button clicked!");
+                    floorUIManager.openFloorPrisonerInfoUI(prisoner);  // 해당 죄수 정보를 UI에 업데이트
+                });
+            });
+        }
+        else
+        {
+            Debug.LogWarning("Prisoner button is missing!");
+        }
     }
 
     private string GetCrimeDescription(int crimeId)
@@ -200,4 +234,60 @@ public class FloorSystem : MonoBehaviour
             default: return "알 수 없음";
         }
     }
+
+    public void UpdatePrisonerInfoUI(UnitData prisoner)
+    {
+        // "Floor Prisoner Info" UI를 업데이트
+        GameObject prisonerInfoUI = floorUIManager.GetPrisonerInfoUI();  // GetPrisonerInfoUI()로 UI 가져오기
+
+        if (prisonerInfoUI != null)
+        {
+            prisonerInfoUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = prisoner.Name;
+            prisonerInfoUI.transform.Find("LevelText").GetComponent<TextMeshProUGUI>().text = $"Lv: {prisoner.Level}";
+            prisonerInfoUI.transform.Find("HealthText").GetComponent<TextMeshProUGUI>().text = $"HP: {prisoner.HealthPoint}/{prisoner.MaxHealthPoint}";
+            prisonerInfoUI.transform.Find("StrengthText").GetComponent<TextMeshProUGUI>().text = $"STR: {prisoner.Strength}";
+            prisonerInfoUI.transform.Find("DefenseText").GetComponent<TextMeshProUGUI>().text = $"DEF: {prisoner.Defense}";
+            prisonerInfoUI.transform.Find("CrimeText").GetComponent<TextMeshProUGUI>().text = GetCrimeDescription(prisoner.Crime);
+            prisonerInfoUI.transform.Find("HandicraftText").GetComponent<TextMeshProUGUI>().text = $"HCR: {prisoner.Handicraft}";
+            prisonerInfoUI.transform.Find("DeathErosionText").GetComponent<TextMeshProUGUI>().text = $"DES: {prisoner.DeathErosion}/100";
+
+            Image headImage = prisonerInfoUI.transform.Find("HeadImage").GetComponent<Image>();
+            if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+            {
+                headImage.sprite = headSprites[prisoner.HeadID];
+            }
+
+            Image bodyImage = prisonerInfoUI.transform.Find("BodyImage").GetComponent<Image>();
+            if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+            {
+                bodyImage.sprite = bodySprites[prisoner.BodyID];
+            }
+
+            Slider levelSlider = prisonerInfoUI.transform.Find("LevelSlider").GetComponent<Slider>();
+            if (levelSlider != null)
+            {
+                levelSlider.maxValue = 100;
+                levelSlider.value = prisoner.EXP;
+            }
+
+            Slider healthSlider = prisonerInfoUI.transform.Find("HealthSlider").GetComponent<Slider>();
+            if (levelSlider != null)
+            {
+                healthSlider.maxValue = prisoner.MaxHealthPoint;
+                healthSlider.value = prisoner.HealthPoint;
+            }
+
+            Slider deathErosionSlider = prisonerInfoUI.transform.Find("DeathErosionSlider").GetComponent<Slider>();
+            if (deathErosionSlider != null)
+            {
+                deathErosionSlider.maxValue = 100;
+                deathErosionSlider.value = prisoner.DeathErosion;
+            }
+            else
+            {
+                Debug.LogWarning("DeathErosionSlider를 찾을 수 없습니다!");
+            }
+        }
+    }
+
 }
