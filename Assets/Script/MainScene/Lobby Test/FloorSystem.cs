@@ -109,20 +109,17 @@ public class FloorSystem : MonoBehaviour
 
     public void DisplayFloorPrisoners()
     {
-        // 기존 자식 객체 제거
         foreach (Transform child in contentParent)
         {
             Destroy(child.gameObject);
         }
 
-        // UnitDatas가 null이거나 초기화되지 않은 경우 처리
         if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
         {
             Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
             return;
         }
 
-        // PrototypeUnitID가 100인 데이터만 필터링
         var filteredPrisoners = DDOManager.UnitDatas.UnitDatas.FindAll(prisoner =>
         {
             if (prisoner == null)
@@ -134,7 +131,6 @@ public class FloorSystem : MonoBehaviour
             return prisoner.PrototypeUnitID == 100;
         });
 
-        // 필터링된 데이터가 있는 경우 UI 생성
         if (filteredPrisoners.Count > 0)
         {
             foreach (var prisoner in filteredPrisoners)
@@ -148,24 +144,19 @@ public class FloorSystem : MonoBehaviour
             Debug.LogWarning("PrototypeUnitID가 100인 죄수 데이터가 없습니다.");
         }
 
-        // contentParent의 RectTransform 가져오기
         RectTransform contentRect = contentParent.GetComponent<RectTransform>();
 
-        // GridLayoutGroup에서 셀 크기와 간격 값 확인
         GridLayoutGroup gridLayoutGroup = contentParent.GetComponent<GridLayoutGroup>();
-        gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount; // 열 수를 1로 고정
-        gridLayoutGroup.constraintCount = 1; // 열 수를 1로 설정
-        float cellHeight = gridLayoutGroup.cellSize.y;  // 셀의 높이
-        float spacingY = gridLayoutGroup.spacing.y;     // 세로 간격
+        gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        gridLayoutGroup.constraintCount = 1;
+        float cellHeight = gridLayoutGroup.cellSize.y;
+        float spacingY = gridLayoutGroup.spacing.y;
         float paddingUp = gridLayoutGroup.padding.top;
 
-        // 새로운 height 계산: 셀 높이 * 항목 수 + 간격
         float newHeight = (cellHeight + spacingY) * filteredPrisoners.Count - spacingY + paddingUp;
 
-        // 새로운 height 값 반영
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
 
-        // 레이아웃 강제 갱신
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
 
         Debug.Log($"Content 크기 갱신 완료: {newHeight}");
@@ -237,8 +228,7 @@ public class FloorSystem : MonoBehaviour
 
     public void UpdatePrisonerInfoUI(UnitData prisoner)
     {
-        // "Floor Prisoner Info" UI를 업데이트
-        GameObject prisonerInfoUI = floorUIManager.GetPrisonerInfoUI();  // GetPrisonerInfoUI()로 UI 가져오기
+        GameObject prisonerInfoUI = floorUIManager.GetPrisonerInfoUI();
 
         if (prisonerInfoUI != null)
         {

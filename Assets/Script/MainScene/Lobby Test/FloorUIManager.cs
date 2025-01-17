@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class FloorUIManager : MonoBehaviour
 {
-    public GameObject floorPrisonerUI;
     public FloorSystem floorSystem;
+    public GYMSystem gymSystem;
+
+    public GameObject floorPrisonerUI;
     public GameObject prisonerInfoUI;
 
+    public GameObject gymPrisonerChooseUI;
+    
     public void OpenFloorPrisonerUI()
     {
         floorSystem.DisplayFloorPrisoners();
@@ -25,14 +29,24 @@ public class FloorUIManager : MonoBehaviour
         prisonerInfoUI.SetActive(true);              // 죄수 정보 UI 활성화
     }
 
-    // 새로운 함수로 Floor Prisoner Info UI 비활성화
     public void closeFloorPrisonerInfoUI()
     {
-        prisonerInfoUI.SetActive(false);     // 죄수 정보 UI 비활성화
+        prisonerInfoUI.SetActive(false);
     }
 
     public GameObject GetPrisonerInfoUI()
     {
-        return prisonerInfoUI;  // 죄수 정보 UI를 반환
+        return prisonerInfoUI;
+    }
+
+    public void openGymPrisonerUI()
+    {
+        gymSystem.DisplayGYMTrainingUI();
+        gymSystem.DisplayGYMPrisoners();
+        gymPrisonerChooseUI.SetActive(true);
+    }
+    public void closeGymPrisonerUI()
+    {
+        gymPrisonerChooseUI.SetActive(false);
     }
 }
