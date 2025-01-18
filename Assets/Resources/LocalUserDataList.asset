@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LocalUserDatas:
   - ID: 0
-    Day: 39
+    Day: 2
     Gold: 3501
     DeathEssence: 0
     DarkEssence: 0
-    UnitInstanceCounter: 12
+    UnitInstanceCounter: 2
+    Floor: 1

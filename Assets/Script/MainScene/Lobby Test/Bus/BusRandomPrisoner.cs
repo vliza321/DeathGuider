@@ -14,6 +14,12 @@ public class BusRandomPrisoner : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
+    private int dailyAcceptCount = 0; // 하루 수락 횟수
+    private int totalAcceptCount = 0; // 전체 수락 횟수
+    private int currentFloor = 1; // 현재 층
+    private int maxDailyAcceptCount = 3; // 하루 최대 수락 가능 횟수
+    private int maxTotalAcceptCount => currentFloor * 4; // 전체 최대 수락 가능 횟수 (층 * 4)
+
     public Button changeDaysButton;
 
     private readonly char[] name1 = new char[] { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
@@ -171,6 +177,18 @@ public class BusRandomPrisoner : MonoBehaviour
 
     private void AcceptUnitUI(GameObject unitUI)
     {
+        if (dailyAcceptCount >= maxDailyAcceptCount)
+        {
+            Debug.Log("하루 수락 가능 횟수를 초과했습니다!");
+            return;
+        }
+
+        if (totalAcceptCount >= maxTotalAcceptCount)
+        {
+            Debug.Log("전체 수락 가능 횟수를 초과했습니다!");
+            return;
+        }
+
         string unitName = unitUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text;
 
         UnitData unitToRemove = null;
@@ -188,18 +206,24 @@ public class BusRandomPrisoner : MonoBehaviour
             unitToRemove.UserID = 0;
             unitToRemove.PrototypeUnitID = 100;
             unitToRemove.InstanceID = DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter;
-            DDOManager.UnitDatas.UnitDatas.Add(unitToRemove);
 
+            DDOManager.UnitDatas.UnitDatas.Add(unitToRemove);
             DDOManager.UnitDatas.UnitDataDic.Add((0, 100, DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter), unitToRemove);
             DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter++;
             unitDatas.Remove(unitToRemove);
 
-            if(!DDOManager.SaveData())
+            Debug.Log($"BodyID in DDOManager: {DDOManager.UnitDatas.UnitDatas[^1].BodyID}");
+
+            if (!DDOManager.SaveData())
             {
                 Debug.Log("Fail Save Data");
             }
         }
-        Destroy(unitUI); // 해당 프리펩 삭제
+        Destroy(unitUI);
+
+        dailyAcceptCount++;
+        totalAcceptCount++;
+        Debug.Log($"오늘 수락: {dailyAcceptCount}/{maxDailyAcceptCount}, 총 수락: {totalAcceptCount}/{maxTotalAcceptCount}");
     }
 
     private void RemoveUnitUI(GameObject unitUI)
@@ -232,6 +256,7 @@ public class BusRandomPrisoner : MonoBehaviour
             Debug.Log("Fail Save Data");
         }
 
+        dailyAcceptCount = 0;
         unitDatas.Clear();
         ClearExistingUnitUIs();
 
