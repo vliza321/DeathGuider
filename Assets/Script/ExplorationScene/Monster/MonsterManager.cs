@@ -99,7 +99,7 @@ public class MonsterManager : MonoBehaviour
 
         for (int a = 0; a < maxMonster; a++)
         {
-            GameObject newMonster = Instantiate(GameManager.monster[GameManager.selectStageID]);
+            GameObject newMonster = Instantiate(GameManager.Monster[GameManager.selectStageID]);
             newMonster.transform.SetParent(this.transform);
             newMonster.SetActive(false);
             monsterSpawnPool.ReturnObject(newMonster);
