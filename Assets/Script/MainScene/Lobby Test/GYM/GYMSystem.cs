@@ -74,7 +74,7 @@ public class GYMSystem : MonoBehaviour
         }
 
         var filteredPrisoners = DDOManager.UnitDatas.UnitDatas
-            .Where(prisoner => prisoner != null && prisoner.PrototypeUnitID == 100 && prisoner.Enforce >= 0 && prisoner.Enforce <= 15)
+            .Where(prisoner => prisoner != null && prisoner.ActivityStatus == 0 && prisoner.PrototypeUnitID == 100 && prisoner.Enforce >= 0 && prisoner.Enforce <= 15)
             .OrderByDescending(prisoner => prisoner.Enforce)
             .ThenBy(prisoner => prisoner.InstanceID)
             .ToList();
@@ -153,15 +153,47 @@ public class GYMSystem : MonoBehaviour
         {
             chooseButton.onClick.AddListener(() =>
             {
+                //for (int i = 0; i < TrainDatas.Count; i++)
+                //{
+
+                //    
+                //    room.roomTransform = prisonerTransform;
+                //    for (int j = 1; j <= 3; j++)
+                //    {
+                //        
+
+                //        
+                //        if (trainingSelect != null)
+                //        {
+                //            int roomIndex = i;
+                //            int buttonIndex = j - 1;
+                //            GYMData clickedData = room.GYMDataList[buttonIndex];
+                //            Button button = trainingSelect.Find("TrainChooseButton").GetComponent<Button>();
+                //            Transform textImage = trainingSelect.Find("TextImage");
+                //            Transform trainStateText = textImage.Find("TrainStateText");
+
+                //            if (room.GYMDataList[buttonIndex].InstanceID >= 0)
+                //            {
+                //                int instanceID = room.GYMDataList[buttonIndex].InstanceID;
+                //                UpdateRoomInstanceAndUI(instanceID, trainingSelect);
+                //            }
+                //        }
+                //}
                 foreach (var roomData in TrainDatas)
                 {
                     foreach (var gymData in roomData.GYMDataList)
                     {
                         if (gymData.InstanceID == -10)
                         {
+                            GameObject trainingUI = Instantiate(GYMTrainingPrefab, contentTrainParent);
+                            Transform prisonerTransform = trainingUI.transform;
+
+                            Transform gymTrainingImage = prisonerTransform.Find("GymTrainingImage");
+                            Transform trainingSelect = FindTrainingSelectForData(roomData, roomData.GYMDataList.IndexOf(gymData));
+
                             gymData.InstanceID = DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].InstanceID;
                             Debug.Log($"Room에서 InstanceID가 -10인 값이 인스턴스 아이디로 변경되었습니다.");
-                            prisoner.PrototypeUnitID = -1;
+                            UpdateRoomInstanceAndUI(gymData.InstanceID, trainingSelect);
                             Destroy(prisonerUI);
                         }
                     }
@@ -264,9 +296,25 @@ public class GYMSystem : MonoBehaviour
 
                         clickedData.check = true;
 
-                        int instanceID = clickedData.InstanceID;
+                        int activityStatus = -1;
+                        if (roomIndex == 0)
+                        {
+                            activityStatus = 11;
+                        }
+                        else if (roomIndex == 1)
+                        {
+                            activityStatus = 12;
+                        }
+                        else if (roomIndex == 2)
+                        {
+                            activityStatus = 13;
+                        }
 
-                        DDOManager.UnitDatas.UnitDataDic[(0, 100, instanceID)].ActivityStatus = 1;
+                        if (activityStatus != -1)
+                        {
+                            DDOManager.UnitDatas.UnitDataDic[(0, 100, clickedData.InstanceID)].ActivityStatus = activityStatus;
+                            Debug.Log($"ActivityStatus가 {activityStatus}로 변경되었습니다.");
+                        }
 
                         if (textImage != null)
                         {
@@ -277,44 +325,78 @@ public class GYMSystem : MonoBehaviour
                         }
                     });
 
-
                     if (room.GYMDataList[buttonIndex].InstanceID >= 0)
                     {
                         int instanceID = room.GYMDataList[buttonIndex].InstanceID;
-
-                        int headID = DDOManager.UnitDatas.UnitDataDic[(0, 100, instanceID)].HeadID;
-                        int bodyID = DDOManager.UnitDatas.UnitDataDic[(0, 100, instanceID)].BodyID;
-
-                        Transform headImage = trainingSelect.Find("HeadImage");
-                        if (headImage != null)
-                        {
-                            if (headID >= 0 && headID < headSprites.Length)
-                            {
-                                headImage.GetComponent<Image>().sprite = headSprites[headID];
-                                headImage.gameObject.SetActive(true);
-                            }
-                            else
-                            {
-                                Debug.LogWarning($"Invalid HeadID: {headID}");
-                            }
-                        }
-
-                        Transform bodyImage = trainingSelect.Find("BodyImage");
-                        if (bodyImage != null)
-                        {
-                            if (bodyID >= 0 && bodyID < bodySprites.Length)
-                            {
-                                bodyImage.GetComponent<Image>().sprite = bodySprites[bodyID];
-                                bodyImage.gameObject.SetActive(true);
-                            }
-                            else
-                            {
-                                Debug.LogWarning($"Invalid BodyID: {bodyID}");
-                            }
-                        }
+                        UpdateRoomInstanceAndUI(instanceID, trainingSelect);
                     }
                 }
             }
+        }
+    }
+
+    private void UpdateRoomInstanceAndUI(int instanceID, Transform trainingSelect)
+    {
+        // InstanceID를 기반으로 HeadID와 BodyID를 업데이트
+        if (instanceID >= 0)
+        {
+            var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, instanceID)];
+
+            // HeadID와 BodyID 업데이트
+            int headID = unitData.HeadID;
+            int bodyID = unitData.BodyID;
+
+            Transform headImage = trainingSelect.Find("HeadImage");
+            if (headImage != null)
+            {
+                if (headID >= 0 && headID < headSprites.Length)
+                {
+                    headImage.GetComponent<Image>().sprite = headSprites[headID];
+                    headImage.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"Invalid HeadID: {headID}");
+                }
+            }
+
+            Transform bodyImage = trainingSelect.Find("BodyImage");
+            if (bodyImage != null)
+            {
+                if (bodyID >= 0 && bodyID < bodySprites.Length)
+                {
+                    bodyImage.GetComponent<Image>().sprite = bodySprites[bodyID];
+                    bodyImage.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"Invalid BodyID: {bodyID}");
+                }
+            }
+
+            // NameText 업데이트
+            Transform textImage = trainingSelect.Find("TextImage");
+            if (textImage != null)
+            {
+                Transform nameText = textImage.Find("NameText");
+                if (nameText != null)
+                {
+                    nameText.GetComponent<TextMeshProUGUI>().text = unitData.Name;
+                    Debug.Log($"NameText가 {unitData.Name}로 변경되었습니다.");
+                }
+                else
+                {
+                    Debug.LogWarning("NameText를 찾을 수 없습니다.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("TextImage를 찾을 수 없습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid InstanceID: {instanceID}");
         }
     }
 
