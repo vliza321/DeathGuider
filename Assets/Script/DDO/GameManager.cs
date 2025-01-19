@@ -11,20 +11,25 @@ public class GameManager : MonoBehaviour
     public int selectUserID = 0;
     public int selectStageID = 0;
 
+    public List<GameObject> Monster;
     public List<GameObject> prototypeUnit;
     public List<GameObject> prototypeWeapon;
-    public List<Animator> PrisonerHeadAnim;
-    public List<Animator> PrisonerBodyAnim;
     public List<Sprite> PrisonerHeadImg;
+    public List<RuntimeAnimatorController> PrisonerHeadAnim;
     public List<Sprite> PrisonerBodyImg;
+    public List<RuntimeAnimatorController> PrisonerBodyAnim;
 
-    public List<GameObject> Monster;
-
-    public List<Sprite> baseTileImage;
-
+    public List<Sprite> BaseTileImage;
+    
     private List<string> path = new List<string> { 
         "Monster",
-        "prototypeWeapon"
+        "prototypeUnit",
+        "prototypeWeapon",
+        "PrisonerBodyImg",
+        "PrisonerBodyAnim",
+        "PrisonerHeadImg",
+        "PrisonerHeadAnim",
+        "BaseTileImage"
     };
     public void Initialized()
     {
@@ -75,11 +80,6 @@ public class GameManager : MonoBehaviour
         objects = null;
 
         sorting(Monster);
-    }
-
-    public void Start()
-    {
-        Initialized();
     }
 
 

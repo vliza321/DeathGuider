@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 7652252251940130822}
   - component: {fileID: 7702449625418673907}
   m_Layer: 10
-  m_Name: TempCloseTypeWeapon
+  m_Name: 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

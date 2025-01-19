@@ -33,7 +33,12 @@ public class DontDestroyObjectManager : MonoBehaviour
     private UseWeaponDataList useWeaponDatas;
     [SerializeField]
     private WeaponDataList weaponDatas;
+    private GameManager gameManager;
 
+    public GameManager GameManager
+    {
+        get { return gameManager; }
+    }
     public AppearDataList AppearDatas
     {
         get { return appearDatas; }
@@ -218,9 +223,14 @@ public class DontDestroyObjectManager : MonoBehaviour
             {
                 csvManager = ddo.GetComponent<CSVManager>();
             }
+            if(ddo.name == "GameManager")
+            {
+                gameManager = ddo.GetComponent<GameManager>();
+            }
         }
         DDO = null;
         csvManager.Initialize();
+        GameManager.Initialized();
 
         //list타입 데이터 dictionary로 변환
         appearDatas.TranslateListToDic();

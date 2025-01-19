@@ -1038,20 +1038,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectUserID: 0
   selectStageID: 0
-  monster:
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
-  - {fileID: 7743492814158391579, guid: 2fa598b99c818a046950a99f900bbc2b, type: 3}
   prototypeUnit: []
   prototypeWeapon: []
-  baseTileImage: []
+  PrisonerHeadAnim: []
+  PrisonerBodyAnim:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PrisonerHeadImg: []
+  PrisonerBodyImg: []
+  Monster: []
+  BaseTileImage: []
 --- !u!1 &1096611473
 GameObject:
   m_ObjectHideFlags: 0
