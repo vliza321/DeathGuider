@@ -21,8 +21,6 @@ public class GYMSystem : MonoBehaviour
 
     public int trainingRoomCount = 3;
 
-
-    [SerializeField]
     private List<RoomData> TrainDatas = new List<RoomData>();
 
     [System.Serializable]
@@ -153,32 +151,6 @@ public class GYMSystem : MonoBehaviour
         {
             chooseButton.onClick.AddListener(() =>
             {
-                //for (int i = 0; i < TrainDatas.Count; i++)
-                //{
-
-                //    
-                //    room.roomTransform = prisonerTransform;
-                //    for (int j = 1; j <= 3; j++)
-                //    {
-                //        
-
-                //        
-                //        if (trainingSelect != null)
-                //        {
-                //            int roomIndex = i;
-                //            int buttonIndex = j - 1;
-                //            GYMData clickedData = room.GYMDataList[buttonIndex];
-                //            Button button = trainingSelect.Find("TrainChooseButton").GetComponent<Button>();
-                //            Transform textImage = trainingSelect.Find("TextImage");
-                //            Transform trainStateText = textImage.Find("TrainStateText");
-
-                //            if (room.GYMDataList[buttonIndex].InstanceID >= 0)
-                //            {
-                //                int instanceID = room.GYMDataList[buttonIndex].InstanceID;
-                //                UpdateRoomInstanceAndUI(instanceID, trainingSelect);
-                //            }
-                //        }
-                //}
                 foreach (var roomData in TrainDatas)
                 {
                     foreach (var gymData in roomData.GYMDataList)

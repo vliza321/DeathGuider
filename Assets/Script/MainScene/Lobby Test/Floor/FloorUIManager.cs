@@ -6,11 +6,14 @@ public class FloorUIManager : MonoBehaviour
 {
     public FloorSystem floorSystem;
     public GYMSystem gymSystem;
+    public HealthSystem heathSystem;
 
     public GameObject floorPrisonerUI;
     public GameObject prisonerInfoUI;
 
     public GameObject gymPrisonerChooseUI;
+
+    public GameObject healthPrisonerChooseUI;
     
     public void OpenFloorPrisonerUI()
     {
@@ -48,5 +51,17 @@ public class FloorUIManager : MonoBehaviour
     public void closeGymPrisonerUI()
     {
         gymPrisonerChooseUI.SetActive(false);
+    }
+
+    public void openHealthPrisonerUI()
+    {
+        heathSystem.DisplayHealthRoomUI();
+        heathSystem.DisplayHealthPrisoners();
+        healthPrisonerChooseUI.SetActive(true);
+    }
+
+    public void closeHealthPrisonerUI()
+    {
+        healthPrisonerChooseUI.SetActive(false);
     }
 }

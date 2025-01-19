@@ -14,11 +14,11 @@ public class BusRandomPrisoner : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
-    private int dailyAcceptCount = 0; // 하루 수락 횟수
-    private int totalAcceptCount = 0; // 전체 수락 횟수
-    private int currentFloor = 1; // 현재 층
+    public int dailyAcceptCount = 0; // 하루 수락 횟수
+    public int totalAcceptCount = 0; // 전체 수락 횟수
+    //public int currentFloor = 1; // 현재 층
     private int maxDailyAcceptCount = 3; // 하루 최대 수락 가능 횟수
-    private int maxTotalAcceptCount => currentFloor * 4; // 전체 최대 수락 가능 횟수 (층 * 4)
+    //public int maxTotalAcceptCount => currentFloor * 4; // 전체 최대 수락 가능 횟수 (층 * 4)
 
     public Button changeDaysButton;
 
@@ -183,6 +183,9 @@ public class BusRandomPrisoner : MonoBehaviour
             return;
         }
 
+        int floor = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
+        int maxTotalAcceptCount = floor * 4;
+
         if (totalAcceptCount >= maxTotalAcceptCount)
         {
             Debug.Log("전체 수락 가능 횟수를 초과했습니다!");
@@ -207,9 +210,14 @@ public class BusRandomPrisoner : MonoBehaviour
             unitToRemove.PrototypeUnitID = 100;
             unitToRemove.InstanceID = DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter;
 
+            Debug.Log($"Before Adding to DDOManager: Level = {unitToRemove.Level}");
+
             DDOManager.UnitDatas.UnitDatas.Add(unitToRemove);
             DDOManager.UnitDatas.UnitDataDic.Add((0, 100, DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter), unitToRemove);
             DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter++;
+
+            Debug.Log($"After Adding to DDOManager: EXP = {unitToRemove.Level}");
+
             unitDatas.Remove(unitToRemove);
 
             Debug.Log($"BodyID in DDOManager: {DDOManager.UnitDatas.UnitDatas[^1].BodyID}");
