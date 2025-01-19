@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class FloorSystem : MonoBehaviour
 {
     public FloorUIManager floorUIManager;
-
+    public BusRandomPrisoner busRandomPrisoner;
 
     public GameObject floorPrefab;
     public Transform parentTransform;

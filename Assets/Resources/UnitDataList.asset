@@ -57,36 +57,15 @@ MonoBehaviour:
     BodyID: 1
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 51
-    Name: "\uBC15\uB3AB\uD139"
+    InstanceID: 63
+    Name: "\uC774\uD69B\uBE61"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 84
-    HealthPoint: 84
-    Strength: 17
-    Defense: 62
-    Handicraft: 44
-    DeathErosion: 0
-    Enforce: 0
-    HealthEnforce: 0
-    StrengthEnforce: 0
-    DefenseEnforce: 0
-    HandicraftEnforce: 0
-    Crime: 2
-    ActivityStatus: 0
-    HeadID: 4
-    BodyID: 1
-  - UserID: 0
-    PrototypeUnitID: 100
-    InstanceID: 52
-    Name: "\uC724\uD6E1\uAEB5"
-    Level: 1
-    EXP: 0
-    MaxHealthPoint: 32
-    HealthPoint: 32
-    Strength: 23
-    Defense: 90
-    Handicraft: 84
+    MaxHealthPoint: 66
+    HealthPoint: 63
+    Strength: 89
+    Defense: 36
+    Handicraft: 56
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
@@ -95,26 +74,47 @@ MonoBehaviour:
     HandicraftEnforce: 0
     Crime: 6
     ActivityStatus: 0
-    HeadID: 2
-    BodyID: 1
+    HeadID: 5
+    BodyID: 0
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 53
-    Name: "\uC7A5\uBF32\uAD51"
+    InstanceID: 64
+    Name: "\uC774\uD68D\uD69A"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 47
-    HealthPoint: 47
-    Strength: 67
-    Defense: 26
-    Handicraft: 94
+    MaxHealthPoint: 59
+    HealthPoint: 56
+    Strength: 27
+    Defense: 2
+    Handicraft: 72
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
-    Crime: 2
+    Crime: 0
     ActivityStatus: 0
-    HeadID: 5
-    BodyID: 1
+    HeadID: 4
+    BodyID: 0
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 65
+    Name: "\uAC15\uAEAB\uD419"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 48
+    HealthPoint: 45
+    Strength: 21
+    Defense: 99
+    Handicraft: 78
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 6
+    ActivityStatus: 0
+    HeadID: 4
+    BodyID: 2
