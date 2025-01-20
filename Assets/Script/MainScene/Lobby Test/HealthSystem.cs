@@ -132,7 +132,6 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-
     private GameObject CreateHealthPrisonerUI(UnitData prisoner)
     {
         GameObject prisonerUI = Instantiate(HealthUnitUIPrefab, contentUnitParent);
@@ -187,7 +186,7 @@ public class HealthSystem : MonoBehaviour
                                 TextMeshProUGUI nameText = prisonerNameTransform.GetComponent<TextMeshProUGUI>();
                                 if (nameText != null)
                                 {
-                                    nameText.text = prisoner.Name; // 이름을 변경
+                                    nameText.text = prisoner.Name;
                                 }
                             }
                             Transform prisonerHPTransform = prisonerImageTransform.Find("HealthText");
@@ -234,7 +233,6 @@ public class HealthSystem : MonoBehaviour
                 }
             });
         }
-
         return prisonerUI;
     }
 
@@ -246,7 +244,6 @@ public class HealthSystem : MonoBehaviour
 
             if (targetHealthRoom == null)
             {
-                // HealthRoom이 없다면 새로 생성
                 GameObject HealthRoomUI = Instantiate(HealthRoomPrefab, contentRoomParent);
                 HealthRoomUI.name = $"HealthRoom{i + 1}";
 
@@ -254,9 +251,60 @@ public class HealthSystem : MonoBehaviour
                 Button button = deleteButton.GetComponent<Button>();
                 if (button != null)
                 {
+                    int roomIndex = i;
                     button.onClick.AddListener(() =>
                     {
-                        Debug.Log("HealthRoom 삭제 버튼 클릭됨");
+                        Transform prisonerImageTransform = HealthRoomUI.transform.Find("PrisonerImage");
+                        if (prisonerImageTransform != null)
+                        {
+                            Transform prisonerNameTransform = prisonerImageTransform.Find("NameText");
+                            if(prisonerNameTransform != null)
+                            {
+                                TextMeshProUGUI nameText = prisonerNameTransform.GetComponent<TextMeshProUGUI>();
+                                if (nameText != null)
+                                {
+                                    nameText.text = "| -------";
+                                }
+                            }
+
+                            Transform prisonerHPTransform = prisonerImageTransform.Find("HealthText");
+                            if (prisonerHPTransform != null)
+                            {
+                                TextMeshProUGUI HpText = prisonerHPTransform.GetComponent<TextMeshProUGUI>();
+                                if(HpText != null)
+                                {
+                                    HpText.text = "체력";
+                                }
+                            }
+
+                            Slider HPslideBar = HealthRoomUI.transform.Find("HealthSlider")?.GetComponent<Slider>();
+                            if (HPslideBar != null)
+                            {
+                                HPslideBar.maxValue = 1;
+                                HPslideBar.value = 0;
+                            }
+
+                            Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();
+                            if (headImage != null)
+                            {
+                                headImage.sprite = null;
+                                headImage.gameObject.SetActive(false);
+                            }
+
+                            Image bodyImage = prisonerImageTransform.Find("BodyImage")?.GetComponent<Image>();
+                            if (bodyImage != null)
+                            {
+                                bodyImage.sprite = null;
+                                bodyImage.gameObject.SetActive(false);
+                            }
+
+                            DDOManager.UnitDatas.UnitDataDic[(0, 100, HealthDataList[roomIndex].InstanceID)].ActivityStatus = 0;
+                            HealthDataList[roomIndex].InstanceID = -1;
+
+                            DisplayHealthPrisoners();
+
+                            Debug.Log($"HealthRoom {roomIndex + 1} 초기화 완료");
+                        }
                     });
                 }
             }
