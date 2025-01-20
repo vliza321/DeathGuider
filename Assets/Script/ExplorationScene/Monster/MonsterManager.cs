@@ -46,8 +46,6 @@ public class MonsterManager : MonoBehaviour
 
     private PlayerMove guider;
 
-    [SerializeField]
-    private GameObject[] monsterPrefab;
     public GameObject Player
     { 
         get {  return player; } 
@@ -99,7 +97,7 @@ public class MonsterManager : MonoBehaviour
 
         for (int a = 0; a < maxMonster; a++)
         {
-            GameObject newMonster = Instantiate(GameManager.Monster[GameManager.selectStageID]);
+            GameObject newMonster = Instantiate(GameManager.Monster[GameManager.selectStageID].gameObject);
             newMonster.transform.SetParent(this.transform);
             newMonster.SetActive(false);
             monsterSpawnPool.ReturnObject(newMonster);

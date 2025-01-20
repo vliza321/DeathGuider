@@ -26,15 +26,14 @@ public class TileSet : MonoBehaviour
     [SerializeField]
     private SpriteRenderer[] tile;
     private TileMap TileMap;
-    [SerializeField]
-    private GameObject TileSpriteImageStorage;
+
     private TileSpriteImageStorage TileSpriteImageStorages;
 
-    public void Init()
+    public void Init(TileSpriteImageStorage tileSpriteImageStorage)
     {
         tile = new SpriteRenderer[this.transform.childCount];
         TileMap = this.transform.parent.gameObject.GetComponent<TileMap>();
-        TileSpriteImageStorages = TileSpriteImageStorage.GetComponent<TileSpriteImageStorage>();
+        TileSpriteImageStorages = tileSpriteImageStorage;
         for (int i = 0; i < tile.Length; i++)
         {
             tile[i] = this.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>();
@@ -43,6 +42,7 @@ public class TileSet : MonoBehaviour
         absRow = this.Row + TileMap.Row - 2;
         absColumn = this.Column + TileMap.Column - 2;
         ChangeTile(0, 0);
+
     }
 
     // Start is called before the first frame update
@@ -57,25 +57,24 @@ public class TileSet : MonoBehaviour
     }
 
     public void ChangeTile(int a, int b)
-    {
-       /*
-        tile[((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0) 
+    {       
+        tile[  ((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0 
             ? (TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) 
-            : -(TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
+            : - ((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)))
             % 100].sprite
            = TileSpriteImageStorages.BaseTileSpriteImage;
        
         absRow += a;
         absColumn += b;
-        /* 코드 수정 오류있음
-        tile[((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0)
+
+        tile[((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0
             ? (TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
-            : -(TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
+            : -((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)))
             % 100].sprite
            = TileSpriteImageStorages.TileSpriteImage[
-             ((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5) >= 0)
+             ((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5) >= 0
             ? (TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)
-            : -(TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)
-            % 8];*/
+            : -((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)))
+            % 8];
     }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileSpriteImageStorage
-    : MonoBehaviour
+public class TileSpriteImageStorage: MonoBehaviour
 {
+    private GameManager gameManager;
     [SerializeField]
     private Sprite[] tileSpriteImage;
     public Sprite[] TileSpriteImage
@@ -36,6 +36,12 @@ public class TileSpriteImageStorage
         set { RenderRandConst = value; }
     }
 
+    private TerrainSpawner terrainSpawner;
+
+    public TerrainSpawner TerrainSpawner
+    {
+        get { return TerrainSpawner; }
+    }
     private void Awake()
     {
         RandConst.x = Random.Range(5, 20);
@@ -43,5 +49,17 @@ public class TileSpriteImageStorage
 
         RenderRandConst.x = Random.Range(5, 20);
         RenderRandConst.y = Random.Range(5, 20);
+
+        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        foreach (var d in DDO)
+        {
+            if (d.name == "GameManager")
+            {
+                gameManager = d.GetComponent<GameManager>();
+            }
+        }
+        DDO = null;
+
+        baseTileSpriteImage = gameManager.BaseTileImage[gameManager.selectStageID];
     }
 }

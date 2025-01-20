@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c0b303bd153897644aab611ac2a1980e
+guid: cc61c697bc70fd442a97b85a0e927538
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -30,7 +30,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 0
+    spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 100
@@ -69,7 +69,7 @@ ScriptedImporter:
     textureFormatSet: 0
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
-    fileImportMode: 0
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -81,7 +81,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   asepriteImporterSettings:
-    fileImportMode: 0
+    fileImportMode: 1
     importHiddenLayers: 0
     layerImportMode: 1
     defaultPivotSpace: 0
@@ -93,7 +93,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638606484330590919
+  platformSettingsDirtyTick: 0
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -117,7 +117,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: prisoner_body_set_1
+  - name: 1
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -126,9 +126,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 258
-      height: 130
-    spriteID: 280e0ac8f0830354eb5fdeddf1ed242a
+      width: 32
+      height: 32
+    spriteID: ff0636bd9248b044aab79698e0314139
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -137,119 +137,26 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  spriteSheetImportData:
-  - name: prisoner_body_set_1_5
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 5
-      y: 69
-      width: 64
-      height: 64
-    spriteID: 88ff05ddcf761af4baabdd14e6402067
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: prisoner_body_set_1_6
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 69
-      y: 69
-      width: 64
-      height: 64
-    spriteID: 2adf5f7dcfa03a94a83aa50a3e742930
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
-  - name: prisoner_body_set_1_7
-    originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 133
-      y: 69
-      width: 64
-      height: 64
-    spriteID: e05b0f685ae4fd74f95a032d84c17b3d
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 0, y: 0}
+  spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1938184592
-    name: prisoner_body_set_1
+    guid: 1666753961
+    name: 1
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: prisoner_body_set_1
+    - name: 1
       frameIndex: 0
       cellRect:
         x: 0
         y: 0
-        width: 258
-        height: 130
-      spriteId: 280e0ac8f0830354eb5fdeddf1ed242a
+        width: 32
+        height: 32
+      spriteId: ff0636bd9248b044aab79698e0314139
     linkedCells: []
     parentIndex: -1
-  platformSettings:
-  - name: DefaultTexturePlatform
-    overridden: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Standalone
-    overridden: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
-  - name: Server
-    overridden: 0
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    androidETC2FallbackOverride: 0
+  platformSettings: []
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 258, y: 130}
+  canvasSize: {x: 32, y: 32}

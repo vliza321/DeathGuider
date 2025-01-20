@@ -30,7 +30,7 @@ public class TileMap : MonoBehaviour
     public GameObject TileSpriteImageStorage;
     // Start is called before the first frame update
 
-    public void Init()
+    public void Init(TileSpriteImageStorage tileSpriteImageStorage)
     {
         TileSet = new TileSet[this.transform.childCount];
         row = (int)(mapSize.x / 2);
@@ -41,7 +41,7 @@ public class TileMap : MonoBehaviour
         }
         foreach (var t in tileSet)
         {
-            t.Init();
+            t.Init(tileSpriteImageStorage);
         }
 
     }

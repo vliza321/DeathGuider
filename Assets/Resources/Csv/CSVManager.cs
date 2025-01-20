@@ -48,7 +48,6 @@ public class CSVManager :MonoBehaviour
         Debug.Log("CSVManagerInit");
         foreach(var fn in FILE_NAME)
         {
-            Debug.Log(fn);
             object fnValue = GetFieldByString(fn);
             if(fnValue is List<Dictionary<string,object>>fnList)
             {
@@ -56,7 +55,6 @@ public class CSVManager :MonoBehaviour
                 SetFieldByString(fn, fnList);
                 ConvertCSVToScriptableObject(fn, fnList);
             }
-            Debug.Log(fn);
         }
     }
 

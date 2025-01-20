@@ -13,6 +13,7 @@ public enum RangeOut
 
 public class TileSpawnManager : MonoBehaviour
 {
+    [SerializeField]
     private TileMap[] baseTileMap;
     private PlayerManager playerManager;
     private MonsterManager monsterManager;
@@ -24,7 +25,7 @@ public class TileSpawnManager : MonoBehaviour
     private CameraManager cameraManager;
 
     private GameObject[] weaponEffectPool;
-
+    private TileSpriteImageStorage tileSpriteImageStorage;
     private RangeOut discriminationState; 
     private void Awake()
     {
@@ -33,11 +34,11 @@ public class TileSpawnManager : MonoBehaviour
         {    
             if (manager.name == "PlayerManager")
             {
-                playerManager = manager.transform.gameObject.GetComponent<PlayerManager>();
+                playerManager = manager.GetComponent<PlayerManager>();
             }
             if (manager.name == "MonsterSpawnManager")
             {
-                monsterManager = manager.transform.gameObject.GetComponent<MonsterManager>();
+                monsterManager = manager.GetComponent<MonsterManager>();
             }
             if (manager.name == "FollowerManager")
             {
@@ -45,12 +46,17 @@ public class TileSpawnManager : MonoBehaviour
             }
             if (manager.name == "TreasureBoxEscapeStairManager")
             {
-                treasureBoxEscapeStairManager = manager.transform.gameObject.GetComponent<TreasureBoxEscapeStairManager>();
+                treasureBoxEscapeStairManager = manager.GetComponent<TreasureBoxEscapeStairManager>();
             }
             if (manager.name == "CameraManager")
             {
-                cameraManager = manager.transform.gameObject.GetComponent<CameraManager>();
+                cameraManager = manager.GetComponent<CameraManager>();
             }
+            if (manager.name == "TileSpriteImageStorage")
+            {
+                tileSpriteImageStorage = manager.GetComponent<TileSpriteImageStorage>();
+            }
+            
         }
         Manager = null;
         discriminationState = RangeOut.nonRangeOut;
@@ -63,8 +69,8 @@ public class TileSpawnManager : MonoBehaviour
         baseTileMap[1] = this.transform.GetChild(1).GetComponent<TileMap>();
         baseTileMap[0].gameObject.SetActive(true);
         baseTileMap[1].gameObject.SetActive(true);
-        baseTileMap[0].Init();
-        baseTileMap[1].Init();
+        baseTileMap[0].Init(tileSpriteImageStorage);
+        baseTileMap[1].Init(tileSpriteImageStorage);
     }
     // Update is called once per frame
     void Start()
