@@ -7,13 +7,14 @@ public class FloorUIManager : MonoBehaviour
     public FloorSystem floorSystem;
     public GYMSystem gymSystem;
     public HealthSystem heathSystem;
+    public ErosionSystem erosionSystem;
 
     public GameObject floorPrisonerUI;
     public GameObject prisonerInfoUI;
 
     public GameObject gymPrisonerChooseUI;
-
     public GameObject healthPrisonerChooseUI;
+    public GameObject erosionPrisonerChooseUI;
     
     public void OpenFloorPrisonerUI()
     {
@@ -63,5 +64,17 @@ public class FloorUIManager : MonoBehaviour
     public void closeHealthPrisonerUI()
     {
         healthPrisonerChooseUI.SetActive(false);
+    }
+
+    public void openErosionPrisonerUI()
+    {
+        erosionSystem.DisplayErosionPrisoners();
+        erosionSystem.DisplayErosionRoomUI();
+        erosionPrisonerChooseUI.SetActive(true);
+    }
+
+    public void closeErosionPrisonerUI()
+    {
+        erosionPrisonerChooseUI.SetActive(false);
     }
 }

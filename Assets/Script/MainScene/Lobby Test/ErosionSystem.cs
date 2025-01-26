@@ -1,13 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class HealthSystem : MonoBehaviour
+public class ErosionSystem : MonoBehaviour
 {
-    public GameObject HealthUnitUIPrefab;
-    public GameObject HealthRoomPrefab;
+    public GameObject ErosionUnitUIPrefab;
+    public GameObject ErosionRoomPrefab;
 
     public Transform contentUnitParent;
     public Transform contentRoomParent;
@@ -15,16 +16,16 @@ public class HealthSystem : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
-    public int healthRoomCount = 3;
+    public int ErosionRoomCount = 3;
 
-    public List<HealthData> HealthDataList = new List<HealthData>();
+    public List<ErosionData> ErosionDataList = new List<ErosionData>();
 
     [System.Serializable]
-    public class HealthData
+    public class ErosionData
     {
         public int InstanceID;
 
-        public HealthData()
+        public ErosionData()
         {
             InstanceID = -1;
         }
@@ -41,34 +42,27 @@ public class HealthSystem : MonoBehaviour
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            DDO = null;
         }
 
-        for (int i = 0; i < healthRoomCount; i++)
+        for (int i = 0; i < ErosionRoomCount; i++)
         {
-            HealthData newHealthData = new HealthData(); // InstanceID는 0부터 시작
-            HealthDataList.Add(newHealthData);
+            ErosionData newErosionData = new ErosionData(); // InstanceID는 0부터 시작
+            ErosionDataList.Add(newErosionData);
         }
-
     }
 
-    public void DisplayHealthPrisoners()
+    public void DisplayErosionPrisoners()
     {
-        if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
-        {
-            Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
-            return;
-        }
-
         foreach (Transform child in contentUnitParent)
         {
             Destroy(child.gameObject);
         }
 
         var filteredPrisoners = DDOManager.UnitDatas.UnitDatas
-    .Where(prisoner => prisoner != null && prisoner.ActivityStatus == 0 && prisoner.PrototypeUnitID == 100 && prisoner.HealthPoint != prisoner.MaxHealthPoint)
+    .Where(prisoner => prisoner != null && prisoner.ActivityStatus == 0 && prisoner.PrototypeUnitID == 100 && prisoner.DeathErosion != 0)
     .OrderBy(prisoner => prisoner.InstanceID)
     .ToList();
+
         Debug.Log(filteredPrisoners.Count);
         RectTransform contentRect = contentUnitParent.GetComponent<RectTransform>();
 
@@ -92,10 +86,10 @@ public class HealthSystem : MonoBehaviour
             int prisonerIndex = 0; // 초기화된 인덱스 사용
             foreach (var prisoner in filteredPrisoners)
             {
-                GameObject prisonerUI = contentUnitParent.Find($"Gym Prisoner{prisonerIndex + 1}")?.gameObject;
-                prisonerUI = CreateHealthPrisonerUI(prisoner);
-                prisonerUI.name = $"Gym Prisoner{prisonerIndex + 1}";
-                UpdateHealthPrisonerUI(prisonerUI, prisoner);
+                GameObject prisonerUI = contentUnitParent.Find($"Erosion Prisoner{prisonerIndex + 1}")?.gameObject;
+                prisonerUI = CreateErosionPrisonerUI(prisoner);
+                prisonerUI.name = $"Erosion Prisoner{prisonerIndex + 1}";
+                UpdateErosionPrisonerUI(prisonerUI, prisoner);
                 prisonerIndex++;
             }
         }
@@ -105,11 +99,11 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    private void UpdateHealthPrisonerUI(GameObject prisonerUI, UnitData prisoner)
+    private void UpdateErosionPrisonerUI(GameObject prisonerUI, UnitData prisoner)
     {
         prisonerUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = prisoner.Name;
         prisonerUI.transform.Find("LevelText").GetComponent<TextMeshProUGUI>().text = $"Lv: {prisoner.Level}";
-        prisonerUI.transform.Find("HealthText").GetComponent<TextMeshProUGUI>().text = $"HP: {prisoner.HealthPoint}/{prisoner.MaxHealthPoint}";
+        prisonerUI.transform.Find("ErosionText").GetComponent<TextMeshProUGUI>().text = $"Erosion: {prisoner.DeathErosion} / 100";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
         if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
@@ -132,12 +126,12 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    private GameObject CreateHealthPrisonerUI(UnitData prisoner)
+    private GameObject CreateErosionPrisonerUI(UnitData prisoner)
     {
-        GameObject prisonerUI = Instantiate(HealthUnitUIPrefab, contentUnitParent);
+        GameObject prisonerUI = Instantiate(ErosionUnitUIPrefab, contentUnitParent);
         prisonerUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = prisoner.Name;
         prisonerUI.transform.Find("LevelText").GetComponent<TextMeshProUGUI>().text = $"Lv: {prisoner.Level}";
-        prisonerUI.transform.Find("HealthText").GetComponent<TextMeshProUGUI>().text = $"HP: {prisoner.HealthPoint}/{prisoner.MaxHealthPoint}";
+        prisonerUI.transform.Find("ErosionText").GetComponent<TextMeshProUGUI>().text = $"Erosion: {prisoner.DeathErosion} / 100";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
         if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
@@ -166,18 +160,18 @@ public class HealthSystem : MonoBehaviour
             {
                 bool roomUpdated = false;
 
-                for (int i = 0; i < healthRoomCount; i++)
+                for (int i = 0; i < ErosionRoomCount; i++)
                 {
-                    Transform targetHealthRoom = contentRoomParent.Find("HealthRoom" + (i + 1));
-                    if (targetHealthRoom != null)
+                    Transform targetErosionRoom = contentRoomParent.Find("ErosionRoom" + (i + 1));
+                    if (targetErosionRoom != null)
                     {
-                        if (HealthDataList[i].InstanceID >= 0)
+                        if (ErosionDataList[i].InstanceID >= 0)
                         {
                             continue;
                         }
 
-                        HealthDataList[i].InstanceID = prisoner.InstanceID;
-                        Transform prisonerImageTransform = targetHealthRoom.Find("PrisonerImage");
+                        ErosionDataList[i].InstanceID = prisoner.InstanceID;
+                        Transform prisonerImageTransform = targetErosionRoom.Find("PrisonerImage");
                         if (prisonerImageTransform != null)
                         {
                             Transform prisonerNameTransform = prisonerImageTransform.Find("NameText");
@@ -189,26 +183,26 @@ public class HealthSystem : MonoBehaviour
                                     nameText.text = prisoner.Name;
                                 }
                             }
-                            Transform prisonerHPTransform = prisonerImageTransform.Find("HealthText");
+                            Transform prisonerHPTransform = prisonerImageTransform.Find("ErosionText");
                             if (prisonerHPTransform != null)
                             {
                                 TextMeshProUGUI prisonerHPText = prisonerHPTransform.GetComponent<TextMeshProUGUI>();
                                 if (prisonerHPText != null)
                                 {
-                                    prisonerHPText.text = $"HP: {prisoner.HealthPoint}/{prisoner.MaxHealthPoint}";
+                                    prisonerHPText.text = $"Erosion: {prisoner.DeathErosion} / 100";
                                 }
                             }
 
-                            Slider HPslideBar = targetHealthRoom.Find("HealthSlider").GetComponent<Slider>();
-                            if(HPslideBar != null)
+                            Slider HPslideBar = targetErosionRoom.Find("ErosionSlider").GetComponent<Slider>();
+                            if (HPslideBar != null)
                             {
 
-                                HPslideBar.maxValue = prisoner.MaxHealthPoint;
-                                HPslideBar.value = prisoner.HealthPoint;
+                                HPslideBar.maxValue = 100;
+                                HPslideBar.value = prisoner.DeathErosion;
                             }
                             else
                             {
-                                Debug.LogWarning("HealthSlider가 없거나 Slider 컴포넌트를 찾을 수 없습니다.");
+                                Debug.LogWarning("ErosionSlider가 없거나 Slider 컴포넌트를 찾을 수 없습니다.");
                             }
 
                             Image BodyImage = prisonerImageTransform.Find("BodyImage").GetComponent<Image>();
@@ -225,7 +219,7 @@ public class HealthSystem : MonoBehaviour
                                 HeadImage.sprite = headSprites[prisoner.HeadID];
                             }
                         }
-                        DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 2;
+                        DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 4;
                         Destroy(prisonerUI);
                         roomUpdated = true;
                         break;
@@ -236,35 +230,34 @@ public class HealthSystem : MonoBehaviour
         return prisonerUI;
     }
 
-    public void DisplayHealthRoomUI()
+    public void DisplayErosionRoomUI()
     {
-        for (int i = 0; i < healthRoomCount; i++)
+        for (int i = 0; i < ErosionRoomCount; i++)
         {
-            Transform targetHealthRoom = contentRoomParent.Find("HealthRoom" + (i + 1));
+            Transform targetErosionRoom = contentRoomParent.Find("ErosionRoom" + (i + 1));
 
-            if (targetHealthRoom == null)
+            if (targetErosionRoom == null)
             {
-                GameObject HealthRoomUI = Instantiate(HealthRoomPrefab, contentRoomParent);
-                HealthRoomUI.name = $"HealthRoom{i + 1}";
+                GameObject ErosionRoomUI = Instantiate(ErosionRoomPrefab, contentRoomParent);
+                ErosionRoomUI.name = $"ErosionRoom{i + 1}";
 
-                Transform deleteButton = HealthRoomUI.transform.Find("DeleteButton");
+                Transform deleteButton = ErosionRoomUI.transform.Find("DeleteButton");
                 Button button = deleteButton.GetComponent<Button>();
                 if (button != null)
                 {
                     int roomIndex = i;
-
                     button.onClick.AddListener(() =>
                     {
-                        if (HealthDataList[roomIndex].InstanceID == -1)
+                        if (ErosionDataList[roomIndex].InstanceID == -1)
                         {
                             return;
                         }
 
-                        Transform prisonerImageTransform = HealthRoomUI.transform.Find("PrisonerImage");
+                        Transform prisonerImageTransform = ErosionRoomUI.transform.Find("PrisonerImage");
                         if (prisonerImageTransform != null)
                         {
                             Transform prisonerNameTransform = prisonerImageTransform.Find("NameText");
-                            if(prisonerNameTransform != null)
+                            if (prisonerNameTransform != null)
                             {
                                 TextMeshProUGUI nameText = prisonerNameTransform.GetComponent<TextMeshProUGUI>();
                                 if (nameText != null)
@@ -273,21 +266,21 @@ public class HealthSystem : MonoBehaviour
                                 }
                             }
 
-                            Transform prisonerHPTransform = prisonerImageTransform.Find("HealthText");
-                            if (prisonerHPTransform != null)
+                            Transform prisonerErosionTransform = prisonerImageTransform.Find("ErosionText");
+                            if (prisonerErosionTransform != null)
                             {
-                                TextMeshProUGUI HpText = prisonerHPTransform.GetComponent<TextMeshProUGUI>();
-                                if(HpText != null)
+                                TextMeshProUGUI HpText = prisonerErosionTransform.GetComponent<TextMeshProUGUI>();
+                                if (HpText != null)
                                 {
-                                    HpText.text = "체력";
+                                    HpText.text = "침식도";
                                 }
                             }
 
-                            Slider HPslideBar = HealthRoomUI.transform.Find("HealthSlider")?.GetComponent<Slider>();
-                            if (HPslideBar != null)
+                            Slider ErosionSlideBar = ErosionRoomUI.transform.Find("ErosionSlider")?.GetComponent<Slider>();
+                            if (ErosionSlideBar != null)
                             {
-                                HPslideBar.maxValue = 1;
-                                HPslideBar.value = 0;
+                                ErosionSlideBar.maxValue = 100;
+                                ErosionSlideBar.value = 0;
                             }
 
                             Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();
@@ -304,12 +297,12 @@ public class HealthSystem : MonoBehaviour
                                 bodyImage.gameObject.SetActive(false);
                             }
 
-                            DDOManager.UnitDatas.UnitDataDic[(0, 100, HealthDataList[roomIndex].InstanceID)].ActivityStatus = 0;
-                            HealthDataList[roomIndex].InstanceID = -1;
+                            DDOManager.UnitDatas.UnitDataDic[(0, 100, ErosionDataList[roomIndex].InstanceID)].ActivityStatus = 0;
+                            ErosionDataList[roomIndex].InstanceID = -1;
 
-                            DisplayHealthPrisoners();
+                            DisplayErosionPrisoners();
 
-                            Debug.Log($"HealthRoom {roomIndex + 1} 초기화 완료");
+                            Debug.Log($"ErosionRoom {roomIndex + 1} 초기화 완료");
                         }
                     });
                 }

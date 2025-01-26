@@ -163,7 +163,7 @@ public class GYMSystem : MonoBehaviour
                             Transform gymTrainingImage = prisonerTransform.Find("GymTrainingImage");
                             Transform trainingSelect = FindTrainingSelectForData(roomData, roomData.GYMDataList.IndexOf(gymData));
 
-                            gymData.InstanceID = DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].InstanceID;
+                            gymData.InstanceID = DDOManager.UnitDatas.UnitDataDic[(0,100,prisoner.InstanceID)].InstanceID;
                             Debug.Log($"Room에서 InstanceID가 -10인 값이 인스턴스 아이디로 변경되었습니다.");
                             UpdateRoomInstanceAndUI(gymData.InstanceID, trainingSelect);
                             Destroy(prisonerUI);
