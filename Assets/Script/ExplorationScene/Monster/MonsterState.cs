@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterState : MonoBehaviour
+public class MonsterState : autorizedObject
 {
     private MonsterMove monsterMove;
 
@@ -11,7 +11,7 @@ public class MonsterState : MonoBehaviour
     [SerializeField]
     private float healthPoint;
 
-
+    
     public float HealthPoint
     {
         get { return healthPoint; }
@@ -21,16 +21,16 @@ public class MonsterState : MonoBehaviour
     // delete public 
     //public int spawnCounter;
 
-    private ObjectPool monsterPool;
+    private ObjectPool<MonsterState> monsterPool;
 
     private string weaponTagName = "Weapon";
-    public ObjectPool MonsterPool
+    public ObjectPool<MonsterState> MonsterPool
     {
         get { return monsterPool; }
         set { monsterPool = value; }
     }
    
-    public void Init(MonsterData prototypeData, ObjectPool respawnPool)
+    public void Init(MonsterData prototypeData, ObjectPool<MonsterState> respawnPool)
     {
         healthPoint = prototypeData.MaxHealthPoint;
         status = prototypeData;
@@ -54,7 +54,7 @@ public class MonsterState : MonoBehaviour
             if (healthPoint <= 0)
             {
                 // 몬스터 비활성화 및 풀에 반환
-                monsterPool.ReturnObject(this.gameObject);
+                monsterPool.ReleaseObject(this);
             }
         }
     }

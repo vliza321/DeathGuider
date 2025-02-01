@@ -1038,16 +1038,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectUserID: 0
   selectStageID: 0
+  Monster: []
   prototypeUnit: []
   prototypeWeapon: []
-  PrisonerHeadAnim: []
-  PrisonerBodyAnim:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   PrisonerHeadImg: []
+  PrisonerHeadAnim: []
   PrisonerBodyImg: []
-  Monster: []
+  PrisonerBodyAnim: []
   BaseTileImage: []
 --- !u!1 &1096611473
 GameObject:
