@@ -8,7 +8,7 @@ public class BusRandomPrisoner : MonoBehaviour
 {
     public List<UnitData> unitDatas = new List<UnitData>();
     public UnitData testUnit;
-
+    public StorageUI storageUI;
     public GameObject unitUIPrefab;
     public Transform gridParent;
     public Sprite[] headSprites;
@@ -258,6 +258,7 @@ public class BusRandomPrisoner : MonoBehaviour
     private void OnChangeDaysButtonClicked()
     {
         DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
+        storageUI.UpdateDaysUI();
 
         if (!DDOManager.SaveData())
         {
