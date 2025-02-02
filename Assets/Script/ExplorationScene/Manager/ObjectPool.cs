@@ -1,61 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ObjectPool
+public class ObjectPool<T> where T : autorizedObject
 {
-	
-	private GameObject[] prefab;  // 풀링할 객체의 프리팹 -> 2개 
-
 	private int poolSize;  // 풀의 초기 크기
 
-	private Queue<GameObject> poolQueue;
+	private Queue<T> poolQueue;
 
-	public ObjectPool(GameObject[] prefab, int MaxMonster)
-    {
-        poolQueue = new Queue<GameObject>();
-        /*
-        for (int i = 0; i < MaxMonster; i++)
-        {
-            GameObject obj = CreateNewObject();
-            obj.SetActive(false);
-            poolQueue.Enqueue(obj);
-        }*/
-    }
-
-    public Queue<GameObject> PoolQueue
+    public Queue<T> PoolQueue
     {
         get { return poolQueue; }
     }
-    public ObjectPool(int MaxMonster)
+    public ObjectPool(int MaxSize)
     {
-        poolQueue = new Queue<GameObject>();
-        /*
-        for (int i = 0; i < MaxMonster; i++)
-        {
-            GameObject obj = CreateNewObject();
-            obj.SetActive(false);
-            poolQueue.Enqueue(obj);
-        }*/
+        poolSize = MaxSize;
+        poolQueue = new Queue<T>(poolSize);
     }
 
-    public GameObject GetObject()
+    public T GetObject()
     {
-        if (poolQueue.Count > 0)
-        {
-            GameObject obj = poolQueue.Dequeue();
-            obj.SetActive(true);
-            return obj;
-        }
-        else
-        {
-            return default;
-        }
+        return poolQueue.Count > 0 ? ActivateAndReturn(poolQueue.Dequeue()) : null;
     }
 
-    public void ReturnObject(GameObject obj)
+    public T ActivateAndReturn(T obj)
+    {
+        obj.gameObject.SetActive(true);
+        return obj;
+    }
+
+    public void ReleaseObject(T obj)
 	{
-		obj.SetActive(false);
+        if (poolQueue.Count >= poolSize) return;
+		obj.gameObject.SetActive(false);
 		poolQueue.Enqueue(obj);
 	}
 }

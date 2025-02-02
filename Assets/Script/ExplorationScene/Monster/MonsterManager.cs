@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class autorizedObject : MonoBehaviour
+{
+
+}
+
 
 public class MonsterManager : MonoBehaviour
 {
     
     [SerializeField]
-    private ObjectPool monsterSpawnPool;
+    private ObjectPool<MonsterState> monsterSpawnPool;
     [SerializeField]
-    private ObjectPool monsterRespawnPool;
+    private ObjectPool<MonsterState> monsterRespawnPool;
 
 
     private GameObject player;
@@ -61,6 +66,8 @@ public class MonsterManager : MonoBehaviour
 
     private DontDestroyObjectManager DDOManager;
     private GameManager GameManager;
+    autorizedObject newMonster;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -68,8 +75,8 @@ public class MonsterManager : MonoBehaviour
         screenSize.y = Screen.height;
         playerEscape = false;
         monster = new MonsterMove[maxMonster];
-        monsterSpawnPool = new ObjectPool(maxMonster);
-        monsterRespawnPool = new ObjectPool(maxMonster);
+        monsterSpawnPool = new ObjectPool<MonsterState>(maxMonster);
+        monsterRespawnPool = new ObjectPool<MonsterState>(maxMonster);
 
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)
@@ -97,10 +104,10 @@ public class MonsterManager : MonoBehaviour
 
         for (int a = 0; a < maxMonster; a++)
         {
-            GameObject newMonster = Instantiate(GameManager.Monster[GameManager.selectStageID].gameObject);
+            MonsterState newMonster = Instantiate(GameManager.Monster[GameManager.selectStageID].gameObject).GetComponent<MonsterState>();
             newMonster.transform.SetParent(this.transform);
-            newMonster.SetActive(false);
-            monsterSpawnPool.ReturnObject(newMonster);
+            newMonster.gameObject.SetActive(false);
+            monsterSpawnPool.ReleaseObject(newMonster);
             monster[a] = newMonster.GetComponent<MonsterMove>();
             newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.selectStageID],monsterRespawnPool);
         }
@@ -154,7 +161,6 @@ public class MonsterManager : MonoBehaviour
     }
     private void Update()
     {
-        GameObject newMonster;
         // 몬스터 리스폰 처리
         if (monsterRespawnTimer > 0 && !playerEscape)
         {
@@ -385,7 +391,6 @@ public class MonsterManager : MonoBehaviour
                         newMonster.transform.position = currentPos;
                         break;
                 }
-                Debug.Log(currentPos.x +","+ currentPos.y);
             }
         }
     }

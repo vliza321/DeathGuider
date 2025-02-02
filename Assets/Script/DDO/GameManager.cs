@@ -80,6 +80,13 @@ public class GameManager : MonoBehaviour
         objects = null;
 
         sorting(Monster);
+        sorting(prototypeUnit);
+        sorting(prototypeWeapon);
+        sorting(PrisonerBodyImg);
+        sorting(PrisonerBodyAnim);
+        sorting(PrisonerHeadImg);
+        sorting(PrisonerHeadAnim);
+        sorting(BaseTileImage);
     }
 
 
