@@ -11,7 +11,7 @@ public class autorizedObject : MonoBehaviour
 public class MonsterManager : MonoBehaviour
 {
     
-    [SerializeField]
+    [SerializeField]    
     private ObjectPool<MonsterState> monsterSpawnPool;
     [SerializeField]
     private ObjectPool<MonsterState> monsterRespawnPool;
