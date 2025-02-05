@@ -30,6 +30,14 @@ public class LocalUserDataList : DataScriptableObjects
             data.DarkEssence = LocalUserDataDic[data.ID].DarkEssence;
             data.UnitInstanceCounter = LocalUserDataDic[data.ID].UnitInstanceCounter;
             data.Floor = LocalUserDataDic[data.ID].Floor;
+            data.BusEnhance = LocalUserDataDic[data.ID].BusEnhance;
+            data.PrisonEnhance = LocalUserDataDic[data.ID].PrisonEnhance;
+            data.HealthEnhance = LocalUserDataDic[data.ID].HealthEnhance;
+            data.ErosionEnhance = LocalUserDataDic[data.ID].ErosionEnhance;
+            data.GYMEnhance = LocalUserDataDic[data.ID].GYMEnhance;
+            data.SmithEnhance = LocalUserDataDic[data.ID].SmithEnhance;
+            data.BattleEfficiency = LocalUserDataDic[data.ID].BattleEfficiency;
+            data.BattleReward = LocalUserDataDic[data.ID].BattleReward;
         }
     }
 }
@@ -45,4 +53,12 @@ public class LocalUserData
     public int DarkEssence;
     public int UnitInstanceCounter;
     public int Floor;
+    public int BusEnhance;
+    public int PrisonEnhance;
+    public int HealthEnhance;
+    public int ErosionEnhance;
+    public int GYMEnhance;
+    public int SmithEnhance;
+    public int BattleEfficiency;
+    public int BattleReward;
 }

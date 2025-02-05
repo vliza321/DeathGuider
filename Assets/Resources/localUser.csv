@@ -1,2 +1,2 @@
-ID,Day,Gold,DeathEssence,DarkEssence,UnitInstanceCounter,Floor
-0,26,3501,10,30,67,6
+ID,Day,Gold,DeathEssence,DarkEssence,UnitInstanceCounter,Floor,BusEnhance,PrisonEnhance,HealthEnhance,ErosionEnhance,GYMEnhance,SmithEnhance,BattleEfficiency,BattleReward
+0,32,3501,10,30,67,6,0,0,0,0,0,0,0,0
