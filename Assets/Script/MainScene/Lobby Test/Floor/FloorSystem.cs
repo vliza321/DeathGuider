@@ -73,10 +73,10 @@ public class FloorSystem : MonoBehaviour
         DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor++;
         moveCamera.UpdateMinY();
 
-        if (!DDOManager.SaveData())
-        {
-            Debug.Log("Fail Save Data");
-        }
+        //if (!DDOManager.SaveData())
+        //{
+        //    Debug.Log("Fail Save Data");
+        //}
 
         int currentFloor = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
 
@@ -184,7 +184,6 @@ public class FloorSystem : MonoBehaviour
             Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
         }
 
-        // BodyID 이미지 설정
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
         if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
         {
@@ -203,7 +202,7 @@ public class FloorSystem : MonoBehaviour
                 prisonerButton.onClick.AddListener(() =>
                 {
                     Debug.Log("Prisoner button clicked!");
-                    floorUIManager.openFloorPrisonerInfoUI(prisoner);  // 해당 죄수 정보를 UI에 업데이트
+                    floorUIManager.openFloorPrisonerInfoUI(prisoner);
                 });
             });
         }

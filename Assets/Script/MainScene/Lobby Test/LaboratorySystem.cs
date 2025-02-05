@@ -6,111 +6,243 @@ using UnityEngine.UI;
 
 public class LaboratorySystem : MonoBehaviour
 {
-    public string[] textContents = {
-        "날짜의 리셋 시간 기준, 이감 대기 유닛의 최대 수치 증가",
-        "수용소 증축 비용 감소",
-        "체력 회복 비율 증가1",
-        "체력 회복 비율 증가2",
-        "죽음 침식도 회복 비율 증가",
-        "최대 수용 인원 증가",
-        "스탯 증가량 비율 증가",
-        "최대 수용 인원 증가",
-        "무기 재련 / 내구도 수리 / 무기 진화 비용 감소",
-        "내구도 회복 비율 증가",
-        "무기 구매 대상 무기 등급 증가",
-        "무기 구매 대상 무기 가격 감소 및 무기 판매 대상 무기 가격 증가",
-        "전투를 통해 획득하는 재화(골드 및 어둠 정수)의 증가",
-        "전투 종료로 얻는 탐사 진척도 증가"
-    };
+    public StorageUI storageUI;
+    public GameObject parentObject;
+    public BusRandomPrisoner busRandomPrisoner;
 
-    public int[] currency1Values = { 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000 };
-    public int[] currency2Values = { 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000 };
+    public GameObject UpgradePage;
+    public TextMeshProUGUI DescriptionText1;
+    public TextMeshProUGUI DescriptionText2;
+    public TextMeshProUGUI DescriptionText3;
+    public TextMeshProUGUI DescriptionText4;
+    public TextMeshProUGUI GoldText;
+    public TextMeshProUGUI DarkText;
 
-    public GameObject LaboratoryPrefab;
-    public Transform parentTransform;
+    [System.Serializable]
+    public class LabButtonPrice
+    {
+        public Button labButton;
+        public Slider labLevelSlider;
+        public int upgradeCount = 0;
+        public int baseGoldPrice;
+        public int baseDarkPrice;
+        public float goldMultiplier = 1.2f;
+        public float darkMultiplier = 1.5f;
+        public int calculatedGoldPrice;
+        public int calculatedDarkPrice;
+    }
 
-    private List<GameObject> createdLabs = new List<GameObject>();
-    private int currentIndex = -1;
+    public List<LabButtonPrice> labBusButtonPrices = new List<LabButtonPrice>();
+
+    private DontDestroyObjectManager DDOManager;
 
     void Start()
     {
-        for (int i = 0; i < textContents.Length; i++)
+        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        foreach (var ddo in DDO)
         {
-            GameObject instance = Instantiate(LaboratoryPrefab, parentTransform);
-            createdLabs.Add(instance);
-
-            TextMeshProUGUI laboratoryNameText = instance.transform.Find("Laboratory Name Text")?.GetComponent<TextMeshProUGUI>();
-            if (laboratoryNameText != null)
+            if (ddo.name == "DDOManager")
             {
-                laboratoryNameText.text = textContents[i];
+                DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
+        }
 
-            TextMeshProUGUI laboratoryNeedCoin1Text = instance.transform.Find("Laboratory Need Coin1 Text")?.GetComponent<TextMeshProUGUI>();
-            if (laboratoryNeedCoin1Text != null && i < currency1Values.Length)
+        Button[] buttons = parentObject.GetComponentsInChildren<Button>();
+        foreach (Button button in buttons)
+        {
+            if (button.name == "LabBusButton")
             {
-                laboratoryNeedCoin1Text.text = $"{currency1Values[i]:N0} G";
-            }
-
-            TextMeshProUGUI laboratoryNeedCoin2Text = instance.transform.Find("Laboratory Need Coin2 Text")?.GetComponent<TextMeshProUGUI>();
-            if (laboratoryNeedCoin2Text != null && i < currency2Values.Length)
-            {
-                laboratoryNeedCoin2Text.text = $"{currency2Values[i]:N0} K";
-            }
-
-            Button button = instance.GetComponentInChildren<Button>();
-            if (button != null)
-            {
-                int index = i;
-                button.onClick.AddListener(() => OnLabButtonClick(index, textContents.Length));
-
-                if (i > 0)
+                LabButtonPrice buttonPrice = labBusButtonPrices.Find(bp => bp.labButton == button);
+                if (buttonPrice != null)
                 {
-                    button.interactable = false;
+                    int index = labBusButtonPrices.IndexOf(buttonPrice);
+                    button.onClick.AddListener(() => ActivateUpgradePage(index));
                 }
+            }
+        }
+
+        foreach (var labButtonPrice in labBusButtonPrices)
+        {
+            if (labButtonPrice.labLevelSlider != null)
+            {
+                labButtonPrice.labLevelSlider.maxValue = 5;
+                labButtonPrice.labLevelSlider.value = Mathf.Min(DDOManager.LocalUserDatas.LocalUserDataDic[0].BusEnhance, 5);
             }
         }
     }
 
-    void OnLabButtonClick(int index, int total)
+    void DeactivateAllButtons()
     {
-        if (index == currentIndex + 1)
+        foreach (var labButtonPrice in labBusButtonPrices)
         {
-            if (index < createdLabs.Count)
+            labButtonPrice.labButton.interactable = false;
+        }
+
+        Button[] buttons = parentObject.GetComponentsInChildren<Button>(true);
+        foreach (Button button in buttons)
+        {
+            if (button.name != "Easter Egg")
             {
-                GameObject currentLab = createdLabs[index];
+                button.interactable = false;
+            }
+        }
+    }
 
-                Button currentButton = currentLab.GetComponentInChildren<Button>();
-                if (currentButton != null)
+
+    void ActivateUpgradePage(int index)
+    {
+        DeactivateAllButtons();
+
+        if (index == 0)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "날짜의 리셋 시간 기준, 이감 대기 유닛의 최대 수치 증가.";
+            }
+            if (DescriptionText2 != null)
+            {
+                DescriptionText2.gameObject.SetActive(false);
+            }
+            if (DescriptionText3 != null)
+            {
+                DescriptionText3.gameObject.SetActive(false);
+            }
+            if (DescriptionText4 != null)
+            {
+                DescriptionText4.gameObject.SetActive(false);
+            }
+        }
+
+        LabButtonPrice selectedButtonPrice = labBusButtonPrices[index];
+
+        if (selectedButtonPrice.upgradeCount >= 5)
+        {
+            selectedButtonPrice.labButton.interactable = false;
+            Debug.Log("최대 업그레이드 횟수에 도달했습니다. 버튼 비활성화.");
+        }
+        else
+        {
+            if (selectedButtonPrice.upgradeCount > 0)
+            {
+                selectedButtonPrice.calculatedGoldPrice = selectedButtonPrice.baseGoldPrice;
+                selectedButtonPrice.calculatedDarkPrice = selectedButtonPrice.baseDarkPrice;
+            }
+            else
+            {
+                selectedButtonPrice.calculatedGoldPrice = Mathf.FloorToInt(selectedButtonPrice.baseGoldPrice + selectedButtonPrice.upgradeCount * selectedButtonPrice.goldMultiplier);
+                selectedButtonPrice.calculatedDarkPrice = Mathf.FloorToInt(selectedButtonPrice.baseDarkPrice + selectedButtonPrice.upgradeCount * selectedButtonPrice.darkMultiplier);
+            }
+
+            UpdateUpgradePageText(selectedButtonPrice);
+        }
+
+        if (UpgradePage != null)
+        {
+            UpgradePage.SetActive(true);
+            Debug.Log("UpgradePage 활성화됨");
+
+            Button[] buttons = UpgradePage.GetComponentsInChildren<Button>();
+            Button upgradeButton = null;
+
+            foreach (Button button in buttons)
+            {
+                if (button.name == "UpgradeButton")
                 {
-                    currentButton.interactable = false;
+                    upgradeButton = button;
+                    break;
                 }
+            }
 
-                if (currentIndex >= 0 && currentIndex < createdLabs.Count)
+            if (upgradeButton != null)
+            {
+                int currentIndex = index;
+                upgradeButton.onClick.AddListener(() => OnUpgradeButtonClicked(currentIndex));
+            }
+        }
+        else
+        {
+            Debug.LogWarning("UpgradePage UI가 할당되지 않았습니다.");
+        }
+    }
+
+    public void CloseUpgradePage()
+    {
+        if (UpgradePage != null)
+        {
+            UpgradePage.SetActive(false);
+            Debug.Log("UpgradePage 비활성화됨");
+        }
+
+        foreach (var labButtonPrice in labBusButtonPrices)
+        {
+            labButtonPrice.labButton.interactable = true;
+        }
+
+        Button[] buttons = parentObject.GetComponentsInChildren<Button>(true);
+        foreach (Button button in buttons)
+        {
+            button.interactable = true;
+        }
+    }
+
+    void OnUpgradeButtonClicked(int index)
+    {
+
+        LabButtonPrice selectedButtonPrice = labBusButtonPrices[index];
+
+        if (DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold >= selectedButtonPrice.calculatedGoldPrice &&
+            DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence >= selectedButtonPrice.calculatedDarkPrice)
+        {
+            DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= selectedButtonPrice.calculatedGoldPrice;
+            DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= selectedButtonPrice.calculatedDarkPrice;
+
+            selectedButtonPrice.upgradeCount++;
+
+            selectedButtonPrice.calculatedGoldPrice = Mathf.FloorToInt(selectedButtonPrice.baseGoldPrice * Mathf.Pow(selectedButtonPrice.goldMultiplier, selectedButtonPrice.upgradeCount));
+            selectedButtonPrice.calculatedDarkPrice = Mathf.FloorToInt(selectedButtonPrice.baseDarkPrice * Mathf.Pow(selectedButtonPrice.darkMultiplier, selectedButtonPrice.upgradeCount));
+            selectedButtonPrice.baseGoldPrice = selectedButtonPrice.calculatedGoldPrice;
+            selectedButtonPrice.baseDarkPrice = selectedButtonPrice.calculatedDarkPrice;
+
+            busRandomPrisoner.availablePrisoner++;
+            storageUI.UpdateGold();
+            storageUI.UpdatedarkEssence();
+            DDOManager.LocalUserDatas.LocalUserDataDic[0].BusEnhance++;
+            selectedButtonPrice.labLevelSlider.value = selectedButtonPrice.upgradeCount;
+
+            if (selectedButtonPrice.upgradeCount >= 5)
+            {
+                selectedButtonPrice.labButton.interactable = false;
+
+                Button[] buttons = UpgradePage.GetComponentsInChildren<Button>();
+                foreach (Button button in buttons)
                 {
-                    GameObject prevLab = createdLabs[currentIndex];
-                    Button prevButton = prevLab.GetComponentInChildren<Button>();
-                    if (prevButton != null)
+                    if (button.name == "UpgradeButton")
                     {
-                        prevButton.interactable = false;
+                        button.interactable = false;
+                        break;
                     }
                 }
-                currentIndex = index;
-
-                EnableNextButton(index, total);
             }
+            UpdateUpgradePageText(selectedButtonPrice);
         }
-    }
-
-    void EnableNextButton(int startIndex, int total)
-    {
-        if (startIndex + 1 < total)
+        else
         {
-            Button button = createdLabs[startIndex + 1].GetComponentInChildren<Button>();
-            if (button != null)
-            {
-                button.interactable = true;
-            }
+            Debug.Log("업그레이드에 필요한 자원이 부족합니다.");
         }
     }
 
+    void UpdateUpgradePageText(LabButtonPrice selectedButtonPrice)
+    {
+        if (GoldText != null)
+        {
+            int priceToDisplay = selectedButtonPrice.upgradeCount == 0 ? selectedButtonPrice.baseGoldPrice : selectedButtonPrice.calculatedGoldPrice;
+            GoldText.text = $"{priceToDisplay} G";
+        }
+
+        if (DarkText != null)
+        {
+            int priceToDisplay = selectedButtonPrice.upgradeCount == 0 ? selectedButtonPrice.baseDarkPrice : selectedButtonPrice.calculatedDarkPrice;
+            DarkText.text = $"{priceToDisplay} K";
+        }
+    }
 }

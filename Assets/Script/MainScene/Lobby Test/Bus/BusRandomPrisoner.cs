@@ -14,12 +14,10 @@ public class BusRandomPrisoner : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
-    public int dailyAcceptCount = 0; // 하루 수락 횟수
-    public int totalAcceptCount = 0; // 전체 수락 횟수
-    //public int currentFloor = 1; // 현재 층
-    private int maxDailyAcceptCount = 3; // 하루 최대 수락 가능 횟수
-    //public int maxTotalAcceptCount => currentFloor * 4; // 전체 최대 수락 가능 횟수 (층 * 4)
-
+    public int dailyAcceptCount = 0;
+    public int totalAcceptCount = 0;
+    private int maxDailyAcceptCount = 3;
+    public int availablePrisoner = 6;
     public Button changeDaysButton;
 
     private readonly char[] name1 = new char[] { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
@@ -31,7 +29,6 @@ public class BusRandomPrisoner : MonoBehaviour
 
     private void Start()
     {
-        // DontDestroyOnLoad 객체에서 busPrisonerDataList를 로드
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
@@ -47,7 +44,7 @@ public class BusRandomPrisoner : MonoBehaviour
             changeDaysButton.onClick.AddListener(OnChangeDaysButtonClicked);
         }
 
-        for (int i=0; i<6; i++)
+        for (int i = 0; i < availablePrisoner; i++)
         {
             GenerateRandomPrisoner();
         }
@@ -97,14 +94,12 @@ public class BusRandomPrisoner : MonoBehaviour
 
         int unicode = 0xAC00 + (fName * 21 * 28) + (sName * 28) + tName;
 
-        // 한글 범위에 있는지 확인
         if (unicode >= 0xAC00 && unicode <= 0xD7A3)
         {
             return (char)unicode;
         }
         else
         {
-            // 한글 범위가 아니면, 다시 시도하도록
             return CreateRandomKoreanChar();
         }
     }
@@ -158,6 +153,23 @@ public class BusRandomPrisoner : MonoBehaviour
                 Debug.LogWarning("RejectButton not found in prefab.");
             }
         }
+
+        GridLayoutGroup gridLayoutGroup = gridParent.GetComponent<GridLayoutGroup>();
+        gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        gridLayoutGroup.constraintCount = 1;
+
+        float cellHeight = gridLayoutGroup.cellSize.y;
+        float spacingY = gridLayoutGroup.spacing.y;
+        float paddingUp = gridLayoutGroup.padding.top;
+
+        float newHeight = (cellHeight + spacingY) * unitDatas.Count - spacingY + paddingUp;
+
+        RectTransform contentRect = gridParent.GetComponent<RectTransform>();
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
+
+        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     private string GetCrimeDescription(int crimeId)
@@ -222,10 +234,10 @@ public class BusRandomPrisoner : MonoBehaviour
 
             Debug.Log($"BodyID in DDOManager: {DDOManager.UnitDatas.UnitDatas[^1].BodyID}");
 
-            if (!DDOManager.SaveData())
-            {
-                Debug.Log("Fail Save Data");
-            }
+            //if (!DDOManager.SaveData())
+            //{
+            //    Debug.Log("Fail Save Data");
+            //}
         }
         Destroy(unitUI);
 
@@ -252,7 +264,7 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             unitDatas.Remove(unitToRemove);
         }
-        Destroy(unitUI); // 해당 프리펩 삭제
+        Destroy(unitUI);
     }
 
     private void OnChangeDaysButtonClicked()
@@ -260,16 +272,16 @@ public class BusRandomPrisoner : MonoBehaviour
         DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
         storageUI.UpdateDaysUI();
 
-        if (!DDOManager.SaveData())
-        {
-            Debug.Log("Fail Save Data");
-        }
+        //if (!DDOManager.SaveData())
+        //{
+        //    Debug.Log("Fail Save Data");
+        //}
 
         dailyAcceptCount = 0;
         unitDatas.Clear();
         ClearExistingUnitUIs();
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < availablePrisoner; i++)
         {
             GenerateRandomPrisoner();
         }
