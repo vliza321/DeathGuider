@@ -8,6 +8,7 @@ public class FloorSystem : MonoBehaviour
 {
     public FloorUIManager floorUIManager;
     public BusRandomPrisoner busRandomPrisoner;
+    public MoveCamera moveCamera;
 
     public GameObject floorPrefab;
     public Transform parentTransform;
@@ -70,6 +71,7 @@ public class FloorSystem : MonoBehaviour
     private void CreateFloor(Vector2 position)
     {
         DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor++;
+        moveCamera.UpdateMinY();
 
         if (!DDOManager.SaveData())
         {
