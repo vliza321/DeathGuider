@@ -7,7 +7,10 @@ using UnityEngine.UI;
 public class StorageUI : MonoBehaviour
 {
     public TextMeshProUGUI daysText;
-    public Slider GoldBar;
+    public TextMeshProUGUI goldText;
+    public TextMeshProUGUI deathEssenceText;
+    public TextMeshProUGUI darkEssenceText;
+
     private DontDestroyObjectManager DDOManager;
     void Start()
     {
@@ -22,13 +25,9 @@ public class StorageUI : MonoBehaviour
         }
 
         UpdateDaysUI();
-
-        if (GoldBar != null)
-        {
-            GoldBar.minValue = 0;
-            GoldBar.maxValue = long.MaxValue;
-            UpdateGoldBar();
-        }
+        UpdateGold();
+        UpdatedeathEssence();
+        UpdatedarkEssence();
     }
 
     public void UpdateDaysUI()
@@ -39,12 +38,33 @@ public class StorageUI : MonoBehaviour
         }
     }
 
-    public void UpdateGoldBar()
+    public void UpdateGold()
     {
-        if (GoldBar != null && DDOManager != null)
+        if(goldText == null || DDOManager == null)
         {
-            long currentGold = DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold;
-            GoldBar.value = Mathf.Clamp(currentGold, 0, long.MaxValue);
+            return;
         }
+
+        goldText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold:N0} G";
+    }
+
+    public void UpdatedeathEssence()
+    {
+        if (deathEssenceText == null || DDOManager == null)
+        {
+            return;
+        }
+
+        deathEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].DeathEssence:N0} D";
+    }
+
+    public void UpdatedarkEssence()
+    {
+        if (darkEssenceText == null || DDOManager == null)
+        {
+            return;
+        }
+
+        darkEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence:N0} K";
     }
 }

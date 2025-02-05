@@ -13,6 +13,7 @@ public class FloorUIManager : MonoBehaviour
     public GameObject floorPrisonerUI;
     public GameObject prisonerInfoUI;
 
+    public GameObject laboratoryPrisonerChooseUI;
     public GameObject gymPrisonerChooseUI;
     public GameObject healthPrisonerChooseUI;
     public GameObject erosionPrisonerChooseUI;
@@ -35,6 +36,7 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
         floorSystem.DisplayFloorPrisoners();
         floorPrisonerUI.SetActive(true);
     }
@@ -49,6 +51,7 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
         floorSystem.UpdatePrisonerInfoUI(prisoner);  // 죄수 정보 업데이트
         prisonerInfoUI.SetActive(true);              // 죄수 정보 UI 활성화
     }
@@ -69,14 +72,14 @@ public class FloorUIManager : MonoBehaviour
         prisonerInfoUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
         gymSystem.DisplayGYMTrainingUI();
         gymSystem.DisplayGYMPrisoners();
-        gymPrisonerChooseUI.SetActive(true);
-
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 200));
         }
+        gymPrisonerChooseUI.SetActive(true);
     }
 
     public void closeGymPrisonerUI()
@@ -90,14 +93,14 @@ public class FloorUIManager : MonoBehaviour
         prisonerInfoUI.SetActive(false);
         gymPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
         heathSystem.DisplayHealthRoomUI();
         heathSystem.DisplayHealthPrisoners();
-        healthPrisonerChooseUI.SetActive(true);
-
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 400));
         }
+        healthPrisonerChooseUI.SetActive(true);
     }
 
     public void closeHealthPrisonerUI()
@@ -111,14 +114,14 @@ public class FloorUIManager : MonoBehaviour
         prisonerInfoUI.SetActive(false);
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
         erosionSystem.DisplayErosionPrisoners();
         erosionSystem.DisplayErosionRoomUI();
-        erosionPrisonerChooseUI.SetActive(true);
-
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 600));
         }
+        erosionPrisonerChooseUI.SetActive(true);
     }
 
     public void closeErosionPrisonerUI()
@@ -126,7 +129,7 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
     }
 
-    public void openSmithPrisonerUI()
+    public void openLaboratoryPrisonerUI()
     {
         floorPrisonerUI.SetActive(false);
         prisonerInfoUI.SetActive(false);
@@ -137,6 +140,26 @@ public class FloorUIManager : MonoBehaviour
         {
             moveCamera.MoveToUI(new Vector2(0, 800));
         }
+        laboratoryPrisonerChooseUI.SetActive(true);
+    }
+
+    public void closeLaboratoryPrisonerUI()
+    {
+        laboratoryPrisonerChooseUI.SetActive(false);
+    }
+
+    public void openSmithPrisonerUI()
+    {
+        floorPrisonerUI.SetActive(false);
+        prisonerInfoUI.SetActive(false);
+        gymPrisonerChooseUI.SetActive(false);
+        healthPrisonerChooseUI.SetActive(false);
+        erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
+        if (moveCamera != null)
+        {
+            moveCamera.MoveToUI(new Vector2(0, 1000));
+        }
     }
 
     public void openManagerPrisonerUI()
@@ -146,10 +169,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1000));
+            moveCamera.MoveToUI(new Vector2(0, 1200));
         }
     }
 
@@ -160,10 +184,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1200));
+            moveCamera.MoveToUI(new Vector2(0, 1400));
         }
     }
 
@@ -174,10 +199,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1400));
+            moveCamera.MoveToUI(new Vector2(0, 1600));
         }
     }
 
@@ -188,10 +214,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1600));
+            moveCamera.MoveToUI(new Vector2(0, 1800));
         }
     }
 
@@ -202,10 +229,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1800));
+            moveCamera.MoveToUI(new Vector2(0, 2000));
         }
     }
 
@@ -216,10 +244,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2000));
+            moveCamera.MoveToUI(new Vector2(0, 2200));
         }
     }
 
@@ -230,18 +259,26 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2200));
+            moveCamera.MoveToUI(new Vector2(0, 2400));
         }
     }
 
     public void openDungeon7PrisonerUI()
     {
+        floorPrisonerUI.SetActive(false);
+        prisonerInfoUI.SetActive(false);
+        gymPrisonerChooseUI.SetActive(false);
+        healthPrisonerChooseUI.SetActive(false);
+        erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
+
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2400));
+            moveCamera.MoveToUI(new Vector2(0, 2600));
         }
     }
 
@@ -252,10 +289,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2600));
+            moveCamera.MoveToUI(new Vector2(0, 2800));
         }
     }
 
@@ -266,10 +304,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2800));
+            moveCamera.MoveToUI(new Vector2(0, 3000));
         }
     }
 
@@ -280,10 +319,11 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        laboratoryPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
-            moveCamera.MoveToUI(new Vector2(0, 3000));
+            moveCamera.MoveToUI(new Vector2(0, 3200));
         }
     }
 }
