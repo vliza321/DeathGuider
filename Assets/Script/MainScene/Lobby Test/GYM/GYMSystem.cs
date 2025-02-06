@@ -20,8 +20,10 @@ public class GYMSystem : MonoBehaviour
     public Sprite[] bodySprites;
 
     public int trainingRoomCount = 3;
+    public int maxTrainingSlots = 3;
+    public int lastCheckedDate = -1;
 
-    private List<RoomData> TrainDatas = new List<RoomData>();
+    public List<RoomData> TrainDatas = new List<RoomData>();
 
     [System.Serializable]
     public class RoomData
@@ -56,6 +58,8 @@ public class GYMSystem : MonoBehaviour
 
             TrainDatas.Add(roomData);
         }
+
+        CheckAndResetGYMSystemState();
     }
 
     public void DisplayGYMPrisoners()
@@ -112,7 +116,6 @@ public class GYMSystem : MonoBehaviour
 
         Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
-
 
     private GameObject CreateGYMPrisonerUI(UnitData prisoner)
     {
@@ -203,7 +206,6 @@ public class GYMSystem : MonoBehaviour
 
         Debug.Log($"Content 크기 갱신 완료: {newHeight}");
 
-        // Training room UI 생성
         for (int i = 0; i < TrainDatas.Count; i++)
         {
             GameObject trainingUI = Instantiate(GYMTrainingPrefab, contentTrainParent);
@@ -212,6 +214,33 @@ public class GYMSystem : MonoBehaviour
 
             RoomData room = TrainDatas[i];
             room.roomTransform = prisonerTransform;
+
+            Transform trainingNumberText = prisonerTransform.Find("TraningNumberText");
+            if (trainingNumberText != null)
+            {
+                trainingNumberText.GetComponent<TextMeshProUGUI>().text = $"훈련 {i + 1}";
+            }
+
+            Transform trainingInfoText = prisonerTransform.Find("TraningInfoText");
+            if (trainingInfoText != null)
+            {
+                string trainingInfo = string.Empty;
+
+                if (i == 0)
+                {
+                    trainingInfo = "최대 체력, 근력";
+                }
+                else if (i == 1)
+                {
+                    trainingInfo = "숙련도";
+                }
+                else if (i == 2)
+                {
+                    trainingInfo = "최대 체력, 방어력";
+                }
+
+                trainingInfoText.GetComponent<TextMeshProUGUI>().text = trainingInfo;
+            }
 
             for (int j = 1; j <= 3; j++)
             {
@@ -478,7 +507,6 @@ public class GYMSystem : MonoBehaviour
         }
     }
 
-
     private Transform FindTrainingSelectForData(RoomData room, int buttonIndex)
     {
     Transform gymTrainingImage = room.roomTransform.Find("GymTrainingImage");
@@ -506,4 +534,62 @@ public class GYMSystem : MonoBehaviour
             }
         }
     }
+
+    public void CheckAndResetGYMSystemState()
+    {
+        // DDOManager에서 현재 날짜를 가져옵니다
+        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;
+
+        // 이전 날짜와 비교해서 날짜가 바뀌었으면 상태 초기화
+        if (currentDate != lastCheckedDate)
+        {
+            ResetAllTrainingStates();
+            lastCheckedDate = currentDate;
+        }
+    }
+
+    private void ResetAllTrainingStates()
+    {
+        foreach (var roomData in TrainDatas)
+        {
+            foreach (var gymData in roomData.GYMDataList)
+            {
+                if (gymData.InstanceID == -1)
+                    continue;
+
+                var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, gymData.InstanceID)];
+
+                int expGrowthRate = 2;
+                int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[0].GYMEnhance * expGrowthRate);
+
+                if (unitData.ActivityStatus == 11)
+                {
+                    unitData.StrengthEnforce++;
+                    unitData.HealthEnforce++;
+                }
+                else if (unitData.ActivityStatus == 12)
+                {
+                    unitData.HandicraftEnforce++;
+                    
+                }
+                else if (unitData.ActivityStatus == 13)
+                {
+                    unitData.DefenseEnforce++;
+                    unitData.HealthEnforce++;
+                }
+
+                unitData.EXP += expGain;
+                if (unitData.EXP > 100)
+                {
+                    unitData.Level++;
+                    unitData.EXP -= 100;
+                }
+
+                DDOManager.UnitDatas.UnitDataDic[(0, 100, gymData.InstanceID)].ActivityStatus = 0;
+                gymData.InstanceID = -1;
+                gymData.check = false;
+            }
+        }
+    }
+
 }

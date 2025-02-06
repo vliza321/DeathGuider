@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static GYMSystem;
 
 public class BusRandomPrisoner : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class BusRandomPrisoner : MonoBehaviour
     private readonly char[] name3 = new char[] { '\0', '¤¡', '¤¢', '¤£', '¤¤', '¤¥', '¤¦', '¤§', '¤©', '¤ª', '¤«', '¤¬', '¤­', '¤®', '¤¯', '¤°', '¤±', '¤²', '¤´', '¤µ', '¤¶', '¤·', '¤¸', '¤º', '¤»', '¤¼', '¤½', '¤¾' };
     private readonly string[] firstNames = new string[] { "±è", "ÀÌ", "¹Ú", "ÃÖ", "Á¤", "°­", "Á¶", "À±", "Àå", "ÀÓ" };
 
+    public GYMSystem gYMSystem;
+    public HealthSystem healthSystem;
+    public ErosionSystem erosionSystem;
     private DontDestroyObjectManager DDOManager;
 
     private void Start()
@@ -280,6 +284,9 @@ public class BusRandomPrisoner : MonoBehaviour
         dailyAcceptCount = 0;
         unitDatas.Clear();
         ClearExistingUnitUIs();
+        gYMSystem.CheckAndResetGYMSystemState();
+        healthSystem.CheckAndResetHealthSystemState();
+        erosionSystem.CheckAndResetErosionSystemState();
 
         for (int i = 0; i < availablePrisoner; i++)
         {

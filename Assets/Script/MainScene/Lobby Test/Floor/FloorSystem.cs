@@ -9,8 +9,10 @@ public class FloorSystem : MonoBehaviour
     public FloorUIManager floorUIManager;
     public BusRandomPrisoner busRandomPrisoner;
     public MoveCamera moveCamera;
+    public StorageUI storageUI;
 
     public GameObject floorPrefab;
+    public GameObject upgradePage;
     public Transform parentTransform;
     public Button upgradeButton;
     private List<GameObject> floors = new List<GameObject>();
@@ -21,6 +23,18 @@ public class FloorSystem : MonoBehaviour
     public Sprite[] bodySprites;
 
     private DontDestroyObjectManager DDOManager;
+    public FloorUpgradeCost upgradeCostData;
+
+    [System.Serializable]
+    public struct FloorUpgradeCost
+    {
+        public int CurrentFloor;
+        public int BaseCost;
+        public float CostIncreaseRate;
+        public float DiscountRate;
+        public float calculatedCost;
+    }
+
     void Start()
     {
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
@@ -31,6 +45,21 @@ public class FloorSystem : MonoBehaviour
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
             DDO = null;
+        }
+
+        if (DDOManager != null)
+        {
+            float initialCost = 100 * Mathf.Pow(1.1f, DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor - 1);
+            initialCost *= (1 - 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance);
+
+            upgradeCostData = new FloorUpgradeCost
+            {
+                CurrentFloor = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor,
+                BaseCost = 100,
+                CostIncreaseRate = 2.0f,
+                DiscountRate = 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance,
+                calculatedCost = (int)initialCost
+            };
         }
 
         if (upgradeButton != null)
@@ -55,16 +84,104 @@ public class FloorSystem : MonoBehaviour
 
     public void OnUpgradeButtonClicked()
     {
+        if (upgradePage != null)
+        {
+            upgradePage.SetActive(true);
+        }
+
+        if (upgradeButton != null)
+        {
+            upgradeButton.gameObject.SetActive(false);
+        }
+
+        CalculateUpgradeCosts();
+
+        Button UpgradeButton = upgradePage.transform.Find("UpgradeButton").GetComponent<Button>();
+        if (UpgradeButton != null)
+        {
+            UpgradeButton.onClick.AddListener(FloorUpgrade);
+        }
+    }
+
+    private void CalculateUpgradeCosts()
+    {
+        upgradeCostData.calculatedCost = Mathf.FloorToInt(upgradeCostData.BaseCost * (1 - upgradeCostData.DiscountRate));
+
+        UpdateUpgradePageText();
+    }
+
+    public void FloorUpgrade()
+    {
         if (floors.Count > 0)
         {
-            GameObject topFloor = floors[floors.Count - 1];
+            float discountMultiplier = DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance * upgradeCostData.DiscountRate;
+            float upgradeCost = CalculateUpgradeCostWithDiscount(discountMultiplier);
 
-            Vector2 newPosition = new Vector2(
-                topFloor.transform.position.x,
-                topFloor.transform.position.y + 192
-            );
+            if (DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold >= upgradeCost)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= (int)upgradeCost;
 
-            CreateFloor(newPosition);
+                GameObject topFloor = floors[floors.Count - 1];
+                Vector2 newPosition = new Vector2(topFloor.transform.position.x, topFloor.transform.position.y + 192);
+                CreateFloor(newPosition);
+
+                upgradeCostData.CurrentFloor++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor++;
+
+                storageUI.UpdateGold();
+
+                UpdateUpgradeCostData();
+            }
+            else
+            {
+                Debug.LogWarning("골드가 부족합니다!");
+            }
+        }
+    }
+
+    private float CalculateUpgradeCostWithDiscount(float discountMultiplier)
+    {
+        return upgradeCostData.BaseCost + (upgradeCostData.CurrentFloor - 1) * upgradeCostData.CostIncreaseRate - (DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance * discountMultiplier);
+    }
+
+    private void UpdateUpgradeCostData()
+    {
+        float newCalculatedCost = upgradeCostData.BaseCost * Mathf.Pow(upgradeCostData.CostIncreaseRate, upgradeCostData.CurrentFloor - 1);
+        newCalculatedCost *= (1 - upgradeCostData.DiscountRate);
+        upgradeCostData.calculatedCost = newCalculatedCost;
+
+        UpdateUpgradePageText();
+    }
+
+    private void UpdateUpgradePageText()
+    {
+        UpdateText("GoldText", $"골드: {(int)upgradeCostData.calculatedCost}G");
+        UpdateText("DiscountText", $"할인율: {upgradeCostData.DiscountRate * 100}%");
+    }
+
+    private void UpdateText(string textName, string textValue)
+    {
+        TextMeshProUGUI text = upgradePage.transform.Find(textName)?.GetComponent<TextMeshProUGUI>();
+        if (text != null)
+        {
+            text.text = textValue;
+        }
+        else
+        {
+            Debug.LogWarning($"{textName} not found in upgradePage!");
+        }
+    }
+
+    public void CloseUpgradePage()
+    {
+        if (upgradePage != null)
+        {
+            upgradePage.SetActive(false);
+        }
+
+        if (upgradeButton != null)
+        {
+            upgradeButton.gameObject.SetActive(true);
         }
     }
 
@@ -280,5 +397,4 @@ public class FloorSystem : MonoBehaviour
             }
         }
     }
-
 }

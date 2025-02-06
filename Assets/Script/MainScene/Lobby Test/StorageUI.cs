@@ -34,7 +34,7 @@ public class StorageUI : MonoBehaviour
     {
         if (daysText != null)
         {
-            daysText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor}¿œ";
+            daysText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].Day}¿œ";
         }
     }
 

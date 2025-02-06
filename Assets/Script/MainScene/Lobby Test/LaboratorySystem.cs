@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class LaboratorySystem : MonoBehaviour
 {
+    public FloorSystem floorSystem;
+    public HealthSystem healthSystem;
+    public ErosionSystem erosionSystem;
     public StorageUI storageUI;
     public GameObject parentObject;
     public BusRandomPrisoner busRandomPrisoner;
@@ -32,7 +35,7 @@ public class LaboratorySystem : MonoBehaviour
         public int calculatedDarkPrice;
     }
 
-    public List<LabButtonPrice> labBusButtonPrices = new List<LabButtonPrice>();
+    public List<LabButtonPrice> labButtonPrices = new List<LabButtonPrice>();
 
     private DontDestroyObjectManager DDOManager;
 
@@ -48,20 +51,61 @@ public class LaboratorySystem : MonoBehaviour
         }
 
         Button[] buttons = parentObject.GetComponentsInChildren<Button>();
+
         foreach (Button button in buttons)
         {
+            List<LabButtonPrice> buttonPrices = null;
+
             if (button.name == "LabBusButton")
             {
-                LabButtonPrice buttonPrice = labBusButtonPrices.Find(bp => bp.labButton == button);
+                buttonPrices = labButtonPrices;
+            }
+            else if (button.name == "LabFloorButton")
+            {
+                buttonPrices = labButtonPrices;
+            }
+            else if(button.name == "LabGYMButton")
+            {
+                buttonPrices = labButtonPrices;
+            }
+            else if(button.name == "LabHealthButton")
+            {
+                buttonPrices = labButtonPrices;
+            }
+            else if(button.name == "LabErosionButton")
+            {
+                buttonPrices = labButtonPrices;
+            }
+            else if(button.name == "LabSmithButton")
+            {
+                buttonPrices = labButtonPrices;
+            }
+            else if(button.name == "LabEfficiencyButton")
+            {
+                buttonPrices = labButtonPrices;
+            }
+            else if(button.name == "LabRewardButton")
+            {
+                buttonPrices = labButtonPrices;
+            }
+
+            if (buttonPrices != null)
+            {
+                LabButtonPrice buttonPrice = buttonPrices.Find(bp => bp.labButton == button);
                 if (buttonPrice != null)
                 {
-                    int index = labBusButtonPrices.IndexOf(buttonPrice);
+                    int index = buttonPrices.IndexOf(buttonPrice);
+                    Debug.Log("Found button at index: " + index);
                     button.onClick.AddListener(() => ActivateUpgradePage(index));
+                }
+                else
+                {
+                    Debug.LogWarning($"LabButtonPrice not found for {button.name}");
                 }
             }
         }
 
-        foreach (var labButtonPrice in labBusButtonPrices)
+        foreach (var labButtonPrice in labButtonPrices)
         {
             if (labButtonPrice.labLevelSlider != null)
             {
@@ -73,7 +117,7 @@ public class LaboratorySystem : MonoBehaviour
 
     void DeactivateAllButtons()
     {
-        foreach (var labButtonPrice in labBusButtonPrices)
+        foreach (var labButtonPrice in labButtonPrices)
         {
             labButtonPrice.labButton.interactable = false;
         }
@@ -88,10 +132,12 @@ public class LaboratorySystem : MonoBehaviour
         }
     }
 
-
     void ActivateUpgradePage(int index)
     {
+        Debug.Log("ActivateUpgradePage called with index: " + index);
         DeactivateAllButtons();
+
+        LabButtonPrice selectedButtonPrice = labButtonPrices[index];
 
         if (index == 0)
         {
@@ -99,21 +145,102 @@ public class LaboratorySystem : MonoBehaviour
             {
                 DescriptionText1.text = "날짜의 리셋 시간 기준, 이감 대기 유닛의 최대 수치 증가.";
             }
+            if (DescriptionText2 != null) DescriptionText2.gameObject.SetActive(false);
+            if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
+            if (DescriptionText4 != null) DescriptionText4.gameObject.SetActive(false);
+        }
+        else if (index == 1)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "수용소 증축 비용 감소";
+            }
+            if (DescriptionText2 != null) DescriptionText2.gameObject.SetActive(false);
+            if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
+            if (DescriptionText4 != null) DescriptionText4.gameObject.SetActive(false);
+        }
+        else if (index == 2)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "스탯 증가량 비율 증가";
+            }
+            if (DescriptionText2 != null) DescriptionText2.gameObject.SetActive(false);
+            if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
+            if (DescriptionText4 != null) DescriptionText4.gameObject.SetActive(false);
+        }
+        else if (index == 3)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "체력 회복 비율 증가";
+            }
             if (DescriptionText2 != null)
             {
-                DescriptionText2.gameObject.SetActive(false);
+                DescriptionText2.text = "최대 수용 인원 증가";
+            }
+            if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
+            if (DescriptionText4 != null) DescriptionText4.gameObject.SetActive(false);
+        }
+        else if(index == 4)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "죽음 침식도 회복 비율 증가";
+            }
+            if (DescriptionText2 != null)
+            {
+                DescriptionText2.text = "최대 수용 인원 증가";
+            }
+            if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
+            if (DescriptionText4 != null) DescriptionText4.gameObject.SetActive(false);
+        }
+        else if(index == 5)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "무기 재련 / 내구도 수리 / 무기 진화 비용 감소";
+            }
+            if (DescriptionText2 != null)
+            {
+                DescriptionText2.text = "내구도 회복 비율 증가";
             }
             if (DescriptionText3 != null)
             {
-                DescriptionText3.gameObject.SetActive(false);
+                DescriptionText3.text = "무기 구매 대상 무기 등급 증가";
             }
             if (DescriptionText4 != null)
             {
-                DescriptionText4.gameObject.SetActive(false);
+                DescriptionText4.text = "무기 구매 대상 무기 가격 감소 및 무기 판매 대상 무기 가격 증가";
             }
         }
+        else if(index == 6)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "전투 효율 관련";
+            }
+            if (DescriptionText2 != null)
+            {
+                DescriptionText2.text = "전투 효율 관련2";
+            }
+            if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
+            if (DescriptionText4 != null) DescriptionText4.gameObject.SetActive(false);
+        }
+        else if (index == 7)
+        {
+            if (DescriptionText1 != null)
+            {
+                DescriptionText1.text = "전투를 통해 획득하는 재화(골드 및 어둠 정수)의 증가";
+            }
+            if (DescriptionText2 != null)
+            {
+                DescriptionText2.text = "전투 종료로 얻는 탐사 진척도 증가";
+            }
+            if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
+            if (DescriptionText4 != null) DescriptionText4.gameObject.SetActive(false);
+        }
 
-        LabButtonPrice selectedButtonPrice = labBusButtonPrices[index];
 
         if (selectedButtonPrice.upgradeCount >= 5)
         {
@@ -122,16 +249,8 @@ public class LaboratorySystem : MonoBehaviour
         }
         else
         {
-            if (selectedButtonPrice.upgradeCount > 0)
-            {
-                selectedButtonPrice.calculatedGoldPrice = selectedButtonPrice.baseGoldPrice;
-                selectedButtonPrice.calculatedDarkPrice = selectedButtonPrice.baseDarkPrice;
-            }
-            else
-            {
-                selectedButtonPrice.calculatedGoldPrice = Mathf.FloorToInt(selectedButtonPrice.baseGoldPrice + selectedButtonPrice.upgradeCount * selectedButtonPrice.goldMultiplier);
-                selectedButtonPrice.calculatedDarkPrice = Mathf.FloorToInt(selectedButtonPrice.baseDarkPrice + selectedButtonPrice.upgradeCount * selectedButtonPrice.darkMultiplier);
-            }
+            selectedButtonPrice.calculatedGoldPrice = Mathf.FloorToInt(selectedButtonPrice.baseGoldPrice + selectedButtonPrice.upgradeCount * selectedButtonPrice.goldMultiplier);
+            selectedButtonPrice.calculatedDarkPrice = Mathf.FloorToInt(selectedButtonPrice.baseDarkPrice + selectedButtonPrice.upgradeCount * selectedButtonPrice.darkMultiplier);
 
             UpdateUpgradePageText(selectedButtonPrice);
         }
@@ -149,6 +268,7 @@ public class LaboratorySystem : MonoBehaviour
                 if (button.name == "UpgradeButton")
                 {
                     upgradeButton = button;
+                    upgradeButton.onClick.RemoveAllListeners();
                     break;
                 }
             }
@@ -156,7 +276,16 @@ public class LaboratorySystem : MonoBehaviour
             if (upgradeButton != null)
             {
                 int currentIndex = index;
-                upgradeButton.onClick.AddListener(() => OnUpgradeButtonClicked(currentIndex));
+                if (selectedButtonPrice.upgradeCount >= 5)
+                {
+                    upgradeButton.interactable = false;
+                }
+                else
+                {
+                    upgradeButton.interactable = true;
+                }
+
+                upgradeButton.onClick.AddListener(() => OnLabUpgradeButtonClicked(currentIndex));
             }
         }
         else
@@ -165,53 +294,78 @@ public class LaboratorySystem : MonoBehaviour
         }
     }
 
-    public void CloseUpgradePage()
+    void OnLabUpgradeButtonClicked(int index)
     {
-        if (UpgradePage != null)
-        {
-            UpgradePage.SetActive(false);
-            Debug.Log("UpgradePage 비활성화됨");
-        }
-
-        foreach (var labButtonPrice in labBusButtonPrices)
-        {
-            labButtonPrice.labButton.interactable = true;
-        }
-
-        Button[] buttons = parentObject.GetComponentsInChildren<Button>(true);
-        foreach (Button button in buttons)
-        {
-            button.interactable = true;
-        }
-    }
-
-    void OnUpgradeButtonClicked(int index)
-    {
-
-        LabButtonPrice selectedButtonPrice = labBusButtonPrices[index];
+        LabButtonPrice selectedButtonPrice = labButtonPrices[index];
 
         if (DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold >= selectedButtonPrice.calculatedGoldPrice &&
             DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence >= selectedButtonPrice.calculatedDarkPrice)
-        {
+        { 
             DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= selectedButtonPrice.calculatedGoldPrice;
             DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= selectedButtonPrice.calculatedDarkPrice;
 
-            selectedButtonPrice.upgradeCount++;
+            selectedButtonPrice.calculatedGoldPrice = Mathf.FloorToInt(selectedButtonPrice.baseGoldPrice * Mathf.Pow(selectedButtonPrice.goldMultiplier, selectedButtonPrice.upgradeCount + 1));
+            selectedButtonPrice.calculatedDarkPrice = Mathf.FloorToInt(selectedButtonPrice.baseDarkPrice * Mathf.Pow(selectedButtonPrice.darkMultiplier, selectedButtonPrice.upgradeCount + 1));
 
-            selectedButtonPrice.calculatedGoldPrice = Mathf.FloorToInt(selectedButtonPrice.baseGoldPrice * Mathf.Pow(selectedButtonPrice.goldMultiplier, selectedButtonPrice.upgradeCount));
-            selectedButtonPrice.calculatedDarkPrice = Mathf.FloorToInt(selectedButtonPrice.baseDarkPrice * Mathf.Pow(selectedButtonPrice.darkMultiplier, selectedButtonPrice.upgradeCount));
             selectedButtonPrice.baseGoldPrice = selectedButtonPrice.calculatedGoldPrice;
             selectedButtonPrice.baseDarkPrice = selectedButtonPrice.calculatedDarkPrice;
 
-            busRandomPrisoner.availablePrisoner++;
+            selectedButtonPrice.upgradeCount++;
+
+            if (index == 0 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                busRandomPrisoner.availablePrisoner++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].BusEnhance++;
+            }
+            else if (index == 1 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance++;
+                floorSystem.upgradeCostData.DiscountRate = 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance;
+            }
+            else if(index == 2 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].GYMEnhance++;
+            }
+            else if(index == 3 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].HealthEnhance++;
+                healthSystem.healthRoomCount++;
+
+                while (healthSystem.HealthDataList.Count < healthSystem.healthRoomCount)
+                {
+                    healthSystem.HealthDataList.Add(new HealthSystem.HealthData());
+                }
+            }
+            else if (index == 4 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].ErosionEnhance++;
+                erosionSystem.ErosionRoomCount++;
+
+                while (erosionSystem.ErosionDataList.Count < erosionSystem.ErosionRoomCount)
+                {
+                    erosionSystem.ErosionDataList.Add(new ErosionSystem.ErosionData());
+                }
+            }
+            else if (index == 5 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance++;
+            }
+            else if (index == 6 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].BattleEfficiency++;
+            }
+            else if(index == 7 && selectedButtonPrice.upgradeCount <= 5)
+            {
+                DDOManager.LocalUserDatas.LocalUserDataDic[0].BattleReward++;
+            }
+
             storageUI.UpdateGold();
             storageUI.UpdatedarkEssence();
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].BusEnhance++;
             selectedButtonPrice.labLevelSlider.value = selectedButtonPrice.upgradeCount;
 
-            if (selectedButtonPrice.upgradeCount >= 5)
+            if (labButtonPrices[index].upgradeCount >= 5)
             {
-                selectedButtonPrice.labButton.interactable = false;
+                labButtonPrices[index].labButton.interactable = false;
 
                 Button[] buttons = UpgradePage.GetComponentsInChildren<Button>();
                 foreach (Button button in buttons)
@@ -230,6 +384,27 @@ public class LaboratorySystem : MonoBehaviour
             Debug.Log("업그레이드에 필요한 자원이 부족합니다.");
         }
     }
+
+    public void CloseUpgradePage()
+    {
+        if (UpgradePage != null)
+        {
+            UpgradePage.SetActive(false);
+            Debug.Log("UpgradePage 비활성화됨");
+        }
+
+        foreach (var labButtonPrice in labButtonPrices)
+        {
+            labButtonPrice.labButton.interactable = true;
+        }
+
+        Button[] buttons = parentObject.GetComponentsInChildren<Button>(true);
+        foreach (Button button in buttons)
+        {
+            button.interactable = true;
+        }
+    }
+
 
     void UpdateUpgradePageText(LabButtonPrice selectedButtonPrice)
     {

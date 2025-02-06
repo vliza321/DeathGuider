@@ -16,8 +16,8 @@ public class ErosionSystem : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
-    public int ErosionRoomCount = 3;
-
+    public int ErosionRoomCount = 1;
+    public int lastCheckedDate = -1;
     public List<ErosionData> ErosionDataList = new List<ErosionData>();
 
     [System.Serializable]
@@ -308,5 +308,94 @@ public class ErosionSystem : MonoBehaviour
                 }
             }
         }
+        GridLayoutGroup gridLayoutGroup = contentRoomParent.GetComponent<GridLayoutGroup>();
+        gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        gridLayoutGroup.constraintCount = 1;
+        float cellHeight = gridLayoutGroup.cellSize.y;
+        float spacingY = gridLayoutGroup.spacing.y;
+        float paddingUp = gridLayoutGroup.padding.top;
+
+        // 새로운 높이 계산
+        int currentChildCount = contentRoomParent.childCount;  // 현재 자식 수를 가져옴
+        float newHeight = (cellHeight + spacingY) * currentChildCount - spacingY + paddingUp;
+
+        // RectTransform 크기 변경
+        RectTransform contentRect = contentRoomParent.GetComponent<RectTransform>();
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
+
+        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
+    }
+
+    public void CheckAndResetErosionSystemState()
+    {
+        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;
+
+        if (currentDate != lastCheckedDate)
+        {
+            ResetAllErosionStates();
+            lastCheckedDate = currentDate;
+        }
+    }
+
+    private void ResetAllErosionStates()
+    {
+        foreach (var ErosionData in ErosionDataList)
+        {
+            if (ErosionData.InstanceID == -1)
+                continue;
+
+            var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, ErosionData.InstanceID)];
+
+            int erosionRate = 2;
+            int erosionAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[0].ErosionEnhance * erosionRate);
+
+            if (unitData.ActivityStatus == 4)
+            {
+                unitData.DeathErosion -= erosionAmount;
+                if (unitData.DeathErosion < 0)
+                {
+                    unitData.DeathErosion = 0;
+                }
+            }
+
+            unitData.ActivityStatus = 0;
+            ErosionData.InstanceID = -1;
+        }
+
+        foreach (Transform healthRoom in contentRoomParent)
+        {
+            Transform prisonerImageTransform = healthRoom.Find("PrisonerImage");
+            if (prisonerImageTransform != null)
+            {
+                prisonerImageTransform.Find("NameText")?.GetComponent<TextMeshProUGUI>().SetText("| -------");
+                prisonerImageTransform.Find("ErosionText")?.GetComponent<TextMeshProUGUI>().SetText("clatlreh");
+
+                Slider HPslideBar = healthRoom.Find("ErosionSlider")?.GetComponent<Slider>();
+                if (HPslideBar != null)
+                {
+                    HPslideBar.maxValue = 1;
+                    HPslideBar.value = 0;
+                }
+
+                Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();
+                if (headImage != null)
+                {
+                    headImage.sprite = null;
+                    headImage.gameObject.SetActive(false);
+                }
+
+                Image bodyImage = prisonerImageTransform.Find("BodyImage")?.GetComponent<Image>();
+                if (bodyImage != null)
+                {
+                    bodyImage.sprite = null;
+                    bodyImage.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        DisplayErosionPrisoners();
+        DisplayErosionRoomUI();
     }
 }

@@ -15,7 +15,8 @@ public class HealthSystem : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
-    public int healthRoomCount = 3;
+    public int healthRoomCount = 1;
+    public int lastCheckedDate = -1;
 
     public List<HealthData> HealthDataList = new List<HealthData>();
 
@@ -315,5 +316,96 @@ public class HealthSystem : MonoBehaviour
                 }
             }
         }
+        
+        GridLayoutGroup gridLayoutGroup = contentRoomParent.GetComponent<GridLayoutGroup>();
+        gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        gridLayoutGroup.constraintCount = 1;
+        float cellHeight = gridLayoutGroup.cellSize.y;
+        float spacingY = gridLayoutGroup.spacing.y;
+        float paddingUp = gridLayoutGroup.padding.top;
+
+        // 새로운 높이 계산
+        int currentChildCount = contentRoomParent.childCount;  // 현재 자식 수를 가져옴
+        float newHeight = (cellHeight + spacingY) * currentChildCount - spacingY + paddingUp;
+
+        // RectTransform 크기 변경
+        RectTransform contentRect = contentRoomParent.GetComponent<RectTransform>();
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
+
+        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
+
+    public void CheckAndResetHealthSystemState()
+    {
+        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;
+
+        if (currentDate != lastCheckedDate)
+        {
+            ResetAllHealthStates();
+            lastCheckedDate = currentDate;
+        }
+    }
+
+    private void ResetAllHealthStates()
+    {
+        foreach (var healthData in HealthDataList)
+        {
+            if (healthData.InstanceID == -1)
+                continue;
+
+            var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, healthData.InstanceID)];
+
+            int recoveryRate = 2;
+            int recoveryAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[0].HealthEnhance * recoveryRate);
+
+            if (unitData.ActivityStatus == 2)
+            {
+                unitData.HealthPoint += recoveryAmount;
+                if (unitData.HealthPoint > unitData.MaxHealthPoint)
+                {
+                    unitData.HealthPoint = unitData.MaxHealthPoint;
+                }
+            }
+
+            unitData.ActivityStatus = 0;
+            healthData.InstanceID = -1;
+        }
+
+        foreach (Transform healthRoom in contentRoomParent)
+        {
+            Transform prisonerImageTransform = healthRoom.Find("PrisonerImage");
+            if (prisonerImageTransform != null)
+            {
+                prisonerImageTransform.Find("NameText")?.GetComponent<TextMeshProUGUI>().SetText("| -------");
+                prisonerImageTransform.Find("HealthText")?.GetComponent<TextMeshProUGUI>().SetText("체력");
+
+                Slider HPslideBar = healthRoom.Find("HealthSlider")?.GetComponent<Slider>();
+                if (HPslideBar != null)
+                {
+                    HPslideBar.maxValue = 1;
+                    HPslideBar.value = 0;
+                }
+
+                Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();
+                if (headImage != null)
+                {
+                    headImage.sprite = null;
+                    headImage.gameObject.SetActive(false);
+                }
+
+                Image bodyImage = prisonerImageTransform.Find("BodyImage")?.GetComponent<Image>();
+                if (bodyImage != null)
+                {
+                    bodyImage.sprite = null;
+                    bodyImage.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        DisplayHealthPrisoners();
+        DisplayHealthRoomUI();
+    }
+
 }
