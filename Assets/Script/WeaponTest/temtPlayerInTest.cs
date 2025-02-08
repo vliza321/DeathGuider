@@ -73,4 +73,10 @@ public class temtPlayerInTest : MonoBehaviour
             yield return null;
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("asdf");
+    }
+
 }

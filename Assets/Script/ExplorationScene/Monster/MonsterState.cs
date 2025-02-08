@@ -11,12 +11,15 @@ public class MonsterState : autorizedObject
     [SerializeField]
     private float healthPoint;
 
+    private MonsterManager monsterManager;
     
     public float HealthPoint
     {
         get { return healthPoint; }
         set { healthPoint = value; }
     }
+
+    private int thisMonsterNum;
 
     // delete public 
     //public int spawnCounter;
@@ -30,12 +33,14 @@ public class MonsterState : autorizedObject
         set { monsterPool = value; }
     }
    
-    public void Init(MonsterData prototypeData, ObjectPool<MonsterState> respawnPool)
+    public void Init(MonsterData prototypeData, ObjectPool<MonsterState> respawnPool, MonsterManager monsterManager, int num)
     {
         healthPoint = prototypeData.MaxHealthPoint;
         status = prototypeData;
         monsterMove = this.gameObject.GetComponent<MonsterMove>();
         monsterPool = respawnPool;
+        this.monsterManager = monsterManager;
+        thisMonsterNum = num;
     }
 
     // Update is called once per frame
@@ -49,13 +54,21 @@ public class MonsterState : autorizedObject
     {
         if (collision.gameObject.CompareTag(weaponTagName))
         {
-            //hp -= collision.GetComponent<WeaponState>().Damage;
-            healthPoint-= 5;
+            monsterMove.ActionState = MonsterActionState.KnockBack;
+            healthPoint -= 5;
             if (healthPoint <= 0)
             {
+                monsterMove.ActionState = MonsterActionState.Dying;
                 // 몬스터 비활성화 및 풀에 반환
-                monsterPool.ReleaseObject(this);
+                monsterManager.GoldSpawn.ReleaseGoods(thisMonsterNum,this.transform.position);
+                monsterManager.DarkEssenseSpawn.ReleaseGoods(thisMonsterNum,this.transform.position);
+                monsterManager.ExpSpawn.ReleaseGoods(thisMonsterNum,this.transform.position);
             }
         }
+    }
+
+    public void ReleaseObject()
+    {
+        monsterPool.ReleaseObject(this);
     }
 }

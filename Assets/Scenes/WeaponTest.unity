@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 34118515}
   - component: {fileID: 34118517}
   - component: {fileID: 34118516}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 329492012}
   - component: {fileID: 329492011}
   - component: {fileID: 329492010}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: TempPlayer (1)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 434483826}
   - component: {fileID: 434483828}
   - component: {fileID: 434483827}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1251,7 +1251,8 @@ GameObject:
   - component: {fileID: 1095441475}
   - component: {fileID: 1095441474}
   - component: {fileID: 1095441473}
-  m_Layer: 10
+  - component: {fileID: 1095441477}
+  m_Layer: 0
   m_Name: TempPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1364,6 +1365,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1095441477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095441469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 752b98cac8bc00842af1ee7f212f5db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1120753944
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,15 +2184,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectUserID: 0
   selectStageID: 0
+  Monster: []
   prototypeUnit: []
   prototypeWeapon: []
-  PrisonerHeadAnim: []
-  PrisonerBodyAnim: []
   PrisonerHeadImg: []
+  PrisonerHeadAnim: []
   PrisonerBodyImg: []
-  Monster: []
-  baseTileImage: []
-  temt: []
+  PrisonerBodyAnim: []
+  BaseTileImage: []
 --- !u!114 &1687839647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2487,7 +2499,7 @@ GameObject:
   - component: {fileID: 1752204868}
   - component: {fileID: 1752204870}
   - component: {fileID: 1752204869}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2593,7 +2605,7 @@ GameObject:
   - component: {fileID: 1761835979}
   - component: {fileID: 1761835981}
   - component: {fileID: 1761835980}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
