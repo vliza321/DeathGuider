@@ -14,9 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LocalUserDatas:
   - ID: 0
-    Day: 23
-    Gold: 3501
-    DeathEssence: 0
-    DarkEssence: 0
-    UnitInstanceCounter: 67
-    Floor: 5
+    Day: 1
+    Gold: 9997499
+    DeathEssence: 1000000
+    DarkEssence: 997799
+    UnitInstanceCounter: 1
+    Floor: 1
+    BusEnhance: 0
+    PrisonEnhance: 0
+    HealthEnhance: 0
+    ErosionEnhance: 0
+    GYMEnhance: 0
+    SmithEnhance: 2
+    BattleEfficiency: 0
+    BattleReward: 0

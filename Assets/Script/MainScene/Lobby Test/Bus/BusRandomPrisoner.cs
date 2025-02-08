@@ -29,6 +29,7 @@ public class BusRandomPrisoner : MonoBehaviour
     public GYMSystem gYMSystem;
     public HealthSystem healthSystem;
     public ErosionSystem erosionSystem;
+    public SmithSystem smithSystem;
     private DontDestroyObjectManager DDOManager;
 
     private void Start()
@@ -285,6 +286,7 @@ public class BusRandomPrisoner : MonoBehaviour
         unitDatas.Clear();
         ClearExistingUnitUIs();
         gYMSystem.CheckAndResetGYMSystemState();
+        smithSystem.GenerateNewWeaponDatas();
         healthSystem.CheckAndResetHealthSystemState();
         erosionSystem.CheckAndResetErosionSystemState();
 

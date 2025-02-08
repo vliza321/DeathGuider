@@ -9,6 +9,7 @@ public class LaboratorySystem : MonoBehaviour
     public FloorSystem floorSystem;
     public HealthSystem healthSystem;
     public ErosionSystem erosionSystem;
+    public SmithSystem smithSystem;
     public StorageUI storageUI;
     public GameObject parentObject;
     public BusRandomPrisoner busRandomPrisoner;
@@ -95,12 +96,7 @@ public class LaboratorySystem : MonoBehaviour
                 if (buttonPrice != null)
                 {
                     int index = buttonPrices.IndexOf(buttonPrice);
-                    Debug.Log("Found button at index: " + index);
                     button.onClick.AddListener(() => ActivateUpgradePage(index));
-                }
-                else
-                {
-                    Debug.LogWarning($"LabButtonPrice not found for {button.name}");
                 }
             }
         }
@@ -349,6 +345,8 @@ public class LaboratorySystem : MonoBehaviour
             else if (index == 5 && selectedButtonPrice.upgradeCount <= 5)
             {
                 DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance++;
+                smithSystem.UpdateSmithEnhanceAndUI();
+                smithSystem.currentWeaponRank++;
             }
             else if (index == 6 && selectedButtonPrice.upgradeCount <= 5)
             {
