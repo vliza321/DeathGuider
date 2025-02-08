@@ -8,6 +8,7 @@ public class FloorUIManager : MonoBehaviour
     public GYMSystem gymSystem;
     public HealthSystem heathSystem;
     public ErosionSystem erosionSystem;
+    public SmithSystem smithSystem;
     public MoveCamera moveCamera;
 
     public GameObject floorPrisonerUI;
@@ -37,6 +38,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
         floorSystem.DisplayFloorPrisoners();
         floorPrisonerUI.SetActive(true);
     }
@@ -73,6 +75,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
         gymSystem.DisplayGYMTrainingUI();
         gymSystem.DisplayGYMPrisoners();
         if (moveCamera != null)
@@ -94,6 +97,7 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
         heathSystem.DisplayHealthRoomUI();
         heathSystem.DisplayHealthPrisoners();
         if (moveCamera != null)
@@ -115,6 +119,7 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
         erosionSystem.DisplayErosionPrisoners();
         erosionSystem.DisplayErosionRoomUI();
         if (moveCamera != null)
@@ -136,6 +141,7 @@ public class FloorUIManager : MonoBehaviour
         gymPrisonerChooseUI.SetActive(false);
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 800));
@@ -156,10 +162,18 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithSystem.GenerateHaveWeaponDatas();
+        smithSystem.UpdateSmithEnhanceAndUI();
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 1000));
         }
+        smithPrisonerChooseUI.SetActive(true);
+    }
+
+    public void closeSmithPrisonerUI()
+    {
+        smithPrisonerChooseUI.SetActive(false);
     }
 
     public void openManagerPrisonerUI()
@@ -170,6 +184,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -185,6 +200,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -200,6 +216,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -215,6 +232,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -230,6 +248,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -245,6 +264,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -260,6 +280,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -275,6 +296,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -290,6 +312,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -305,6 +328,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {
@@ -320,6 +344,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        smithPrisonerChooseUI.SetActive(false);
 
         if (moveCamera != null)
         {

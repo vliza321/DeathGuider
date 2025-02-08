@@ -18,22 +18,22 @@ MonoBehaviour:
     AttackPoint: 10
     Type: 0
     Crime: 1
-    EffectID: 1
+    InstanceCounter: 0
   - ID: 1
     Name: "\uAE30\uBCF8 \uC6D0\uAC70\uB9AC"
     AttackPoint: 8
     Type: 1
     Crime: 2
-    EffectID: 2
+    InstanceCounter: 0
   - ID: 2
     Name: "\uAE30\uBCF8 \uC704\uC131"
     AttackPoint: 5
     Type: 2
     Crime: 3
-    EffectID: 0
+    InstanceCounter: 0
   - ID: 3
     Name: "\uAE30\uBCF8 \uC124\uCE58"
     AttackPoint: 2
     Type: 3
     Crime: 4
-    EffectID: 3
+    InstanceCounter: 0
