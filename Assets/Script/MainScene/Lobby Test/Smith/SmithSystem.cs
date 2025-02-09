@@ -403,7 +403,7 @@ public class SmithSystem : MonoBehaviour
             // 진화: Enforce를 0으로 리셋하고, Rank를 +1
             weaponData.Enforce = 0;
             weaponData.Rank++;
-
+            
             var key = (weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID);
             if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(key))
             {
