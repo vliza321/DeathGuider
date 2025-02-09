@@ -192,6 +192,38 @@ public class SmithSystem : MonoBehaviour
 
     public List<newWeaponDataList> newWeaponDatas = new List<newWeaponDataList>();
 
+    private struct WeaponStatsRange
+    {
+        public int MinAttack;
+        public int MaxAttack;
+
+        public WeaponStatsRange(int min, int max)
+        {
+            MinAttack = min;
+            MaxAttack = max;
+        }
+
+        public int GetRandomAttackPoint()
+        {
+            return Random.Range(MinAttack, MaxAttack + 1);
+        }
+    }
+
+    private static readonly Dictionary<int, WeaponStatsRange> weaponAttackRanges = new()
+    {
+        { 0, new WeaponStatsRange(50, 100) },
+        { 1, new WeaponStatsRange(100, 150) },
+        { 2, new WeaponStatsRange(150, 200) },
+        { 3, new WeaponStatsRange(200, 250) },
+        { 4, new WeaponStatsRange(250, 300) },
+        { 5, new WeaponStatsRange(300, 350) }
+    };
+
+    private int GetRandomAttackPoint(int rank)
+    {
+        return weaponAttackRanges.TryGetValue(rank, out var range) ? range.GetRandomAttackPoint() : 0;
+    }
+
     private List<string> adjectives = new List<string>
     {
         "휘날리는", "붉은", "신성한", "어둠의", "서리내린", "타오르는", "강철의", "고대의", "빛나는", "무자비한",
@@ -311,7 +343,7 @@ public class SmithSystem : MonoBehaviour
             }
 
             if (weaponEnforceButton != null)
-                weaponEnforceButton.onClick.AddListener(() => EnforceButtonClick(weaponData, weaponEnforceCost, weaponLevel, enforceButtonText));
+                weaponEnforceButton.onClick.AddListener(() => EnforceButtonClick(weaponData, weaponEnforceCost, attackText, weaponLevel, enforceButtonText));
             if (weaponRepairButton != null) weaponRepairButton.onClick.AddListener(() => RepairButtonClick(weaponData, weaponRepairCost));
             if (weaponSaleButton != null) weaponSaleButton.onClick.AddListener(() => SaleButtonClick(weaponData));
         }
@@ -329,7 +361,7 @@ public class SmithSystem : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
     }
 
-    private void EnforceButtonClick(WeaponData weaponData, TextMeshProUGUI enforceCostText, Slider levelSlider, TextMeshProUGUI enforceButtonText)
+    private void EnforceButtonClick(WeaponData weaponData, TextMeshProUGUI enforceCostText, TextMeshProUGUI attackText, Slider levelSlider, TextMeshProUGUI enforceButtonText)
     {
         int level = weaponData.Enforce; // 현재 레벨
 
@@ -365,9 +397,24 @@ public class SmithSystem : MonoBehaviour
             DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= evolveCost.GoldCost;
             DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= evolveCost.DarkCost;
 
+            // 공격력 증가 (진화 시 더 큰 증가량 적용)
+            weaponData.AttackPoint += GetEvolveAttackBonus(weaponData.Rank);
+
             // 진화: Enforce를 0으로 리셋하고, Rank를 +1
             weaponData.Enforce = 0;
             weaponData.Rank++;
+
+            var key = (weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID);
+            if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(key))
+            {
+                // 무기 데이터를 업데이트
+                DDOManager.WeaponDatas.WeaponDataDic[key] = weaponData;
+                Debug.Log($"[딕셔너리 업데이트] {weaponData.Name} 진화 완료: 새로운 등급: {weaponData.Rank}, 새로운 공격력: {weaponData.AttackPoint}");
+            }
+            else
+            {
+                Debug.LogError("[딕셔너리 오류] 무기 데이터가 딕셔너리에 존재하지 않습니다.");
+            }
 
             // 버튼 텍스트 변경
             enforceButtonText.text = (weaponData.Rank >= 5) ? "Max" : "강화";
@@ -376,7 +423,7 @@ public class SmithSystem : MonoBehaviour
             EnforceCost nextCost = GetAdjustedEnforceCost(weaponData.Rank, weaponData.Enforce);
             enforceCostText.text = $"{nextCost.GoldCost}G / {nextCost.DarkCost}D"; // 강화 비용 업데이트
 
-            Debug.Log($"진화 완료: {weaponData.Name}, 새로운 등급: {weaponData.Rank}");
+            Debug.Log($"진화 완료: {weaponData.Name}, 새로운 등급: {weaponData.Rank}, 새로운 공격력: {weaponData.AttackPoint}");
 
             GenerateHaveWeaponDatas();
             // UI 업데이트
@@ -403,8 +450,23 @@ public class SmithSystem : MonoBehaviour
         DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= adjustedCost.GoldCost;
         DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= adjustedCost.DarkCost;
 
+        // 공격력 증가 (강화 시 증가량 적용)
+        weaponData.AttackPoint += GetEnforceAttackBonus(weaponData.Rank, weaponData.Enforce);
+
         // 레벨 증가
         weaponData.Enforce++;
+
+        var keyEnforce = (weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID);
+        if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(keyEnforce))
+        {
+            // 무기 데이터를 업데이트
+            DDOManager.WeaponDatas.WeaponDataDic[keyEnforce] = weaponData;
+            Debug.Log($"[딕셔너리 업데이트] {weaponData.Name} 강화 완료: 새로운 레벨: {weaponData.Enforce}, 새로운 공격력: {weaponData.AttackPoint}");
+        }
+        else
+        {
+            Debug.LogError("[딕셔너리 오류] 무기 데이터가 딕셔너리에 존재하지 않습니다.");
+        }
 
         // 레벨 슬라이더 업데이트
         if (levelSlider != null)
@@ -422,9 +484,14 @@ public class SmithSystem : MonoBehaviour
             }
             else
             {
-                EnforceCost nextCost = GetAdjustedEnforceCost(weaponData.Rank, weaponData.Enforce); // 다음 레벨 비용
+                EnforceCost nextCost = GetAdjustedEnforceCost(weaponData.Rank, weaponData.Enforce);
                 enforceCostText.text = $"{nextCost.GoldCost}G / {nextCost.DarkCost}D";
             }
+        }
+
+        if (attackText != null)
+        {
+            attackText.text = $"공격력: {weaponData.AttackPoint}";
         }
 
         if (enforceButtonText != null)
@@ -443,12 +510,23 @@ public class SmithSystem : MonoBehaviour
             }
         }
 
-        Debug.Log($"무기 강화 완료: {weaponData.Name}, 새로운 레벨: {weaponData.Enforce}");
+        Debug.Log($"무기 강화 완료: {weaponData.Name}, 새로운 레벨: {weaponData.Enforce}, 새로운 공격력: {weaponData.AttackPoint}");
 
         // UI 업데이트
         storageUI.UpdateGold();
         storageUI.UpdatedarkEssence();
     }
+
+    private int GetEnforceAttackBonus(int rank, int level)
+    {
+        return (rank + 1) * (level + 1) * 2;
+    }
+
+    private int GetEvolveAttackBonus(int rank)
+    {
+        return (rank + 1) * 10;
+    }
+
     private void RepairButtonClick(WeaponData weaponData, TextMeshProUGUI weaponRepairCost)
     {
         // 내구도가 100이면 수리 불가
@@ -600,7 +678,7 @@ public class SmithSystem : MonoBehaviour
             newWeaponDataList newWeapon = new newWeaponDataList
             {
                 WeaponName = GenerateRandomWeaponName(),
-                AttackPoint = -1,
+                AttackPoint = GetRandomAttackPoint(Random.Range(0, 6)),
                 Type = Random.Range(0,4),
                 Crime = Random.Range(0, 7),
                 ParentWeaponObj = weaponObj
@@ -665,7 +743,6 @@ public class SmithSystem : MonoBehaviour
             UpdateWeaponUI(newWeapon, goldText, darkText);
         }
     }
-
 
     public void OnChooseButtonClick(int index)
     {

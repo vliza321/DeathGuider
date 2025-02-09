@@ -9,8 +9,9 @@ public class FloorUIManager : MonoBehaviour
     public HealthSystem heathSystem;
     public ErosionSystem erosionSystem;
     public SmithSystem smithSystem;
+    public BattleReadySystem battleReadySystem;
     public MoveCamera moveCamera;
-
+    
     public GameObject floorPrisonerUI;
     public GameObject prisonerInfoUI;
 
@@ -39,6 +40,7 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        dungeon1PrisonerUI.SetActive(false);
         floorSystem.DisplayFloorPrisoners();
         floorPrisonerUI.SetActive(true);
     }
@@ -54,6 +56,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        dungeon1PrisonerUI.SetActive(false);
         floorSystem.UpdatePrisonerInfoUI(prisoner);  // 죄수 정보 업데이트
         prisonerInfoUI.SetActive(true);              // 죄수 정보 UI 활성화
     }
@@ -76,6 +79,7 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        dungeon1PrisonerUI.SetActive(false);
         gymSystem.DisplayGYMTrainingUI();
         gymSystem.DisplayGYMPrisoners();
         if (moveCamera != null)
@@ -98,6 +102,7 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        dungeon1PrisonerUI.SetActive(false);
         heathSystem.DisplayHealthRoomUI();
         heathSystem.DisplayHealthPrisoners();
         if (moveCamera != null)
@@ -120,6 +125,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        dungeon1PrisonerUI.SetActive(false);
         erosionSystem.DisplayErosionPrisoners();
         erosionSystem.DisplayErosionRoomUI();
         if (moveCamera != null)
@@ -142,6 +148,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        dungeon1PrisonerUI.SetActive(false);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 800));
@@ -162,6 +169,7 @@ public class FloorUIManager : MonoBehaviour
         healthPrisonerChooseUI.SetActive(false);
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
+        dungeon1PrisonerUI.SetActive(false);
         smithSystem.GenerateHaveWeaponDatas();
         smithSystem.UpdateSmithEnhanceAndUI();
         if (moveCamera != null)
@@ -185,7 +193,7 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
-
+        dungeon1PrisonerUI.SetActive(false);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 1200));
@@ -201,11 +209,18 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
-
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 1400));
         }
+        dungeon1PrisonerUI.SetActive(true);
+    }
+
+    public void closeDungeon1PriosnerUI()
+    {
+        dungeon1PrisonerUI.SetActive(false);
     }
 
     public void openDungeon2PrisonerUI()

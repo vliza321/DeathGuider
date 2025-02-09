@@ -158,7 +158,6 @@ public class ErosionSystem : MonoBehaviour
         {
             chooseButton.onClick.AddListener(() =>
             {
-                bool roomUpdated = false;
 
                 for (int i = 0; i < ErosionRoomCount; i++)
                 {
@@ -221,7 +220,6 @@ public class ErosionSystem : MonoBehaviour
                         }
                         DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 4;
                         Destroy(prisonerUI);
-                        roomUpdated = true;
                         break;
                     }
                 }

@@ -165,8 +165,6 @@ public class HealthSystem : MonoBehaviour
         {
             chooseButton.onClick.AddListener(() =>
             {
-                bool roomUpdated = false;
-
                 for (int i = 0; i < healthRoomCount; i++)
                 {
                     Transform targetHealthRoom = contentRoomParent.Find("HealthRoom" + (i + 1));
@@ -228,7 +226,6 @@ public class HealthSystem : MonoBehaviour
                         }
                         DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 2;
                         Destroy(prisonerUI);
-                        roomUpdated = true;
                         break;
                     }
                 }

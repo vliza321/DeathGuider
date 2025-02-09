@@ -239,10 +239,6 @@ public class BusRandomPrisoner : MonoBehaviour
 
             Debug.Log($"BodyID in DDOManager: {DDOManager.UnitDatas.UnitDatas[^1].BodyID}");
 
-            //if (!DDOManager.SaveData())
-            //{
-            //    Debug.Log("Fail Save Data");
-            //}
         }
         Destroy(unitUI);
 
@@ -272,16 +268,15 @@ public class BusRandomPrisoner : MonoBehaviour
         Destroy(unitUI);
     }
 
+    //이는 임시 프로토임
     private void OnChangeDaysButtonClicked()
     {
         DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
+        //씬 시작할 때 실행되도록 나중에 변경하기
         storageUI.UpdateDaysUI();
-
-        //if (!DDOManager.SaveData())
-        //{
-        //    Debug.Log("Fail Save Data");
-        //}
-
+        storageUI.UpdateGold();
+        storageUI.UpdatedeathEssence();
+        storageUI.UpdatedarkEssence();
         dailyAcceptCount = 0;
         unitDatas.Clear();
         ClearExistingUnitUIs();
