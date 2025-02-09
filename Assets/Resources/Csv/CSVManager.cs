@@ -45,7 +45,6 @@ public class CSVManager :MonoBehaviour
 
     public void Initialize()
     {
-        Debug.Log("CSVManagerInit");
         foreach(var fn in FILE_NAME)
         {
             object fnValue = GetFieldByString(fn);

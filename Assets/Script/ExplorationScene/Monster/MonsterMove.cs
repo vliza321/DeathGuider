@@ -40,6 +40,7 @@ public class MonsterMove : MonoBehaviour
     [SerializeField]
     private GameObject guider;
 
+    private SpriteRenderer renderer;
 
     private float knockBackTimer;
 
@@ -92,6 +93,7 @@ public class MonsterMove : MonoBehaviour
     // Start is called before the first frame update
     public void Init()
     {
+        renderer = this.gameObject.GetComponent<SpriteRenderer>();
         capsuleCollider = this.GetComponent<CapsuleCollider2D>();
         monsterState = this.gameObject.GetComponent<MonsterState>();
         monsterSpriteRender = this.gameObject.GetComponent<SpriteRenderer>();
@@ -103,8 +105,8 @@ public class MonsterMove : MonoBehaviour
         signY = 0;
         monsterObject = this.transform;
         monsterVelocityVector = new Vector2(0, 0);
-        spawnTimer = 2;
-        knockBackTimer = 1;
+        spawnTimer = 3;
+        knockBackTimer = 0.5f;
         canMove = false;
 
         guider = player.transform.GetChild(0).gameObject;
@@ -121,13 +123,14 @@ public class MonsterMove : MonoBehaviour
         switch (actionState)
         {
             case MonsterActionState.Spawning:
+                renderer.color = new Vector4(1, 1, 1, 1);
                 spawnTimer -= Time.deltaTime;
                 if(spawnTimer <0)
                 {
                     actionState = MonsterActionState.Moving;
                     capsuleCollider.enabled = true;
                     canMove = true;
-                    spawnTimer = 2;
+                    spawnTimer = 1;
                 }
                 break;
 
@@ -140,9 +143,9 @@ public class MonsterMove : MonoBehaviour
                 if (distance < 0.5f) { moveSpeeds = 0.05f; }
                 else if ((distance < 12.0f) && (distance >= 0.5f))
                 {
-                    moveSpeeds = guiderMoveSpeed * 0.5f + 0.5f;
+                    moveSpeeds = guiderMoveSpeed * 0.2f + 0.15f;
                 }
-                else if (distance > 12.0f) { moveSpeeds = guiderMoveSpeed * 0.25f + 0.1f; }
+                else if (distance > 12.0f) { moveSpeeds = guiderMoveSpeed * 0.2f + 0.1f; }
 
                 if (distance > 30.0f)
                 {
@@ -152,7 +155,7 @@ public class MonsterMove : MonoBehaviour
                 {
                     if(canMove)
                     {
-                        monsterVelocityVector = monsterVelocityVector.normalized * moveSpeeds * Time.fixedDeltaTime;
+                        monsterVelocityVector = moveSpeeds * Time.fixedDeltaTime * monsterVelocityVector.normalized ;
                     }
                     else
                     {
@@ -165,10 +168,12 @@ public class MonsterMove : MonoBehaviour
             case MonsterActionState.KnockBack:
                 
                 knockBackTimer -= Time.deltaTime;
+                renderer.color = new Vector4(1, 0.5f, 0.5f, 1);
                 if (knockBackTimer < 0)
                 {
                     actionState = MonsterActionState.Moving;
-                    knockBackTimer = 1;
+                    knockBackTimer = 0.5f;
+                    renderer.color = new Vector4(1, 1, 1, 1);
                 }
                 break;
 
@@ -185,11 +190,13 @@ public class MonsterMove : MonoBehaviour
                 break;
 
             case MonsterActionState.Dying:
+                capsuleCollider.enabled = false;
                 spawnTimer -= Time.deltaTime;
+                renderer.color = new Vector4(1, 1, 1, spawnTimer * 0.333f);
                 if (spawnTimer < 0)
                 {
+                    monsterState.ReleaseObject();
                     this.gameObject.SetActive(false);
-                    capsuleCollider.enabled = false;
                     spawnTimer = 2;
                 }
                 break;

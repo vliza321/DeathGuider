@@ -17,7 +17,9 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     private int stairPosition;
     private int boxPosition;
 
+    [SerializeField]
     private List<GameObject> TreasureBoxList;
+    [SerializeField]
     private List<GameObject> EscapeStairList;
 
     public List<GameObject> treasureBoxList

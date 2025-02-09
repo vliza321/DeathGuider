@@ -16,6 +16,7 @@ TagManager:
   - Weapon
   - UI
   - DDO
+  - Goods
   layers:
   - Default
   - TransparentFX
@@ -32,10 +33,10 @@ TagManager:
   - Stair
   - camera
   - Weapon
-  - 
-  - 
-  - 
-  - 
+  - Gold
+  - DarkEssense
+  - DeathEssense
+  - Exp
   - 
   - 
   - 

@@ -4,10 +4,41 @@ using UnityEngine;
 
 public class ResultManager : MonoBehaviour
 {
-    [SerializeField]
     private float timer;
     private bool playerEscape;
     private FadeInOut fadeInOutUI;
+    
+    [SerializeField]
+    private float gold;
+    [SerializeField]
+    private float darkEssense;
+    [SerializeField]
+    private int deathEssense;
+    [SerializeField]
+    private float exp;
+    public float Gold
+    {
+        get { return gold; }
+        set { gold = value; }
+    }
+
+    public float DarkEssense
+    {
+        get { return darkEssense; }
+        set { darkEssense = value; }
+    }
+
+    public int DeathEssense
+    {
+        get { return deathEssense; }
+        set { deathEssense = value; }
+    }
+
+    public float Exp
+    {
+        get { return exp; }
+        set { exp = value; }
+    }
 
     // Start is called before the first frame update
     void Start()

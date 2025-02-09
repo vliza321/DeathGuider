@@ -56,6 +56,8 @@ public class MonsterManager : MonoBehaviour
         get {  return player; } 
         set { player = value; }
     }
+
+    
     private Vector3 currentPos;
     [SerializeField]
     private int spawnLevel;
@@ -67,6 +69,25 @@ public class MonsterManager : MonoBehaviour
     private DontDestroyObjectManager DDOManager;
     private GameManager GameManager;
     autorizedObject newMonster;
+
+    private GoodsSpawnManager goldSpawn;
+    private GoodsSpawnManager darkEssenseSpawn;
+    private GoodsSpawnManager expSpawn;
+    public GoodsSpawnManager GoldSpawn
+    {
+        get { return goldSpawn; }
+        set { goldSpawn = value; }
+    }
+    public GoodsSpawnManager DarkEssenseSpawn
+    {
+        get { return darkEssenseSpawn; }
+        set { darkEssenseSpawn = value; }
+    }
+    public GoodsSpawnManager ExpSpawn
+    {
+        get { return expSpawn; }
+        set { expSpawn = value; }
+    }
 
     // Start is called before the first frame update
     void Awake()
@@ -109,7 +130,7 @@ public class MonsterManager : MonoBehaviour
             newMonster.gameObject.SetActive(false);
             monsterSpawnPool.ReleaseObject(newMonster);
             monster[a] = newMonster.GetComponent<MonsterMove>();
-            newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.selectStageID],monsterRespawnPool);
+            newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.selectStageID],monsterRespawnPool,this,a);
         }
 
         signX = 0;
