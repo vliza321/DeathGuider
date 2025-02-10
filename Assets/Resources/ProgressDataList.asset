@@ -12,4 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6791b217e2097bc43825b4a836040295, type: 3}
   m_Name: ProgressDataList
   m_EditorClassIdentifier: 
-  ProgressDatas: []
+  ProgressDatas:
+  - UserID: 0
+    StageID: 0
+    Progress: 0
+  - UserID: 0
+    StageID: 1
+    Progress: 0
+  - UserID: 0
+    StageID: 2
+    Progress: 0
+  - UserID: 0
+    StageID: 3
+    Progress: 0
+  - UserID: 0
+    StageID: 4
+    Progress: 0
+  - UserID: 0
+    StageID: 5
+    Progress: 0
+  - UserID: 0
+    StageID: 6
+    Progress: 0
+  - UserID: 0
+    StageID: 7
+    Progress: 0
+  - UserID: 0
+    StageID: 8
+    Progress: 0
+  - UserID: 0
+    StageID: 9
+    Progress: 0

@@ -58,77 +58,56 @@ MonoBehaviour:
   - UserID: 0
     PrototypeUnitID: 100
     InstanceID: 1
-    Name: "\uC784\uAFC8\uD3B3"
+    Name: "\uBC15\uBA8F\uACE2"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 17
-    HealthPoint: 17
-    Strength: 85
-    Defense: 16
-    Handicraft: 1
+    MaxHealthPoint: 83
+    HealthPoint: 83
+    Strength: 6
+    Defense: 82
+    Handicraft: 35
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
-    Crime: 0
+    Crime: 6
+    ActivityStatus: 0
+    HeadID: 0
+    BodyID: 2
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 2
+    Name: "\uAE40\uB496\uB440"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 83
+    HealthPoint: 83
+    Strength: 51
+    Defense: 98
+    Handicraft: 15
+    DeathErosion: 0
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 6
     ActivityStatus: 0
     HeadID: 4
     BodyID: 2
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 2
-    Name: "\uC784\uD3D2\uBCF7"
-    Level: 1
-    EXP: 0
-    MaxHealthPoint: 11
-    HealthPoint: 11
-    Strength: 6
-    Defense: 45
-    Handicraft: 50
-    DeathErosion: 0
-    Enforce: 0
-    HealthEnforce: 0
-    StrengthEnforce: 0
-    DefenseEnforce: 0
-    HandicraftEnforce: 0
-    Crime: 3
-    ActivityStatus: 0
-    HeadID: 3
-    BodyID: 1
-  - UserID: 0
-    PrototypeUnitID: 100
     InstanceID: 3
-    Name: "\uAE40\uAD79\uAEFB"
+    Name: "\uC815\uD183\uB497"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 43
-    HealthPoint: 43
-    Strength: 67
-    Defense: 39
-    Handicraft: 23
-    DeathErosion: 0
-    Enforce: 0
-    HealthEnforce: 0
-    StrengthEnforce: 0
-    DefenseEnforce: 0
-    HandicraftEnforce: 0
-    Crime: 5
-    ActivityStatus: 0
-    HeadID: 5
-    BodyID: 1
-  - UserID: 0
-    PrototypeUnitID: 100
-    InstanceID: 4
-    Name: "\uC774\uB3A9\uB503"
-    Level: 1
-    EXP: 0
-    MaxHealthPoint: 62
-    HealthPoint: 62
-    Strength: 77
-    Defense: 15
-    Handicraft: 1
+    MaxHealthPoint: 98
+    HealthPoint: 98
+    Strength: 28
+    Defense: 7
+    Handicraft: 80
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
@@ -137,5 +116,5 @@ MonoBehaviour:
     HandicraftEnforce: 0
     Crime: 4
     ActivityStatus: 0
-    HeadID: 2
+    HeadID: 0
     BodyID: 0

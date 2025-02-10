@@ -5,29 +5,51 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static BattleReadySystem;
 using static UnityEngine.UI.CanvasScaler;
 
 public class BattleReadySystem : MonoBehaviour
 {
+    public int stageid = 0;
     public GameObject BattleReadyPrisonerPrefab;
     public GameObject BattleReadyWeaponPrefab;
 
     public Transform BattleReadyPrisonerParent;
     public Transform BattleReadyWeaponParent;
 
-
-
-    private DontDestroyObjectManager DDOManager;
     public Sprite[] headSprites;
-    public Sprite[] bodySprites;
+    //public Sprite[] bodySprites;
 
     public GameObject chooseManager;
     public GameObject[] battleReadyPrisonerUI = new GameObject[4];
 
     private UnitData selectedManagerUnit;
-
     private UnitData[] battleReadyPrisoners = new UnitData[4];
 
+    [System.Serializable]
+    public class WeaponSlot
+    {
+        public Button button;
+        public int equipableState = -1;
+        public string weaponName;
+        public bool isCheck = false;
+    }
+
+    public WeaponSlot[] weaponSlots = new WeaponSlot[5];
+
+    [System.Serializable]
+    public class CrimeSlot
+    {
+        public TextMeshProUGUI crimeText;
+        public int crimeCount;
+    }
+    public CrimeSlot[] crimeSlots = new CrimeSlot[7];
+
+    public TextMeshProUGUI stageName;
+    public TextMeshProUGUI stageProgress;
+    public Button stageEnterButton;
+    private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
     private void Start()
     {
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
@@ -37,7 +59,16 @@ public class BattleReadySystem : MonoBehaviour
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
+            if(ddo.name == "GameManager")
+            {
+                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
             DDO = null;
+        }
+
+        if (stageEnterButton != null)
+        {
+            stageEnterButton.onClick.AddListener(OnStageEnterButtonClicked);
         }
     }
 
@@ -60,7 +91,7 @@ public class BattleReadySystem : MonoBehaviour
                 return false;
             }
 
-            return true;
+            return unit != null && unit.ActivityStatus == 0;
         });
 
         if (allUnits.Count > 0)
@@ -99,9 +130,9 @@ public class BattleReadySystem : MonoBehaviour
             unitUI.transform.Find("HeadImage").GetComponent<Image>().sprite = headSprites[unit.HeadID];
         }
 
-        if (unit.BodyID >= 0 && unit.BodyID < bodySprites.Length)
+        if (unit.BodyID >= 0 && unit.BodyID < GameManager.PrisonerBodyImg.Count)//bodySprites.Length)
         {
-            unitUI.transform.Find("BodyImage").GetComponent<Image>().sprite = bodySprites[unit.BodyID];
+            unitUI.transform.Find("BodyImage").GetComponent<Image>().sprite = GameManager.PrisonerBodyImg[unit.BodyID];
         }
 
         Button chooseButton = unitUI.transform.Find("ChooseButton").GetComponent<Button>();
@@ -138,18 +169,29 @@ public class BattleReadySystem : MonoBehaviour
 
             DDOManager.UnitParticipateDatas.UnitParticipateDatas.Add(newData);
             DDOManager.UnitParticipateDatas.UnitParticipateDataDic[(newData.UserID, newData.PrototypeUnitID, newData.InstanceID, newData.PartyID)] = newData;
-
-
+            weaponSlots[0].isCheck = true;
             if (chooseManager != null)
             {
                 TextMeshProUGUI managerNameText = chooseManager.transform.Find("ManagerNameText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI managerLevelText = chooseManager.transform.Find("ManagerLevelText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI managerHealthText = chooseManager.transform.Find("ManagerHealthText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI managerStrengthText = chooseManager.transform.Find("ManagerStrengthText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI ManagerDefenseText = chooseManager.transform.Find("ManagerDefenseText").GetComponent<TextMeshProUGUI>();
                 TextMeshProUGUI managerCrimeText = chooseManager.transform.Find("ManagerCrimeText").GetComponent<TextMeshProUGUI>();
+                
+                //Image weaponImage = chooseManager.transform.Find("WeaponImage").GetComponent<Image>();
+                TextMeshProUGUI weaponNameText = chooseManager.transform.Find("WeaponImage/WeaponNameText").GetComponent<TextMeshProUGUI>();
 
                 Image bodyImage = chooseManager.transform.Find("BodyImage").GetComponent<Image>();
                 Image headImage = chooseManager.transform.Find("HeadImage").GetComponent<Image>();
+
+                DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
+
+                if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
+                {
+                    crimeSlots[unit.Crime].crimeCount += 1;
+                    crimeSlots[unit.Crime].crimeText.text = $"{crimeSlots[unit.Crime].crimeCount}";
+                }
 
                 if (managerNameText != null)
                     managerNameText.text = unit.Name;
@@ -163,17 +205,32 @@ public class BattleReadySystem : MonoBehaviour
                 if (managerStrengthText != null)
                     managerStrengthText.text = "STR: " + unit.Strength;
 
+                if(ManagerDefenseText != null)
+                    ManagerDefenseText.text = "DEF: " + unit.Defense;
+
                 if (managerCrimeText != null)
                     managerCrimeText.text = "Crime: " + GetCrimeDescription(unit.Crime);
 
-                if (unit.BodyID >= 0 && unit.BodyID < bodySprites.Length && bodyImage != null)
+                if (unit.BodyID >= 0 && unit.BodyID < GameManager.PrisonerBodyImg.Count /*bodySprites.Length*/ && bodyImage != null)
                 {
-                    bodyImage.sprite = bodySprites[unit.BodyID];
+                    bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[unit.BodyID];
                 }
 
                 if (unit.HeadID >= 0 && unit.HeadID < headSprites.Length && headImage != null)
                 {
                     headImage.sprite = headSprites[unit.HeadID];
+                }
+
+                if (weaponNameText != null)
+                {
+                    string weaponName = "무기 없음";
+
+                    if (!string.IsNullOrEmpty(weaponSlots[0].weaponName))
+                    {
+                        weaponName = weaponSlots[0].weaponName;
+                    }
+
+                    weaponNameText.text = weaponName;
                 }
 
                 Button closeButton = chooseManager.transform.Find("CloseManagerButton").GetComponent<Button>();
@@ -182,6 +239,69 @@ public class BattleReadySystem : MonoBehaviour
                     closeButton.onClick.AddListener(() => returnPrisoner(unit));
                 }
 
+                Button weaponChooseButton = chooseManager.transform.Find("WeaponChooseButton").GetComponent<Button>();
+                if (weaponChooseButton != null)
+                {
+                    weaponChooseButton.onClick.AddListener(() =>
+                    {
+                        for (int i = 0; i < weaponSlots.Length; i++)
+                        {
+                            Button button = weaponSlots[i].button;
+                            if (button != null)
+                            {
+                                if(weaponSlots[0].isCheck)
+                                {
+                                    int index = i;
+                                    button.onClick.AddListener(() =>
+                                    {
+                                        for (int j = 0; j < weaponSlots.Length; j++)
+                                        {
+                                            if (j != index && weaponSlots[j].equipableState == -10)
+                                            {
+                                                weaponSlots[j].equipableState = -1;
+                                                Debug.Log($"슬롯 {j} 상태가 -1로 변경됨");
+                                            }
+                                        }
+
+                                        if (weaponSlots[index].equipableState == -1)
+                                        {
+                                            weaponSlots[index].equipableState = -10;
+                                            Debug.Log($"슬롯 {index} 상태가 -10으로 변경됨");
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+
+                Button weaponReturnButton = chooseManager.transform.Find("WeaponReturnButton").GetComponent<Button>();
+                if (weaponReturnButton != null)
+                {
+                    weaponReturnButton.onClick.AddListener(() =>
+                    {
+                        var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
+    .FirstOrDefault(kv => kv.Value.UserID == selectedManagerUnit.UserID && kv.Value.PrototypeWeaponID == weaponSlots[0].equipableState).Key;
+
+                        bool removedFromDic = DDOManager.UseWeaponDatas.UseWeaponDataDic.Remove(keyToRemove);
+                        Debug.Log($"딕셔너리에서 제거 성공 여부: {removedFromDic}");
+
+                        int removedFromList = DDOManager.UseWeaponDatas.UseWeaponDatas.RemoveAll(data =>
+                            data.UserID == keyToRemove.Item1 && data.PrototypeWeaponID == keyToRemove.Item2);
+                        Debug.Log($"리스트에서 제거된 개수: {removedFromList}");
+
+                        weaponSlots[0].equipableState = -1;
+                        weaponSlots[0].weaponName = null;
+
+                        if (chooseManager != null)
+                        {
+                            if (weaponNameText != null)
+                            {
+                                weaponNameText.text = "무기 없음";
+                            }
+                        }
+                    });
+                }
             }
         }
         else if (unit.PrototypeUnitID == 100)
@@ -191,7 +311,6 @@ public class BattleReadySystem : MonoBehaviour
                 if (battleReadyPrisoners[i] == null)
                 {
                     battleReadyPrisoners[i] = unit;
-                    Debug.Log($"죄수 {unit.Name} 추가됨");
 
                     UnitParticipateData newData = new UnitParticipateData
                     {
@@ -201,17 +320,24 @@ public class BattleReadySystem : MonoBehaviour
                         PartyID = 0,
                         Position = i+1
                     };
+                    DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
+
+                    if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
+                    {
+                        crimeSlots[unit.Crime].crimeCount += 1;
+                        crimeSlots[unit.Crime].crimeText.text = $"{crimeSlots[unit.Crime].crimeCount}";
+                    }
 
                     DDOManager.UnitParticipateDatas.UnitParticipateDatas.Add(newData);
                     DDOManager.UnitParticipateDatas.UnitParticipateDataDic[(newData.UserID, newData.PrototypeUnitID, newData.InstanceID, newData.PartyID)] = newData;
-
+                    weaponSlots[i+1].isCheck = true;
                     UpdateBattleReadyUI(unit);
                     DisplayBattleReadyUnits();
                     return;
                 }
             }
         }
-        DisplayBattleReadyUnits();;
+        DisplayBattleReadyUnits();
     }
 
     private void UpdateBattleReadyUI(UnitData unit)
@@ -223,14 +349,27 @@ public class BattleReadySystem : MonoBehaviour
                 GameObject prisonerUI = battleReadyPrisonerUI[i];
                 if (prisonerUI != null)
                 {
-                    TextMeshProUGUI prisonerNameText = prisonerUI.transform.Find("PrisonerNameText").GetComponent<TextMeshProUGUI>();
-                    TextMeshProUGUI prisonerLevelText = prisonerUI.transform.Find("PrisonerLevelText").GetComponent<TextMeshProUGUI>();
-                    TextMeshProUGUI prisonerHealthText = prisonerUI.transform.Find("PrisonerHealthText").GetComponent<TextMeshProUGUI>();
-                    TextMeshProUGUI prisonerStrengthText = prisonerUI.transform.Find("PrisonerStrengthText").GetComponent<TextMeshProUGUI>();
-                    TextMeshProUGUI prisonerCrimeText = prisonerUI.transform.Find("PrisonerCrimeText").GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI prisonerNameText = prisonerUI.transform.Find("PrisonerNameText")?.GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI prisonerLevelText = prisonerUI.transform.Find("PrisonerLevelText")?.GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI prisonerHealthText = prisonerUI.transform.Find("PrisonerHealthText")?.GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI prisonerStrengthText = prisonerUI.transform.Find("PrisonerStrengthText")?.GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI prisonerDefenseText = prisonerUI.transform.Find("PrisonerDefenseText").GetComponent<TextMeshProUGUI>();
+                    TextMeshProUGUI prisonerCrimeText = prisonerUI.transform.Find("PrisonerCrimeText")?.GetComponent<TextMeshProUGUI>();
 
-                    Image prisonerBodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
-                    Image prisonerHeadImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
+                    TextMeshProUGUI weaponNameText = prisonerUI.transform.Find("PrisonerImage/PrisonerNameText")?.GetComponent<TextMeshProUGUI>();
+
+                    if (weaponNameText != null)
+                    {
+                        string weaponName = "무기 없음";  // 기본값 설정
+
+                        if (!string.IsNullOrEmpty(weaponSlots[i+1].weaponName))
+                        {
+                            weaponName = weaponSlots[i+1].weaponName;
+                            break;
+                        }
+
+                        weaponNameText.text = weaponName;  // UI 업데이트
+                    }
 
                     if (prisonerNameText != null)
                         prisonerNameText.text = battleReadyPrisoners[i].Name;
@@ -244,16 +383,22 @@ public class BattleReadySystem : MonoBehaviour
                     if (prisonerStrengthText != null)
                         prisonerStrengthText.text = "STR: " + battleReadyPrisoners[i].Strength;
 
+                    if(prisonerDefenseText != null)
+                        prisonerDefenseText.text = "DEF: " + battleReadyPrisoners[i].Defense;
+
                     if (prisonerCrimeText != null)
                         prisonerCrimeText.text = "Crime: " + GetCrimeDescription(battleReadyPrisoners[i].Crime);
 
-                    if (prisonerBodyImage != null && battleReadyPrisoners[i].BodyID >= 0 && battleReadyPrisoners[i].BodyID < bodySprites.Length)
-                        prisonerBodyImage.sprite = bodySprites[battleReadyPrisoners[i].BodyID];
+                    Image prisonerBodyImage = prisonerUI.transform.Find("BodyImage")?.GetComponent<Image>();
+                    Image prisonerHeadImage = prisonerUI.transform.Find("HeadImage")?.GetComponent<Image>();
+
+                    if (prisonerBodyImage != null && battleReadyPrisoners[i].BodyID >= 0 && battleReadyPrisoners[i].BodyID < GameManager.PrisonerBodyImg.Count /*bodySprites.Length*/)
+                        prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[battleReadyPrisoners[i].BodyID];
 
                     if (prisonerHeadImage != null && battleReadyPrisoners[i].HeadID >= 0 && battleReadyPrisoners[i].HeadID < headSprites.Length)
                         prisonerHeadImage.sprite = headSprites[battleReadyPrisoners[i].HeadID];
 
-                    Button closeButton = prisonerUI.transform.Find("PrisonerCloseButton").GetComponent<Button>();
+                    Button closeButton = prisonerUI.transform.Find("PrisonerCloseButton")?.GetComponent<Button>();
                     if (closeButton != null)
                     {
                         int index = i;
@@ -263,9 +408,78 @@ public class BattleReadySystem : MonoBehaviour
                             if (battleReadyPrisoners[index] != null)
                             {
                                 returnPrisoner(battleReadyPrisoners[index]);
+                                Debug.Log($"슬롯 {index}의 죄수를 반환");
                             }
                         });
                     }
+
+                    Button prisonerChooseButton = prisonerUI.transform.Find("PrisonerChooseButton")?.GetComponent<Button>();
+                    if (prisonerChooseButton != null)
+                    {
+                        prisonerChooseButton.onClick.AddListener(() =>
+                        {
+                            Debug.Log($"슬롯 {i}에서 죄수 선택 버튼 클릭됨");
+                            for (int i = 0; i < weaponSlots.Length; i++)
+                            {
+                                Button button = weaponSlots[i].button;
+                                if (button != null)
+                                {
+                                    if (weaponSlots[i].isCheck)
+                                    {
+                                        int index = i;
+                                        button.onClick.AddListener(() =>
+                                        {
+                                            Debug.Log($"슬롯 {index}의 무기 버튼 클릭됨");
+                                            for (int j = 0; j < weaponSlots.Length; j++)
+                                            {
+                                                if (j != index && weaponSlots[j].equipableState == -10)
+                                                {
+                                                    weaponSlots[j].equipableState = -1;
+                                                    Debug.Log($"슬롯 {j} 상태가 -1로 변경됨");
+                                                }
+                                            }
+
+                                            if (weaponSlots[index].equipableState == -1)
+                                            {
+                                                weaponSlots[index].equipableState = -10;
+                                                Debug.Log($"슬롯 {index} 상태가 -10으로 변경됨");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                    Button prisonerReturnButton = prisonerUI.transform.Find("PrisonerReturnButton")?.GetComponent<Button>();
+                    if( prisonerReturnButton != null )
+                    {
+                        int index = i+1;
+                        prisonerReturnButton.onClick.AddListener(() =>
+                        {
+                            var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
+    .FirstOrDefault(kv => kv.Value.UserID == selectedManagerUnit.UserID && kv.Value.PrototypeWeaponID == weaponSlots[index].equipableState).Key;
+
+                            bool removedFromDic = DDOManager.UseWeaponDatas.UseWeaponDataDic.Remove(keyToRemove);
+                            Debug.Log($"딕셔너리에서 제거 성공 여부: {removedFromDic}");
+
+                            int removedFromList = DDOManager.UseWeaponDatas.UseWeaponDatas.RemoveAll(data =>
+                                data.UserID == keyToRemove.Item1 && data.PrototypeWeaponID == keyToRemove.Item2);
+                            Debug.Log($"리스트에서 제거된 개수: {removedFromList}");
+
+                            weaponSlots[index].equipableState = -1;
+                            weaponSlots[index].weaponName = null;
+
+                            if (weaponNameText != null)
+                            {
+                                weaponNameText.text = "무기 없음";
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"battleReadyPrisonerUI[{i}]가 null입니다.");
                 }
             }
         }
@@ -279,8 +493,9 @@ public class BattleReadySystem : MonoBehaviour
             TextMeshProUGUI managerLevelText = chooseManager.transform.Find("ManagerLevelText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI managerHealthText = chooseManager.transform.Find("ManagerHealthText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI managerStrengthText = chooseManager.transform.Find("ManagerStrengthText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI managerDefenseText = chooseManager.transform.Find("ManagerDefenseText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI managerCrimeText = chooseManager.transform.Find("ManagerCrimeText").GetComponent<TextMeshProUGUI>();
-
+            TextMeshProUGUI weaponNameText = chooseManager.transform.Find("WeaponImage/WeaponNameText").GetComponent<TextMeshProUGUI>();
             Image bodyImage = chooseManager.transform.Find("BodyImage").GetComponent<Image>();
             Image headImage = chooseManager.transform.Find("HeadImage").GetComponent<Image>();
 
@@ -288,10 +503,20 @@ public class BattleReadySystem : MonoBehaviour
             if (managerLevelText != null) managerLevelText.text = "레벨";
             if (managerHealthText != null) managerHealthText.text = "체력";
             if (managerStrengthText != null) managerStrengthText.text = "근력";
+            if (managerDefenseText != null) managerDefenseText.text = "방어력";
             if (managerCrimeText != null) managerCrimeText.text = "범죄";
+            if (weaponNameText != null) weaponNameText.text = "무기 없음";
 
-            if (bodyImage != null && bodySprites.Length > 0) bodyImage.sprite = bodySprites[0];
+            if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0) bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
             if (headImage != null && headSprites.Length > 0) headImage.sprite = headSprites[0];
+
+            DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
+
+            if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
+            {
+                crimeSlots[unit.Crime].crimeCount -= 1;
+                crimeSlots[unit.Crime].crimeText.text = $"{crimeSlots[unit.Crime].crimeCount}";
+            }
 
             var key = (unit.UserID, unit.PrototypeUnitID, unit.InstanceID, 0);
             if (DDOManager.UnitParticipateDatas.UnitParticipateDataDic.ContainsKey(key))
@@ -305,6 +530,9 @@ public class BattleReadySystem : MonoBehaviour
             }
 
             selectedManagerUnit = null;
+            weaponSlots[0].isCheck= false;
+            weaponSlots[0].equipableState = -1;
+            weaponSlots[0].weaponName = null;
         }
         else if (unit.PrototypeUnitID == 100)
         {
@@ -332,8 +560,9 @@ public class BattleReadySystem : MonoBehaviour
                         TextMeshProUGUI prisonerLevelText = battleReadyPrisonerUI[i].transform.Find("PrisonerLevelText")?.GetComponent<TextMeshProUGUI>();
                         TextMeshProUGUI prisonerHealthText = battleReadyPrisonerUI[i].transform.Find("PrisonerHealthText")?.GetComponent<TextMeshProUGUI>();
                         TextMeshProUGUI prisonerStrengthText = battleReadyPrisonerUI[i].transform.Find("PrisonerStrengthText")?.GetComponent<TextMeshProUGUI>();
+                        TextMeshProUGUI prisonerDefenseText = battleReadyPrisonerUI[i].transform.Find("PrisonerDefenseText")?.GetComponent<TextMeshProUGUI>();
                         TextMeshProUGUI prisonerCrimeText = battleReadyPrisonerUI[i].transform.Find("PrisonerCrimeText")?.GetComponent<TextMeshProUGUI>();
-
+                        TextMeshProUGUI weaponNameText = chooseManager.transform.Find("PrisonerImage/PrisonerNameText")?.GetComponent<TextMeshProUGUI>();
                         Image prisonerBodyImage = battleReadyPrisonerUI[i].transform.Find("BodyImage")?.GetComponent<Image>();
                         Image prisonerHeadImage = battleReadyPrisonerUI[i].transform.Find("HeadImage")?.GetComponent<Image>();
 
@@ -349,13 +578,31 @@ public class BattleReadySystem : MonoBehaviour
                         if (prisonerStrengthText != null)
                             prisonerStrengthText.text = "근력";
 
+                        if (prisonerDefenseText != null)
+                            prisonerDefenseText.text = "방어력";
+
                         if (prisonerCrimeText != null)
                             prisonerCrimeText.text = "범죄";
 
-                        if (prisonerBodyImage != null && bodySprites.Length > 0)
-                            prisonerBodyImage.sprite = bodySprites[0];
+                        if (weaponNameText != null)
+                            weaponNameText.text = "무기 없음";
+
+                        if (prisonerBodyImage != null && GameManager.PrisonerBodyImg.Count/*bodySprites.Length*/ > 0)
+                            prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
                         if (prisonerHeadImage != null && headSprites.Length > 0)
                             prisonerHeadImage.sprite = headSprites[0];
+
+                        DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
+
+                        if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
+                        {
+                            crimeSlots[unit.Crime].crimeCount -= 1;
+                            crimeSlots[unit.Crime].crimeText.text = $"{crimeSlots[unit.Crime].crimeCount}";
+                        }
+
+                        weaponSlots[i+1].isCheck = false;
+                        weaponSlots[i + 1].equipableState = -1;
+                        weaponSlots[i + 1].weaponName = null;
                     }
                     break;
                 }
@@ -430,6 +677,95 @@ public class BattleReadySystem : MonoBehaviour
         weaponUI.transform.Find("WeaponAttackText").GetComponent<TextMeshProUGUI>().text = "공격력: " + weapon.AttackPoint;
         weaponUI.transform.Find("WeaponDurabilityText").GetComponent<TextMeshProUGUI>().text = "내구도: " + weapon.Durability;
         weaponUI.transform.Find("WeaponCrimeText").GetComponent<TextMeshProUGUI>().text = "Crime: " + GetCrimeDescription(weapon.Crime);
+
+        Button chooseButton = weaponUI.transform.Find("ChooseButton").GetComponent<Button>();
+        if (chooseButton != null)
+        {
+            chooseButton.onClick.AddListener(() =>
+            {
+                // 버튼 클릭 시 동작
+                for (int i = 0; i < weaponSlots.Length; i++)
+                {
+                    if (weaponSlots[i].isCheck)
+                    {
+                        if (weaponSlots[i].equipableState == -10)
+                        {
+                            weaponSlots[i].equipableState = weapon.PrototypeWeaponID;
+                            weaponSlots[i].weaponName = weapon.Name;
+
+                            if (i == 0 && selectedManagerUnit != null)
+                            {
+                                if (chooseManager != null)
+                                {
+                                    TextMeshProUGUI weaponNameText = chooseManager.transform.Find("WeaponImage/WeaponNameText").GetComponent<TextMeshProUGUI>();
+
+                                    if (weaponNameText != null)
+                                    {
+                                        string weaponName = "무기 없음";
+                                        if (!string.IsNullOrEmpty(weaponSlots[0].weaponName))
+                                        {
+                                            weaponName = weaponSlots[0].weaponName;
+                                        }
+
+                                        weaponNameText.text = weaponName;
+                                    }
+                                }
+
+                                UseWeaponData weaponData = new UseWeaponData
+                                {
+                                    UserID = weapon.UserID,
+                                    PrototypeWeaponID = weapon.PrototypeWeaponID,
+                                    InstanceID = weapon.InstanceID,
+                                    PartyID = 0,
+                                    Position = 0
+                                };
+
+                                DDOManager.UseWeaponDatas.UseWeaponDataDic[(weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID, weaponData.PartyID)] = weaponData;
+                                DDOManager.UseWeaponDatas.UseWeaponDatas.Add(weaponData);
+                            }
+                            else
+                            {
+                                if (battleReadyPrisoners != null)
+                                {
+                                    Debug.Log("들어왔디롱");
+                                    if (i > 0 && battleReadyPrisoners[i - 1] != null)
+                                    {
+                                        Debug.Log(i-1);
+                                        TextMeshProUGUI battleReadyWeaponNameText = battleReadyPrisonerUI[i - 1].transform.Find("PrisonerImage/PrisonerNameText").GetComponent<TextMeshProUGUI>();
+
+                                        if (battleReadyWeaponNameText != null)
+                                        {
+                                            Debug.Log("시발");
+                                            string battleReadyWeaponName = "무기 없음";
+
+                                            // weaponSlots 배열에서 무기 이름을 설정
+                                            if (!string.IsNullOrEmpty(weaponSlots[i].weaponName))
+                                            {
+                                                battleReadyWeaponName = weaponSlots[i].weaponName;
+                                                Debug.Log("WTF");
+                                            }
+                                            battleReadyWeaponNameText.text = battleReadyWeaponName;  // UI 업데이트
+                                        }
+
+                                        UseWeaponData weaponData = new UseWeaponData
+                                        {
+                                            UserID = weapon.UserID,
+                                            PrototypeWeaponID = weapon.PrototypeWeaponID,
+                                            InstanceID = weapon.InstanceID,
+                                            PartyID = 0,
+                                            Position = i
+                                        };
+
+                                        DDOManager.UseWeaponDatas.UseWeaponDataDic[(weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID, weaponData.PartyID)] = weaponData;
+                                        DDOManager.UseWeaponDatas.UseWeaponDatas.Add(weaponData);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void AdjustWeaponGridLayoutSize(int weaponCount)
@@ -449,6 +785,7 @@ public class BattleReadySystem : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
     }
+
     private string GetCrimeDescription(int crimeId)
     {
         switch (crimeId)
@@ -464,4 +801,48 @@ public class BattleReadySystem : MonoBehaviour
         }
     }
 
+    public void StageName(int index)
+    {
+        if (DDOManager.StageDatas != null && DDOManager.StageDatas.StageDatas.Count > index)
+        {
+            
+            stageName.text = $"스테이지{index + 1} {DDOManager.StageDatas.StageDatas[index].Name}";
+        }
+    }
+
+    public void StageProgress(int index)
+    {
+        if (DDOManager.ProgressDatas != null && DDOManager.ProgressDatas.ProgressDatas.Count > index)
+        {
+            stageProgress.text = $"진척도 {DDOManager.ProgressDatas.ProgressDatas[index].Progress}%";
+        }
+    }
+
+    public void setStageIndex(int index)
+    {
+        stageid = index;
+    }
+
+    public int getStageIndex()
+    {
+        return stageid;
+    }
+
+    private void OnStageEnterButtonClicked()
+    {
+        // GameManager 인스턴스를 찾음
+        GameManager gameManager = FindObjectOfType<GameManager>();
+
+        // GameManager가 정상적으로 존재하면
+        if (gameManager != null)
+        {
+            int index = getStageIndex();
+            gameManager.selectStageID = index;
+            Debug.Log($"선택된 스테이지 ID: {index}");
+        }
+        else
+        {
+            Debug.LogError("GameManager 인스턴스를 찾을 수 없습니다.");
+        }
+    }
 }
