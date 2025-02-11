@@ -9,7 +9,7 @@ public class MoveCamera : MonoBehaviour, IDragHandler
     private RectTransform rectTransform;
 
     public float minY = 0;
-    public float maxY = 2670;
+    public float maxY = 3200;
     public float moveSpeed = 5f;
 
     private DontDestroyObjectManager DDOManager;

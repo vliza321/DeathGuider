@@ -12,4 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b86644b1bf08ba46be243f90b1dffe6, type: 3}
   m_Name: UnitParticipateDataList
   m_EditorClassIdentifier: 
-  UnitParticipateDatas: []
+  UnitParticipateDatas:
+  - UserID: 0
+    PrototypeUnitID: 0
+    InstanceID: 0
+    PartyID: 0
+    Position: 0
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 1
+    PartyID: 0
+    Position: 1
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 4
+    PartyID: 0
+    Position: 4
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 2
+    PartyID: 0
+    Position: 2
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 3
+    PartyID: 0
+    Position: 3

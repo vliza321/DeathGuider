@@ -218,7 +218,7 @@ public class ErosionSystem : MonoBehaviour
                                 HeadImage.sprite = headSprites[prisoner.HeadID];
                             }
                         }
-                        DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 4;
+                        DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 3;
                         Destroy(prisonerUI);
                         break;
                     }
