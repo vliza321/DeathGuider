@@ -207,6 +207,7 @@ public class FloorUIManager : MonoBehaviour
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 1400));
@@ -228,10 +229,14 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 1;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
+
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 1600));
@@ -248,10 +253,13 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 2;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 1800));
@@ -268,10 +276,13 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 3;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 2000));
@@ -288,10 +299,13 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 4;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 2200));
@@ -308,10 +322,13 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 5;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 2400));
@@ -328,10 +345,13 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 6;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 2600));
@@ -348,10 +368,13 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 7;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 2800));
@@ -368,10 +391,13 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 8;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 3000));
@@ -388,10 +414,14 @@ public class FloorUIManager : MonoBehaviour
         erosionPrisonerChooseUI.SetActive(false);
         laboratoryPrisonerChooseUI.SetActive(false);
         smithPrisonerChooseUI.SetActive(false);
+        battleReadySystem.DisplayBattleReadyUnits();
+        battleReadySystem.DisplayBattleReadyWeapons();
+        
         int index = 9;
         battleReadySystem.StageName(index);
         battleReadySystem.StageProgress(index);
         battleReadySystem.setStageIndex(index);
+        battleReadySystem.stagemonsterImage(index);
         if (moveCamera != null)
         {
             moveCamera.MoveToUI(new Vector2(0, 3200));

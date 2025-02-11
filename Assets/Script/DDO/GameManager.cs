@@ -8,7 +8,9 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
     private int selectUserID = 0;   //선택한 유저의 ID
+    [SerializeField]
     private int selectStageID = 0;  //선택한 전투 스테이지의 ID
 
     public int SelectUserID
@@ -22,16 +24,28 @@ public class GameManager : MonoBehaviour
         set { selectStageID = value; }
     }
 
+
+    [SerializeField]
     private List<GameObject> monster;           //몬스터 프리팹
+    [SerializeField]
     private List<GameObject> prototypeUnit;     //안내자 프리팹
+    [SerializeField]
     private List<GameObject> prototypeWeapon;   //무기 프리팹
+    [SerializeField]
     private List<Sprite> guiderHeadImg;         //안내자 머리 이미지
+    [SerializeField]
     private List<Sprite> guiderBodyImg;         //안내자 몸통 이미지
+    [SerializeField]
     private List<Sprite> prisonerHeadImg;       //수감자 머리 이미지
+    [SerializeField]
     private List<Sprite> prisonerBodyImg;       //수감자 몸통 이미지
+    [SerializeField]
     private List<RuntimeAnimatorController> prisonerHeadAnim;   //수감자 머리 애니메이션
+    [SerializeField]
     private List<RuntimeAnimatorController> prisonerBodyAnim;   //수감자 몸통 애니메이션
+    [SerializeField]
     private List<Sprite> weaponImg;             //무기 이미지
+    [SerializeField]
     private List<Sprite> baseTileImg;         //전투 스테이지 바닥 타일 이미지
 
     public List<GameObject> Monster

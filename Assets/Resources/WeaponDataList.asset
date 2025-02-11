@@ -17,12 +17,13 @@ MonoBehaviour:
     PrototypeWeaponID: 0
     InstanceID: 0
     Name: "\uAE30\uBCF8 \uADFC\uC811"
-    AttackPoint: 75
+    AttackPoint: 10
     Durability: 100
     Type: 0
     Enforce: 0
     Crime: 1
-    Rank: 1
+    Rank: 0
+    ActivityStatus: 0
   - UserID: 0
     PrototypeWeaponID: 1
     InstanceID: 0
@@ -33,6 +34,7 @@ MonoBehaviour:
     Enforce: 0
     Crime: 2
     Rank: 1
+    ActivityStatus: 0
   - UserID: 0
     PrototypeWeaponID: 2
     InstanceID: 0
@@ -43,3 +45,4 @@ MonoBehaviour:
     Enforce: 0
     Crime: 3
     Rank: 2
+    ActivityStatus: 0

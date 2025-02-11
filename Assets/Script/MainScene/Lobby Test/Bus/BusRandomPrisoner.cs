@@ -30,6 +30,7 @@ public class BusRandomPrisoner : MonoBehaviour
     public HealthSystem healthSystem;
     public ErosionSystem erosionSystem;
     public SmithSystem smithSystem;
+    public BattleReadySystem battleReadySystem;
     private DontDestroyObjectManager DDOManager;
 
     private void Start()
@@ -284,7 +285,7 @@ public class BusRandomPrisoner : MonoBehaviour
         smithSystem.GenerateNewWeaponDatas();
         healthSystem.CheckAndResetHealthSystemState();
         erosionSystem.CheckAndResetErosionSystemState();
-
+        battleReadySystem.CheckAndResetDungeonSystemState();
         for (int i = 0; i < availablePrisoner; i++)
         {
             GenerateRandomPrisoner();
