@@ -1018,6 +1018,12 @@ public class BattleReadySystem : MonoBehaviour
 
         if (gameManager != null)
         {
+            if (selectedManagerUnit == null && battleReadyPrisoners.All(p => p == null))
+            {
+                Debug.Log("인원이 1명도 없습니다");
+                return;
+            }
+
             int index = getStageIndex();
             GameManager.SelectStageID = index;
             Debug.Log($"선택된 스테이지 ID: {GameManager.SelectStageID}");
