@@ -7,7 +7,7 @@ public class ResultManager : MonoBehaviour
     private float timer;
     private bool playerEscape;
     private FadeInOut fadeInOutUI;
-    
+    private GameManager gameManager;
     [SerializeField]
     private float gold;
     [SerializeField]
@@ -54,6 +54,16 @@ public class ResultManager : MonoBehaviour
         timer = 0;
         playerEscape = false;
         UI = null;
+
+        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        foreach (GameObject ddo in DDO)
+        {
+            if (ddo.name == "GameManager")
+            {
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
+        }
+        DDO = null;
     }
 
     // Update is called once per frame
@@ -67,6 +77,6 @@ public class ResultManager : MonoBehaviour
         playerEscape = true;
         fadeInOutUI.StartFadeOut();
         DontDestroyOnLoad(this.gameObject);
-       
+        
     }
 }

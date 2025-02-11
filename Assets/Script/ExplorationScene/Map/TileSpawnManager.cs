@@ -154,14 +154,22 @@ public class TileSpawnManager : MonoBehaviour
 
                 cameraManager.MainMoveCamera.transform.Translate(0 , 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
 
+                monsterManager.GoldSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                monsterManager.DarkEssenseSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                monsterManager.ExpSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+
                 for (int i = 0; i < followercounter; i++)
                 {
                    
                     followerManager.transform.GetChild(i).transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                 }
 
-                for (int i = 0; i < monsterManager.EnabledMonster; i++)
+                for (int i = 0; i < monsterManager.MaxMonster; i++)
                 {
+                    if(monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
+                    {
+                        break;
+                    }
                     monsterManager.transform.GetChild(i).Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                 }
 
@@ -204,13 +212,21 @@ public class TileSpawnManager : MonoBehaviour
 
                 cameraManager.MainMoveCamera.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
 
+                monsterManager.GoldSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+                monsterManager.DarkEssenseSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+                monsterManager.ExpSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+
                 for (int i = 0; i < followercounter; i++)
                 {
                     followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                 }
 
-                for (int i = 0; i < monsterManager.EnabledMonster; i++)
+                for (int i = 0; i < monsterManager.MaxMonster; i++)
                 {
+                    if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
+                    {
+                        break;
+                    }
                     monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column ), 0, 0, Space.Self);
                 }
 
@@ -264,15 +280,24 @@ public class TileSpawnManager : MonoBehaviour
 
                 cameraManager.MainMoveCamera.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
 
+                monsterManager.GoldSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                monsterManager.DarkEssenseSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                monsterManager.ExpSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+
                 for (int i = 0; i < followercounter; i++)
                 {
 
                     followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                 }
 
-                for (int i = 0; i < monsterManager.EnabledMonster; i++)
+                for (int i = 0; i < monsterManager.MaxMonster; i++)
                 {
+                    if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
+                    {
+                        continue;
+                    }
                     monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                    
                 }
 
 

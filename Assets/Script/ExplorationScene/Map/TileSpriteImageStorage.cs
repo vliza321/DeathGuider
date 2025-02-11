@@ -60,6 +60,6 @@ public class TileSpriteImageStorage: MonoBehaviour
         }
         DDO = null;
 
-        baseTileSpriteImage = gameManager.BaseTileImage[gameManager.selectStageID];
+        baseTileSpriteImage = gameManager.BaseTileImg[gameManager.SelectStageID];
     }
 }

@@ -21,11 +21,11 @@ public class MonsterManager : MonoBehaviour
     [SerializeField]
     private int monstercounter;
     [SerializeField]
-    private int MaxMonster;
+    private int maxMonster;
 
-    public int maxMonster
+    public int MaxMonster
     {
-        get { return MaxMonster; }
+        get { return maxMonster; }
     }
 
 
@@ -95,9 +95,9 @@ public class MonsterManager : MonoBehaviour
         screenSize.x = Screen.width;
         screenSize.y = Screen.height;
         playerEscape = false;
-        monster = new MonsterMove[maxMonster];
-        monsterSpawnPool = new ObjectPool<MonsterState>(maxMonster);
-        monsterRespawnPool = new ObjectPool<MonsterState>(maxMonster);
+        monster = new MonsterMove[MaxMonster];
+        monsterSpawnPool = new ObjectPool<MonsterState>(MaxMonster);
+        monsterRespawnPool = new ObjectPool<MonsterState>(MaxMonster);
 
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)
@@ -121,24 +121,24 @@ public class MonsterManager : MonoBehaviour
                 DDOManager = ddo.transform.gameObject.GetComponent<DontDestroyObjectManager>();
             }
         }
-        Manager = null;
-
-        for (int a = 0; a < maxMonster; a++)
+        DDO = null;
+        
+        for (int a = 0; a < MaxMonster; a++)
         {
-            MonsterState newMonster = Instantiate(GameManager.Monster[GameManager.selectStageID].gameObject).GetComponent<MonsterState>();
+            MonsterState newMonster = Instantiate(GameManager.Monster[GameManager.SelectStageID].gameObject).GetComponent<MonsterState>();
             newMonster.transform.SetParent(this.transform);
             newMonster.gameObject.SetActive(false);
             monsterSpawnPool.ReleaseObject(newMonster);
             monster[a] = newMonster.GetComponent<MonsterMove>();
-            newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.selectStageID],monsterRespawnPool,this,a);
+            newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.SelectStageID],monsterRespawnPool,this,a);
         }
 
         signX = 0;
         signY = 0;
 
-        monsterSpawnTimer = new int[(int)(MaxMonster/10)];
+        monsterSpawnTimer = new int[(int)(maxMonster/10)];
 
-        monstercounter = MaxMonster;
+        monstercounter = maxMonster;
         enabledMonster = 1;
         monsterRespawnTimer = 1000;
         spawnLevel = 1;
@@ -360,7 +360,7 @@ public class MonsterManager : MonoBehaviour
                 monsterSpawnTimer[i]--; 
             }
 
-            if (monsterSpawnTimer[i] <= 0 && enabledMonster < MaxMonster)
+            if (monsterSpawnTimer[i] <= 0 && enabledMonster < maxMonster)
             {
                 if (Random.Range(0, 2) == 1) signX = 1;
                 else signX = -1;

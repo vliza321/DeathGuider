@@ -27,12 +27,19 @@ public class MonsterState : autorizedObject
     private ObjectPool<MonsterState> monsterPool;
 
     private string weaponTagName = "Weapon";
+
+
     public ObjectPool<MonsterState> MonsterPool
     {
         get { return monsterPool; }
         set { monsterPool = value; }
     }
-   
+    public void ReleaseObject()
+    {
+        monsterPool.ReleaseObject(this);
+    }
+
+
     public void Init(MonsterData prototypeData, ObjectPool<MonsterState> respawnPool, MonsterManager monsterManager, int num)
     {
         healthPoint = prototypeData.MaxHealthPoint;
@@ -67,8 +74,4 @@ public class MonsterState : autorizedObject
         }
     }
 
-    public void ReleaseObject()
-    {
-        monsterPool.ReleaseObject(this);
-    }
 }

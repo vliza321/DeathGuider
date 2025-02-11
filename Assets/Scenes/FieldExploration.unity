@@ -450,6 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DDOManager: {fileID: 0}
+  GameManager: {fileID: 0}
 --- !u!1 &7510266
 GameObject:
   m_ObjectHideFlags: 0
@@ -75337,7 +75338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monstercounter: 160
-  MaxMonster: 160
+  maxMonster: 160
   monsterSpawnTimer: 
   spawnLevel: 0
 --- !u!1 &992573043
@@ -134420,16 +134421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6cbd32d2c6ffd8499df9ecd530b5e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectUserID: 0
-  selectStageID: 0
-  Monster: []
-  prototypeUnit: []
-  prototypeWeapon: []
-  PrisonerHeadImg: []
-  PrisonerHeadAnim: []
-  PrisonerBodyImg: []
-  PrisonerBodyAnim: []
-  BaseTileImage: []
 --- !u!114 &1770097206
 MonoBehaviour:
   m_ObjectHideFlags: 0

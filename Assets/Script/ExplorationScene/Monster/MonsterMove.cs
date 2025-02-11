@@ -29,7 +29,7 @@ public class MonsterMove : MonoBehaviour
     private SpriteRenderer monsterSpriteRender;
     private Vector3 cashingVector;
     [SerializeField]
-    private float spawnTimer;
+    private float timer;
 
     private float moveSpeeds;
     private bool canMove;
@@ -105,7 +105,7 @@ public class MonsterMove : MonoBehaviour
         signY = 0;
         monsterObject = this.transform;
         monsterVelocityVector = new Vector2(0, 0);
-        spawnTimer = 3;
+        timer = 3;
         knockBackTimer = 0.5f;
         canMove = false;
 
@@ -124,13 +124,13 @@ public class MonsterMove : MonoBehaviour
         {
             case MonsterActionState.Spawning:
                 renderer.color = new Vector4(1, 1, 1, 1);
-                spawnTimer -= Time.deltaTime;
-                if(spawnTimer <0)
+                timer -= Time.deltaTime;
+                if(timer <0)
                 {
                     actionState = MonsterActionState.Moving;
                     capsuleCollider.enabled = true;
                     canMove = true;
-                    spawnTimer = 1;
+                    timer = 1;
                 }
                 break;
 
@@ -191,13 +191,12 @@ public class MonsterMove : MonoBehaviour
 
             case MonsterActionState.Dying:
                 capsuleCollider.enabled = false;
-                spawnTimer -= Time.deltaTime;
-                renderer.color = new Vector4(1, 1, 1, spawnTimer * 0.333f);
-                if (spawnTimer < 0)
+                timer -= Time.deltaTime;
+                renderer.color = new Vector4(1, 1, 1, timer * 0.333f);
+                if (timer < 0)
                 {
                     monsterState.ReleaseObject();
-                    this.gameObject.SetActive(false);
-                    spawnTimer = 2;
+                    timer = 2;
                 }
                 break;
         }

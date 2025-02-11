@@ -8,29 +8,97 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    public int selectUserID = 0;
-    public int selectStageID = 0;
+    private int selectUserID = 0;   //선택한 유저의 ID
+    private int selectStageID = 0;  //선택한 전투 스테이지의 ID
 
-    public List<GameObject> Monster;
-    public List<GameObject> prototypeUnit;
-    public List<GameObject> prototypeWeapon;
-    public List<Sprite> PrisonerHeadImg;
-    public List<RuntimeAnimatorController> PrisonerHeadAnim;
-    public List<Sprite> PrisonerBodyImg;
-    public List<RuntimeAnimatorController> PrisonerBodyAnim;
+    public int SelectUserID
+    {
+        get { return selectUserID; }
+        set { selectUserID = value; }
+    }
+    public int SelectStageID
+    {
+        get { return selectStageID; }
+        set { selectStageID = value; }
+    }
 
-    public List<Sprite> BaseTileImage;
+    private List<GameObject> monster;           //몬스터 프리팹
+    private List<GameObject> prototypeUnit;     //안내자 프리팹
+    private List<GameObject> prototypeWeapon;   //무기 프리팹
+    private List<Sprite> guiderHeadImg;         //안내자 머리 이미지
+    private List<Sprite> guiderBodyImg;         //안내자 몸통 이미지
+    private List<Sprite> prisonerHeadImg;       //수감자 머리 이미지
+    private List<Sprite> prisonerBodyImg;       //수감자 몸통 이미지
+    private List<RuntimeAnimatorController> prisonerHeadAnim;   //수감자 머리 애니메이션
+    private List<RuntimeAnimatorController> prisonerBodyAnim;   //수감자 몸통 애니메이션
+    private List<Sprite> weaponImg;             //무기 이미지
+    private List<Sprite> baseTileImg;         //전투 스테이지 바닥 타일 이미지
+
+    public List<GameObject> Monster
+    {
+        get { return monster; }
+    }
+
+    public List<GameObject> PrototypeUnit 
+    {
+        get { return prototypeUnit; }
+    }
+
+    public List<GameObject> PrototypeWeapon
+    {
+        get { return prototypeWeapon; }
+    }
+
+    public List<Sprite> GuiderHeadImg
+    { 
+        get { return guiderHeadImg; }
+    }
+    public List<Sprite> GuiderBodyImg 
+    {
+        get { return guiderBodyImg; } 
+    }
+    public List<Sprite> PrisonerHeadImg 
+    { 
+        get { return prisonerHeadImg; } 
+    }
+    public List<RuntimeAnimatorController> PrisonerHeadAnim 
+    {
+        get { return prisonerHeadAnim; }
+    }
+    public List<RuntimeAnimatorController> PrisonerBodyAnim
+    {
+        get { return prisonerBodyAnim; }
+    }
     
+    public List<Sprite> WeaponImg 
+    {
+        get { return weaponImg; }
+    }
+    public List<Sprite> BaseTileImg
+    {
+        get { return baseTileImg; }
+    }
+
+    public List<Sprite> PrisonerBodyImg
+    {
+        get { return prisonerBodyImg; }
+    }
+     
+
     private List<string> path = new List<string> { 
-        "Monster",
+        "monster",
         "prototypeUnit",
         "prototypeWeapon",
-        "PrisonerBodyImg",
-        "PrisonerBodyAnim",
-        "PrisonerHeadImg",
-        "PrisonerHeadAnim",
-        "BaseTileImage"
+        "guiderHeadImg",
+        "guiderBodyImg",
+        "prisonerBodyImg",
+        "prisonerBodyAnim",
+        "prisonerHeadImg",
+        "prisonerHeadAnim",
+        "baseTileImg", 
+        "weaponImg"
     };
+
     public void Initialized()
     {
 
@@ -79,14 +147,15 @@ public class GameManager : MonoBehaviour
         }
         objects = null;
 
-        sorting(Monster);
+        sorting(monster);
         sorting(prototypeUnit);
         sorting(prototypeWeapon);
-        sorting(PrisonerBodyImg);
-        sorting(PrisonerBodyAnim);
-        sorting(PrisonerHeadImg);
-        sorting(PrisonerHeadAnim);
-        sorting(BaseTileImage);
+        sorting(prisonerBodyImg);
+        sorting(prisonerBodyAnim);
+        sorting(prisonerHeadImg);
+        sorting(prisonerHeadAnim);
+        sorting(baseTileImg);
+        sorting(weaponImg);
     }
 
 

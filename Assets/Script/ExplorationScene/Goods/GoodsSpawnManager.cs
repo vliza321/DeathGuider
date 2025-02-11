@@ -59,14 +59,14 @@ public class GoodsSpawnManager : MonoBehaviour
         DDO = null;
 
         //몬스터 수 만큼 프리팹 생성
-        for (int i =0;i<monsterManager.maxMonster;i++)
+        for (int i =0;i<monsterManager.MaxMonster;i++)
         {
             GameObject newGoods = Instantiate(goodsPrefeb);
             newGoods.transform.SetParent(this.transform);
         }
 
         //Dictionary 초기화
-        goods = new Dictionary<int, Queue<Goods>>(monsterManager.maxMonster);
+        goods = new Dictionary<int, Queue<Goods>>(monsterManager.MaxMonster);
 
         //goodsQueue의 Dictionary 구성
         for (int i = 0;i<this.transform.childCount;i++)
@@ -75,7 +75,7 @@ public class GoodsSpawnManager : MonoBehaviour
             for (int j = 0; j < this.transform.GetChild(i).childCount; j++)
             {
                 cachingGoods = this.transform.GetChild(i).GetChild(j).GetComponent<Goods>();
-                cachingGoods.init(this,i,gameManager.selectStageID);
+                cachingGoods.init(this,i,gameManager.SelectStageID);
                 this.transform.GetChild(i).GetChild(j).gameObject.SetActive(false);
                 goodsQueue.Enqueue(this.transform.GetChild(i).GetChild(j).GetComponent<Goods>());
             }
