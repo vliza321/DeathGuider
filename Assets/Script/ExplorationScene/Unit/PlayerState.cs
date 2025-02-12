@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
+    private UnitData stat;
     private bool alive; // 살았는지 죽었는지만
     private bool canMove; // 움직이는지 멈췄는지만
     private int dontMoveTimer;
