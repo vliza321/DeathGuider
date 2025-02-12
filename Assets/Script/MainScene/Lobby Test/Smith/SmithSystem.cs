@@ -398,10 +398,11 @@ public class SmithSystem : MonoBehaviour
             DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= evolveCost.GoldCost;
             DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= evolveCost.DarkCost;
 
-            // 공격력 증가 (진화 시 더 큰 증가량 적용)
+            //임시코드
             weaponData.AttackPoint += GetEvolveAttackBonus(weaponData.Rank);
 
             // 진화: Enforce를 0으로 리셋하고, Rank를 +1
+            weaponData.Durability = 100;
             weaponData.Enforce = 0;
             weaponData.Rank++;
             
@@ -417,8 +418,21 @@ public class SmithSystem : MonoBehaviour
                 Debug.LogError("[딕셔너리 오류] 무기 데이터가 딕셔너리에 존재하지 않습니다.");
             }
 
+            // 추후 업데이트 되어야하는 코드
+            //int EvolutionedWeaponID = weaponData.PrototypeWeaponID + 1000;
+            //DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[EvolutionedWeaponID].InstanceCounter++;
+
+            //weaponData.PrototypeWeaponID = EvolutionedWeaponID;
+            //weaponData.InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weaponData.PrototypeWeaponID].InstanceCounter;
+            //weaponData.Name = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weaponData.PrototypeWeaponID].Name;
+            //weaponData.AttackPoint = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weaponData.PrototypeWeaponID].AttackPoint;
+            //weaponData.Durability = 100;
+            //weaponData.Enforce = 0;
+            //weaponData.Rank++;
+
             // 버튼 텍스트 변경
             enforceButtonText.text = (weaponData.Rank >= 5) ? "Max" : "강화";
+
 
             // 진화 후 비용을 강화 비용으로 변경
             EnforceCost nextCost = GetAdjustedEnforceCost(weaponData.Rank, weaponData.Enforce);
@@ -826,19 +840,19 @@ public class SmithSystem : MonoBehaviour
             Button chooseButton = weaponObj.transform.Find("ChooseButton")?.GetComponent<Button>();
 
             // 랜덤하게 무기 선택
-            int selectedID = UnityEngine.Random.Range(0, 3/*DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas.Count*/);
-            PrototypeWeaponData baseWeapon = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedID];
-
+            int selectedID = UnityEngine.Random.Range(0, 3/*DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas.Count // 추후에는 상수값으로 해야됨*/);
+            int rank = UnityEngine.Random.Range(0,currentWeaponRank);
+            PrototypeWeaponData baseWeapon = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedID /* + rank * 1000*/];
             // 새 무기 데이터 생성 (newWeaponDatas 리스트에 추가)
             newWeaponDatas.Add(new newWeaponDataList
             {
                 ID = baseWeapon.ID,
-                WeaponName = baseWeapon.Name,
+                WeaponName = baseWeapon.Name ,
                 AttackPoint = baseWeapon.AttackPoint,
                 Type = baseWeapon.Type,
                 Durability = 100,
                 Enforce = 0,
-                Rank = DDOManager.LocalUserDatas.LocalUserDatas[0].SmithEnhance,
+                Rank = rank,
                 GoldCost = 0, // 적절한 금액을 설정
                 DarkCost = 0, // 적절한 다크 코스트 설정
                 calculatedGoldCost = 0, // 계산된 금액 설정
@@ -885,13 +899,13 @@ public class SmithSystem : MonoBehaviour
 
         WeaponData newWeaponData = new WeaponData
         {
-            UserID = 0,
+            UserID = GameManager.SelectUserID,
             PrototypeWeaponID = selectedWeapon.ID,
             InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedWeapon.ID].InstanceCounter,
             Name = selectedWeapon.WeaponName,
             AttackPoint = selectedWeapon.AttackPoint,
             Durability = selectedWeapon.Durability,
-            Rank = currentWeaponRank,
+            Rank = selectedWeapon.Rank,
             Type = selectedWeapon.Type,
             Enforce = selectedWeapon.Enforce,
             Crime = selectedWeapon.Crime
