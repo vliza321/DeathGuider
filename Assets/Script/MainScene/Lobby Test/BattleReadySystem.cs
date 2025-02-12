@@ -837,7 +837,7 @@ public class BattleReadySystem : MonoBehaviour
         if (gameManager != null)
         {
             int index = getStageIndex();
-            gameManager.selectStageID = index;
+            gameManager.SelectStageID = index;
             Debug.Log($"선택된 스테이지 ID: {index}");
         }
         else

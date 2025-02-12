@@ -51,5 +51,6 @@ public class WeaponData
     public int Enforce;
     public int Crime;
     public int Rank; //등급
+    public int EffectID;
     public int ActivityStatus;//CSV 추가 필요
 }

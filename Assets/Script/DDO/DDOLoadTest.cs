@@ -34,6 +34,114 @@ public class DDOLoadTest : MonoBehaviour
         DDOManager.UnitDatas.UnitDatas.Add(new UnitData());
     }
 
+    WeaponData WeaponSpawnTest()
+    {
+        int maxWeapon = 3; // 랭크 안에 만들어진 무기 개수
+        int maxRank = 2; // 생성할 수 있는 무기 등급
+        int newWeaponID = Random.Range(0, maxWeapon);
+        int rank = Random.Range(0, maxRank + 1); 
+        
+        WeaponData newWeapon = new WeaponData();
+        newWeapon.UserID = GameManager.SelectUserID;
+        newWeapon.PrototypeWeaponID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeaponID + rank * 1000].ID;
+        newWeapon.InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeaponID + rank * 1000].InstanceCounter;
+        newWeapon.Name = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeaponID + rank * 1000].Name;
+        newWeapon.AttackPoint = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeaponID + rank * 1000].AttackPoint;
+        newWeapon.Durability = 100;
+        newWeapon.Type = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeaponID + rank * 1000].Type;
+        newWeapon.Enforce = 0;
+        newWeapon.Crime = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeaponID + rank * 1000].Crime;
+        newWeapon.Rank = rank;
+        newWeapon.EffectID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeaponID + rank * 1000].Type;
+        newWeapon.ActivityStatus = 0;
+
+        return newWeapon;
+    }
+    
+    
+    WeaponData weapon1;
+    WeaponData weapon2;
+    WeaponData weapon3;
+
+    void WeaponCreate()
+    {
+        weapon1 = WeaponSpawnTest();
+        weapon2 = WeaponSpawnTest();
+        weapon3 = WeaponSpawnTest();
+    }
+
+    void WeaponBuy(WeaponData weapon)
+    {
+        //PrototypeWeapon의 instanceCounter증가
+        DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].InstanceCounter++;
+
+        //구매한 무기의 InstanceID를 변경
+        weapon.InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].InstanceCounter;
+
+        //데이터 베이스에 list 및 dictionary에 추가
+        DDOManager.WeaponDatas.WeaponDatas.Add(weapon);
+        DDOManager.WeaponDatas.WeaponDataDic.Add((weapon.UserID, weapon.PrototypeWeaponID, weapon.InstanceID), weapon);
+    }
+
+    void EnhanceWeapon(WeaponData weapon)
+    {
+        // 무기 강화 횟수가 5이상이면 탈출
+        if(weapon.Enforce <= 5) { return; }
+
+        //강화할 무기의 정보 변경
+        weapon.AttackPoint += (int)(DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].AttackPoint * 0.2f);
+        weapon.Enforce++;
+    }
+
+
+    void EnhanceWeapon(int UserID, int PrototypeWeaponID, int InstanceID)
+    {
+        //key 값에 맞는 무기 찾기
+        WeaponData weapon = DDOManager.WeaponDatas.WeaponDataDic[(UserID, PrototypeWeaponID, InstanceID)];
+
+        // 무기 강화 횟수가 5이상이면 탈출
+        if (weapon.Enforce == 5) { return; }
+
+        //강화할 무기의 정보 변경
+        weapon.AttackPoint += (int)(DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].AttackPoint * 0.2f);
+        weapon.Enforce++;
+    }
+
+    void WeaponEvolution(WeaponData weapon)
+    {
+        //무기가 진화될 대상의 ID 및 InstanceCounter 증가
+        int EvolutionedWeaponPrototypeID = weapon.PrototypeWeaponID + 1000;
+        DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[EvolutionedWeaponPrototypeID].InstanceCounter++;
+
+        //진화할 무기의 정보 변경
+        weapon.PrototypeWeaponID += EvolutionedWeaponPrototypeID;
+        weapon.InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].InstanceCounter;
+        weapon.Name = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].Name;
+        weapon.AttackPoint = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].AttackPoint;
+        weapon.Durability = 100;
+        weapon.Enforce = 0;
+        weapon.Rank++;
+    }
+
+    void WeaponEvolution(int UserID, int PrototypeWeaponID, int InstanceID)
+    {
+        //key 값에 맞는 무기 찾기
+        WeaponData weapon = DDOManager.WeaponDatas.WeaponDataDic[(UserID, PrototypeWeaponID, InstanceID)];
+
+        //무기가 진화될 대상의 ID 및 InstanceCounter 증가
+        int EvolutionedWeaponPrototypeID = weapon.PrototypeWeaponID + 1000;
+        DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[EvolutionedWeaponPrototypeID].InstanceCounter++;
+
+        //진화할 무기의 정보 변경
+        weapon.PrototypeWeaponID += EvolutionedWeaponPrototypeID;
+        weapon.InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].InstanceCounter;
+        weapon.Name = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].Name;
+        weapon.AttackPoint = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[weapon.PrototypeWeaponID].AttackPoint;
+        weapon.Durability = 100;
+        weapon.Enforce = 0;
+        weapon.Rank++;
+    }
+
     void GameManagerTest()
     {
         // 자유롭게 수정가능한 변수의 수정 예시
