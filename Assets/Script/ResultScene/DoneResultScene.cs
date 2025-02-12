@@ -5,10 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class DoneResultScene : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    public void OnClick()
+    // "Title" 씬으로 이동하는 버튼 기능
+    public void OnClickTitle()
     {
         SceneManager.LoadScene("Title");
+    }
+
+    // "Main" 씬으로 이동하는 버튼 기능
+    public void OnClickMain()
+    {
+        SceneManager.LoadScene("Main");
     }
 }
