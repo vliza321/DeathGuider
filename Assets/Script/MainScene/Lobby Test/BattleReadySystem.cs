@@ -488,6 +488,7 @@ public class BattleReadySystem : MonoBehaviour
                     if (prisonerReturnButton != null)
                     {
                         int index = i + 1;
+                        int userID = GameManager.SelectUserID;
                         prisonerReturnButton.onClick.AddListener(() =>
                         {
                             int weaponEquipableState = weaponSlots[index].equipableState;
@@ -495,7 +496,7 @@ public class BattleReadySystem : MonoBehaviour
 
                             if (weaponEquipableState != -1 && weaponInstanceID != -1)
                             {
-                                var weaponKey = (0, weaponEquipableState, weaponInstanceID);
+                                var weaponKey = (userID, weaponEquipableState, weaponInstanceID);
 
                                 // WeaponDataDic에서 제거
                                 if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(weaponKey))
@@ -509,7 +510,7 @@ public class BattleReadySystem : MonoBehaviour
 
                                 var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
                 .FirstOrDefault(kv =>
-                    kv.Value.UserID == 0 &&
+                    kv.Value.UserID == GameManager.SelectUserID &&
                     kv.Value.PrototypeWeaponID == weaponEquipableState &&
                     kv.Value.InstanceID == weaponInstanceID
                 ).Key;
@@ -980,25 +981,33 @@ public class BattleReadySystem : MonoBehaviour
 
     public void stagemonsterImage(int index)
     {
-        if (DDOManager.MonsterDatas != null && DDOManager.MonsterDatas.MonsterDatas.Count > index)
+        LinkedList<int> appearMonster = new LinkedList<int>();
+        foreach (var am in DDOManager.AppearDatas.AppearDatas)
         {
-
-            GameObject monsterObject = GameManager.Monster[index];
-
-            if (monsterObject == null)
+            if (am.StageID == index)
             {
-                Debug.LogError($"GameManager.Monster[{index}]가 null입니다.");
-                return;
+                Debug.Log($"tlqk {am.StageID} / {am.MonsterID}");
+                appearMonster.AddLast(am.MonsterID);
+            }
+        }
+
+        foreach (var am in appearMonster)
+        {
+            if (am < 0 || am >= GameManager.Monster.Count)
+            {
+                Debug.LogError($"MonsterID {am}가 GameManager.Monster 리스트 범위를 벗어남");
+                continue;
             }
 
-            SpriteRenderer spriteRenderer = monsterObject.GetComponent<SpriteRenderer>();
-            if (spriteRenderer == null)
+            SpriteRenderer sr = GameManager.Monster[am].GetComponent<SpriteRenderer>();
+            if (sr != null)
             {
-                Debug.LogError($"GameManager.Monster[{index}]에 SpriteRenderer 컴포넌트가 없습니다.");
-                return;
+                monsterImage.sprite = sr.sprite;
             }
-
-            monsterImage.sprite = spriteRenderer.sprite;
+            else
+            {
+                Debug.LogError($"MonsterID {am}의 SpriteRenderer를 찾을 수 없음");
+            }
         }
     }
 
@@ -1026,9 +1035,11 @@ public class BattleReadySystem : MonoBehaviour
 
             int index = getStageIndex();
             GameManager.SelectStageID = index;
+
             Debug.Log($"선택된 스테이지 ID: {GameManager.SelectStageID}");
         }
     }
+
     public void CheckAndResetDungeonSystemState()
     {
         int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;

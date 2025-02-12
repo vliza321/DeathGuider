@@ -30,7 +30,6 @@ public class SmithSystem : MonoBehaviour
         public int AttackPoint;
         public int Type;
         public int Enforce = 0;
-        public int InstanceCounter;
         public int Durability = 100;
         public int Crime;
         public int Rank;
@@ -650,92 +649,17 @@ public class SmithSystem : MonoBehaviour
         return adjustedPrice; ;
     }
 
-
-    public void GenerateNewWeaponDatas()
+    public void UpdateWeaponUI(newWeaponDataList newWeapon, TextMeshProUGUI goldText, TextMeshProUGUI darkText)
     {
-        foreach (Transform child in newWeaponParent)
-        {
-            Destroy(child.gameObject);
-        }
+        int smithEnhance = Mathf.Clamp(DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance, 0, 5);
 
-        newWeaponDatas.Clear();
+        newWeapon.calculatedGoldCost = Mathf.Max(0, newWeapon.GoldCost - smithEnhance);
+        newWeapon.calculatedDarkCost = Mathf.Max(0, newWeapon.DarkCost - smithEnhance);
 
-        // 각 ID별로 최대 InstanceID 값을 추적
-        Dictionary<(int, int), int> instanceIDTracker = new Dictionary<(int, int), int>();
-
-        // 기존 WeaponData에서 InstanceID 최대값 추적
-        foreach (var weaponData in DDOManager.WeaponDatas.WeaponDatas)
-        {
-            var key = (weaponData.UserID, weaponData.PrototypeWeaponID);
-            if (!instanceIDTracker.ContainsKey(key))
-            {
-                instanceIDTracker[key] = weaponData.InstanceID;
-            }
-            else
-            {
-                instanceIDTracker[key] = Mathf.Max(instanceIDTracker[key], weaponData.InstanceID);
-            }
-        }
-
-        for (int i = 0; i < newWeaponIndex; i++)
-        {
-            GameObject weaponObj = Instantiate(newWeaponPrefab, newWeaponParent);
-            weaponObj.name = $"Smith New Weapon {i + 1}";
-
-            TextMeshProUGUI goldText = weaponObj.transform.Find("GoldText")?.GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI darkText = weaponObj.transform.Find("DarkText")?.GetComponent<TextMeshProUGUI>();
-            Button chooseButton = weaponObj.transform.Find("ChooseButton")?.GetComponent<Button>();
-
-            // 랜덤하게 무기 선택
-            int selectedID = UnityEngine.Random.Range(0, 3/*DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas.Count*/);
-            PrototypeWeaponData baseWeapon = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedID];
-
-            // 새로운 InstanceID 계산 (이전에 사용된 InstanceID와 구분되도록)
-            var key = (baseWeapon.ID, baseWeapon.InstanceCounter);
-            if (!instanceIDTracker.ContainsKey(key))
-            {
-                instanceIDTracker[key] = baseWeapon.InstanceCounter;
-            }
-            else
-            {
-                instanceIDTracker[key]++;
-            }
-
-            int newInstanceID = instanceIDTracker[key];
-
-            // 새 무기 데이터 생성 (newWeaponDatas 리스트에 추가)
-            newWeaponDatas.Add(new newWeaponDataList
-            {
-                ID = baseWeapon.ID,
-                WeaponName = baseWeapon.Name,
-                AttackPoint = baseWeapon.AttackPoint,
-                Type = baseWeapon.Type,
-                InstanceCounter = newInstanceID, // 새로 계산된 InstanceID
-                Durability = 100,
-                Enforce = 0,
-                Rank = DDOManager.LocalUserDatas.LocalUserDatas[0].SmithEnhance,
-                GoldCost = 0, // 적절한 금액을 설정
-                DarkCost = 0, // 적절한 다크 코스트 설정
-                calculatedGoldCost = 0, // 계산된 금액 설정
-                calculatedDarkCost = 0, // 계산된 다크 코스트 설정
-                ParentWeaponObj = weaponObj // 새로 생성된 오브젝트 추가
-            });
-
-            Image weaponImage = weaponObj.transform.Find("Image/WeaponImage")?.GetComponent<Image>();
-            if (weaponImage != null)
-            {
-                weaponImage.sprite = GameManager.WeaponImg[baseWeapon.ID];
-            }
-
-            newWeaponDatas.Last().SetRank(newWeaponDatas.Last().Rank);
-            UpdateWeaponUI(newWeaponDatas.Last(), goldText, darkText);
-
-            if (chooseButton != null)
-            {
-                int index = i; // index를 버튼 클릭 시 전달
-                chooseButton.onClick.AddListener(() => OnChooseButtonClick(index));
-            }
-        }
+        if (goldText != null)
+            goldText.text = $"{newWeapon.calculatedGoldCost}G";
+        if (darkText != null)
+            darkText.text = $"{newWeapon.calculatedDarkCost}D";
     }
 
     //public void GenerateNewWeaponDatas()
@@ -829,19 +753,6 @@ public class SmithSystem : MonoBehaviour
     //    }
     //}
 
-    public void UpdateWeaponUI(newWeaponDataList newWeapon, TextMeshProUGUI goldText, TextMeshProUGUI darkText)
-    {
-        int smithEnhance = Mathf.Clamp(DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance, 0, 5);
-
-        newWeapon.calculatedGoldCost = Mathf.Max(0, newWeapon.GoldCost - smithEnhance);
-        newWeapon.calculatedDarkCost = Mathf.Max(0, newWeapon.DarkCost - smithEnhance);
-
-        if (goldText != null)
-            goldText.text = $"{newWeapon.calculatedGoldCost}G";
-        if (darkText != null)
-            darkText.text = $"{newWeapon.calculatedDarkCost}D";
-    }
-
     public void UpdateSmithEnhanceAndUI()
     {
         foreach (var newWeapon in newWeaponDatas)
@@ -879,6 +790,79 @@ public class SmithSystem : MonoBehaviour
         }
     }
 
+    public void GenerateNewWeaponDatas()
+    {
+        foreach (Transform child in newWeaponParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        newWeaponDatas.Clear();
+
+        // 각 ID별로 최대 InstanceID 값을 추적
+        Dictionary<(int, int), int> instanceIDTracker = new Dictionary<(int, int), int>();
+
+        // 기존 WeaponData에서 InstanceID 최대값 추적
+        foreach (var weaponData in DDOManager.WeaponDatas.WeaponDatas)
+        {
+            var key = (weaponData.UserID, weaponData.PrototypeWeaponID);
+            if (!instanceIDTracker.ContainsKey(key))
+            {
+                instanceIDTracker[key] = weaponData.InstanceID;
+            }
+            else
+            {
+                instanceIDTracker[key] = Mathf.Max(instanceIDTracker[key], weaponData.InstanceID);
+            }
+        }
+
+        for (int i = 0; i < newWeaponIndex; i++)
+        {
+            GameObject weaponObj = Instantiate(newWeaponPrefab, newWeaponParent);
+            weaponObj.name = $"Smith New Weapon {i + 1}";
+
+            TextMeshProUGUI goldText = weaponObj.transform.Find("GoldText")?.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI darkText = weaponObj.transform.Find("DarkText")?.GetComponent<TextMeshProUGUI>();
+            Button chooseButton = weaponObj.transform.Find("ChooseButton")?.GetComponent<Button>();
+
+            // 랜덤하게 무기 선택
+            int selectedID = UnityEngine.Random.Range(0, 3/*DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas.Count*/);
+            PrototypeWeaponData baseWeapon = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedID];
+
+            // 새 무기 데이터 생성 (newWeaponDatas 리스트에 추가)
+            newWeaponDatas.Add(new newWeaponDataList
+            {
+                ID = baseWeapon.ID,
+                WeaponName = baseWeapon.Name,
+                AttackPoint = baseWeapon.AttackPoint,
+                Type = baseWeapon.Type,
+                Durability = 100,
+                Enforce = 0,
+                Rank = DDOManager.LocalUserDatas.LocalUserDatas[0].SmithEnhance,
+                GoldCost = 0, // 적절한 금액을 설정
+                DarkCost = 0, // 적절한 다크 코스트 설정
+                calculatedGoldCost = 0, // 계산된 금액 설정
+                calculatedDarkCost = 0, // 계산된 다크 코스트 설정
+                ParentWeaponObj = weaponObj // 새로 생성된 오브젝트 추가
+            });
+
+            Image weaponImage = weaponObj.transform.Find("Image/WeaponImage")?.GetComponent<Image>();
+            if (weaponImage != null)
+            {
+                weaponImage.sprite = GameManager.WeaponImg[baseWeapon.ID];
+            }
+
+            newWeaponDatas.Last().SetRank(newWeaponDatas.Last().Rank);
+            UpdateWeaponUI(newWeaponDatas.Last(), goldText, darkText);
+
+            if (chooseButton != null)
+            {
+                int index = i; // index를 버튼 클릭 시 전달
+                chooseButton.onClick.AddListener(() => OnChooseButtonClick(index));
+            }
+        }
+    }
+
     public void OnChooseButtonClick(int index)
     {
         var weaponDataDic = DDOManager.WeaponDatas.WeaponDataDic;
@@ -903,7 +887,7 @@ public class SmithSystem : MonoBehaviour
         {
             UserID = 0,
             PrototypeWeaponID = selectedWeapon.ID,
-            InstanceID = selectedWeapon.InstanceCounter,
+            InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedWeapon.ID].InstanceCounter,
             Name = selectedWeapon.WeaponName,
             AttackPoint = selectedWeapon.AttackPoint,
             Durability = selectedWeapon.Durability,
@@ -913,8 +897,8 @@ public class SmithSystem : MonoBehaviour
             Crime = selectedWeapon.Crime
         };
 
-        DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[(selectedWeapon.ID)].InstanceCounter =
-    Mathf.Max(DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[(selectedWeapon.ID)].InstanceCounter, selectedWeapon.InstanceCounter + 1);
+        DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[(selectedWeapon.ID)].InstanceCounter++;
+
         var key = (newWeaponData.UserID, newWeaponData.PrototypeWeaponID, newWeaponData.InstanceID);
 
         if (!weaponDataDic.ContainsKey(key))
@@ -946,68 +930,4 @@ public class SmithSystem : MonoBehaviour
         GenerateHaveWeaponDatas();
     }
 
-
-
-    //public void OnChooseButtonClick(int index)
-    //{
-    //    var weaponDataDic = DDOManager.WeaponDatas.WeaponDataDic;
-    //    int newKey = weaponDataDic.Count;
-    //    var selectedWeapon = newWeaponDatas[index];
-
-    //    int userGold = DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold;
-    //    int userDark = DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence;
-
-    //    if (userGold < selectedWeapon.calculatedGoldCost || userDark < selectedWeapon.calculatedDarkCost)
-    //    {
-    //        Debug.LogError("Not enough resources to purchase the weapon.");
-    //        return;
-    //    }
-
-    //    DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= selectedWeapon.calculatedGoldCost;
-    //    DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= selectedWeapon.calculatedDarkCost;
-    //    storageUI.UpdateGold();
-    //    storageUI.UpdatedarkEssence();
-
-    //    WeaponData newWeaponData = new WeaponData
-    //    {
-    //        UserID = 0,
-    //        PrototypeWeaponID = newKey,
-    //        InstanceID = 0,
-    //        Name = selectedWeapon.WeaponName,
-    //        AttackPoint = selectedWeapon.AttackPoint,
-    //        Durability = selectedWeapon.Durability,
-    //        Rank = currentWeaponRank,
-    //        Type = selectedWeapon.Type,
-    //        Enforce = selectedWeapon.Enforce,
-    //        Crime = selectedWeapon.Crime
-    //    };
-
-    //    var key = (newWeaponData.UserID, newWeaponData.PrototypeWeaponID, newWeaponData.InstanceID);
-
-    //    if (!weaponDataDic.ContainsKey(key))
-    //    {
-    //        DDOManager.WeaponDatas.WeaponDatas.Add(newWeaponData);
-    //        weaponDataDic.Add(key, newWeaponData);
-    //        Debug.Log($"Weapon added: {newWeaponData.Name} with key ({newWeaponData.UserID}, {newWeaponData.PrototypeWeaponID}, {newWeaponData.InstanceID})");
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError($"Weapon with the same key already exists: ({newWeaponData.UserID}, {newWeaponData.PrototypeWeaponID}, {newWeaponData.InstanceID})");
-    //    }
-
-    //    if (index >= 0 && index < newWeaponParent.childCount)
-    //    {
-    //        newWeaponParent.GetChild(index).gameObject.SetActive(false);
-    //    }
-
-    //    for (int i = 0; i < newWeaponParent.childCount; i++)
-    //    {
-    //        var button = newWeaponParent.GetChild(i).GetComponentInChildren<Button>();
-    //        int newIndex = i;
-    //        button.onClick.RemoveAllListeners();
-    //        button.onClick.AddListener(() => OnChooseButtonClick(newIndex));
-    //    }
-
-    //    GenerateHaveWeaponDatas();
-    //}
 }
