@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
         set { selectStageID = value; }
     }
 
+
     [SerializeField]
     private List<GameObject> monster;           //몬스터 프리팹
     [SerializeField]

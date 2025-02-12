@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,11 +25,12 @@ public class SmithSystem : MonoBehaviour
     [System.Serializable]
     public class newWeaponDataList
     {
+        public int ID;
         public string WeaponName;
         public int AttackPoint;
-        public int Durability = 100;
         public int Type;
         public int Enforce = 0;
+        public int Durability = 100;
         public int Crime;
         public int Rank;
         public int GoldCost;
@@ -205,7 +209,7 @@ public class SmithSystem : MonoBehaviour
 
         public int GetRandomAttackPoint()
         {
-            return Random.Range(MinAttack, MaxAttack + 1);
+            return UnityEngine.Random.Range(MinAttack, MaxAttack + 1);
         }
     }
 
@@ -224,21 +228,8 @@ public class SmithSystem : MonoBehaviour
         return weaponAttackRanges.TryGetValue(rank, out var range) ? range.GetRandomAttackPoint() : 0;
     }
 
-    private List<string> adjectives = new List<string>
-    {
-        "휘날리는", "붉은", "신성한", "어둠의", "서리내린", "타오르는", "강철의", "고대의", "빛나는", "무자비한",
-        "저주받은", "신비로운", "폭풍의", "황금의", "날카로운", "암흑의", "불사의", "전설적인", "맹렬한", "고요한",
-        "불타는", "서늘한", "신속한", "강력한", "광기의", "잔혹한", "기괴한", "성스러운", "파괴적인", "은빛의"
-    };
-
-    private List<string> weaponNames = new List<string>
-    {
-        "검", "대검", "단검", "장검", "전투도끼", "창", "장창", "도끼", "철퇴", "망치",
-        "활", "석궁", "장궁", "단궁", "지팡이", "마법봉", "한손도끼", "양손검", "대형망치", "너클",
-        "클레이모어", "레이피어", "카타나", "너클건틀렛", "채찍", "부메랑", "삼지창", "낫", "장도", "샤미셔"
-    };
-
     private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
 
     void Start()
     {
@@ -249,8 +240,12 @@ public class SmithSystem : MonoBehaviour
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
+            if (ddo.name == "GameManager")
+            {
+                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
         }
-
+        DDO = null;
         GenerateNewWeaponDatas();
     }
 
@@ -340,6 +335,12 @@ public class SmithSystem : MonoBehaviour
 
                 // 판매 금액을 텍스트로 표시
                 weaponSaleCost.text = $"{salePrice}G";
+            }
+
+            Image weaponImage = weaponObj.transform.Find("WeaponBox/WeaponImage")?.GetComponent<Image>();
+            if (weaponImage != null)
+            {
+                weaponImage.sprite = GameManager.WeaponImg[weaponData.PrototypeWeaponID];
             }
 
             if (weaponEnforceButton != null)
@@ -648,52 +649,6 @@ public class SmithSystem : MonoBehaviour
         return adjustedPrice; ;
     }
 
-
-    private string GenerateRandomWeaponName()
-    {
-        string adjective = adjectives[Random.Range(0, adjectives.Count)];
-        string weapon = weaponNames[Random.Range(0, weaponNames.Count)];
-        return $"{adjective} {weapon}";
-    }
-
-    public void GenerateNewWeaponDatas()
-    {
-        foreach (Transform child in newWeaponParent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        newWeaponDatas.Clear();
-
-        for (int i = 0; i < newWeaponIndex; i++)
-        {
-            GameObject weaponObj = Instantiate(newWeaponPrefab, newWeaponParent);
-
-            weaponObj.name = $"Smith New Weapon {i + 1}";
-
-            TextMeshProUGUI goldText = weaponObj.transform.Find("GoldText")?.GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI darkText = weaponObj.transform.Find("DarkText")?.GetComponent<TextMeshProUGUI>();
-            Button chooseButton = weaponObj.transform.Find("ChooseButton")?.GetComponent<Button>();
-
-            newWeaponDataList newWeapon = new newWeaponDataList
-            {
-                WeaponName = GenerateRandomWeaponName(),
-                AttackPoint = GetRandomAttackPoint(Random.Range(0, 6)),
-                Type = Random.Range(0,4),
-                Crime = Random.Range(0, 7),
-                ParentWeaponObj = weaponObj
-            };
-            newWeapon.SetRank(currentWeaponRank);
-            UpdateWeaponUI(newWeapon, goldText, darkText);
-
-            int weaponIndex = i;
-            if (chooseButton != null) chooseButton.onClick.AddListener(() => OnChooseButtonClick(weaponIndex));
-
-            newWeaponDatas.Add(newWeapon);
-            //DDOManager.UnitDatas.UnitDataDic.Add
-        }
-    }
-
     public void UpdateWeaponUI(newWeaponDataList newWeapon, TextMeshProUGUI goldText, TextMeshProUGUI darkText)
     {
         int smithEnhance = Mathf.Clamp(DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance, 0, 5);
@@ -706,6 +661,97 @@ public class SmithSystem : MonoBehaviour
         if (darkText != null)
             darkText.text = $"{newWeapon.calculatedDarkCost}D";
     }
+
+    //public void GenerateNewWeaponDatas()
+    //{
+    //    foreach (Transform child in newWeaponParent)
+    //    {
+    //        Destroy(child.gameObject);
+    //    }
+
+    //    newWeaponDatas.Clear();
+
+    //    Dictionary<(int, int), int> instanceIDTracker = new Dictionary<(int, int), int>();
+    //    foreach (var weaponData in DDOManager.WeaponDatas.WeaponDatas)
+    //    {
+    //        var key = (weaponData.UserID, weaponData.PrototypeWeaponID);
+    //        if (!instanceIDTracker.ContainsKey(key))
+    //        {
+    //            instanceIDTracker[key] = weaponData.InstanceID;
+    //        }
+    //        else
+    //        {
+    //            instanceIDTracker[key] = Mathf.Max(instanceIDTracker[key], weaponData.InstanceID);
+    //        }
+    //    }
+
+    //    List<int> selectedIDs = new List<int>();
+
+    //    for (int i = 0; i < newWeaponIndex; i++)
+    //    {
+    //        GameObject weaponObj = Instantiate(newWeaponPrefab, newWeaponParent);
+    //        weaponObj.name = $"Smith New Weapon {i + 1}";
+
+    //        TextMeshProUGUI goldText = weaponObj.transform.Find("GoldText")?.GetComponent<TextMeshProUGUI>();
+    //        TextMeshProUGUI darkText = weaponObj.transform.Find("DarkText")?.GetComponent<TextMeshProUGUI>();
+    //        Button chooseButton = weaponObj.transform.Find("ChooseButton")?.GetComponent<Button>();
+
+    //        int selectedID;
+    //        do
+    //        {
+    //            selectedID = UnityEngine.Random.Range(0, 3);
+    //        } while (selectedIDs.Contains(selectedID));
+
+    //        selectedIDs.Add(selectedID);
+
+    //        PrototypeWeaponData baseWeapon = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedID];
+
+    //        var key = (baseWeapon.ID, baseWeapon.InstanceCounter);
+    //        if (!instanceIDTracker.ContainsKey(key))
+    //        {
+    //            instanceIDTracker[key] = baseWeapon.InstanceCounter;
+    //        }
+    //        else
+    //        {
+    //            instanceIDTracker[key]++;
+    //        }
+
+    //        int newInstanceID = instanceIDTracker[key];
+
+    //        newWeaponDatas.Add(new newWeaponDataList
+    //        {
+    //            ID = baseWeapon.ID,
+    //            WeaponName = baseWeapon.Name,
+    //            AttackPoint = baseWeapon.AttackPoint,
+    //            Type = baseWeapon.Type,
+    //            InstanceCounter = newInstanceID,
+    //            Durability = 100,
+    //            Enforce = 0,
+    //            Rank = currentWeaponRank,
+    //            GoldCost = 0,
+    //            DarkCost = 0,
+    //            calculatedGoldCost = 0,
+    //            calculatedDarkCost = 0,
+    //            ParentWeaponObj = weaponObj
+    //        });
+
+    //        Image weaponImage = weaponObj.transform.Find("Image/WeaponImage")?.GetComponent<Image>();
+    //        if (weaponImage != null)
+    //        {
+    //            weaponImage.sprite = GameManager.WeaponImg[baseWeapon.ID];
+    //        }
+
+
+    //        newWeaponDatas.Last().SetRank(newWeaponDatas.Last().Rank);
+    //        UpdateWeaponUI(newWeaponDatas.Last(), goldText, darkText);
+
+    //        if (chooseButton != null)
+    //        {
+    //            int index = i; // index를 버튼 클릭 시 전달
+    //            chooseButton.onClick.AddListener(() => OnChooseButtonClick(index));
+    //        }
+    //    }
+    //}
 
     public void UpdateSmithEnhanceAndUI()
     {
@@ -744,11 +790,84 @@ public class SmithSystem : MonoBehaviour
         }
     }
 
+    public void GenerateNewWeaponDatas()
+    {
+        foreach (Transform child in newWeaponParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        newWeaponDatas.Clear();
+
+        // 각 ID별로 최대 InstanceID 값을 추적
+        Dictionary<(int, int), int> instanceIDTracker = new Dictionary<(int, int), int>();
+
+        // 기존 WeaponData에서 InstanceID 최대값 추적
+        foreach (var weaponData in DDOManager.WeaponDatas.WeaponDatas)
+        {
+            var key = (weaponData.UserID, weaponData.PrototypeWeaponID);
+            if (!instanceIDTracker.ContainsKey(key))
+            {
+                instanceIDTracker[key] = weaponData.InstanceID;
+            }
+            else
+            {
+                instanceIDTracker[key] = Mathf.Max(instanceIDTracker[key], weaponData.InstanceID);
+            }
+        }
+
+        for (int i = 0; i < newWeaponIndex; i++)
+        {
+            GameObject weaponObj = Instantiate(newWeaponPrefab, newWeaponParent);
+            weaponObj.name = $"Smith New Weapon {i + 1}";
+
+            TextMeshProUGUI goldText = weaponObj.transform.Find("GoldText")?.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI darkText = weaponObj.transform.Find("DarkText")?.GetComponent<TextMeshProUGUI>();
+            Button chooseButton = weaponObj.transform.Find("ChooseButton")?.GetComponent<Button>();
+
+            // 랜덤하게 무기 선택
+            int selectedID = UnityEngine.Random.Range(0, 3/*DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas.Count*/);
+            PrototypeWeaponData baseWeapon = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedID];
+
+            // 새 무기 데이터 생성 (newWeaponDatas 리스트에 추가)
+            newWeaponDatas.Add(new newWeaponDataList
+            {
+                ID = baseWeapon.ID,
+                WeaponName = baseWeapon.Name,
+                AttackPoint = baseWeapon.AttackPoint,
+                Type = baseWeapon.Type,
+                Durability = 100,
+                Enforce = 0,
+                Rank = DDOManager.LocalUserDatas.LocalUserDatas[0].SmithEnhance,
+                GoldCost = 0, // 적절한 금액을 설정
+                DarkCost = 0, // 적절한 다크 코스트 설정
+                calculatedGoldCost = 0, // 계산된 금액 설정
+                calculatedDarkCost = 0, // 계산된 다크 코스트 설정
+                ParentWeaponObj = weaponObj // 새로 생성된 오브젝트 추가
+            });
+
+            Image weaponImage = weaponObj.transform.Find("Image/WeaponImage")?.GetComponent<Image>();
+            if (weaponImage != null)
+            {
+                weaponImage.sprite = GameManager.WeaponImg[baseWeapon.ID];
+            }
+
+            newWeaponDatas.Last().SetRank(newWeaponDatas.Last().Rank);
+            UpdateWeaponUI(newWeaponDatas.Last(), goldText, darkText);
+
+            if (chooseButton != null)
+            {
+                int index = i; // index를 버튼 클릭 시 전달
+                chooseButton.onClick.AddListener(() => OnChooseButtonClick(index));
+            }
+        }
+    }
+
     public void OnChooseButtonClick(int index)
     {
         var weaponDataDic = DDOManager.WeaponDatas.WeaponDataDic;
         int newKey = weaponDataDic.Count;
-        var selectedWeapon = newWeaponDatas[index];
+        var selectedWeapon = newWeaponDatas[index]; // index로 선택된 무기 찾기
 
         int userGold = DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold;
         int userDark = DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence;
@@ -767,8 +886,8 @@ public class SmithSystem : MonoBehaviour
         WeaponData newWeaponData = new WeaponData
         {
             UserID = 0,
-            PrototypeWeaponID = newKey,
-            InstanceID = 0,
+            PrototypeWeaponID = selectedWeapon.ID,
+            InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDatas[selectedWeapon.ID].InstanceCounter,
             Name = selectedWeapon.WeaponName,
             AttackPoint = selectedWeapon.AttackPoint,
             Durability = selectedWeapon.Durability,
@@ -777,6 +896,8 @@ public class SmithSystem : MonoBehaviour
             Enforce = selectedWeapon.Enforce,
             Crime = selectedWeapon.Crime
         };
+
+        DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[(selectedWeapon.ID)].InstanceCounter++;
 
         var key = (newWeaponData.UserID, newWeaponData.PrototypeWeaponID, newWeaponData.InstanceID);
 
@@ -791,19 +912,22 @@ public class SmithSystem : MonoBehaviour
             Debug.LogError($"Weapon with the same key already exists: ({newWeaponData.UserID}, {newWeaponData.PrototypeWeaponID}, {newWeaponData.InstanceID})");
         }
 
+        // 선택된 무기 UI 비활성화
         if (index >= 0 && index < newWeaponParent.childCount)
         {
             newWeaponParent.GetChild(index).gameObject.SetActive(false);
         }
 
+        // 버튼 리스너 업데이트
         for (int i = 0; i < newWeaponParent.childCount; i++)
         {
             var button = newWeaponParent.GetChild(i).GetComponentInChildren<Button>();
-            int newIndex = i;
             button.onClick.RemoveAllListeners();
+            int newIndex = i; // 인덱스를 새로 설정
             button.onClick.AddListener(() => OnChooseButtonClick(newIndex));
         }
-        
+
         GenerateHaveWeaponDatas();
     }
+
 }

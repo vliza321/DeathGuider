@@ -24,6 +24,26 @@ public class FloorUIManager : MonoBehaviour
     public GameObject managerPrisonerChooseUI;
     public GameObject dungeonPrisonerUI;
 
+    private GameManager GameManager;
+    private DontDestroyObjectManager DDOManager;
+
+    public void Start()
+    {
+        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        foreach (var ddo in DDO)
+        {
+            if (ddo.name == "DDOManager")
+            {
+                DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.name == "GameManager")
+            {
+                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
+        }
+        DDO = null;
+    }
+
     public void OpenFloorPrisonerUI()
     {
         prisonerInfoUI.SetActive(false);
@@ -194,24 +214,28 @@ public class FloorUIManager : MonoBehaviour
 
     public void openDungeon1PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
-        battleReadySystem.DisplayBattleReadyUnits();
-        battleReadySystem.DisplayBattleReadyWeapons();
         int index = 0;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1400));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 1400));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void closeDungeonPriosnerUI()
@@ -221,181 +245,239 @@ public class FloorUIManager : MonoBehaviour
 
     public void openDungeon2PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 1;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1600));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 1600));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon3PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 2;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 1800));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 1800));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon4PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 3;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2000));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 2000));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon5PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 4;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2200));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 2200));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon6PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 5;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2400));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 2400));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon7PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 6;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2600));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 2600));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon8PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 7;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 2800));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 2800));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon9PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 8;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 3000));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 3000));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 
     public void openDungeon10PrisonerUI()
     {
-        floorPrisonerUI.SetActive(false);
-        prisonerInfoUI.SetActive(false);
-        gymPrisonerChooseUI.SetActive(false);
-        healthPrisonerChooseUI.SetActive(false);
-        erosionPrisonerChooseUI.SetActive(false);
-        laboratoryPrisonerChooseUI.SetActive(false);
-        smithPrisonerChooseUI.SetActive(false);
         int index = 9;
-        battleReadySystem.StageName(index);
-        battleReadySystem.StageProgress(index);
-        battleReadySystem.setStageIndex(index);
-        if (moveCamera != null)
+        if (DDOManager.StageDatas.StageDatas[index].IsOpen == 1)
         {
-            moveCamera.MoveToUI(new Vector2(0, 3200));
+            floorPrisonerUI.SetActive(false);
+            prisonerInfoUI.SetActive(false);
+            gymPrisonerChooseUI.SetActive(false);
+            healthPrisonerChooseUI.SetActive(false);
+            erosionPrisonerChooseUI.SetActive(false);
+            laboratoryPrisonerChooseUI.SetActive(false);
+            smithPrisonerChooseUI.SetActive(false);
+            battleReadySystem.DisplayBattleReadyUnits();
+            battleReadySystem.DisplayBattleReadyWeapons();
+            battleReadySystem.StageName(index);
+            battleReadySystem.StageProgress(index);
+            battleReadySystem.setStageIndex(index);
+            battleReadySystem.stagemonsterImage(index);
+            if (moveCamera != null)
+            {
+                moveCamera.MoveToUI(new Vector2(0, 3200));
+            }
+            dungeonPrisonerUI.SetActive(true);
         }
-        dungeonPrisonerUI.SetActive(true);
     }
 }

@@ -30,6 +30,7 @@ public class BusRandomPrisoner : MonoBehaviour
     public HealthSystem healthSystem;
     public ErosionSystem erosionSystem;
     public SmithSystem smithSystem;
+    public BattleReadySystem battleReadySystem;
     private DontDestroyObjectManager DDOManager;
 
     private void Start()
@@ -272,7 +273,6 @@ public class BusRandomPrisoner : MonoBehaviour
     private void OnChangeDaysButtonClicked()
     {
         DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
-        //씬 시작할 때 실행되도록 나중에 변경하기
         storageUI.UpdateDaysUI();
         storageUI.UpdateGold();
         storageUI.UpdatedeathEssence();
@@ -284,7 +284,29 @@ public class BusRandomPrisoner : MonoBehaviour
         smithSystem.GenerateNewWeaponDatas();
         healthSystem.CheckAndResetHealthSystemState();
         erosionSystem.CheckAndResetErosionSystemState();
+        battleReadySystem.CheckAndResetDungeonSystemState();
+        for (int i = 0; i < availablePrisoner; i++)
+        {
+            GenerateRandomPrisoner();
+        }
+        DisplayUnitDataUI();
+    }
 
+    public void changeDays()
+    {
+        DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
+        storageUI.UpdateDaysUI();
+        storageUI.UpdateGold();
+        storageUI.UpdatedeathEssence();
+        storageUI.UpdatedarkEssence();
+        dailyAcceptCount = 0;
+        unitDatas.Clear();
+        ClearExistingUnitUIs();
+        gYMSystem.CheckAndResetGYMSystemState();
+        smithSystem.GenerateNewWeaponDatas();
+        healthSystem.CheckAndResetHealthSystemState();
+        erosionSystem.CheckAndResetErosionSystemState();
+        battleReadySystem.CheckAndResetDungeonSystemState();
         for (int i = 0; i < availablePrisoner; i++)
         {
             GenerateRandomPrisoner();

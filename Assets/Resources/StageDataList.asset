@@ -20,36 +20,36 @@ MonoBehaviour:
   - ID: 1
     Name: "\uC595\uC740 \uB2AA\uC9C0\uB300"
     Dialog: "\uC595\uC740 \uB2AA\uC9C0\uB300 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 2
     Name: "\uC124\uC6D0 \uC9C0\uB300"
     Dialog: "\uC124\uC6D0 \uC9C0\uB300 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 3
     Name: "\uD3ED\uD48D \uC9C0\uB300"
     Dialog: "\uD3ED\uD48D \uC9C0\uB300 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 4
     Name: "\uAC80\uC758 \uC5B8\uB355"
     Dialog: "\uAC80\uC758 \uC5B8\uB355 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 5
     Name: "\uAC80\uC740 \uD654\uC5FC \uC9C0\uB300"
     Dialog: "\uAC80\uC740 \uD654\uC5FC \uC9C0\uB300 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 6
     Name: "\uC548\uAC1C \uB080 \uC5B4\uB450\uC6B4 \uC808"
     Dialog: "\uC548\uAC1C \uB080 \uC5B4\uB450\uC6B4 \uC808 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 7
     Name: "\uD751\uC554 \uC9C0\uB300"
     Dialog: "\uD751\uC554 \uC9C0\uB300 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 8
     Name: "\uBD80\uD328\uD55C \uB545"
     Dialog: "\uBD80\uD328\uD55C \uB545 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
   - ID: 9
     Name: "\uAC80\uC740 \uAC15"
     Dialog: "\uAC80\uC740 \uAC15 \uC124\uBA85"
-    IsOpen: 0
+    IsOpen: 1
