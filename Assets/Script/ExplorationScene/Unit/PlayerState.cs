@@ -12,14 +12,12 @@ public class PlayerState : MonoBehaviour
     private int experiencePoints = 0;
     private int level = 1;
     private int experienceToNextLevel = 100;
-
-    private GameObject weapon;
-
-    public GameObject Weapon
+    public UnitData Stat
     {
-        get { return Weapon; }
-        set { weapon = value; }
+        get { return stat; }
+        set { stat = value; }
     }
+
 
     public int ExperiencePoints // 현재 경험치 읽기
     {
@@ -51,7 +49,6 @@ public class PlayerState : MonoBehaviour
     private void Awake()
     {
         this.gameObject.transform.position = new Vector3(0, 0, 0);
-        weapon = this.transform.GetChild(3).gameObject;
     }
     void Start()
     {

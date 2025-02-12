@@ -12,7 +12,7 @@ public class MonsterState : autorizedObject
     private float healthPoint;
 
     private MonsterManager monsterManager;
-    
+
     public float HealthPoint
     {
         get { return healthPoint; }
@@ -28,6 +28,7 @@ public class MonsterState : autorizedObject
 
     private string weaponTagName = "Weapon";
 
+    private float hitConstant;
 
     public ObjectPool<MonsterState> MonsterPool
     {
@@ -42,14 +43,15 @@ public class MonsterState : autorizedObject
 
     public void Init(MonsterData prototypeData, ObjectPool<MonsterState> respawnPool, MonsterManager monsterManager, int num)
     {
+
         healthPoint = prototypeData.MaxHealthPoint;
         status = prototypeData;
+        hitConstant = 1 / (status.Defense + 10);
         monsterMove = this.gameObject.GetComponent<MonsterMove>();
         monsterPool = respawnPool;
         this.monsterManager = monsterManager;
         thisMonsterNum = num;
     }
-
     // Update is called once per frame
     public void monsterSpawn()
     {
@@ -59,10 +61,11 @@ public class MonsterState : autorizedObject
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(weaponTagName))
+        if (collision.gameObject.CompareTag(weaponTagName) && monsterMove.ActionState == MonsterActionState.Moving)
         {
             monsterMove.ActionState = MonsterActionState.KnockBack;
-            healthPoint -= 5;
+            healthPoint -= monsterManager.WeaponDamage[collision.gameObject] * hitConstant;
+            Debug.Log(monsterManager.WeaponDamage[collision.gameObject] * hitConstant);
             if (healthPoint <= 0)
             {
                 monsterMove.ActionState = MonsterActionState.Dying;

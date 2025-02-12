@@ -22,6 +22,8 @@ public class PlayerMove : MonoBehaviour
     private Animator headAnimation;
     private CameraManager camera;
     private PlayerState playerState;
+
+    
     public CameraManager Camera
     {
         set { camera = value; }
@@ -59,6 +61,18 @@ public class PlayerMove : MonoBehaviour
         get { return attackDirectional; }
         set { attackDirectional = value; }
     }
+
+    public Animator BodyAnimation
+    {
+        get { return bodyAnimation; }
+        set { bodyAnimation = value; }
+    }
+    public Animator HeadAnimation
+    {
+        get { return headAnimation; }
+        set { headAnimation = value; }
+    }
+
     private void PlayHeadAnim()
     {
         headAnimation.SetBool("isMove", true);
@@ -104,14 +118,19 @@ public class PlayerMove : MonoBehaviour
         attackTargetPoint = player.transform.position + playerVelocityVector.normalized * 2.0f;
 
         cashingVector = Vector3.zero;
+        headAnimation = this.transform.GetChild(0).GetComponent<Animator>();
+        bodyAnimation = this.transform.GetChild(1).GetComponent<Animator>();
     }
 
+    public void InitSprite(SpriteRenderer head, SpriteRenderer body)
+    {
+        this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = head.sprite;
+        this.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = body.sprite;
+    }
 
 
     void Start()
     {
-        headAnimation = this.transform.GetChild(0).GetComponent<Animator>();
-        bodyAnimation = this.transform.GetChild(1).GetComponent<Animator>();
 
     }
 

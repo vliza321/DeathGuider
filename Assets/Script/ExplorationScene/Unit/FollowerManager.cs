@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FollowerManager : MonoBehaviour
 {
+    GameObject[] weapon = new GameObject[4];
+
     [SerializeField]
     private ListQueue<FollowerMove> followerList;
     [SerializeField]
@@ -64,9 +66,58 @@ public class FollowerManager : MonoBehaviour
             follower[i].gameObject.tag = "follower";
             follower[i].gameObject.layer = this.gameObject.layer;
             follower[i].gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-            
         }
     }
+
+    public void AddUnitDataList(ResultManager resultManager)
+    {
+        int position = 0;
+        foreach (var UP in resultManager.DDOManager.UnitParticipateDatas.UnitParticipateDatas)
+        {
+            if (UP.Position == 0)
+            {
+                continue;
+            }
+            position = UP.Position;
+            follower[position - 1].gameObject.GetComponent<PlayerState>().Stat = resultManager.DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
+
+            var temt = resultManager.DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
+            follower[position - 1].InitAnimator(resultManager.GameManager.PrisonerHeadAnim[temt.HeadID], resultManager.GameManager.PrisonerBodyAnim[temt.BodyID]);
+            follower[position - 1].InitSprite(resultManager.GameManager.PrisonerHeadImg[temt.HeadID], resultManager.GameManager.PrisonerBodyImg[temt.BodyID]);
+        }
+
+        for (int i = 0; i < followerCounter; i++)
+        {
+            resultManager.Units.Add(follower[i].gameObject.GetComponent<PlayerState>().Stat);
+        }
+    }
+    public void WeaponCreate(ResultManager resultManager, MonsterManager monsterManager)
+    {
+        int position = 0;
+        float damage = 0;
+        foreach (var UW in resultManager.DDOManager.UseWeaponDatas.UseWeaponDatas)
+        {
+            position = UW.Position;
+            if (UW.Position == 0)
+            {
+                continue;
+            }
+            weapon[position - 1] = Instantiate(resultManager.GameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
+            weapon[position - 1].transform.SetParent(follower[position - 1].transform);
+            weapon[position - 1].transform.localScale = new Vector3(1, 1, 1);
+            UnitData temtData = follower[position - 1].gameObject.GetComponent<PlayerState>().Stat;
+            position = UW.Position;
+            damage = (temtData.Strength + resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * temtData.Handicraft;
+            if (temtData.Crime == resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
+            monsterManager.WeaponDamage.Add(weapon[position - 1], damage);
+            Debug.Log(weapon[position - 1].name + " " + damage);
+        }
+        
+
+    }
+
+
+
     public FollowerMove SwapGuider(GameObject guider, GameObject firstFollower, CameraManager cameraObj, AttackDirectional attackDirectional, FollowerMove guiderFollwerMove)
     {
         var target = followerList.Dequeue();

@@ -15,7 +15,6 @@ public class LaunchTypeWeapon : Weapon
     public LaunchTypeWeapon(Transform baseObjectTransform, List<Transform> effectObject, AttackDirectional attackDirectional, Transform effectPool)
         : base(baseObjectTransform, effectObject, attackDirectional, effectPool)
     {
-        
         weaponEffectPool = effectPool;
         baseParent = baseObjectTransform;
         playerAttackDirectional = attackDirectional;
@@ -26,11 +25,11 @@ public class LaunchTypeWeapon : Weapon
         }
         baseCoolTime = 200;
         coolTimer = baseCoolTime;
-        
         foreach (var p in projectile)
         {
-            p.AttactDirection = playerAttackDirectional.transform;
             p.gameObject.SetActive(false);
+            p.AttactDirection = playerAttackDirectional.transform;
+            p.Init();
         }
     }
     // Start is called before the first frame update

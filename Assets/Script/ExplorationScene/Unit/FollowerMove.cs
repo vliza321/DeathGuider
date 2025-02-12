@@ -26,6 +26,18 @@ public class FollowerMove : MonoBehaviour
     private PlayerMove thisPlayerMove;
     private FollowerMove thisFollowerMove;
     private CapsuleCollider2D thisCollider;
+
+    public Animator BodyAnimation
+    {
+        get { return bodyAnimation; }
+        set { bodyAnimation = value; }
+    }
+    public Animator HeadAnimation
+    {
+        get { return headAnimation; }
+        set { headAnimation = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +58,17 @@ public class FollowerMove : MonoBehaviour
         thisCollider = this.gameObject.GetComponent<CapsuleCollider2D>();
     }
 
+    public void InitSprite(Sprite head, Sprite body)
+    {
+        this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = head;
+        this.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = body;
+    }
+
+    public void InitAnimator(RuntimeAnimatorController head, RuntimeAnimatorController body)
+    {
+        this.transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController = head;
+        this.transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = body;
+    }
     // Update is called once per frame
     void Update()
     {

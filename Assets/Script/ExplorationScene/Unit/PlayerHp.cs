@@ -17,7 +17,7 @@ public class PlayerHp : MonoBehaviour
     void Start()
     {
         cashingVector = Vector3.zero;
-        HitDelay = 20*Time.deltaTime;
+        HitDelay = 0.5f;
         MaxHP = 100;
         HeartPoint = MaxHP;
     }
@@ -25,7 +25,7 @@ public class PlayerHp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (HitDelay > 0) { HitDelay--; }
+        if (HitDelay > 0) { HitDelay -= Time.deltaTime; }
         cashingVector.x = transform.parent.position.x;
         cashingVector.y = transform.parent.position.y;
         cashingVector.z = transform.parent.position.z;

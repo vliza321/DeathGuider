@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    private GameObject weapon;
+
     private FollowerManager followerManager;
     private CameraManager cameraManager;
     private MonsterManager monsterManager;
@@ -34,9 +36,15 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public GameObject Weapon
+    {
+        get { return weapon; }
+    }
     private FollowerMove guiderFollowerMove;
 
     private ResultManager resultManager;
+
+    private PlayerState GuiderState;
     private void Awake()
     {
         weaponEffectPool = this.transform.GetChild(this.transform.childCount - 1).gameObject;
@@ -78,11 +86,50 @@ public class PlayerManager : MonoBehaviour
         guiderFollowerMove = guider.GetComponent<FollowerMove>();
         guider.GetComponent<FollowerMove>().enabled = false;
         playerUnitCounter = 1;
+        GuiderState = guider.GetComponent<PlayerState>();
+        
     }
 
     private void Start()
     {
         playerUnitCounter += followerManager.gameObject.transform.childCount;
+
+        foreach (var UP in resultManager.DDOManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
+        {
+            if (UP.PrototypeUnitID != 100)
+            {
+                GuiderState.Stat = resultManager.DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
+                guider.GetComponent<PlayerMove>().HeadAnimation.runtimeAnimatorController
+                    = resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
+                guider.GetComponent<PlayerMove>().BodyAnimation.runtimeAnimatorController
+                    = resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
+
+
+
+                resultManager.Units.Add(GuiderState.Stat);
+            }
+        }
+        float damage;
+        foreach (var UW in resultManager.DDOManager.UseWeaponDatas.UseWeaponDatas)
+        {
+            if (UW.Position == 0)
+            {
+                weapon = Instantiate(resultManager.GameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
+                weapon.transform.SetParent(GuiderState.transform);
+                damage = (GuiderState.Stat.Strength + resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * GuiderState.Stat.Handicraft;
+                if (GuiderState.Stat.Crime == resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
+                weapon.transform.localScale = new Vector3(1, 1, 1);
+                monsterManager.WeaponDamage.Add(weapon, damage);
+                Debug.Log(weapon.name +" "+ damage);
+                break;
+            }
+        }
+        followerManager.AddUnitDataList(resultManager);
+        followerManager.WeaponCreate(resultManager, monsterManager);
+        guider.GetComponent<PlayerMove>().InitSprite(
+            resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<SpriteRenderer>(),
+            resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<SpriteRenderer>());
+        
     }
     // Update is called once per frame
     void Update()

@@ -2,152 +2,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class autorizedObject : MonoBehaviour
+public class MonsterSpawnManager : ManagerBase
 {
+    GameObject monsterSpawnManager;
 
-}
+    private ObjectPool<TestMonsterState> monsterSpawnPool;
+    private ObjectPool<TestMonsterState> monsterRespawnPool;
 
+    private TestMonsterMove[] monster;
 
-public class MonsterManager : MonoBehaviour
-{
-    Dictionary<GameObject, float> weaponDamage;
-    [SerializeField]    
-    private ObjectPool<MonsterState> monsterSpawnPool;
-    [SerializeField]
-    private ObjectPool<MonsterState> monsterRespawnPool;
+    private int MaxMonster = 160;
+    
+    private int signX, signY;
 
-
-    private GameObject player;
-    [SerializeField]
-    private int monstercounter;
-    [SerializeField]
-    private int maxMonster;
-
-    public int MaxMonster
-    {
-        get { return maxMonster; }
-    }
-
-
-    private int enabledMonster;
-    private Vector3 playerPos;
-
-    private float signX;
-    private float signY;
-    public int EnabledMonster
-    {
-        get { return enabledMonster; }
-    }
-    private MonsterMove[] monster;
-    public MonsterMove[] Monster
-    {
-        get { return monster; }
-        set { monster = value; }
-    }
-
-    private int monsterRespawnTimer;
-    [SerializeField]
     private int[] monsterSpawnTimer;
 
-    private PlayerMove guider;
+    private int enabledMonster;
 
-    public GameObject Player
-    { 
-        get {  return player; } 
-        set { player = value; }
-    }
+    private int monsterRespawnTimer;
 
-    
-    private Vector3 currentPos;
-    [SerializeField]
     private int spawnLevel;
-
-    private bool playerEscape;
 
     private Vector2 screenSize;
 
-    private DontDestroyObjectManager DDOManager;
-    private GameManager GameManager;
-    MonsterState newMonster;
+    private bool playerEscape;
 
-    private GoodsSpawnManager goldSpawn;
-    private GoodsSpawnManager darkEssenseSpawn;
-    private GoodsSpawnManager expSpawn;
-    public GoodsSpawnManager GoldSpawn
-    {
-        get { return goldSpawn; }
-        set { goldSpawn = value; }
-    }
-    public GoodsSpawnManager DarkEssenseSpawn
-    {
-        get { return darkEssenseSpawn; }
-        set { darkEssenseSpawn = value; }
-    }
-    public GoodsSpawnManager ExpSpawn
-    {
-        get { return expSpawn; }
-        set { expSpawn = value; }
-    }
+    Vector3 playerPos;
+    Vector3 currentPos;
 
-    public Dictionary<GameObject, float> WeaponDamage
-    {
-        get { return weaponDamage; }
-        set { weaponDamage = value; }
-    }
+    TestMonsterState newMonster;
 
-
-    // Start is called before the first frame update
-    void Awake()
+    public MonsterSpawnManager(MasterManager master, GameObject thisObject) : base(master)
     {
+        monsterSpawnManager = thisObject;
         screenSize.x = Screen.width;
         screenSize.y = Screen.height;
+
         playerEscape = false;
-        monster = new MonsterMove[MaxMonster];
-        monsterSpawnPool = new ObjectPool<MonsterState>(MaxMonster);
-        monsterRespawnPool = new ObjectPool<MonsterState>(MaxMonster);
 
-        GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
-        foreach (GameObject manager in Manager)
-        {
-            if (manager.name == "PlayerManager")
-            {
-                Player = manager.transform.gameObject;
-            }
-        }
-        Manager = null;
 
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
-        foreach (GameObject ddo in DDO)
-        {
-            if (ddo.name == "GameManager")
-            {
-                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
-            }
-            if (ddo.name == "DDOManager")
-            {
-                DDOManager = ddo.transform.gameObject.GetComponent<DontDestroyObjectManager>();
-            }
-        }
-        DDO = null;
-        
+        monsterSpawnPool = new ObjectPool<TestMonsterState>(MaxMonster);
+        monsterRespawnPool = new ObjectPool<TestMonsterState>(MaxMonster);
+
+        monster = new TestMonsterMove[MaxMonster];
+
         for (int a = 0; a < MaxMonster; a++)
         {
-            MonsterState newMonster = Instantiate(GameManager.Monster[GameManager.SelectStageID].gameObject).GetComponent<MonsterState>();
-            newMonster.transform.SetParent(this.transform);
-            newMonster.gameObject.SetActive(false);
+            TestMonsterState newMonster = Instantiate(masterManager.GameManager.Monster[11].gameObject).GetComponent<TestMonsterState>();
+            newMonster.transform.SetParent(monsterSpawnManager.transform);
             monsterSpawnPool.ReleaseObject(newMonster);
-            monster[a] = newMonster.GetComponent<MonsterMove>();
-            newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.SelectStageID],monsterRespawnPool,this,a);
+            monster[a] = newMonster.GetComponent<TestMonsterMove>();
+            newMonster.GetComponent<TestMonsterState>().Init(masterManager.DDOManager.MonsterDatas.MonsterDataDic[masterManager.GameManager.SelectStageID], monsterRespawnPool, this, a);
         }
-
-        weaponDamage = new Dictionary<GameObject, float>(DDOManager.UseWeaponDatas.UseWeaponDatas.Count);
 
         signX = 0;
         signY = 0;
 
-        monsterSpawnTimer = new int[(int)(maxMonster/10)];
+        monsterSpawnTimer = new int[(int)(MaxMonster / 10)];
 
-        monstercounter = maxMonster;
         enabledMonster = 1;
         monsterRespawnTimer = 1000;
         spawnLevel = 1;
@@ -157,41 +69,27 @@ public class MonsterManager : MonoBehaviour
         }
         monsterSpawnTimer[0] = 100;
     }
-    
-    void Start()
+
+    public override void OnNotify()
     {
-        guider = player.GetComponent<PlayerManager>().Guider.GetComponent<PlayerMove>();
-        playerPos = guider.transform.position;
-        foreach (var m in monster)
-        {
-            m.Init();
-        }
+        //¿Ã∫•∆Æ «‘ºˆ Ω««‡
+
     }
 
-    public void PlayerSwap(PlayerMove Guider)
+
+    public override void Awake()
     {
-        guider = Guider;
-        foreach(var m in monster)
-        {
-            if (m.gameObject.activeSelf == true)
-            {
-                m.Guider = Guider.gameObject;
-            }
-        }
-        
+        playerPos = new Vector3(0, 0, 0);
+        currentPos = new Vector3(0, 0, 0);
     }
-    // Update is called once per frame
-    public void PlayerEscape()
+    public override void Start()
     {
-        playerEscape = true;
-        foreach(var m in monster)
-        {
-            m.CanMove = false;
-        }
+
     }
-    private void Update()
+
+    public override void Update()
     {
-        // Î™¨Ïä§ÌÑ∞ Î¶¨Ïä§Ìè∞ Ï≤òÎ¶¨
+        // ∏ÛΩ∫≈Õ ∏ÆΩ∫∆˘ √≥∏Æ
         if (monsterRespawnTimer > 0 && !playerEscape)
         {
             monsterRespawnTimer--;
@@ -202,14 +100,14 @@ public class MonsterManager : MonoBehaviour
             else signX = -1;
             if (Random.Range(0, 2) == 1) signY = 1;
             else signY = -1;
-            playerPos = guider.transform.position;
+            //playerPos = guider.transform.position;
             monsterRespawnTimer = 1000;
 
-            while(monsterRespawnPool.PoolQueue.Count != 0)
+            while (monsterRespawnPool.PoolQueue.Count != 0)
             {
                 newMonster = monsterRespawnPool.GetObject();
-                newMonster.monsterSpawn();
-                
+                newMonster.GetComponent<MonsterState>().monsterSpawn();
+                newMonster.GetComponent<MonsterMove>().ActionState = MonsterActionState.Spawning;
                 switch (Random.Range(0, 4))
                 {
                     default:
@@ -219,6 +117,7 @@ public class MonsterManager : MonoBehaviour
                         newMonster.transform.position = currentPos;
                         break;
                     case 0:
+                        /*
                         if (guider.PlayerVelocityVector.x != 0 && guider.PlayerVelocityVector.y != 0)
                         {
                             signX *= guider.PlayerVelocityVector.x;
@@ -234,7 +133,8 @@ public class MonsterManager : MonoBehaviour
                             currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(12, 20) * 0.1f);
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
-                        }
+                        }*/
+                        newMonster.transform.position = currentPos;
                         break;
                     case 1:
                         currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(3, 10) * 0.1f);
@@ -256,7 +156,7 @@ public class MonsterManager : MonoBehaviour
                         break;
                 }
             }
-            //Î™¨Ïä§ÌÑ∞ Ïä§Ìè∞ÏùÑ Ìï†Í±¥Îç∞ 1. ÌîåÎ†àÏù¥Ïñ¥ Ïù¥Îèô Î∞©Ìñ• Î∞îÎ°ú ÏïûÏóê 2. ÌîåÎ†àÏù¥Ïñ¥ Î©àÏ∂∞ÏûàÏùÑÎïå 3. ÏôÑÏ†Ñ ÎûúÎç§
+            //∏ÛΩ∫≈Õ Ω∫∆˘¿ª «“∞«µ• 1. «√∑π¿ÃæÓ ¿Ãµø πÊ«‚ πŸ∑Œ æ’ø° 2. «√∑π¿ÃæÓ ∏ÿ√Á¿÷¿ª∂ß 3. øœ¿¸ ∑£¥˝
         }
 
         // Do Spawn Monster
@@ -360,30 +260,30 @@ public class MonsterManager : MonoBehaviour
                 break;
         }
 
-        // Î™¨Ïä§ÌÑ∞ ÏÉùÏÑ± Ï≤òÎ¶¨
+        // ∏ÛΩ∫≈Õ ª˝º∫ √≥∏Æ
         for (int i = 0; i < spawnLevel; i++)
         {
             if (monsterSpawnPool.PoolQueue.Count == 0) break;
 
-            if (monsterSpawnTimer[i] > 0 && !playerEscape) { 
-                monsterSpawnTimer[i]--; 
+            if (monsterSpawnTimer[i] > 0 && !playerEscape)
+            {
+                monsterSpawnTimer[i]--;
             }
 
-            if (monsterSpawnTimer[i] <= 0 && enabledMonster < maxMonster)
+            if (monsterSpawnTimer[i] <= 0 && enabledMonster < MaxMonster)
             {
                 if (Random.Range(0, 2) == 1) signX = 1;
                 else signX = -1;
                 if (Random.Range(0, 2) == 1) signY = 1;
                 else signY = -1;
-                playerPos = guider.transform.position;
+                //playerPos = guider.transform.position;
                 monsterSpawnTimer[i] = 1500;
 
                 enabledMonster++;
 
                 if (monsterSpawnPool.PoolQueue.Count == 0) break;
                 newMonster = monsterSpawnPool.GetObject();
-                newMonster.GetComponent<MonsterState>().monsterSpawn();
-                newMonster.GetComponent<MonsterMove>().ActionState = MonsterActionState.Spawning;
+                newMonster.monsterSpawn();
                 switch (Random.Range(0, 2))
                 {
                     default:
@@ -392,9 +292,10 @@ public class MonsterManager : MonoBehaviour
                         currentPos.z = playerPos.z;
                         newMonster.transform.position = currentPos;
                         break;
-                        
+
                     case 0:
-                        //ÌîåÎ†àÏù¥Ïñ¥Í∞Ä Î≥¥Í≥† ÏûàÎäî Î∞©Ìñ•ÏúºÎ°ú Î¶¨Ïä§Ìè∞
+                        //«√∑π¿ÃæÓ∞° ∫∏∞Ì ¿÷¥¬ πÊ«‚¿∏∑Œ ∏ÆΩ∫∆˘
+                        /*
                         if (guider.PlayerVelocityVector.x != 0 && guider.PlayerVelocityVector.y != 0)
                         {
                             signX *= guider.PlayerVelocityVector.x;
@@ -404,17 +305,18 @@ public class MonsterManager : MonoBehaviour
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
                         }
-                        //ÏùºÎ∞ò Î¶¨Ïä§Ìè∞
+                        //¿œπ› ∏ÆΩ∫∆˘
                         else
                         {
                             currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(10, 20) * 0.0005f);
                             currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(10, 20) * 0.0005f);
                             currentPos.z = playerPos.z;
                             newMonster.transform.position = currentPos;
-                        }
+                        }*/
+                        newMonster.transform.position = currentPos;
                         break;
                     case 1:
-                        //ÏùºÎ∞ò Î¶¨Ïä§Ìè∞
+                        //¿œπ› ∏ÆΩ∫∆˘
                         currentPos.x = playerPos.x + signX * screenSize.x * (Random.Range(10, 20) * 0.0005f);
                         currentPos.y = playerPos.y + signY * screenSize.y * (Random.Range(10, 20) * 0.0005f);
                         currentPos.z = playerPos.z;

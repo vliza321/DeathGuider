@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class ProjectileInWeapon : MonoBehaviour
 {
-    private int baseRuntime;
-    private int runtime;
+    private float baseRuntime;
+    [SerializeField]
+    private float runtime;
     [SerializeField]
     private Vector3 moveDirection;
     private Transform attactDirection;
@@ -25,13 +26,13 @@ public class ProjectileInWeapon : MonoBehaviour
     private Vector3 cashingVector3;
     private GameObject baseParent;
     // Start is called before the first frame update
-    private void Awake()
+    public void Init()
     {
         baseParent = this.transform.parent.gameObject;
         radian = 180 / MathF.PI;
         playerToObjAngle = 0;
         moveDirection = new Vector3(0, 0, 0);
-        baseRuntime = 500;
+        baseRuntime = 2;
         runtime = baseRuntime;
         grandParentPos = this.transform.parent.parent.transform.position;
         cashingVector3 = new Vector3(0, 0, 0);
@@ -39,13 +40,13 @@ public class ProjectileInWeapon : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        runtime--;
+        runtime -= Time.deltaTime;
         if(runtime <0)
         {
             DestoryProjectile();

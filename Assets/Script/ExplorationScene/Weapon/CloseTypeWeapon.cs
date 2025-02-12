@@ -16,8 +16,6 @@ public class CloseTypeWeapon : Weapon
 
     private Vector3 cashingVector;
     private Transform baseParent;
-
-    private string effectName  = "isActive";
     public int BaseCoolTime
     {
         get { return baseCoolTime; }
@@ -61,7 +59,7 @@ public class CloseTypeWeapon : Weapon
         {
             cashingVector = playerDirectional.transform.position;
             coolTimer = baseCoolTime;
-            effectAnim.SetBool(effectName, true);
+            effectAnim.SetBool("isActive", true);
             effectCollider.enabled = true;
             effectObject.transform.parent = weaponEffectPool;
             effectObject.transform.position = cashingVector;
