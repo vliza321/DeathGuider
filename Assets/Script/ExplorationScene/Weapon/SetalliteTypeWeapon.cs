@@ -21,7 +21,7 @@ public class SetalliteTypeWeapon : MonoBehaviour
 
     private Vector3 cashingVector3;
 
-    public void Init(Transform BaseParentTransform, Vector3 InitDirection, Transform WeaponEffectPool)
+    public void Initialized(Transform BaseParentTransform, Vector3 InitDirection)
     {
         baseParent = BaseParentTransform;
         cashingVector3 = this.transform.position;
@@ -29,13 +29,11 @@ public class SetalliteTypeWeapon : MonoBehaviour
         directionalVector = InitDirection;
         rotateAnglePerFrame = 0.01f;
         rotateAngle = 0.02f;
-        this.transform.parent = WeaponEffectPool;
         radian = 180 / MathF.PI;
     }
 
-    public void Execute(Transform baseObject, Transform effectPool)
+    public void Execute()
     {
-        if (baseParent.gameObject.activeSelf == false) this.gameObject.SetActive(false);
         playerToObjAngle = (Mathf.Atan2(baseParent.position.y - this.gameObject.transform.position.y, baseParent.position.x - this.gameObject.transform.position.x) + 2 * PI) % (2 * PI);
         directionalVector.x = directionalVector.x * MathF.Cos(rotateAngle) - directionalVector.y * MathF.Sin(rotateAngle);
         directionalVector.y = directionalVector.x * MathF.Sin(rotateAngle) + directionalVector.y * MathF.Cos(rotateAngle);

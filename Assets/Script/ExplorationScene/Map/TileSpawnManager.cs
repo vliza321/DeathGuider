@@ -86,10 +86,10 @@ public class TileSpawnManager : MonoBehaviour
         guider = playerManager.Guider;
 
         // spawnManager의 상태 체크 부분
-        if((baseTileMap[0].Row + row - 2 < 1|| baseTileMap[1].Row + row - 2 < 1) || (baseTileMap[0].Row  + row - 2 > 9 || baseTileMap[1].Row + row - 2 > 9))
+        if((baseTileMap[0].Row + row - 2 < 1|| baseTileMap[1].Row + row - 2 < 1) || (baseTileMap[0].Row  + row - 2 > 8 || baseTileMap[1].Row + row - 2 > 8))
         {
             discriminationState = RangeOut.rowRangeOut;
-            if ((baseTileMap[0].Column + column - 2 < 1 || baseTileMap[1].Column + column - 2 < 1)||(baseTileMap[0].Column + column - 2> 9 || baseTileMap[1].Column + column - 2 > 9))
+            if ((baseTileMap[0].Column + column - 2 < 1 || baseTileMap[1].Column + column - 2 < 1)||(baseTileMap[0].Column + column - 2> 8 || baseTileMap[1].Column + column - 2 > 8))
             { 
                 discriminationState = RangeOut.doubleRangeOut;
             }
@@ -97,7 +97,7 @@ public class TileSpawnManager : MonoBehaviour
         else
         {
             discriminationState = RangeOut.nonRangeOut;
-            if ((baseTileMap[0].Column + column - 2 < 1 || baseTileMap[1].Column + column - 2 < 1)||(baseTileMap[0].Column + column - 2> 9 || baseTileMap[1].Column + column - 2 > 9))
+            if ((baseTileMap[0].Column + column - 2 < 1 || baseTileMap[1].Column + column - 2 < 1)||(baseTileMap[0].Column + column - 2> 8 || baseTileMap[1].Column + column - 2 > 8))
             {
                 discriminationState = RangeOut.columnRangeOut;
             }
@@ -132,28 +132,45 @@ public class TileSpawnManager : MonoBehaviour
 
             case RangeOut.rowRangeOut:
 
-                baseTileMap[0].gameObject.SetActive(true);
-                baseTileMap[1].gameObject.SetActive(true);
+                Debug.Log("row");
+                EditorApplication.isPaused = true;
+
 
                 if (baseTileMap[0].gameObject.activeSelf == true)
                 {
-                    if (baseTileMap[0].Row <= 1) baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
-                    else baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
-
+                    if (baseTileMap[0].Row <= 1)
+                    {
+                        baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                        baseTileMap[0].ChangeTile(4, 0);
+                        baseTileMap[1].ChangeTile(4, 0);
+                    }
+                    else
+                    {
+                        baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                        baseTileMap[0].ChangeTile(5, 0);
+                        baseTileMap[1].ChangeTile(5, 0);
+                    }
                 }
 
                 else
                 {
-                    if (baseTileMap[1].Row <= 1) baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
-                    else baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
+                    if (baseTileMap[1].Row <= 1)
+                    {
+                        baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                        baseTileMap[0].ChangeTile(4, 0);
+                        baseTileMap[1].ChangeTile(4, 0);
+                    }
+                    else 
+                    {
+                        baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                        baseTileMap[0].ChangeTile(5, 0);
+                        baseTileMap[1].ChangeTile(5, 0);
+                    }
                 }
 
                 guider.transform.Translate(0 , 12.8f * (baseTileMap[0].Row - 5), 0,Space.Self);
-
                 playerAttackDirectional.transform.Translate(0 , 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-
                 cameraManager.MainMoveCamera.transform.Translate(0 , 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-
                 monsterManager.GoldSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                 monsterManager.DarkEssenseSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                 monsterManager.ExpSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
@@ -174,8 +191,8 @@ public class TileSpawnManager : MonoBehaviour
                 }
 
 
-                baseTileMap[0].ChangeTile(5,0);
-                baseTileMap[1].ChangeTile(5,0);
+                baseTileMap[0].ChangeTile(4,0);
+                baseTileMap[1].ChangeTile(4,0);
 
                 for (int i = 0; i < weaponEffectPool.Length; i++)
                 {
@@ -186,35 +203,58 @@ public class TileSpawnManager : MonoBehaviour
 
                 baseTileMap[0].Row = 5;
                 baseTileMap[1].Row = 5;
-
+                baseTileMap[0].gameObject.SetActive(true);
+                baseTileMap[1].gameObject.SetActive(true);
                 break;
 
             case RangeOut.columnRangeOut:
+                Debug.Log("col");
+                EditorApplication.isPaused = true;
 
-                baseTileMap[0].gameObject.SetActive(true);
-                baseTileMap[1].gameObject.SetActive(true);
-
+                // 범위 벗어난 시점 충돌한 타일 맵이 0번이면
                 if (baseTileMap[0].gameObject.activeSelf == true)
                 {
-                    if (baseTileMap[0].Column <= 1) baseTileMap[1].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
-                    else baseTileMap[1].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    // 범위 벗어난 시점 충돌한 위치가 왼쪽이라면
+                    if (baseTileMap[0].Column <= 1)
+                    {
+                        baseTileMap[1].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
+                        baseTileMap[0].ChangeTile(0, 4);
+                        baseTileMap[1].ChangeTile(0, 4);
+                    }
+                    // 범위 벗어난 시점 충돌한 위치가 오른쪽이라면
+                    else
+                    {
+                        baseTileMap[1].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                        baseTileMap[0].ChangeTile(0, 5);
+                        baseTileMap[1].ChangeTile(0, 5);
+                    }
                 }
 
+                // 범위 벗어난 시점 충돌한 타일 맵이 1번이면
                 else
                 {
-                    if (baseTileMap[0].Column <= 1) baseTileMap[0].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
-                    else baseTileMap[0].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    // 범위 벗어난 시점 충돌한 위치가 왼쪽이라면
+                    if (baseTileMap[1].Column <= 1)
+                    {
+                        baseTileMap[0].transform.Translate(12.8f * (4 - baseTileMap[1].Column), 0, 0, Space.Self);
+                        baseTileMap[0].ChangeTile(0, 4);
+                        baseTileMap[1].ChangeTile(0, 4);
+                    }
+                    // 범위 벗어난 시점 충돌한 위치가 오른쪽이라면
+                    else
+                    {
+                        baseTileMap[0].transform.Translate(12.8f * (6 - baseTileMap[1].Column), 0, 0, Space.Self);
+                        baseTileMap[0].ChangeTile(0, 5);
+                        baseTileMap[1].ChangeTile(0, 5);
+                    }
                 }
-
                 guider.transform.Translate( 12.8f * (5 - baseTileMap[0].Column),0, 0, Space.Self);
-
                 playerAttackDirectional.transform.Translate(12.8f * (5 - baseTileMap[0].Column ), 0, 0, Space.Self);
-
                 cameraManager.MainMoveCamera.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
-
                 monsterManager.GoldSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                 monsterManager.DarkEssenseSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                 monsterManager.ExpSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+                treasureBoxEscapeStairManager.EventSwapTile(0, (5 - baseTileMap[0].Column));
 
                 for (int i = 0; i < followercounter; i++)
                 {
@@ -230,64 +270,61 @@ public class TileSpawnManager : MonoBehaviour
                     monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column ), 0, 0, Space.Self);
                 }
 
-
-                baseTileMap[0].ChangeTile(0, 5);
-                baseTileMap[1].ChangeTile(0, 5);
-
                 for (int i = 0; i < weaponEffectPool.Length; i++)
                 {
                     weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                 }
 
-                treasureBoxEscapeStairManager.EventSwapTile(0, (5 - baseTileMap[0].Column));
 
                 baseTileMap[0].Column = 5;
                 baseTileMap[1].Column = 5;
+                baseTileMap[0].gameObject.SetActive(true);
+                baseTileMap[1].gameObject.SetActive(true);
 
                 break;
 
             case RangeOut.doubleRangeOut:
+                Debug.Log("double");
+                EditorApplication.isPaused = true;
 
-                baseTileMap[0].gameObject.SetActive(true);
-                baseTileMap[1].gameObject.SetActive(true);
 
                 if (baseTileMap[0].gameObject.activeSelf == true)
                 {
                     if (baseTileMap[0].Column <= 1) baseTileMap[1].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
-                    else baseTileMap[1].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    else baseTileMap[1].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                 }
                 else
                 {
                     if (baseTileMap[0].Column <= 1) baseTileMap[0].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 0, 0, Space.Self);
-                    else baseTileMap[0].transform.Translate(12.8f * (6 - baseTileMap[0].Column), 0, 0, Space.Self);
+                    else baseTileMap[0].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                 }
 
                 if (baseTileMap[0].gameObject.activeSelf == true)
                 {
                     if (baseTileMap[0].Row <= 1) baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
-                    else baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
+                    else baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
 
                 }
                 else
                 {
                     if (baseTileMap[1].Row <= 1) baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
-                    else baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 6), 0, Space.Self);
+                    else baseTileMap[0].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                 }
 
-                guider.transform.Translate(12.8f * (5 - baseTileMap[0].Column ), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                guider.transform.Translate(12.8f * (4 - baseTileMap[0].Column ), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
 
-                playerAttackDirectional.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                playerAttackDirectional.transform.Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
 
-                cameraManager.MainMoveCamera.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                cameraManager.MainMoveCamera.transform.Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
 
-                monsterManager.GoldSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-                monsterManager.DarkEssenseSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-                monsterManager.ExpSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                monsterManager.GoldSpawn.transform.Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                monsterManager.DarkEssenseSpawn.transform.Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
+                monsterManager.ExpSpawn.transform.Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
 
                 for (int i = 0; i < followercounter; i++)
                 {
 
-                    followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                    followerManager.transform.GetChild(i).transform.Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
                 }
 
                 for (int i = 0; i < monsterManager.MaxMonster; i++)
@@ -296,26 +333,28 @@ public class TileSpawnManager : MonoBehaviour
                     {
                         continue;
                     }
-                    monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                    monsterManager.transform.GetChild(i).Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
                     
                 }
 
 
-                baseTileMap[0].ChangeTile(5, 5);
-                baseTileMap[1].ChangeTile(5, 5);
+                baseTileMap[0].ChangeTile(4, 4);
+                baseTileMap[1].ChangeTile(4, 4);
 
                 for (int i = 0; i < weaponEffectPool.Length; i++)
                 {
-                    weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
+                    weaponEffectPool[i].transform.Translate(12.8f * (4 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 4), 0, Space.Self);
                 }
 
-                treasureBoxEscapeStairManager.EventSwapTile((5 - baseTileMap[0].Column), (baseTileMap[0].Row- 5));
+                treasureBoxEscapeStairManager.EventSwapTile((4 - baseTileMap[0].Column), (baseTileMap[0].Row- 4));
 
-                baseTileMap[0].Row = 5;
-                baseTileMap[1].Row = 5;
-                baseTileMap[0].Column = 5;
-                baseTileMap[1].Column = 5;
-                
+                baseTileMap[0].Row = 4;
+                baseTileMap[1].Row = 4;
+                baseTileMap[0].Column = 4;
+                baseTileMap[1].Column = 4;
+                baseTileMap[0].gameObject.SetActive(true);
+                baseTileMap[1].gameObject.SetActive(true);
+
                 //EditorApplication.isPaused = true;
                 break;
         }

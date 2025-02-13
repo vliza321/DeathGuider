@@ -11,6 +11,7 @@ public class ResultManager : MonoBehaviour
     private FadeInOut fadeInOutUI;
     private GameManager gameManager;
     private DontDestroyObjectManager ddoManager;
+
     [SerializeField]
     private List<UnitData> units;
     private List<WeaponData> newWeapons;
@@ -66,6 +67,7 @@ public class ResultManager : MonoBehaviour
     void Awake()
     {
         units = new List<UnitData>(5);
+        newWeapons = new List<WeaponData>();
         isVictory = false;
 
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
@@ -126,7 +128,7 @@ public class ResultManager : MonoBehaviour
         playerEscape = true;
         fadeInOutUI.StartFadeOut();
         //필요 작업 : 유닛 정보 복사해서 가지고 오기
-        CopyUnitData();
+        //CopyUnitData();
         SaveBattleResult(true);
         Invoke("LoadMainScene", 3f);
     }
@@ -179,6 +181,7 @@ public class ResultManager : MonoBehaviour
 
     public void PlayerDefeated()
     {
+        fadeInOutUI.StartFadeOut();
         SaveBattleResult(false);
         Invoke("LoadMainScene", 3f);
     }

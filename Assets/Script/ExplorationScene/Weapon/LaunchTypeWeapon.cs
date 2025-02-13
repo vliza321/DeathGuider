@@ -4,58 +4,85 @@ using UnityEngine;
 
 public class LaunchTypeWeapon : Weapon
 {
-    private int baseCoolTime;
-    private int coolTimer;
+    private GameObject effectObject;
+    private float baseCoolTime;
+    private float coolTimer;
     [SerializeField]
     private AttackDirectional playerAttackDirectional;
-    [SerializeField]
-    private ProjectileInWeapon[] projectile;
+
     private Transform weaponEffectPool;
     private Transform baseParent;
-    public LaunchTypeWeapon(Transform baseObjectTransform, List<Transform> effectObject, AttackDirectional attackDirectional, Transform effectPool)
-        : base(baseObjectTransform, effectObject, attackDirectional, effectPool)
+    private Queue<ProjectileInWeapon> effects = new Queue<ProjectileInWeapon>();
+    ProjectileInWeapon cachingObject;
+    private WeaponData weaponData;
+    public Queue<ProjectileInWeapon> Effects
     {
-        weaponEffectPool = effectPool;
-        baseParent = baseObjectTransform;
-        playerAttackDirectional = attackDirectional;
-        projectile = new ProjectileInWeapon[effectObject.Count];
-        for (int eo = 0; eo < effectObject.Count; eo++)
-        {
-            projectile[eo] = effectObject[eo].GetComponent<ProjectileInWeapon>();
-        }
-        baseCoolTime = 200;
-        coolTimer = baseCoolTime;
-        foreach (var p in projectile)
-        {
-            p.gameObject.SetActive(false);
-            p.AttactDirection = playerAttackDirectional.transform;
-            p.Init();
-        }
+        get { return effects; }
+        set { effects = value; }
     }
-    // Start is called before the first frame update
-    public override void Init()
+
+    public LaunchTypeWeapon()
     {
 
+    }
+    public LaunchTypeWeapon(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool, WeaponData weaponData)
+        : base(baseObjectTransform, effectObject, attackDirectional, effectPool, weaponData)
+    {
+        this.weaponData = weaponData;
+        weaponEffectPool = effectPool;
+        baseParent = baseObjectTransform;
+
+        this.effectObject = effectObject;
+
+        playerAttackDirectional = attackDirectional;
+        this.effectObject.SetActive(false);
+    }
+    // Start is called before the first frame update
+    public override void Init(Dictionary<GameObject, float> weaponDamage, float damage, Transform Unit)
+    {
+
+        baseCoolTime = 30 / (Mathf.Pow((4 + weaponData.Rank), (2.1f)) + (int)(weaponData.Enforce / 2.4f));
+        coolTimer = baseCoolTime;
+
+        for (int i = 0; i < 3 / baseCoolTime + 1; i++)
+        {
+            GameObject newEffect = Instantiate(effectObject);
+            cachingObject = newEffect.GetComponent<ProjectileInWeapon>();
+            cachingObject.Initialized(this, baseParent, Unit, weaponEffectPool, weaponData.Rank);
+            effects.Enqueue(cachingObject);
+            weaponDamage.Add(newEffect, damage);
+        }
+
+        Debug.Log(effects.Count);
     }
 
     // Update is called once per frame
     public override void Execute()
     {
-        
-        coolTimer--;
+        coolTimer -= Time.deltaTime;
         if (coolTimer < 0)
         {
-            foreach(var p in projectile)
+
+            if (effects.Count == 0)
             {
-                if(p.transform.gameObject.activeSelf == false)
-                {
-                    p.gameObject.SetActive(true);
-                    p.Execute(weaponEffectPool, baseParent, playerAttackDirectional.transform);
-                    coolTimer = baseCoolTime;
-                    break;
-                }
+                return;
+            }
+            else
+            {
+                cachingObject = effects.Dequeue();
+                cachingObject.gameObject.SetActive(true);
+                cachingObject.transform.localScale = new Vector3(1, 1, 1);
+                cachingObject.Execute(playerAttackDirectional.transform);
+                coolTimer = baseCoolTime;
             }
         }
+
+        /*
+        foreach(var e in effects)
+        {
+            if(e.gameObject.activeSelf == true)
+                e.Execute(playerAttackDirectional.transform);
+        }*/
     }
 
 }

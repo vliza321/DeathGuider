@@ -116,11 +116,11 @@ public class PlayerManager : MonoBehaviour
             {
                 weapon = Instantiate(resultManager.GameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
                 weapon.transform.SetParent(GuiderState.transform);
+                weapon.GetComponent<Weapon>().WeaponData = resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID,UW.PrototypeWeaponID,UW.InstanceID)];
                 damage = (GuiderState.Stat.Strength + resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * GuiderState.Stat.Handicraft;
                 if (GuiderState.Stat.Crime == resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
                 weapon.transform.localScale = new Vector3(1, 1, 1);
-                monsterManager.WeaponDamage.Add(weapon, damage);
-                Debug.Log(weapon.name +" "+ damage);
+                weapon.GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage,damage,guider.transform);
                 break;
             }
         }

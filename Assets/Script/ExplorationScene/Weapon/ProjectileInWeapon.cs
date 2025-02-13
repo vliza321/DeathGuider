@@ -6,14 +6,10 @@ using UnityEngine;
 public class ProjectileInWeapon : MonoBehaviour
 {
     private float baseRuntime;
-    [SerializeField]
     private float runtime;
-    [SerializeField]
     private Vector3 moveDirection;
     private Transform attactDirection;
-    [SerializeField]
     private Vector3 worldPosition;
-    [SerializeField]
     private float playerToObjAngle;
     private float radian;
     public Transform AttactDirection
@@ -21,21 +17,29 @@ public class ProjectileInWeapon : MonoBehaviour
         get { return attactDirection;}
         set { attactDirection = value; }
     }
-
-    private Vector3 grandParentPos;
+    private LaunchTypeWeapon baseClass = new LaunchTypeWeapon();
+    private Transform grandParentPos;
     private Vector3 cashingVector3;
-    private GameObject baseParent;
+    private Transform baseParent;
+    private ProjectileInWeapon projectile;
+    private Transform weaponEffectPool;
+    private float rank;
     // Start is called before the first frame update
-    public void Init()
+    public void Initialized(LaunchTypeWeapon baseClass, Transform baseParent, Transform Unit, Transform EffectPool, float rank)
     {
-        baseParent = this.transform.parent.gameObject;
+        weaponEffectPool = EffectPool;
+        this.baseClass = baseClass;
+        this.baseParent = baseParent;
+        this.gameObject.transform.SetParent(baseParent);
+        grandParentPos = Unit;
+        projectile = this;
         radian = 180 / MathF.PI;
         playerToObjAngle = 0;
-        moveDirection = new Vector3(0, 0, 0);
         baseRuntime = 2;
         runtime = baseRuntime;
-        grandParentPos = this.transform.parent.parent.transform.position;
         cashingVector3 = new Vector3(0, 0, 0);
+        moveDirection = new Vector3(0, 0, 0);
+        this.rank = rank;
     }
 
     void Start()
@@ -47,8 +51,9 @@ public class ProjectileInWeapon : MonoBehaviour
     void Update()
     {
         runtime -= Time.deltaTime;
-        if(runtime <0)
+        if (runtime < 0)
         {
+            runtime = baseRuntime;
             DestoryProjectile();
         }
     }
@@ -60,11 +65,9 @@ public class ProjectileInWeapon : MonoBehaviour
     }
 
 
-    public void Execute(Transform EffectPool, Transform WeaponUserUnit, Transform AttactDirection)
+    public void Execute(Transform AttactDirection)
     {
-
-        this.transform.parent = EffectPool;
-
+        this.transform.SetParent(weaponEffectPool);
         cashingVector3 = this.transform.localScale;
         cashingVector3.x = (cashingVector3.x >= 0) ? cashingVector3.x : -cashingVector3.x;
         cashingVector3.y = (cashingVector3.y >= 0) ? cashingVector3.y : -cashingVector3.y;
@@ -72,12 +75,11 @@ public class ProjectileInWeapon : MonoBehaviour
 
         this.transform.localScale = cashingVector3;
 
-        grandParentPos = WeaponUserUnit.position;
         attactDirection = AttactDirection;
 
-        moveDirection.x = attactDirection.transform.position.x - grandParentPos.x;
-        moveDirection.y = attactDirection.transform.position.y - grandParentPos.y;
-        moveDirection = moveDirection.normalized * 0.2f;
+        moveDirection.x = attactDirection.transform.position.x - grandParentPos.position.x;
+        moveDirection.y = attactDirection.transform.position.y - grandParentPos.position.y;
+        moveDirection = moveDirection.normalized * 0.05f * (rank + 4);
 
         playerToObjAngle = (Mathf.Atan2(moveDirection.y, moveDirection.x)) * radian;
         cashingVector3.x = 0;
@@ -85,15 +87,14 @@ public class ProjectileInWeapon : MonoBehaviour
         cashingVector3.z = playerToObjAngle;
         this.transform.eulerAngles = cashingVector3;
 
-        runtime = baseRuntime;
-
         this.gameObject.SetActive(true);
     }
 
     public void DestoryProjectile()
     {
-        this.transform.parent = this.baseParent.transform;
+        this.transform.parent = this.baseParent;
         this.gameObject.SetActive(false);
         this.gameObject.transform.localPosition = Vector3.zero;
+        baseClass.Effects.Enqueue(projectile);
     }
 }

@@ -10,6 +10,7 @@ public class autorizedObject : MonoBehaviour
 
 public class MonsterManager : MonoBehaviour
 {
+    [SerializeField]
     Dictionary<GameObject, float> weaponDamage;
     [SerializeField]    
     private ObjectPool<MonsterState> monsterSpawnPool;

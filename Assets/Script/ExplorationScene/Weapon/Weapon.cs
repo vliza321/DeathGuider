@@ -15,6 +15,7 @@ public class Weapon : MonoBehaviour
     private WeaponType weaponType;
 
     private Weapon weapon;
+    private WeaponData weaponData;
     private int level;
     private int attackPoint;
     private string crime;
@@ -49,6 +50,18 @@ public class Weapon : MonoBehaviour
         get { return weaponType; }
     }
 
+    public WeaponData WeaponData
+    {
+        get { return weaponData; }
+        set { weaponData = value; }
+    }
+
+    public List<Transform> ChildList
+    {
+        get { return childList; }
+        set { childList = value; }
+    }
+
     public void LevelUp()
     {
         level += 1;
@@ -59,7 +72,7 @@ public class Weapon : MonoBehaviour
         this.transform.position = vector;
     }
 
-    public Weapon(Transform baseObjectTransform, Transform effectPool)
+    public Weapon(Transform baseObjectTransform, Transform effectPool, WeaponData weaponData)
     {
 
     }
@@ -67,43 +80,24 @@ public class Weapon : MonoBehaviour
     { 
 
     }
-    public Weapon(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool) 
+    public Weapon(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool, WeaponData weaponData) 
     {
 
     }
-    public Weapon(Transform baseObjectTransform, List<Transform> effectObject, AttackDirectional attackDirectional, Transform effectPool)
+    public Weapon(Transform baseObjectTransform, List<Transform> effectObject, AttackDirectional attackDirectional, Transform effectPool, WeaponData weaponData)
     {
 
     }
-
-
     public virtual void Init()
     {
 
     }
-    public virtual void Init(Transform baseObjectTransform, GameObject effectObject, AttackDirectional attackDirectional, Transform effectPool)
+
+    public virtual void Init(Dictionary<GameObject, float> weaponDamage, float damage, Transform Unit)
     {
 
     }
-    public virtual void Init(Transform baseObjectTransform, List<Transform> effectObject, AttackDirectional attackDirectional, Transform effectPool)
-    {
 
-    }
-
-    public virtual void Init(int baseLevelIsOne, int attackPointIsInTable, string crimeTypeIsInTable, WeaponType weaponTypeIsInTable, int growthRateIsInTable, GameObject parent)
-    {
-        level = baseLevelIsOne;
-        attackPoint = attackPointIsInTable;
-        crime = crimeTypeIsInTable;
-        weaponType = weaponTypeIsInTable;
-        growthRate = growthRateIsInTable;
-
-        Debug.Log(level);
-        if (level != 1)
-        {
-            attackPoint = attackPointIsInTable + growthRate * (level - 1);
-        }
-    }
 
     public virtual void Execute()
     {
@@ -112,6 +106,7 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
+        weaponData = new WeaponData();
         if (this.transform.childCount == 0) return;
 
         Transform[] temtchild = new Transform[this.transform.childCount];
@@ -123,31 +118,35 @@ public class Weapon : MonoBehaviour
         temtchild = null;
     }
 
-    private void Start()
+    public void Initialize(Dictionary<GameObject, float> weaponDamage,float damage,Transform baseParent)
     {
         if (weaponType == WeaponType.Close)
         {
-            weapon = new CloseTypeWeapon(this.transform,
-            this.transform.GetChild(0).gameObject,
-            this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
-            this.transform.parent.parent.GetChild(this.transform.parent.parent.childCount - 1).transform);
+            weapon = new CloseTypeWeapon(
+                this.transform,
+                this.transform.GetChild(0).gameObject,
+                this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
+                baseParent.parent.GetChild(baseParent.parent.childCount -1),
+                weaponData);
         }
         if (weaponType == WeaponType.Launch)
         {
             weapon = new LaunchTypeWeapon(
-            this.transform,
-            childList,
-            this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
-            this.transform.parent.parent.GetChild(this.transform.parent.parent.childCount - 1).transform);
+                this.transform,
+                this.transform.GetChild(0).gameObject,
+                this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
+               baseParent.parent.GetChild(baseParent.parent.childCount - 1),
+                weaponData);
         }
         if (weaponType == WeaponType.Setallite)
         {
             weapon = new SetalliteTypeWeaponManager(
-            this.transform,
-            this.transform.parent.parent.GetChild(this.transform.parent.parent.childCount - 1).transform);
+                this.transform,
+                baseParent.parent.GetChild(baseParent.parent.childCount - 1),
+                weaponData);
         }
-        weapon.Init();
-        this.Init();
+        weapon.Init(weaponDamage,damage, baseParent);
+        //this.Init();
     }
 
     private void Update()
