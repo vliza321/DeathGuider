@@ -226,11 +226,13 @@ public class BattleReadySystem : MonoBehaviour
 
                 if (unit.BodyID >= 0 && unit.BodyID < GameManager.GuiderBodyImg.Count && bodyImage != null)
                 {
+                    bodyImage.gameObject.SetActive(true);
                     bodyImage.sprite = GameManager.GuiderBodyImg[unit.BodyID];
                 }
 
                 if (unit.HeadID >= 0 && unit.HeadID < GameManager.GuiderHeadImg.Count && headImage != null)
                 {
+                    headImage.gameObject.SetActive(true);
                     headImage.sprite = GameManager.GuiderHeadImg[unit.HeadID];
                 }
 
@@ -425,10 +427,17 @@ public class BattleReadySystem : MonoBehaviour
                     Image prisonerHeadImage = prisonerUI.transform.Find("HeadImage")?.GetComponent<Image>();
 
                     if (prisonerBodyImage != null && battleReadyPrisoners[i].BodyID >= 0 && battleReadyPrisoners[i].BodyID < GameManager.PrisonerBodyImg.Count /*bodySprites.Length*/)
+                    {
+                        prisonerBodyImage.gameObject.SetActive(true);
                         prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[battleReadyPrisoners[i].BodyID];
+                    }
 
                     if (prisonerHeadImage != null && battleReadyPrisoners[i].HeadID >= 0 && battleReadyPrisoners[i].HeadID < headSprites.Length)
+                    {
+                        prisonerHeadImage.gameObject.SetActive(true);
                         prisonerHeadImage.sprite = headSprites[battleReadyPrisoners[i].HeadID];
+                    }
+                    
 
                     Button closeButton = prisonerUI.transform.Find("PrisonerCloseButton")?.GetComponent<Button>();
                     if (closeButton != null)
@@ -571,6 +580,11 @@ public class BattleReadySystem : MonoBehaviour
     {
         if (unit.PrototypeUnitID != 100)
         {
+            if(selectedManagerUnit == null)
+            {
+                return;
+            }
+
             TextMeshProUGUI managerNameText = chooseManager.transform.Find("ManagerNameText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI managerLevelText = chooseManager.transform.Find("ManagerLevelText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI managerHealthText = chooseManager.transform.Find("ManagerHealthText").GetComponent<TextMeshProUGUI>();
@@ -596,10 +610,19 @@ public class BattleReadySystem : MonoBehaviour
                 weaponImage.gameObject.SetActive(false);
             }
 
-            if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0) bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
-            if (headImage != null && headSprites.Length > 0) headImage.sprite = headSprites[0];
-
-            DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
+            if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0)
+            {
+                bodyImage.gameObject.SetActive(false);
+                bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
+            }
+            if (headImage != null && headSprites.Length > 0)
+            {
+                headImage.gameObject.SetActive(false);
+                headImage.sprite = headSprites[0];
+            }
+            
+            DDOManager.UnitDatas.UnitDataDic[(unit.UserID, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
+            DDOManager.UnitDatas.UnitDatas.Find(data => data.UserID == unit.UserID && data.PrototypeUnitID == unit.PrototypeUnitID && data.InstanceID == unit.InstanceID).ActivityStatus = 0;
             int index = weaponSlots[0].equipableState;
             if(index != -1)
             {
@@ -613,7 +636,7 @@ public class BattleReadySystem : MonoBehaviour
             }
 
             var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
-    .FirstOrDefault(kv => kv.Value.UserID == selectedManagerUnit.UserID && kv.Value.PrototypeWeaponID == weaponSlots[0].equipableState).Key;
+    .FirstOrDefault(kv => kv.Value.UserID == GameManager.SelectUserID && kv.Value.PrototypeWeaponID == weaponSlots[0].equipableState).Key;
 
             bool removedFromDic = DDOManager.UseWeaponDatas.UseWeaponDataDic.Remove(keyToRemove);
             Debug.Log($"딕셔너리에서 제거 성공 여부: {removedFromDic}");
@@ -731,9 +754,15 @@ public class BattleReadySystem : MonoBehaviour
                         }
 
                         if (prisonerBodyImage != null && GameManager.PrisonerBodyImg.Count/*bodySprites.Length*/ > 0)
+                        {
+                            prisonerBodyImage.gameObject.SetActive(false);
                             prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
+                        }
                         if (prisonerHeadImage != null && headSprites.Length > 0)
+                        {
+                            prisonerHeadImage.gameObject.SetActive(false);
                             prisonerHeadImage.sprite = headSprites[0];
+                        }
 
                         DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
 

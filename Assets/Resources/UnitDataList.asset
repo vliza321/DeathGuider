@@ -16,7 +16,7 @@ MonoBehaviour:
   - UserID: 0
     PrototypeUnitID: 0
     InstanceID: 0
-    Name: "\uFFFD\u033F\uFFFD\uFFFD\uFFFD"
+    Name: "\uAE30\uBCF8"
     Level: 1
     EXP: 0
     MaxHealthPoint: 100
@@ -37,7 +37,7 @@ MonoBehaviour:
   - UserID: 0
     PrototypeUnitID: 1
     InstanceID: 0
-    Name: "\uFFFD\u5FF5\uFFFD\uFFFD"
+    Name: "\uD615\uB2D8"
     Level: 1
     EXP: 0
     MaxHealthPoint: 100
@@ -57,64 +57,64 @@ MonoBehaviour:
     BodyID: 1
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 1
-    Name: "\uBC15\uBA8F\uACE2"
+    InstanceID: 0
+    Name: "\uC815\uD134\uBBC2"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 83
-    HealthPoint: 83
+    MaxHealthPoint: 73
+    HealthPoint: 73
     Strength: 6
-    Defense: 82
-    Handicraft: 35
+    Defense: 9
+    Handicraft: 5
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
-    Crime: 6
+    Crime: 5
     ActivityStatus: 0
     HeadID: 0
     BodyID: 2
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 2
-    Name: "\uAE40\uB496\uB440"
+    InstanceID: 1
+    Name: "\uC870\uBA4E\uD3BE"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 83
-    HealthPoint: 83
-    Strength: 51
-    Defense: 98
-    Handicraft: 15
+    MaxHealthPoint: 18
+    HealthPoint: 18
+    Strength: 6
+    Defense: 2
+    Handicraft: 9
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
-    Crime: 6
+    Crime: 5
     ActivityStatus: 0
     HeadID: 4
-    BodyID: 2
+    BodyID: 0
   - UserID: 0
     PrototypeUnitID: 100
-    InstanceID: 3
-    Name: "\uC815\uD183\uB497"
+    InstanceID: 2
+    Name: "\uAE40\uD75C\uBD9A"
     Level: 1
     EXP: 0
-    MaxHealthPoint: 98
-    HealthPoint: 98
-    Strength: 28
-    Defense: 7
-    Handicraft: 80
+    MaxHealthPoint: 8
+    HealthPoint: 8
+    Strength: 3
+    Defense: 10
+    Handicraft: 3
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
-    Crime: 4
+    Crime: 5
     ActivityStatus: 0
     HeadID: 0
     BodyID: 0
