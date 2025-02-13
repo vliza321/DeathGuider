@@ -664,7 +664,11 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
+<<<<<<< Updated upstream
   m_AnchoredPosition: {x: -324.7116, y: -336.89}
+=======
+  m_AnchoredPosition: {x: -324.71, y: -327.98}
+>>>>>>> Stashed changes
   m_SizeDelta: {x: 281.3, y: 134.5965}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &41758828
@@ -687,7 +691,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: "\uC8C4\uBAA9"
+=======
+  m_text: "\uC138\uAE00\uC790"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -721,8 +729,13 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
+<<<<<<< Updated upstream
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
+=======
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+>>>>>>> Stashed changes
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -782,7 +795,11 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
+<<<<<<< Updated upstream
   m_IsActive: 1
+=======
+  m_IsActive: 0
+>>>>>>> Stashed changes
 --- !u!224 &41761367
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1892,10 +1909,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+=======
+  m_text: "\uB2EB\uAE30"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+  m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+>>>>>>> Stashed changes
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1919,8 +1943,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2027,7 +2056,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -2054,8 +2087,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2953,7 +2991,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -2980,8 +3022,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5162,7 +5209,11 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
+<<<<<<< Updated upstream
   m_HorizontalAlignment: 1
+=======
+  m_HorizontalAlignment: 2
+>>>>>>> Stashed changes
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -5217,6 +5268,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1971854364}
     m_Modifications:
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 4222228775751296523, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222228775782105832, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     - target: {fileID: 4222228776037563072, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5889,7 +5951,11 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
+<<<<<<< Updated upstream
   m_AnchoredPosition: {x: 736, y: -333}
+=======
+  m_AnchoredPosition: {x: 736, y: -379}
+>>>>>>> Stashed changes
   m_SizeDelta: {x: 350, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &549588717
@@ -6392,9 +6458,14 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1692711065}
+<<<<<<< Updated upstream
   - {fileID: 1006267960}
   m_Father: {fileID: 1174908065}
   m_RootOrder: 1
+=======
+  m_Father: {fileID: 1174908065}
+  m_RootOrder: 2
+>>>>>>> Stashed changes
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -6713,7 +6784,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -6740,8 +6815,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7673,6 +7753,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1971854364}
     m_Modifications:
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 4222228775751296523, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222228775782105832, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     - target: {fileID: 4222228776037563072, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9882,7 +9973,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -9909,8 +10004,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10889,7 +10989,11 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
+<<<<<<< Updated upstream
   m_IsActive: 1
+=======
+  m_IsActive: 0
+>>>>>>> Stashed changes
 --- !u!224 &1006267960
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10917,12 +11021,20 @@ RectTransform:
   - {fileID: 1220433425}
   - {fileID: 1472309138}
   - {fileID: 1586397724}
+<<<<<<< Updated upstream
   m_Father: {fileID: 569007615}
+=======
+  m_Father: {fileID: 1174908065}
+>>>>>>> Stashed changes
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
+<<<<<<< Updated upstream
   m_AnchoredPosition: {x: -1222.3672, y: -367.5995}
+=======
+  m_AnchoredPosition: {x: -909, y: -0.000030517578}
+>>>>>>> Stashed changes
   m_SizeDelta: {x: 1029.7517, y: 790.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1006267961
@@ -12587,7 +12699,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uC5C5\uADF8\uB808\uC774\uB4DC"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -12614,8 +12730,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13056,7 +13177,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -13083,8 +13208,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13953,6 +14083,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 252941030}
+<<<<<<< Updated upstream
+=======
+  - {fileID: 1006267960}
+>>>>>>> Stashed changes
   - {fileID: 569007615}
   m_Father: {fileID: 2134256748}
   m_RootOrder: 0
@@ -14096,6 +14230,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1971854364}
     m_Modifications:
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 4222228775751296523, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222228775782105832, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     - target: {fileID: 4222228776037563072, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -16695,7 +16840,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uC5C5\uADF8\uB808\uC774\uB4DC"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -16722,8 +16871,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -20329,6 +20483,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manger Battle Ready
       objectReference: {fileID: 0}
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 3761705814677586813, guid: 73c0c5a2a38134a46ae16c6f633b2660, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3761705814765299614, guid: 73c0c5a2a38134a46ae16c6f633b2660, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     - target: {fileID: 3761705815196986591, guid: 73c0c5a2a38134a46ae16c6f633b2660, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 170
@@ -20402,10 +20567,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+=======
+  m_text: "\uCE35 \uC5C5\uADF8\uB808\uC774\uB4DC"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+  m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+>>>>>>> Stashed changes
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20429,8 +20601,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 50
+  m_fontSizeBase: 50
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -20993,6 +21170,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1971854364}
     m_Modifications:
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 4222228775751296523, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222228775782105832, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     - target: {fileID: 4222228776037563072, guid: 4ea49b255aeea7b4d8ddab28f710ac6e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -22032,7 +22220,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -22059,8 +22251,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -22706,8 +22903,13 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
+<<<<<<< Updated upstream
   m_AnchoredPosition: {x: -274, y: 365}
   m_SizeDelta: {x: 336.3657, y: 50}
+=======
+  m_AnchoredPosition: {x: -94.208, y: 365}
+  m_SizeDelta: {x: 695.95, y: 50}
+>>>>>>> Stashed changes
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1744021253
 MonoBehaviour:
@@ -23245,7 +23447,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -23272,8 +23478,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -25282,7 +25493,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -25309,8 +25524,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -27838,7 +28058,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uB2EB\uAE30"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -27865,8 +28089,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

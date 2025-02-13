@@ -816,7 +816,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+<<<<<<< Updated upstream
   m_text: Button
+=======
+  m_text: "\uCDE8\uC18C"
+>>>>>>> Stashed changes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
   m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -843,8 +847,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
+<<<<<<< Updated upstream
   m_fontSize: 24
   m_fontSizeBase: 24
+=======
+  m_fontSize: 40
+  m_fontSizeBase: 40
+>>>>>>> Stashed changes
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

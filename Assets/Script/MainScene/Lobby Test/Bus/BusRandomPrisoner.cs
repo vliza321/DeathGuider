@@ -67,9 +67,15 @@ public class BusRandomPrisoner : MonoBehaviour
         newUnit.EXP = 0;
         newUnit.MaxHealthPoint = Random.Range(1, 100);
         newUnit.HealthPoint = newUnit.MaxHealthPoint;
+<<<<<<< Updated upstream
         newUnit.Strength = Random.Range(1, 100);
         newUnit.Defense = Random.Range(1, 100);
         newUnit.Handicraft = Random.Range(1, 100);
+=======
+        newUnit.Strength = Random.Range(1, 11);
+        newUnit.Defense = Random.Range(1, 11);
+        newUnit.Handicraft = Random.Range(1, 11);
+>>>>>>> Stashed changes
         newUnit.DeathErosion = 0;
         newUnit.Enforce = 0;
         newUnit.HandicraftEnforce = 0;

@@ -573,10 +573,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+<<<<<<< Updated upstream
+=======
+      propertyPath: m_text
+      value: "\uC8C4\uC218 \uC120\uD0DD"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+>>>>>>> Stashed changes
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+<<<<<<< Updated upstream
+=======
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+>>>>>>> Stashed changes
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -707,10 +725,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+<<<<<<< Updated upstream
+=======
+      propertyPath: m_text
+      value: "\uC8C4\uC218 \uC120\uD0DD"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+>>>>>>> Stashed changes
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+<<<<<<< Updated upstream
+=======
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+>>>>>>> Stashed changes
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
@@ -841,10 +877,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+<<<<<<< Updated upstream
+=======
+      propertyPath: m_text
+      value: "\uC8C4\uC218 \uC120\uD0DD"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+>>>>>>> Stashed changes
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+<<<<<<< Updated upstream
+=======
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
+>>>>>>> Stashed changes
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}

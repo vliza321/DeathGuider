@@ -673,7 +673,11 @@ public class SmithSystem : MonoBehaviour
         if (goldText != null)
             goldText.text = $"{newWeapon.calculatedGoldCost}G";
         if (darkText != null)
+<<<<<<< Updated upstream
             darkText.text = $"{newWeapon.calculatedDarkCost}D";
+=======
+            darkText.text = $"{newWeapon.calculatedDarkCost}K";
+>>>>>>> Stashed changes
     }
 
     //public void GenerateNewWeaponDatas()

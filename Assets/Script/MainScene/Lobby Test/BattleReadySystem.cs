@@ -226,11 +226,19 @@ public class BattleReadySystem : MonoBehaviour
 
                 if (unit.BodyID >= 0 && unit.BodyID < GameManager.GuiderBodyImg.Count && bodyImage != null)
                 {
+<<<<<<< Updated upstream
+=======
+                    bodyImage.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                     bodyImage.sprite = GameManager.GuiderBodyImg[unit.BodyID];
                 }
 
                 if (unit.HeadID >= 0 && unit.HeadID < GameManager.GuiderHeadImg.Count && headImage != null)
                 {
+<<<<<<< Updated upstream
+=======
+                    headImage.gameObject.SetActive(true);
+>>>>>>> Stashed changes
                     headImage.sprite = GameManager.GuiderHeadImg[unit.HeadID];
                 }
 
@@ -425,11 +433,24 @@ public class BattleReadySystem : MonoBehaviour
                     Image prisonerHeadImage = prisonerUI.transform.Find("HeadImage")?.GetComponent<Image>();
 
                     if (prisonerBodyImage != null && battleReadyPrisoners[i].BodyID >= 0 && battleReadyPrisoners[i].BodyID < GameManager.PrisonerBodyImg.Count /*bodySprites.Length*/)
+<<<<<<< Updated upstream
                         prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[battleReadyPrisoners[i].BodyID];
 
                     if (prisonerHeadImage != null && battleReadyPrisoners[i].HeadID >= 0 && battleReadyPrisoners[i].HeadID < headSprites.Length)
                         prisonerHeadImage.sprite = headSprites[battleReadyPrisoners[i].HeadID];
 
+=======
+                    {
+                        prisonerBodyImage.gameObject.SetActive(true);
+                        prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[battleReadyPrisoners[i].BodyID];
+                    }
+
+                    if (prisonerHeadImage != null && battleReadyPrisoners[i].HeadID >= 0 && battleReadyPrisoners[i].HeadID < headSprites.Length)
+                    {
+                        prisonerHeadImage.gameObject.SetActive(true);
+                        prisonerHeadImage.sprite = headSprites[battleReadyPrisoners[i].HeadID];
+                    }
+>>>>>>> Stashed changes
                     Button closeButton = prisonerUI.transform.Find("PrisonerCloseButton")?.GetComponent<Button>();
                     if (closeButton != null)
                     {
@@ -596,8 +617,21 @@ public class BattleReadySystem : MonoBehaviour
                 weaponImage.gameObject.SetActive(false);
             }
 
+<<<<<<< Updated upstream
             if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0) bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
             if (headImage != null && headSprites.Length > 0) headImage.sprite = headSprites[0];
+=======
+            if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0)
+            {
+                bodyImage.gameObject.SetActive(false);
+                bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
+            }
+            if (headImage != null && headSprites.Length > 0)
+            {
+                headImage.gameObject.SetActive(false);
+                headImage.sprite = headSprites[0];
+            }
+>>>>>>> Stashed changes
 
             DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
             int index = weaponSlots[0].equipableState;
@@ -613,7 +647,11 @@ public class BattleReadySystem : MonoBehaviour
             }
 
             var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
+<<<<<<< Updated upstream
     .FirstOrDefault(kv => kv.Value.UserID == selectedManagerUnit.UserID && kv.Value.PrototypeWeaponID == weaponSlots[0].equipableState).Key;
+=======
+    .FirstOrDefault(kv => kv.Value.UserID == GameManager.SelectUserID && kv.Value.PrototypeWeaponID == weaponSlots[0].equipableState).Key;
+>>>>>>> Stashed changes
 
             bool removedFromDic = DDOManager.UseWeaponDatas.UseWeaponDataDic.Remove(keyToRemove);
             Debug.Log($"딕셔너리에서 제거 성공 여부: {removedFromDic}");
@@ -1096,8 +1134,21 @@ public class BattleReadySystem : MonoBehaviour
                 weaponImage.sprite = null;
                 weaponImage.gameObject.SetActive(false);
             }
+<<<<<<< Updated upstream
             if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0) bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
             if (headImage != null && headSprites.Length > 0) headImage.sprite = headSprites[0];
+=======
+            if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0)
+            {
+                bodyImage.gameObject.SetActive(false);
+                bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
+            }
+            if (headImage != null && headSprites.Length > 0)
+            {
+                headImage.gameObject.SetActive(false);
+                headImage.sprite = headSprites[0];
+            }
+>>>>>>> Stashed changes
         }
 
         for(int i = 0; i <  battleReadyPrisoners.Length; i++)

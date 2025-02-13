@@ -16,7 +16,11 @@ MonoBehaviour:
   - UserID: 0
     PrototypeUnitID: 0
     InstanceID: 0
+<<<<<<< Updated upstream
     Name: "\uFFFD\u033F\uFFFD\uFFFD\uFFFD"
+=======
+    Name: "\uAE30\uBCF8"
+>>>>>>> Stashed changes
     Level: 1
     EXP: 0
     MaxHealthPoint: 100
@@ -37,7 +41,11 @@ MonoBehaviour:
   - UserID: 0
     PrototypeUnitID: 1
     InstanceID: 0
+<<<<<<< Updated upstream
     Name: "\uFFFD\u5FF5\uFFFD\uFFFD"
+=======
+    Name: "\uD615\uB2D8"
+>>>>>>> Stashed changes
     Level: 1
     EXP: 0
     MaxHealthPoint: 100
@@ -57,6 +65,7 @@ MonoBehaviour:
     BodyID: 1
   - UserID: 0
     PrototypeUnitID: 100
+<<<<<<< Updated upstream
     InstanceID: 1
     Name: "\uBC15\uBA8F\uACE2"
     Level: 1
@@ -66,19 +75,58 @@ MonoBehaviour:
     Strength: 6
     Defense: 82
     Handicraft: 35
+=======
+    InstanceID: 0
+    Name: "\uC815\uBBFA\uB4F3"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 99
+    HealthPoint: 40
+    Strength: 10
+    Defense: 7
+    Handicraft: 9
+    DeathErosion: 80
+    Enforce: 0
+    HealthEnforce: 0
+    StrengthEnforce: 0
+    DefenseEnforce: 0
+    HandicraftEnforce: 0
+    Crime: 0
+    ActivityStatus: 0
+    HeadID: 1
+    BodyID: 0
+  - UserID: 0
+    PrototypeUnitID: 100
+    InstanceID: 1
+    Name: "\uAE40\uC091\uD26E"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 77
+    HealthPoint: 77
+    Strength: 1
+    Defense: 4
+    Handicraft: 10
+>>>>>>> Stashed changes
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
+<<<<<<< Updated upstream
     Crime: 6
     ActivityStatus: 0
     HeadID: 0
+=======
+    Crime: 3
+    ActivityStatus: 0
+    HeadID: 1
+>>>>>>> Stashed changes
     BodyID: 2
   - UserID: 0
     PrototypeUnitID: 100
     InstanceID: 2
+<<<<<<< Updated upstream
     Name: "\uAE40\uB496\uB440"
     Level: 1
     EXP: 0
@@ -87,12 +135,23 @@ MonoBehaviour:
     Strength: 51
     Defense: 98
     Handicraft: 15
+=======
+    Name: "\uC724\uBCE7\uADFA"
+    Level: 1
+    EXP: 0
+    MaxHealthPoint: 42
+    HealthPoint: 42
+    Strength: 10
+    Defense: 2
+    Handicraft: 10
+>>>>>>> Stashed changes
     DeathErosion: 0
     Enforce: 0
     HealthEnforce: 0
     StrengthEnforce: 0
     DefenseEnforce: 0
     HandicraftEnforce: 0
+<<<<<<< Updated upstream
     Crime: 6
     ActivityStatus: 0
     HeadID: 4
@@ -117,4 +176,9 @@ MonoBehaviour:
     Crime: 4
     ActivityStatus: 0
     HeadID: 0
+=======
+    Crime: 1
+    ActivityStatus: 0
+    HeadID: 5
+>>>>>>> Stashed changes
     BodyID: 0
