@@ -65,11 +65,11 @@ public class BusRandomPrisoner : MonoBehaviour
         newUnit.Name = GenerateRandomName();
         newUnit.Level = 1;
         newUnit.EXP = 0;
-        newUnit.MaxHealthPoint = Random.Range(1, 100);
+        newUnit.MaxHealthPoint = Random.Range(1, 101);
         newUnit.HealthPoint = newUnit.MaxHealthPoint;
-        newUnit.Strength = Random.Range(1, 100);
-        newUnit.Defense = Random.Range(1, 100);
-        newUnit.Handicraft = Random.Range(1, 100);
+        newUnit.Strength = Random.Range(1, 11);
+        newUnit.Defense = Random.Range(1, 11);
+        newUnit.Handicraft = Random.Range(1, 11);
         newUnit.DeathErosion = 0;
         newUnit.Enforce = 0;
         newUnit.HandicraftEnforce = 0;
