@@ -822,8 +822,8 @@ MonoBehaviour:
   m_text: "\uCDE8\uC18C"
 >>>>>>> Stashed changes
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
-  m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
+  m_sharedMaterial: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1038,8 +1038,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '| -------'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
-  m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
+  m_sharedMaterial: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1173,8 +1173,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uCCB4\uB825"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
-  m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
+  m_sharedMaterial: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

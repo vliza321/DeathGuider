@@ -147,8 +147,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uCCB4\uB825, \uADFC\uB825"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
-  m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
+  m_sharedMaterial: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -282,8 +282,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uD6C8\uB828"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
-  m_sharedMaterial: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
+  m_sharedMaterial: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -463,19 +463,19 @@ PrefabInstance:
     - target: {fileID: 333914481256808568, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 333914481256808568, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3430148940409792363, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3430148940409792363, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3465094398067581190, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_Name
       value: TrainingSelect1
@@ -483,11 +483,11 @@ PrefabInstance:
     - target: {fileID: 5461913764691005753, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 5461913764691005753, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 7931113044498479118, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -586,7 +586,7 @@ PrefabInstance:
 >>>>>>> Stashed changes
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
 <<<<<<< Updated upstream
 =======
@@ -597,7 +597,7 @@ PrefabInstance:
 >>>>>>> Stashed changes
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
 --- !u!224 &6315784860450829749 stripped
@@ -615,19 +615,19 @@ PrefabInstance:
     - target: {fileID: 333914481256808568, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 333914481256808568, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3430148940409792363, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3430148940409792363, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3465094398067581190, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_Name
       value: TrainingSelect3
@@ -635,11 +635,11 @@ PrefabInstance:
     - target: {fileID: 5461913764691005753, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 5461913764691005753, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 7931113044498479118, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -738,7 +738,7 @@ PrefabInstance:
 >>>>>>> Stashed changes
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
 <<<<<<< Updated upstream
 =======
@@ -749,7 +749,7 @@ PrefabInstance:
 >>>>>>> Stashed changes
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
 --- !u!224 &507629701031012558 stripped
@@ -767,19 +767,19 @@ PrefabInstance:
     - target: {fileID: 333914481256808568, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 333914481256808568, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3430148940409792363, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3430148940409792363, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 3465094398067581190, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_Name
       value: TrainingSelect2
@@ -787,11 +787,11 @@ PrefabInstance:
     - target: {fileID: 5461913764691005753, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 5461913764691005753, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 7931113044498479118, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -890,7 +890,7 @@ PrefabInstance:
 >>>>>>> Stashed changes
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 11400000, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     - target: {fileID: 8272798648467526877, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
 <<<<<<< Updated upstream
 =======
@@ -901,7 +901,7 @@ PrefabInstance:
 >>>>>>> Stashed changes
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 5304689942014809698, guid: 3b8ad84ccd2721243b4fdfbf9a40f028, type: 2}
+      objectReference: {fileID: 3870627155365411671, guid: 79650ea9b14d72d488e8e9f1dab063e6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f402d8a36abb8d048a00de3454d365b4, type: 3}
 --- !u!224 &1910695965279558906 stripped
