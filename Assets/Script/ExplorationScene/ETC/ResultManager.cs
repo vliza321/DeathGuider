@@ -67,7 +67,7 @@ public class ResultManager : MonoBehaviour
     {
         units = new List<UnitData>(5);
         isVictory = false;
-
+<<<<<<< HEAD
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
@@ -90,7 +90,8 @@ public class ResultManager : MonoBehaviour
             }
         }
 
-
+=======
+>>>>>>> 52df2dc3c80151fe82418f1e602f263b5cc1ea1e
         timer = 0;
         playerEscape = false;
 
@@ -110,7 +111,7 @@ public class ResultManager : MonoBehaviour
             if (ddo.name == "GameManager")
                 gameManager = ddo.GetComponent<GameManager>();
             if (ddo.name == "DDOManager")
-                ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
+                DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
         }
 
         GameObject[] UI = GameObject.FindGameObjectsWithTag("UI");
@@ -188,7 +189,7 @@ public class ResultManager : MonoBehaviour
         int userID = gameManager.SelectUserID;
         int stageID = gameManager.SelectStageID;
 
-
+<<<<<<< HEAD
         // **?? 1. 전투 결과 데이터 저장 **
         // + 결과 데이터 저장 중 진척도 관련 처리
         // 기존 진척도 + 기본 10 + 시간 비례 추가(최소 5 / 최대 20)
@@ -210,7 +211,7 @@ public class ResultManager : MonoBehaviour
         // 예시 코드
         var key = (1,1,1); // dictionary 타입의 key를 정의 및 임시 초기화
         // 전투에 참여한 units의 순회
-
+=======
         UpdateBattleProgress(userID, stageID, isVictory);
         UpdateResources(userID, isVictory);
         UpdateUnitHealth(userID);
@@ -280,13 +281,13 @@ public class ResultManager : MonoBehaviour
     //}
     private void UpdateUnitHealth(int userID)
     {
-
+>>>>>>> 52df2dc3c80151fe82418f1e602f263b5cc1ea1e
         foreach (var unit in units)
         {
             var key = (unit.UserID, unit.PrototypeUnitID, unit.InstanceID);
             if (unit.HealthPoint <= 0 && unit.PrototypeUnitID == 100)
             {
-
+<<<<<<< HEAD
                 // 삭제시 데이터 베이스에서 list와 dictionary타입 둘다 삭제해야함
                 // key 값에 따른 dictionary 타입의 데이터 베이스에서 삭제
                 ddoManager.UnitDatas.UnitDataDic.Remove(key);
@@ -302,10 +303,10 @@ public class ResultManager : MonoBehaviour
                         }
                     }
                 }
-
+=======
                 DDOManager.UnitDatas.UnitDataDic.Remove(key);
                 DDOManager.UnitDatas.UnitDatas.RemoveAll(u => u.UserID == userID && u.PrototypeUnitID == unit.PrototypeUnitID && u.InstanceID == unit.InstanceID);
-
+>>>>>>> 52df2dc3c80151fe82418f1e602f263b5cc1ea1e
             }
             else
             {
@@ -314,20 +315,25 @@ public class ResultManager : MonoBehaviour
         }
     }    
 
-    /*
+
         // 4. 무기의 내구도 정보 업데이트 (UseWeaponData 및 WeaponData 사용)
+<<<<<<< HEAD
         foreach(var useWeapon in ddoManager.UseWeaponDatas.UseWeaponDataDic.Values)
+=======
+       /* foreach(var useWeapon in DDOManager.UseWeaponDatas.UseWeaponDataDic.Values)
+>>>>>>> 52df2dc3c80151fe82418f1e602f263b5cc1ea1e
         {
             // 사용한 무기의 key값 가져오기
             key = (userID, useWeapon.PrototypeWeaponID, useWeapon.InstanceID);
             // 사용한 무기의 내구도 감소
             // 기존 내구도 - (기본 5 + 시간 비례 추가(최소 0 / 최대 20))
-
+<<<<<<< HEAD
             ddoManager.WeaponDatas.WeaponDataDic[key].Durability -= 5; // + 시간 비례식 필요 
         }
+=======
             DDOManager.WeaponDatas.WeaponDataDic[key].Durability -= 5; // + 시간 비례식 필요 
         } */
-
+>>>>>>> 52df2dc3c80151fe82418f1e602f263b5cc1ea1e
 
     private void UpdateWeaponDurability(int userID)
     {
@@ -373,16 +379,21 @@ public class ResultManager : MonoBehaviour
     {
         foreach (var newWeapon in newWeapons)
         {
-
+<<<<<<< HEAD
+            //PrototypeWeapon의 instanceCounter증가
             ddoManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeapon.PrototypeWeaponID].InstanceCounter++;
 
             //새로 획득한 무기의 InstanceID를 변경
             newWeapon.InstanceID = ddoManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeapon.PrototypeWeaponID].InstanceCounter;
             
+=======
             DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeapon.PrototypeWeaponID].InstanceCounter++;
             newWeapon.InstanceID = DDOManager.PrototypeWeaponDatas.PrototypeWeaponDataDic[newWeapon.PrototypeWeaponID].InstanceCounter;
+>>>>>>> 52df2dc3c80151fe82418f1e602f263b5cc1ea1e
 
             var key = (userID, newWeapon.PrototypeWeaponID, newWeapon.InstanceID);
+
+<<<<<<< HEAD
 
             //새로운 WeaponData 생성 -> 없을시 함수 종료시 nullreference
             WeaponData addWeapon = new WeaponData();
@@ -397,15 +408,17 @@ public class ResultManager : MonoBehaviour
             }
         }
 
-        /*
+
         // **?? 5. 전투 데이터를 저장**
         ddoManager.SaveData();
-        if (!DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(key))
-        {
+=======
+            if (!DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(key))
+            {
                 DDOManager.WeaponDatas.WeaponDataDic.Add(key, newWeapon);
                 DDOManager.WeaponDatas.WeaponDatas.Add(newWeapon);
             }
-        }*/
+        }
+>>>>>>> 52df2dc3c80151fe82418f1e602f263b5cc1ea1e
     }
 
     private void LoadMainScene()
