@@ -20,6 +20,8 @@ public class BusRandomPrisoner : MonoBehaviour
     private int maxDailyAcceptCount = 3;
     public int availablePrisoner = 6;
     public Button changeDaysButton;
+    public TextMeshProUGUI dailyAcceptCountText;
+    public TextMeshProUGUI totalAcceptCountText;
 
     private readonly char[] name1 = new char[] { '¤¡', '¤¢', '¤¤', '¤§', '¤¨', '¤©', '¤±', '¤²', '¤³', '¤µ', '¤¶', '¤·', '¤¸', '¤¹', '¤º', '¤»', '¤¼', '¤½', '¤¾' };
     private readonly char[] name2 = new char[] { '¤¿', '¤À', '¤Á', '¤Â', '¤Ã', '¤Ä', '¤Å', '¤Æ', '¤Ç', '¤È', '¤É', '¤Ê', '¤Ë', '¤Ì', '¤Í', '¤Î', '¤Ï', '¤Ð', '¤Ñ', '¤Ò', '¤Ó' };
@@ -54,8 +56,22 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             GenerateRandomPrisoner();
         }
-
+        UpdateUI();
         DisplayUnitDataUI();
+    }
+
+    public void UpdateUI()
+    {
+        // ¿À´Ã ¼ö¶ô È½¼ö / ÃÖ´ë ¼ö¶ô È½¼ö
+        if (dailyAcceptCountText != null)
+            dailyAcceptCountText.text = $"¿À´Ã ¼ö¶ô È½¼ö: {dailyAcceptCount} / {maxDailyAcceptCount}";
+
+        // ÀüÃ¼ ¼ö¶ô È½¼ö / (4 * DDOManager.Floor)
+        if (totalAcceptCountText != null)
+        {
+            int floorCount = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;  // DDOManager.Floor¸¦ ÀÌ¿ëÇÑ °è»ê
+            totalAcceptCountText.text = $"ÀüÃ¼ ¼ö¶ô È½¼ö: {totalAcceptCount} / {4 * floorCount}";
+        }
     }
 
     public void GenerateRandomPrisoner()
@@ -245,6 +261,7 @@ public class BusRandomPrisoner : MonoBehaviour
 
         dailyAcceptCount++;
         totalAcceptCount++;
+        UpdateUI();
         Debug.Log($"¿À´Ã ¼ö¶ô: {dailyAcceptCount}/{maxDailyAcceptCount}, ÃÑ ¼ö¶ô: {totalAcceptCount}/{maxTotalAcceptCount}");
     }
 
@@ -289,6 +306,7 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             GenerateRandomPrisoner();
         }
+        UpdateUI();
         DisplayUnitDataUI();
     }
 
@@ -311,6 +329,7 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             GenerateRandomPrisoner();
         }
+        UpdateUI();
         DisplayUnitDataUI();
     }
 
