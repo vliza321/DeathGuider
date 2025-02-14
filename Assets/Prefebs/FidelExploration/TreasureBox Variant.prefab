@@ -120,3 +120,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BoxPrefeb: {fileID: 1397771342758286753, guid: 0e89b32b5dc660442af7cf021153df41, type: 3}
   StairPrefeb: {fileID: 5478020826706798920, guid: 1d345838fca44b14f989d82bc40abc2b, type: 3}
+--- !u!114 &6969447264145400373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4794980968962200643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04bb49f7b91da043ad05a3525365255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
