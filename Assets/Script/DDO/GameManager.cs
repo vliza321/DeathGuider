@@ -47,6 +47,13 @@ public class GameManager : MonoBehaviour
     private List<Sprite> weaponImg;             //무기 이미지
     [SerializeField]
     private List<Sprite> baseTileImg;         //전투 스테이지 바닥 타일 이미지
+    [SerializeField]
+    private List<GameObject> terrain;
+
+    public List<GameObject> Terrain
+    {
+        get { return terrain; }
+    }
 
     public List<GameObject> Monster
     {
@@ -110,7 +117,8 @@ public class GameManager : MonoBehaviour
         "prisonerHeadImg",
         "prisonerHeadAnim",
         "baseTileImg", 
-        "weaponImg"
+        "weaponImg",
+        "terrain",
     };
 
     public void Initialized()
@@ -170,6 +178,7 @@ public class GameManager : MonoBehaviour
         sorting(prisonerHeadAnim);
         sorting(baseTileImg);
         sorting(weaponImg);
+        sorting(terrain);
     }
 
 

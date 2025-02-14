@@ -29,11 +29,19 @@ public class TileSet : MonoBehaviour
 
     private TileSpriteImageStorage TileSpriteImageStorages;
 
+    private TerrainSpawner terrainSpawner;
+
+    [SerializeField]
+    private int constant;
+
+    private GameObject terrain;
     public void Init(TileSpriteImageStorage tileSpriteImageStorage)
     {
+        constant = 0;
         tile = new SpriteRenderer[this.transform.childCount];
         TileMap = this.transform.parent.gameObject.GetComponent<TileMap>();
         TileSpriteImageStorages = tileSpriteImageStorage;
+        terrainSpawner = TileSpriteImageStorages.TerrainSpawner;
         for (int i = 0; i < tile.Length; i++)
         {
             tile[i] = this.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>();
@@ -41,40 +49,33 @@ public class TileSet : MonoBehaviour
         }
         absRow = this.Row + TileMap.Row - 2;
         absColumn = this.Column + TileMap.Column - 2;
-        ChangeTile(0, 0);
+        //ChangeTile(0, 0);
 
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void ChangeTerrain(int a, int b)
     {
-        /*
-        absRow = this.Row + TileMap.Row - 2;
-        absColumn = this.Column + TileMap.Column - 2;
-        Debug.Log("start");
-        ChangeTile(0, 0);
-        */
+        ReleaseTerrain();
+        ChangeMatrix(a, b);
+        constant = (TileSpriteImageStorages.randConst.x) * (absColumn % 4) - (TileSpriteImageStorages.randConst.y) * (absRow % 4);
+        constant = (constant >= 0 ? constant : -(constant));
+
+        terrain = terrainSpawner.GetTerrain(constant % 8, tile[constant%100].transform.position);
     }
 
-    public void ChangeTile(int a, int b)
-    {       
-        tile[  ((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0 
-            ? (TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) 
-            : - ((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)))
-            % 100].sprite
-           = TileSpriteImageStorages.BaseTileSpriteImage;
-       
+    public void ChangeMatrix(int a, int b)
+    {
         absRow += a;
         absColumn += b;
+    }
 
-        tile[((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5) >= 0
-            ? (TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)
-            : -((TileSpriteImageStorages.randConst.x) * (absColumn % 5) - (TileSpriteImageStorages.randConst.y) * (absRow % 5)))
-            % 100].sprite
-           = TileSpriteImageStorages.TileSpriteImage[
-             ((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5) >= 0
-            ? (TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)
-            : -((TileSpriteImageStorages.renderRandConst.x) * (absColumn % 5) - (TileSpriteImageStorages.renderRandConst.y) * (absRow % 5)))
-            % 8];
+    public void ReleaseTerrain()
+    {
+        if (terrain == null)
+        {
+            return;
+        }
+        terrain.SetActive(false);
+        terrainSpawner.ReleaseTerrain(constant % 8, terrain);
     }
 }

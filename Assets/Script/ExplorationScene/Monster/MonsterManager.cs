@@ -96,7 +96,12 @@ public class MonsterManager : MonoBehaviour
         set { weaponDamage = value; }
     }
 
+    private List<BoxCollision> boxes;
 
+    public List<BoxCollision> Boxes
+    {
+        get { return boxes; }
+    }
     // Start is called before the first frame update
     void Awake()
     {
@@ -106,6 +111,8 @@ public class MonsterManager : MonoBehaviour
         monster = new MonsterMove[MaxMonster];
         monsterSpawnPool = new ObjectPool<MonsterState>(MaxMonster);
         monsterRespawnPool = new ObjectPool<MonsterState>(MaxMonster);
+
+        boxes = new List<BoxCollision>();
 
         GameObject[] Manager = GameObject.FindGameObjectsWithTag("Manager");
         foreach (GameObject manager in Manager)

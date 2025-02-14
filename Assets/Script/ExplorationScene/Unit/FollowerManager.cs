@@ -111,10 +111,7 @@ public class FollowerManager : MonoBehaviour
             position = UW.Position;
             damage = (temtData.Strength + resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * temtData.Handicraft;
             if (temtData.Crime == resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
-            // 코드 수정 필요 부분
             weapon[position - 1].GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage,damage,follower[position - 1].transform);
-            //monsterManager.WeaponDamage.Add(weapon[position - 1], damage);
-            Debug.Log(weapon[position - 1].name + " " + damage);
         }
         
 

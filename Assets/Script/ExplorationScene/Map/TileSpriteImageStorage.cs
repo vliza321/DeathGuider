@@ -37,18 +37,19 @@ public class TileSpriteImageStorage: MonoBehaviour
     }
 
     private TerrainSpawner terrainSpawner;
-
+    
     public TerrainSpawner TerrainSpawner
     {
-        get { return TerrainSpawner; }
+        get { return terrainSpawner; }
     }
-    private void Awake()
+    public void Init()
     {
         RandConst.x = Random.Range(5, 20);
         RandConst.y = Random.Range(5, 20);
 
         RenderRandConst.x = Random.Range(5, 20);
         RenderRandConst.y = Random.Range(5, 20);
+        terrainSpawner = this.gameObject.GetComponent<TerrainSpawner>();
 
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var d in DDO)
@@ -61,5 +62,6 @@ public class TileSpriteImageStorage: MonoBehaviour
         DDO = null;
 
         baseTileSpriteImage = gameManager.BaseTileImg[gameManager.SelectStageID];
+        terrainSpawner.Init(gameManager);
     }
 }

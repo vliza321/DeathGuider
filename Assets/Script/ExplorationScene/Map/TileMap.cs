@@ -27,9 +27,6 @@ public class TileMap : MonoBehaviour
         set {  tileSet = value; }
     }
 
-    public GameObject TileSpriteImageStorage;
-    // Start is called before the first frame update
-
     public void Init(TileSpriteImageStorage tileSpriteImageStorage)
     {
         TileSet = new TileSet[this.transform.childCount];
@@ -46,13 +43,31 @@ public class TileMap : MonoBehaviour
 
     }
 
-    public void ChangeTile(int row, int column)
+
+    public void ReleaseTerrain()
     {
-        foreach(var t in tileSet)
+        foreach (var t in tileSet)
         {
-            t.ChangeTile(row, column);
+            t.ReleaseTerrain();
         }
     }
+
+    public void ChangeTerrain(int row, int column)
+    {        
+        foreach(var t in tileSet)
+        {
+            t.ChangeTerrain(row, column);
+        }
+    }
+
+    public void ChangeMatrix(int row, int column)
+    {
+        foreach (var t in tileSet)
+        {
+            t.ChangeMatrix(row, column);
+        }
+    }
+
     public void SwapTileMap(int row, int column)
     {
         this.row += row;

@@ -52,8 +52,6 @@ public class LaunchTypeWeapon : Weapon
             effects.Enqueue(cachingObject);
             weaponDamage.Add(newEffect, damage);
         }
-
-        Debug.Log(effects.Count);
     }
 
     // Update is called once per frame
