@@ -133,7 +133,6 @@ public class FloorSystem : MonoBehaviour
 
                 storageUI.UpdateGold();
 
-                busRandomPrisoner.UpdateUI();
                 UpdateUpgradeCostData();
             }
             else
@@ -191,6 +190,7 @@ public class FloorSystem : MonoBehaviour
 
     private void CreateFloor(Vector2 position)
     {
+        DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor++;
         moveCamera.UpdateMinY();
 
         //if (!DDOManager.SaveData())
@@ -319,8 +319,11 @@ public class FloorSystem : MonoBehaviour
         {
             prisonerButton.onClick.AddListener(() =>
             {
-                Debug.Log("Prisoner button clicked!");
-                floorUIManager.openFloorPrisonerInfoUI(prisoner);
+                prisonerButton.onClick.AddListener(() =>
+                {
+                    Debug.Log("Prisoner button clicked!");
+                    floorUIManager.openFloorPrisonerInfoUI(prisoner);
+                });
             });
         }
         else

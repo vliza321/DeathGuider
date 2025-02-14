@@ -45,11 +45,7 @@ public class LaboratorySystem : MonoBehaviour
         GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-<<<<<<< Updated upstream
             if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
-=======
-            if (ddo.name == "DDOManager" && SceneManager.GetActiveScene() == ddo.scene)
->>>>>>> Stashed changes
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
@@ -144,7 +140,6 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "날짜의 리셋 시간 기준, 이감 대기 유닛의 최대 수치 증가.";
             }
             if (DescriptionText2 != null) DescriptionText2.gameObject.SetActive(false);
@@ -155,7 +150,6 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "수용소 증축 비용 감소";
             }
             if (DescriptionText2 != null) DescriptionText2.gameObject.SetActive(false);
@@ -166,7 +160,6 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "스탯 증가량 비율 증가";
             }
             if (DescriptionText2 != null) DescriptionText2.gameObject.SetActive(false);
@@ -177,12 +170,10 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "체력 회복 비율 증가";
             }
             if (DescriptionText2 != null)
             {
-                DescriptionText2.gameObject.SetActive(true);
                 DescriptionText2.text = "최대 수용 인원 증가";
             }
             if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
@@ -192,12 +183,10 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "죽음 침식도 회복 비율 증가";
             }
             if (DescriptionText2 != null)
             {
-                DescriptionText2.gameObject.SetActive(true);
                 DescriptionText2.text = "최대 수용 인원 증가";
             }
             if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
@@ -207,22 +196,18 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "무기 재련 / 내구도 수리 / 무기 진화 비용 감소";
             }
             if (DescriptionText2 != null)
             {
-                DescriptionText2.gameObject.SetActive(true);
                 DescriptionText2.text = "내구도 회복 비율 증가";
             }
             if (DescriptionText3 != null)
             {
-                DescriptionText3.gameObject.SetActive(true);
                 DescriptionText3.text = "무기 구매 대상 무기 등급 증가";
             }
             if (DescriptionText4 != null)
             {
-                DescriptionText4.gameObject.SetActive(true);
                 DescriptionText4.text = "무기 구매 대상 무기 가격 감소 및 무기 판매 대상 무기 가격 증가";
             }
         }
@@ -230,12 +215,10 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "전투 효율 관련";
             }
             if (DescriptionText2 != null)
             {
-                DescriptionText2.gameObject.SetActive(true);
                 DescriptionText2.text = "전투 효율 관련2";
             }
             if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
@@ -245,12 +228,10 @@ public class LaboratorySystem : MonoBehaviour
         {
             if (DescriptionText1 != null)
             {
-                DescriptionText1.gameObject.SetActive(true);
                 DescriptionText1.text = "전투를 통해 획득하는 재화(골드 및 어둠 정수)의 증가";
             }
             if (DescriptionText2 != null)
             {
-                DescriptionText2.gameObject.SetActive(true);
                 DescriptionText2.text = "전투 종료로 얻는 탐사 진척도 증가";
             }
             if (DescriptionText3 != null) DescriptionText3.gameObject.SetActive(false);
