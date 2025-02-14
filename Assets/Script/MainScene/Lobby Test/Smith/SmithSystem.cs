@@ -7,7 +7,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class SmithSystem : MonoBehaviour
 {
     public StorageUI storageUI;
@@ -233,14 +233,14 @@ public class SmithSystem : MonoBehaviour
 
     void Start()
     {
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            if (ddo.name == "GameManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }

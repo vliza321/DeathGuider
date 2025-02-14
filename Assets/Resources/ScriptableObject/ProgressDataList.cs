@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ProgressDataList", menuName = "ScriptableObject/ProgressData")]
 public class ProgressDataList : DataScriptableObjects
 {    
     //key 는 (int,int), 순서대로 ProgressData의 UserID, StageID

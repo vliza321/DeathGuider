@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class autorizedObject : MonoBehaviour
 {
 
@@ -124,20 +124,20 @@ public class MonsterManager : MonoBehaviour
         }
         Manager = null;
 
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
-        foreach (GameObject ddo in DDO)
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
+        foreach (var ddo in DDO)
         {
-            if (ddo.name == "GameManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
-            if (ddo.name == "DDOManager")
-            {
-                DDOManager = ddo.transform.gameObject.GetComponent<DontDestroyObjectManager>();
-            }
         }
         DDO = null;
-        
+
         for (int a = 0; a < MaxMonster; a++)
         {
             MonsterState newMonster = Instantiate(GameManager.Monster[GameManager.SelectStageID].gameObject).GetComponent<MonsterState>();

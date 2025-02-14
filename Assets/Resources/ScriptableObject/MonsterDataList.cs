@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MonsterDataList", menuName = "ScriptableObject/MonsterData")]
 public class MonsterDataList : DataScriptableObjects
 {
     //key ´Â int Çü, MonsterDataÀÇ ID

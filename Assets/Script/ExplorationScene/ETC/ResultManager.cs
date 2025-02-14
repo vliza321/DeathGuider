@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ResultManager : MonoBehaviour
 {
+    private static ResultManager instance;
+
     private float timer;
     private bool isVictory;
     private bool playerEscape;
@@ -13,7 +15,7 @@ public class ResultManager : MonoBehaviour
     private DontDestroyObjectManager ddoManager;
 
     [SerializeField]
-    private List<UnitData> units;
+    private List<UnitData> units = new List<UnitData>();
     private List<WeaponData> newWeapons;
 
     [SerializeField] private float gold;
@@ -66,6 +68,18 @@ public class ResultManager : MonoBehaviour
 
     void Awake()
     {
+
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 생성 방지
+        }
+
+
         units = new List<UnitData>(5);
         newWeapons = new List<WeaponData>();
         isVictory = false;
@@ -106,14 +120,19 @@ public class ResultManager : MonoBehaviour
 
     private void InitializeManagers()
     {
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "GameManager")
-                gameManager = ddo.GetComponent<GameManager>();
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
                 ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
         }
+        DDO = null;
 
         GameObject[] UI = GameObject.FindGameObjectsWithTag("UI");
         foreach (var u in UI)
@@ -216,6 +235,7 @@ public class ResultManager : MonoBehaviour
 
         UpdateBattleProgress(userID, stageID, isVictory);
         UpdateResources(userID, isVictory);
+        //health 오류
         UpdateUnitHealth(userID);
         UpdateWeaponDurability(userID);
         AddNewWeapons(userID);
@@ -283,7 +303,7 @@ public class ResultManager : MonoBehaviour
     //}
     private void UpdateUnitHealth(int userID)
     {
-
+        //오류
         foreach (var unit in units)
         {
             var key = (unit.UserID, unit.PrototypeUnitID, unit.InstanceID);

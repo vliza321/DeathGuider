@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DialogDataList",menuName = "ScriptableObject/DialogData")]
 //FIlENAME + "DataList"
 public class DialogDataList : DataScriptableObjects
 {
@@ -26,8 +25,6 @@ public class DialogDataList : DataScriptableObjects
     }
 }
 
-//FIlENAME + "Data"
-[System.Serializable]
 public class DialogData
 {
     public int Number;
@@ -36,7 +33,7 @@ public class DialogData
     public string Content;
 }
 
-public class DataScriptableObjects : ScriptableObject
+public class DataScriptableObjects
 {
 
 }

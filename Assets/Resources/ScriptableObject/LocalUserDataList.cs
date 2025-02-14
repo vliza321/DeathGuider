@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LocalUserDataList", menuName = "ScriptableObject/LocalUserData")]
 public class LocalUserDataList : DataScriptableObjects
 {
     //key ´Â int Çü, LocalUserDataÀÇ ID

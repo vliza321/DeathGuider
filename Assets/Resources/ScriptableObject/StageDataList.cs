@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StageDataList", menuName = "ScriptableObject/StageData")]
 public class StageDataList : DataScriptableObjects
 {   
     //key ´Â int Çü, StageDataÀÇ ID

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UnitDataList", menuName = "ScriptableObject/UnitData")]
 public class UnitDataList : DataScriptableObjects
 {
     //key 는 (int,int,int), 순서대로 UnitData의 UserID,PrototypeUnitID, InstanceID 

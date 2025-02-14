@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public enum GoodsType
 {
     gold,
@@ -48,12 +48,12 @@ public class GoodsSpawnManager : MonoBehaviour
         Manager = null;
 
         //gameManager Ã£±â
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
-        foreach (GameObject ddo in DDO)
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
+        foreach (var ddo in DDO)
         {
-            if (ddo.name == "GameManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
-                gameManager = ddo.GetComponent<GameManager>();
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
         }
         DDO = null;

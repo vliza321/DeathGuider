@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HavePartyDataList", menuName = "ScriptableObject/HavePartyData")]
 public class HavePartyDataList : DataScriptableObjects
 {   
     //key 는 (int,int), 순서대로 HavePartyData의 UserID, PartyID

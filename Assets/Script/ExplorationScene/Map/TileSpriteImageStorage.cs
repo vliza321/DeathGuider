@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class TileSpriteImageStorage: MonoBehaviour
 {
     private GameManager gameManager;
@@ -51,12 +51,12 @@ public class TileSpriteImageStorage: MonoBehaviour
         RenderRandConst.y = Random.Range(5, 20);
         terrainSpawner = this.gameObject.GetComponent<TerrainSpawner>();
 
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
-        foreach (var d in DDO)
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
+        foreach (var ddo in DDO)
         {
-            if (d.name == "GameManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
-                gameManager = d.GetComponent<GameManager>();
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
         }
         DDO = null;

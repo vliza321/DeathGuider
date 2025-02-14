@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Result.unity
     guid: 00e75d6145a61e94b8618a844cda4cda
+  - enabled: 1
+    path: Assets/Scenes/LobbyTest.unity
+    guid: edb2defa1cbc6a84dba888395aef71c6
+  - enabled: 1
+    path: Assets/Scenes/FieldExploration.unity
+    guid: fa6ba76cd6ac5cc46b4f430811b49c4a
   m_configObjects: {}

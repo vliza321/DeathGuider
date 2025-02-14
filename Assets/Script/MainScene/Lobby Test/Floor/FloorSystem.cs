@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FloorSystem : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class FloorSystem : MonoBehaviour
     public Sprite[] headSprites;
     public Sprite[] bodySprites;
 
+    [SerializeField]
     private DontDestroyObjectManager DDOManager;
     public FloorUpgradeCost upgradeCostData;
 
@@ -37,15 +39,16 @@ public class FloorSystem : MonoBehaviour
 
     void Start()
     {
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            Debug.Log(ddo.scene.name);
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            DDO = null;
         }
+        DDO = null;
 
         if (DDOManager != null)
         {

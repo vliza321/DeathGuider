@@ -8,8 +8,10 @@ using UnityEditor;
 #endif
 using System.IO;
 
-public class CSVManager :MonoBehaviour
+public class CSVManager : MonoBehaviour
 {
+    private static CSVManager instance;
+
     private List<string> FILE_NAME = new List<string> { 
         "Appear",
         "Dialog" ,
@@ -43,16 +45,26 @@ public class CSVManager :MonoBehaviour
     private List<Dictionary<string, object>> Weapon = new List<Dictionary<string, object>>();
 
 
-    public void Initialize()
+    public void Initialize(Dictionary<string, DataScriptableObjects> database)
     {
-        foreach(var fn in FILE_NAME)
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 생성 방지
+        }
+
+        foreach (var fn in FILE_NAME)
         {
             object fnValue = GetFieldByString(fn);
             if(fnValue is List<Dictionary<string,object>>fnList)
             {
                 fnList = CSVReader.Read(fn);
                 SetFieldByString(fn, fnList);
-                ConvertCSVToScriptableObject(fn, fnList);
+                ConvertCSVToScriptableObject(fn, fnList,database);
             }
         }
     }
@@ -80,7 +92,7 @@ public class CSVManager :MonoBehaviour
         field?.SetValue(this, value);
     }
 
-    private void ConvertCSVToScriptableObject(string dataName, List<Dictionary<string, object>> parsedData)
+    private void ConvertCSVToScriptableObject(string dataName, List<Dictionary<string, object>> parsedData, Dictionary<string,DataScriptableObjects> datacontainers)
     {
         //불러올 data파일 + "Data" 문자열을 추가하여 타입을 찾음
         Type type = Type.GetType(dataName + "Data");
@@ -123,12 +135,12 @@ public class CSVManager :MonoBehaviour
                     fieldes[i].SetValue(newData, Convert.ChangeType(data[fieldesName[i]], fieldes[i].FieldType));
                 }
             }
-            SaveDataListInScriptableObject(dataName, newData);
+            SaveDataListInScriptableObject(dataName, newData, datacontainers[dataName]);
         }
     }
 
 
-    private bool SaveDataListInScriptableObject(string dataName, object newData)
+    private bool SaveDataListInScriptableObject(string dataName, object newData, DataScriptableObjects container)
     {
         // 동적으로 타입을 가져오기
         Type type = Type.GetType(dataName + "DataList");
@@ -137,12 +149,6 @@ public class CSVManager :MonoBehaviour
             return false;
         }
 
-        // Resources에서 ScriptableObject 로드
-        ScriptableObject scriptableObject = Resources.Load(dataName + "DataList", type) as ScriptableObject;
-        if (scriptableObject == null)
-        {
-            return false;
-        }
         FieldInfo field = type.GetField(dataName+"Datas");
         if(field == null)
         {
@@ -150,7 +156,7 @@ public class CSVManager :MonoBehaviour
         }
 
         // 동적으로 반환 타입 가져오기
-        var currentList = field.GetValue(scriptableObject);
+        var currentList = field.GetValue(container);
 
         
         // IList인지 확인
@@ -204,7 +210,7 @@ public class CSVManager :MonoBehaviour
         return true;
     }
 
-    public bool SaveToCSVAllFile()
+    public bool SaveToCSVAllFile(Dictionary<string, DataScriptableObjects> datacontainers)
     {
         bool result = true;
         foreach (var fn in FILE_NAME)
@@ -215,9 +221,9 @@ public class CSVManager :MonoBehaviour
                 result = false;
                 return result;
             }
-            
+
             //scriptableObject 로드
-            ScriptableObject ddl = Resources.Load(fn + "DataList", type) as ScriptableObject;
+            DataScriptableObjects ddl = datacontainers[fn];
             if (ddl == null)
             {
                 Debug.LogError(fn);
@@ -234,7 +240,7 @@ public class CSVManager :MonoBehaviour
         return result;
     }
 
-    private static bool SaveToCSV(string fileName, ScriptableObject data, string filePath)
+    private static bool SaveToCSV(string fileName, DataScriptableObjects data, string filePath)
     {
         // data 내에 listFieldName에 해당하는 필드를 찾음
         FieldInfo listField = data.GetType().GetField(fileName + "Datas");

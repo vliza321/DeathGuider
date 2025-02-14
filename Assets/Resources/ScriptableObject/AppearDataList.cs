@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AppearDataList", menuName = "ScriptableObject/AppearData")]
 public class AppearDataList : DataScriptableObjects
 {
     //key 는 (int,int), 순서대로 AppearData의 StageID, MonsterID
     public Dictionary<(int,int), AppearData> AppearDataDic = new Dictionary<(int,int),AppearData>();
-    
-    
-    
+
+
     public List<AppearData> AppearDatas = new List<AppearData>();
     public bool TranslateListToDic()
     {
@@ -31,7 +29,6 @@ public class AppearDataList : DataScriptableObjects
     }
 }
 
-[System.Serializable]
 public class AppearData
 {
     public int StageID;

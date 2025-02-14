@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "UseWeaponDataList", menuName = "ScriptableObject/UseWeaponData")]
 public class UseWeaponDataList : DataScriptableObjects
 {   
     //key 는 (int,int,int,int), 순서대로 UseWeaponData의 UserID,PrototypeWeaponID, InstanceID, PartyID 

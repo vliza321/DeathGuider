@@ -4,22 +4,18 @@ using UnityEngine;
 
 public class DontDestroyOnLoad : MonoBehaviour
 {
+    private static DontDestroyOnLoad instance;
+
     void Awake()
     {
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
-        bool isRegister = false;
-        foreach (GameObject ddo in DDO)
+        if (instance == null)
         {
-            if (ddo == this)
-            {
-                isRegister = true;
-                break;
-            }
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        DDO = null;
-        if(!isRegister)
+        else
         {
-            DontDestroyOnLoad(this);
+            Destroy(gameObject); // 중복 생성 방지
         }
     }
 }

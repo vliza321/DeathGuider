@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 
 public class GYMSystem : MonoBehaviour
@@ -37,15 +37,15 @@ public class GYMSystem : MonoBehaviour
 
     private void Start()
     {
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            DDO = null;
         }
+        DDO = null;
 
         for (int i = 0; i < trainingRoomCount; i++)
         {

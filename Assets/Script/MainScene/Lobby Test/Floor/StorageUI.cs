@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class StorageUI : MonoBehaviour
 {
     public TextMeshProUGUI daysText;
@@ -14,15 +14,15 @@ public class StorageUI : MonoBehaviour
     private DontDestroyObjectManager DDOManager;
     void Start()
     {
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            DDO = null;
         }
+        DDO = null;
 
         UpdateDaysUI();
         UpdateGold();

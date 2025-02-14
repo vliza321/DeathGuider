@@ -19,7 +19,7 @@ public class BtnType : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
         switch (currentType)
         {
             case BTNType.Start:
-                SceneLoader.LoadSceneHandle("Main", 0);
+                SceneLoader.LoadSceneHandle("LobbyTest", 0);
                 break;
             case BTNType.Quit:
                 Application.Quit();

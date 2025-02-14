@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -45,8 +46,25 @@ public class PlayerManager : MonoBehaviour
     private ResultManager resultManager;
 
     private PlayerState GuiderState;
+    private GameManager gameManager;
+    private DontDestroyObjectManager ddoManager;
+
     private void Awake()
     {
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
+        foreach (var ddo in DDO)
+        {
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
+        }
+        DDO = null;
+
         weaponEffectPool = this.transform.GetChild(this.transform.childCount - 1).gameObject;
         attackDirectional = this.transform.GetChild(1).gameObject.GetComponent<AttackDirectional>();
         guider = this.transform.GetChild(0).gameObject;
@@ -94,41 +112,41 @@ public class PlayerManager : MonoBehaviour
     {
         playerUnitCounter += followerManager.gameObject.transform.childCount;
 
-        foreach (var UP in resultManager.DDOManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
+        foreach (var UP in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
         {
-            if (UP.PrototypeUnitID != 100)
+            if (UP.Position == 0)
             {
-                GuiderState.Stat = resultManager.DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
+                GuiderState.Stat = ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
                 guider.GetComponent<PlayerMove>().HeadAnimation.runtimeAnimatorController
-                    = resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
+                    = gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
                 guider.GetComponent<PlayerMove>().BodyAnimation.runtimeAnimatorController
-                    = resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
+                    = gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
 
-
+                Debug.Log(GuiderState.Stat.HealthEnforce);
 
                 resultManager.Units.Add(GuiderState.Stat);
             }
         }
         float damage;
-        foreach (var UW in resultManager.DDOManager.UseWeaponDatas.UseWeaponDatas)
+        foreach (var UW in ddoManager.UseWeaponDatas.UseWeaponDatas)
         {
             if (UW.Position == 0)
             {
-                weapon = Instantiate(resultManager.GameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
+                weapon = Instantiate(gameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
                 weapon.transform.SetParent(GuiderState.transform);
-                weapon.GetComponent<Weapon>().WeaponData = resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID,UW.PrototypeWeaponID,UW.InstanceID)];
-                damage = (GuiderState.Stat.Strength + resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * GuiderState.Stat.Handicraft;
-                if (GuiderState.Stat.Crime == resultManager.DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
+                weapon.GetComponent<Weapon>().WeaponData = ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID,UW.PrototypeWeaponID,UW.InstanceID)];
+                damage = (GuiderState.Stat.Strength + ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * GuiderState.Stat.Handicraft;
+                if (GuiderState.Stat.Crime == ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
                 weapon.transform.localScale = new Vector3(1, 1, 1);
                 weapon.GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage,damage,guider.transform);
                 break;
             }
         }
-        followerManager.AddUnitDataList(resultManager);
-        followerManager.WeaponCreate(resultManager, monsterManager);
+        followerManager.AddUnitDataList(ddoManager,resultManager);
+        followerManager.WeaponCreate(ddoManager,gameManager, monsterManager);
         guider.GetComponent<PlayerMove>().InitSprite(
-            resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<SpriteRenderer>(),
-            resultManager.GameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<SpriteRenderer>());
+            gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<SpriteRenderer>(),
+            gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<SpriteRenderer>());
         
     }
     // Update is called once per frame

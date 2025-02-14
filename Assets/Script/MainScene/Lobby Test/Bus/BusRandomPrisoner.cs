@@ -175,7 +175,7 @@ public class BusRandomPrisoner : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
 
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
+        //Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     private string GetCrimeDescription(int crimeId)

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PartyDataList", menuName = "ScriptableObject/PartyData")]
 public class PartyDataList : DataScriptableObjects
 {
     //key ´Â int Çü, PartyDataÀÇ ID

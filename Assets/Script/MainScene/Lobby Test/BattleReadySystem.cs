@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using static BattleReadySystem;
 using static UnityEngine.UI.CanvasScaler;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class BattleReadySystem : MonoBehaviour
 {
@@ -1064,8 +1066,10 @@ public class BattleReadySystem : MonoBehaviour
 
             int index = getStageIndex();
             GameManager.SelectStageID = index;
+            SceneManager.LoadScene("Loading", 0);
 
             Debug.Log($"선택된 스테이지 ID: {GameManager.SelectStageID}");
+
         }
     }
 

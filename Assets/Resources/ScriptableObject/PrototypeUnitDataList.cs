@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PrototypeUnitDataList", menuName = "ScriptableObject/PrototypeUnitData")]
 public class PrototypeUnitDataList : DataScriptableObjects
 {   
     //key ´Â int Çü, PrototypeUnitDataÀÇ ID

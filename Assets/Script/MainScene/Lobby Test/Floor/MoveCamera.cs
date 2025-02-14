@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.SceneManagement;
 public class MoveCamera : MonoBehaviour, IDragHandler
 {
     private RectTransform rectTransform;
@@ -18,14 +18,15 @@ public class MoveCamera : MonoBehaviour, IDragHandler
 
     void Start()
     {
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
         }
+        DDO = null;
 
         rectTransform = GetComponent<RectTransform>();
         UpdateMinY();

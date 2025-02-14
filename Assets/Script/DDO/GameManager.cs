@@ -8,6 +8,8 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager instance;
+
     [SerializeField]
     private int selectUserID = 0;   //선택한 유저의 ID
     [SerializeField]
@@ -123,6 +125,15 @@ public class GameManager : MonoBehaviour
 
     public void Initialized()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // 중복 생성 방지
+        }
 
         FieldInfo fieldInfo;
         object[] objects;
