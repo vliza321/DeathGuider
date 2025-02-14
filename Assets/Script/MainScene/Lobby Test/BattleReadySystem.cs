@@ -198,7 +198,7 @@ public class BattleReadySystem : MonoBehaviour
                 Image bodyImage = chooseManager.transform.Find("BodyImage").GetComponent<Image>();
                 Image headImage = chooseManager.transform.Find("HeadImage").GetComponent<Image>();
 
-                DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
+                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
 
                 if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
                 {
@@ -262,39 +262,35 @@ public class BattleReadySystem : MonoBehaviour
                 Button weaponChooseButton = chooseManager.transform.Find("WeaponChooseButton").GetComponent<Button>();
                 if (weaponChooseButton != null)
                 {
+                    weaponChooseButton.onClick.RemoveAllListeners();
                     weaponChooseButton.onClick.AddListener(() =>
                     {
-                        for (int i = 0; i < weaponSlots.Length; i++)
+                        if (weaponSlots[0].isCheck)
                         {
-                            Button button = weaponSlots[i].button;
-                            if (button != null)
-                            {
-                                if(weaponSlots[0].isCheck)
-                                {
-                                    int index = i;
-                                    button.onClick.AddListener(() =>
-                                    {
-                                        for (int j = 0; j < weaponSlots.Length; j++)
-                                        {
-                                            if (j != index && weaponSlots[j].equipableState == -10)
-                                            {
-                                                weaponSlots[j].equipableState = -1;
-                                                weaponSlots[j].instanceID = -1;
-                                                Debug.Log($"슬롯 {j} 상태가 -1로 변경됨");
-                                            }
-                                        }
+                            Debug.Log("무기 선택 버튼 클릭됨");
 
-                                        if (weaponSlots[index].equipableState == -1)
-                                        {
-                                            weaponSlots[index].equipableState = -10;
-                                            Debug.Log($"슬롯 {index} 상태가 -10으로 변경됨");
-                                        }
-                                    });
+                            // 다른 슬롯들을 -1로 변경
+                            for (int i = 1; i < weaponSlots.Length; i++)
+                            {
+                                if (weaponSlots[i].equipableState == -10)
+                                {
+                                    weaponSlots[i].equipableState = -1;
+                                    weaponSlots[i].instanceID = -1;
+                                    Debug.Log($"슬롯 {i} 상태가 -1로 변경됨");
                                 }
+                            }
+
+                            // 0번 슬롯이 선택 가능하면 -10으로 설정
+                            if (weaponSlots[0].equipableState == -1)
+                            {
+                                weaponSlots[0].equipableState = -10;
+                                Debug.Log("슬롯 0 상태가 -10으로 변경됨");
                             }
                         }
                     });
                 }
+
+
 
                 Button weaponReturnButton = chooseManager.transform.Find("WeaponReturnButton").GetComponent<Button>();
                 if (weaponReturnButton != null)
@@ -457,36 +453,38 @@ public class BattleReadySystem : MonoBehaviour
                     Button prisonerChooseButton = prisonerUI.transform.Find("PrisonerChooseButton")?.GetComponent<Button>();
                     if (prisonerChooseButton != null)
                     {
+                        int index = i+1;
+                        // 클릭 시 한 번만 실행되도록 리스너 추가
+                        prisonerChooseButton.onClick.RemoveAllListeners();
                         prisonerChooseButton.onClick.AddListener(() =>
                         {
-                            Debug.Log($"슬롯 {i}에서 죄수 선택 버튼 클릭됨");
+                            Debug.Log(index);
+
+                            // weaponSlots에 대한 처리 바로 실행
                             for (int i = 0; i < weaponSlots.Length; i++)
                             {
                                 Button button = weaponSlots[i].button;
                                 if (button != null)
                                 {
-                                    if (weaponSlots[i].isCheck)
-                                    {
-                                        int index = i;
-                                        button.onClick.AddListener(() =>
-                                        {
-                                            Debug.Log($"슬롯 {index}의 무기 버튼 클릭됨");
-                                            for (int j = 0; j < weaponSlots.Length; j++)
-                                            {
-                                                if (j != index && weaponSlots[j].equipableState == -10)
-                                                {
-                                                    weaponSlots[j].equipableState = -1;
-                                                    weaponSlots[j].instanceID = -1;
-                                                    Debug.Log($"슬롯 {j} 상태가 -1로 변경됨");
-                                                }
-                                            }
+                                    // 버튼 클릭 이벤트를 바로 처리하기
+                                    Debug.Log($"슬롯 {index}의 무기 버튼 클릭됨");
 
-                                            if (weaponSlots[index].equipableState == -1)
-                                            {
-                                                weaponSlots[index].equipableState = -10;
-                                                Debug.Log($"슬롯 {index} 상태가 -10으로 변경됨");
-                                            }
-                                        });
+                                    // 선택된 슬롯 외의 슬롯 상태 변경
+                                    for (int j = 0; j < weaponSlots.Length; j++)
+                                    {
+                                        if (j != index)
+                                        {
+                                            weaponSlots[j].equipableState = -1;
+                                            weaponSlots[j].instanceID = -1;
+                                            Debug.Log($"슬롯 {j} 상태가 -1로 변경됨");
+                                        }
+                                    }
+
+                                    // 현재 슬롯 상태 변경
+                                    if (weaponSlots[index].equipableState == -1)
+                                    {
+                                        weaponSlots[index].equipableState = -10;
+                                        Debug.Log($"슬롯 {index} 상태가 -10으로 변경됨");
                                     }
                                 }
                             }
@@ -620,11 +618,15 @@ public class BattleReadySystem : MonoBehaviour
                 headImage.gameObject.SetActive(false);
                 headImage.sprite = headSprites[0];
             }
-            
-            DDOManager.UnitDatas.UnitDataDic[(unit.UserID, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
+
+            Debug.Log($"{GameManager.SelectUserID} {selectedManagerUnit.PrototypeUnitID} {selectedManagerUnit.InstanceID}");
+            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, selectedManagerUnit.PrototypeUnitID, selectedManagerUnit.InstanceID)].ActivityStatus = 0;
+
+
             DDOManager.UnitDatas.UnitDatas.Find(data => data.UserID == unit.UserID && data.PrototypeUnitID == unit.PrototypeUnitID && data.InstanceID == unit.InstanceID).ActivityStatus = 0;
             int index = weaponSlots[0].equipableState;
-            if(index != -1)
+
+            if (index != -1 && index != -10)
             {
                 DDOManager.WeaponDatas.WeaponDataDic[(0, index, 0)].ActivityStatus = 0;
             }
@@ -688,9 +690,9 @@ public class BattleReadySystem : MonoBehaviour
                     if (index != -1)
                     {
                         // 무기 딕셔너리에서 활동 상태 0으로 설정
-                        if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey((0, index, instanceID)))
+                        if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey((GameManager.SelectUserID, index, instanceID)))
                         {
-                            DDOManager.WeaponDatas.WeaponDataDic[(0, index, instanceID)].ActivityStatus = 0;
+                            DDOManager.WeaponDatas.WeaponDataDic[(GameManager.SelectUserID, index, instanceID)].ActivityStatus = 0;
                         }
                         else
                         {
@@ -917,13 +919,11 @@ public class BattleReadySystem : MonoBehaviour
 
                                         if (battleReadyWeaponNameText != null)
                                         {
-                                            Debug.Log("시발");
                                             string battleReadyWeaponName = "무기 없음";
 
                                             if (!string.IsNullOrEmpty(weaponSlots[i].weaponName))
                                             {
                                                 battleReadyWeaponName = weaponSlots[i].weaponName;
-                                                Debug.Log("WTF");
                                             }
                                             battleReadyWeaponNameText.text = battleReadyWeaponName;
                                         }
@@ -1015,7 +1015,6 @@ public class BattleReadySystem : MonoBehaviour
         {
             if (am.StageID == index)
             {
-                Debug.Log($"tlqk {am.StageID} / {am.MonsterID}");
                 appearMonster.AddLast(am.MonsterID);
             }
         }
@@ -1024,7 +1023,6 @@ public class BattleReadySystem : MonoBehaviour
         {
             if (am < 0 || am >= GameManager.Monster.Count)
             {
-                Debug.LogError($"MonsterID {am}가 GameManager.Monster 리스트 범위를 벗어남");
                 continue;
             }
 
@@ -1032,10 +1030,6 @@ public class BattleReadySystem : MonoBehaviour
             if (sr != null)
             {
                 monsterImage.sprite = sr.sprite;
-            }
-            else
-            {
-                Debug.LogError($"MonsterID {am}의 SpriteRenderer를 찾을 수 없음");
             }
         }
     }
