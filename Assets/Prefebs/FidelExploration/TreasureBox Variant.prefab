@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2055102311959635368, guid: 5421e15acbde6db439c516b0badb6c29, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 2055102311959635368, guid: 5421e15acbde6db439c516b0badb6c29, type: 3}
       propertyPath: m_SortingLayerID
@@ -90,6 +90,10 @@ PrefabInstance:
     - target: {fileID: 2055102311959635375, guid: 5421e15acbde6db439c516b0badb6c29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055102312182832480, guid: 5421e15acbde6db439c516b0badb6c29, type: 3}
+      propertyPath: m_SortingOrder
+      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 2055102312182832481, guid: 5421e15acbde6db439c516b0badb6c29, type: 3}
       propertyPath: m_LocalPosition.x
