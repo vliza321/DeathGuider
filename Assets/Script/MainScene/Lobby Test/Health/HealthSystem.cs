@@ -57,6 +57,7 @@ public class HealthSystem : MonoBehaviour
     {
         if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
         {
+            Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
             return;
         }
 
@@ -99,6 +100,10 @@ public class HealthSystem : MonoBehaviour
                 prisonerIndex++;
             }
         }
+        else
+        {
+            Debug.LogWarning("조건에 맞는 죄수 데이터가 없습니다.");
+        }
     }
 
     private void UpdateHealthPrisonerUI(GameObject prisonerUI, UnitData prisoner)
@@ -112,13 +117,20 @@ public class HealthSystem : MonoBehaviour
         {
             headImage.sprite = headSprites[prisoner.HeadID];
         }
+        else
+        {
+            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+        }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
         if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
         {
             bodyImage.sprite = bodySprites[prisoner.BodyID];
         }
-
+        else
+        {
+            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
+        }
     }
 
     private GameObject CreateHealthPrisonerUI(UnitData prisoner)
@@ -133,11 +145,19 @@ public class HealthSystem : MonoBehaviour
         {
             headImage.sprite = headSprites[prisoner.HeadID];
         }
+        else
+        {
+            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+        }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
         if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
         {
             bodyImage.sprite = bodySprites[prisoner.BodyID];
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
         }
 
         Button chooseButton = prisonerUI.transform.Find("ChooseButton").GetComponent<Button>();
@@ -184,6 +204,10 @@ public class HealthSystem : MonoBehaviour
 
                                 HPslideBar.maxValue = prisoner.MaxHealthPoint;
                                 HPslideBar.value = prisoner.HealthPoint;
+                            }
+                            else
+                            {
+                                Debug.LogWarning("HealthSlider가 없거나 Slider 컴포넌트를 찾을 수 없습니다.");
                             }
 
                             Image BodyImage = prisonerImageTransform.Find("BodyImage").GetComponent<Image>();

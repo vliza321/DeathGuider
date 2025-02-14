@@ -23,7 +23,7 @@ public class FloorSystem : MonoBehaviour
     public Sprite[] bodySprites;
 
     private DontDestroyObjectManager DDOManager;
-    public FloorUpgradeCost  upgradeCostData;
+    public FloorUpgradeCost upgradeCostData;
 
     [System.Serializable]
     public struct FloorUpgradeCost
@@ -68,9 +68,7 @@ public class FloorSystem : MonoBehaviour
         }
         else
         {
-            
-            
-            .LogWarning("Upgrade 버튼이 설정되지 않았습니다!");
+            Debug.LogWarning("Upgrade 버튼이 설정되지 않았습니다!");
         }
 
         GameObject firstFloor = GameObject.Find("Floor 1");
@@ -131,7 +129,7 @@ public class FloorSystem : MonoBehaviour
                 DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor++;
 
                 storageUI.UpdateGold();
-                busRandomPrisoner.UpdateUI();
+
                 UpdateUpgradeCostData();
             }
             else
@@ -168,6 +166,10 @@ public class FloorSystem : MonoBehaviour
         {
             text.text = textValue;
         }
+        else
+        {
+            Debug.LogWarning($"{textName} not found in upgradePage!");
+        }
     }
 
     public void CloseUpgradePage()
@@ -185,7 +187,13 @@ public class FloorSystem : MonoBehaviour
 
     private void CreateFloor(Vector2 position)
     {
+        DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor++;
         moveCamera.UpdateMinY();
+
+        //if (!DDOManager.SaveData())
+        //{
+        //    Debug.Log("Fail Save Data");
+        //}
 
         int currentFloor = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
 
@@ -201,10 +209,20 @@ public class FloorSystem : MonoBehaviour
             {
                 floorButton.onClick.AddListener(() =>
                 {
+                    Debug.Log($"{newFloor.name} 클릭됨!");
                     floorUIManager.OpenFloorPrisonerUI();
                 });
             }
-            Debug.Log($"{newFloor.name}이 생성");
+            else
+            {
+                Debug.LogWarning($"Floor {currentFloor}에 Button 컴포넌트가 없습니다.");
+            }
+
+            Debug.Log($"{newFloor.name}이 생성되었습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("FloorPrefab이 설정되지 않았습니다!");
         }
     }
 
@@ -217,7 +235,7 @@ public class FloorSystem : MonoBehaviour
 
         if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
         {
-            Debug.LogError("UnitDatas 리스트가 초기화안됨");
+            Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
             return;
         }
 
@@ -225,7 +243,7 @@ public class FloorSystem : MonoBehaviour
         {
             if (prisoner == null)
             {
-                Debug.LogWarning("UnitData 객체가 null");
+                Debug.LogWarning("UnitData 객체가 null입니다.");
                 return false;
             }
 
@@ -242,7 +260,7 @@ public class FloorSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("PrototypeUnitID가 100인 죄수 데이터가 없음");
+            Debug.LogWarning("PrototypeUnitID가 100인 죄수 데이터가 없습니다.");
         }
 
         RectTransform contentRect = contentParent.GetComponent<RectTransform>();
@@ -280,7 +298,7 @@ public class FloorSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"HeadID 없음: {prisoner.HeadID}");
+            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
@@ -290,7 +308,7 @@ public class FloorSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"BodyID 없음: {prisoner.BodyID}");
+            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
         }
 
         Button prisonerButton = prisonerUI.transform.Find("FloorPrisonerButton").GetComponent<Button>();
@@ -298,8 +316,16 @@ public class FloorSystem : MonoBehaviour
         {
             prisonerButton.onClick.AddListener(() =>
             {
-                floorUIManager.openFloorPrisonerInfoUI(prisoner);
+                prisonerButton.onClick.AddListener(() =>
+                {
+                    Debug.Log("Prisoner button clicked!");
+                    floorUIManager.openFloorPrisonerInfoUI(prisoner);
+                });
             });
+        }
+        else
+        {
+            Debug.LogWarning("Prisoner button is missing!");
         }
     }
 
@@ -367,7 +393,7 @@ public class FloorSystem : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("DeathErosionSlider 없음");
+                Debug.LogWarning("DeathErosionSlider를 찾을 수 없습니다!");
             }
         }
     }

@@ -95,7 +95,7 @@ public class ErosionSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("조건에 맞는 죄수 데이터가 없음.");
+            Debug.LogWarning("조건에 맞는 죄수 데이터가 없습니다.");
         }
     }
 
@@ -112,7 +112,7 @@ public class ErosionSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"HeadID 없음: {prisoner.HeadID}");
+            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
@@ -122,7 +122,7 @@ public class ErosionSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"BodyID 없음: {prisoner.BodyID}");
+            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
         }
     }
 
@@ -140,7 +140,7 @@ public class ErosionSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"HeadID 없음: {prisoner.HeadID}");
+            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
@@ -150,7 +150,7 @@ public class ErosionSystem : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"BodyID 없음: {prisoner.BodyID}");
+            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
         }
 
         Button chooseButton = prisonerUI.transform.Find("ChooseButton").GetComponent<Button>();
@@ -201,7 +201,7 @@ public class ErosionSystem : MonoBehaviour
                             }
                             else
                             {
-                                Debug.LogWarning("ErosionSlider가 없거나 Slider 컴포넌트를 찾을 수 없음");
+                                Debug.LogWarning("ErosionSlider가 없거나 Slider 컴포넌트를 찾을 수 없습니다.");
                             }
 
                             Image BodyImage = prisonerImageTransform.Find("BodyImage").GetComponent<Image>();

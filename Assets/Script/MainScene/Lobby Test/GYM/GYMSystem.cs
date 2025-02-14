@@ -71,10 +71,7 @@ public class GYMSystem : MonoBehaviour
 
         if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
         {
-            
-            
-            
-            .LogError("UnitDatas 리스트가 초기화 안됨");
+            Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
             return;
         }
 
@@ -92,8 +89,14 @@ public class GYMSystem : MonoBehaviour
                 GameObject prisonerUI = CreateGYMPrisonerUI(prisoner);
                 prisonerUI.name = $"Gym Prisoner{prisonerIndex}";
 
+                Debug.Log($"PrototypeUnitID 100, Enforce >= 1: {prisoner.Name}, Enforce: {prisoner.Enforce}, InstanceID: {prisoner.InstanceID}");
+
                 prisonerIndex++;
             }
+        }
+        else
+        {
+            Debug.LogWarning("조건에 맞는 죄수 데이터가 없습니다.");
         }
 
         RectTransform contentRect = contentUnitParent.GetComponent<RectTransform>();
@@ -131,11 +134,19 @@ public class GYMSystem : MonoBehaviour
         {
             headImage.sprite = headSprites[prisoner.HeadID];
         }
+        else
+        {
+            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+        }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
         if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
         {
             bodyImage.sprite = bodySprites[prisoner.BodyID];
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
         }
 
         Button chooseButton = prisonerUI.transform.Find("ChooseButton").GetComponent<Button>();
@@ -344,6 +355,10 @@ public class GYMSystem : MonoBehaviour
                     headImage.GetComponent<Image>().sprite = headSprites[headID];
                     headImage.gameObject.SetActive(true);
                 }
+                else
+                {
+                    Debug.LogWarning($"Invalid HeadID: {headID}");
+                }
             }
 
             Transform bodyImage = trainingSelect.Find("BodyImage");
@@ -353,6 +368,10 @@ public class GYMSystem : MonoBehaviour
                 {
                     bodyImage.GetComponent<Image>().sprite = bodySprites[bodyID];
                     bodyImage.gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"Invalid BodyID: {bodyID}");
                 }
             }
 
@@ -366,7 +385,19 @@ public class GYMSystem : MonoBehaviour
                     nameText.GetComponent<TextMeshProUGUI>().text = unitData.Name;
                     Debug.Log($"NameText가 {unitData.Name}로 변경되었습니다.");
                 }
+                else
+                {
+                    Debug.LogWarning("NameText를 찾을 수 없습니다.");
+                }
             }
+            else
+            {
+                Debug.LogWarning("TextImage를 찾을 수 없습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid InstanceID: {instanceID}");
         }
     }
 

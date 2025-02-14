@@ -20,8 +20,6 @@ public class BusRandomPrisoner : MonoBehaviour
     private int maxDailyAcceptCount = 3;
     public int availablePrisoner = 6;
     public Button changeDaysButton;
-    public TextMeshProUGUI dailyAcceptCountText;
-    public TextMeshProUGUI totalAcceptCountText;
 
     private readonly char[] name1 = new char[] { '¤¡', '¤¢', '¤¤', '¤§', '¤¨', '¤©', '¤±', '¤²', '¤³', '¤µ', '¤¶', '¤·', '¤¸', '¤¹', '¤º', '¤»', '¤¼', '¤½', '¤¾' };
     private readonly char[] name2 = new char[] { '¤¿', '¤À', '¤Á', '¤Â', '¤Ã', '¤Ä', '¤Å', '¤Æ', '¤Ç', '¤È', '¤É', '¤Ê', '¤Ë', '¤Ì', '¤Í', '¤Î', '¤Ï', '¤Ð', '¤Ñ', '¤Ò', '¤Ó' };
@@ -58,21 +56,6 @@ public class BusRandomPrisoner : MonoBehaviour
         }
 
         DisplayUnitDataUI();
-        UpdateUI();
-    }
-
-    public void UpdateUI()
-    {
-        // ¿À´Ã ¼ö¶ô È½¼ö / ÃÖ´ë ¼ö¶ô È½¼ö
-        if (dailyAcceptCountText != null)
-            dailyAcceptCountText.text = $"¿À´Ã ¼ö¶ô È½¼ö: {dailyAcceptCount} / {maxDailyAcceptCount}";
-
-        // ÀüÃ¼ ¼ö¶ô È½¼ö / (4 * DDOManager.Floor)
-        if (totalAcceptCountText != null)
-        {
-            int floorCount = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
-            totalAcceptCountText.text = $"ÀüÃ¼ ¼ö¶ô È½¼ö: {totalAcceptCount} / {4 * floorCount}";
-        }
     }
 
     public void GenerateRandomPrisoner()
@@ -146,7 +129,7 @@ public class BusRandomPrisoner : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"HeadID ¾øÀ½: {unit.HeadID}");
+                Debug.LogWarning($"Invalid HeadID: {unit.HeadID}");
             }
 
             if (unit.BodyID >= 0 && unit.BodyID < bodySprites.Length)
@@ -155,7 +138,7 @@ public class BusRandomPrisoner : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"BodyID ¾øÀ½: {unit.BodyID}");
+                Debug.LogWarning($"Invalid BodyID: {unit.BodyID}");
             }
 
             Button acceptButton = unitUI.transform.Find("AcceptButton").GetComponent<Button>();
@@ -173,7 +156,7 @@ public class BusRandomPrisoner : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("°ÅÀý ¹öÆ° ¾øÀ½");
+                Debug.LogWarning("RejectButton not found in prefab.");
             }
         }
 
@@ -245,11 +228,17 @@ public class BusRandomPrisoner : MonoBehaviour
             unitToRemove.PrototypeUnitID = 100;
             unitToRemove.InstanceID = DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter;
 
+            Debug.Log($"Before Adding to DDOManager: Level = {unitToRemove.Level}");
+
             DDOManager.UnitDatas.UnitDatas.Add(unitToRemove);
             DDOManager.UnitDatas.UnitDataDic.Add((0, 100, DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter), unitToRemove);
             DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter++;
 
+            Debug.Log($"After Adding to DDOManager: EXP = {unitToRemove.Level}");
+
             unitDatas.Remove(unitToRemove);
+
+            Debug.Log($"BodyID in DDOManager: {DDOManager.UnitDatas.UnitDatas[^1].BodyID}");
 
         }
         Destroy(unitUI);
@@ -257,7 +246,6 @@ public class BusRandomPrisoner : MonoBehaviour
         dailyAcceptCount++;
         totalAcceptCount++;
         Debug.Log($"¿À´Ã ¼ö¶ô: {dailyAcceptCount}/{maxDailyAcceptCount}, ÃÑ ¼ö¶ô: {totalAcceptCount}/{maxTotalAcceptCount}");
-        UpdateUI();
     }
 
     private void RemoveUnitUI(GameObject unitUI)
@@ -302,7 +290,6 @@ public class BusRandomPrisoner : MonoBehaviour
             GenerateRandomPrisoner();
         }
         DisplayUnitDataUI();
-        UpdateUI();
     }
 
     public void changeDays()
@@ -325,7 +312,6 @@ public class BusRandomPrisoner : MonoBehaviour
             GenerateRandomPrisoner();
         }
         DisplayUnitDataUI();
-        UpdateUI();
     }
 
     private void ClearExistingUnitUIs()
