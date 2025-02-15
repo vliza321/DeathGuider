@@ -1,4 +1,4 @@
-ID,Name,AttackPoint,Type,Crime,InstanceCounter
+﻿ID,Name,AttackPoint,Type,Crime,InstanceCounter
 0,기본 근접,10,0,1,1
 1,기본 위성,5,2,3,1
 2,기본 원거리,8,1,2,1
