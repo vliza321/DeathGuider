@@ -246,6 +246,8 @@ public class ResultManager : MonoBehaviour
         //var key = (1,1,1); // dictionary 타입의 key를 정의 및 임시 초기화
         // 전투에 참여한 units의 순회
 
+        ddoManager.LocalUserDatas.LocalUserDataDic[userID].Day++;
+
         UpdateBattleProgress(userID, stageID, isVictory);
         UpdateResources(userID, isVictory);
         //health 오류
