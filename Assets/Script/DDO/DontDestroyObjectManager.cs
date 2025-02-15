@@ -231,6 +231,14 @@ public class DontDestroyObjectManager : MonoBehaviour
         this.resultManager = resultManager;
     }
 
+    public void Update()
+    {
+        if(resultManager == null)
+        {
+            Debug.Log("resultManager missing");
+        }
+    }
+
     public bool SaveData()
     {
         appearDatas.TranslateDicToListAtSaveDatas();

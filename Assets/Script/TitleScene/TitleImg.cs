@@ -11,16 +11,20 @@ public class TitleImg : MonoBehaviour
     public void Start()
     {
         float rate = 3840 / 2160;
+        Debug.Log(rate);
 
         float screenRate = width / height;
+        Debug.Log(screenRate);
 
         float baseScale = this.transform.lossyScale.x;
+        Debug.Log(baseScale);
 
         if (screenRate > 1)
         {
             float scaleRate;
             // 화면의 가로가 더 길면
             scaleRate = width / 3840;
+            Debug.Log(scaleRate);
 
             this.transform.localScale = new Vector3(baseScale * scaleRate, baseScale * scaleRate, baseScale * scaleRate);
         }
@@ -33,17 +37,12 @@ public class TitleImg : MonoBehaviour
             scaleRate = width / 3840;
             
             this.transform.localScale = new Vector3(scaleRate, scaleRate, 0);
+            Debug.Log("Asdf");
         }
         //화면 세로가 더 길면
         else
         {
             //세로에 맞춰 스케일 변경
-            float scaleRate;
-            // 화면의 가로가 더 길면
-            scaleRate = height / 2160;
-
-
-            this.transform.localScale = new Vector3(scaleRate, scaleRate, 0);
         }
     }
 }
