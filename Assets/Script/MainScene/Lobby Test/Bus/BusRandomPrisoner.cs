@@ -61,6 +61,7 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             GenerateRandomPrisoner();
         }
+        changeDays();
         UpdateUI();
         DisplayUnitDataUI();
     }

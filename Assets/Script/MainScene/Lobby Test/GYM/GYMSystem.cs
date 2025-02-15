@@ -63,8 +63,6 @@ public class GYMSystem : MonoBehaviour
 
             TrainDatas.Add(roomData);
         }
-
-        CheckAndResetGYMSystemState();
     }
 
     public void DisplayGYMPrisoners()
@@ -510,30 +508,30 @@ public class GYMSystem : MonoBehaviour
                 int expGrowthRate = 2;
                 int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].GYMEnhance * expGrowthRate);
 
-                if (unitData.ActivityStatus == 11)
+                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 11)
                 {
-                    unitData.StrengthEnforce++;
-                    unitData.HealthEnforce++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].StrengthEnforce++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
                 }
-                else if (unitData.ActivityStatus == 12)
+                else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 12)
                 {
-                    unitData.HandicraftEnforce++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HandicraftEnforce++;
                 }
-                else if (unitData.ActivityStatus == 13)
+                else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 13)
                 {
-                    unitData.DefenseEnforce++;
-                    unitData.HealthEnforce++;
-                }
-
-                unitData.EXP += expGain;
-                if (unitData.EXP > 100)
-                {
-                    unitData.Level++;
-                    unitData.EXP -= 100;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].DefenseEnforce++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
                 }
 
-                unitData.ActivityStatus = 0;
-                unitData.Enforce++;
+                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP += expGain;
+                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP > 100)
+                {
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Level++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP -= 100;
+                }
+
+                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus = 0;
+                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Enforce++;
                 gymData.InstanceID = -1;
                 gymData.check = false;
             }

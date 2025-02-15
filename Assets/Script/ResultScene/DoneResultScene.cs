@@ -14,6 +14,6 @@ public class DoneResultScene : MonoBehaviour
     // "Main" 씬으로 이동하는 버튼 기능
     public void OnClickMain()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("LobbyTest");
     }
 }

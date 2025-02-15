@@ -303,7 +303,7 @@ public class ErosionSystem : MonoBehaviour
 
     public void CheckAndResetErosionSystemState()
     {
-        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;
+        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day;
 
         if (currentDate != lastCheckedDate)
         {
@@ -324,16 +324,16 @@ public class ErosionSystem : MonoBehaviour
             int erosionRate = 2;
             int erosionAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].ErosionEnhance * erosionRate);
 
-            if (unitData.ActivityStatus == 3)
+            if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].ActivityStatus == 3)
             {
-                unitData.DeathErosion -= erosionAmount;
-                if (unitData.DeathErosion < 0)
+                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion -= erosionAmount;
+                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion < 0)
                 {
-                    unitData.DeathErosion = 0;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion = 0;
                 }
             }
 
-            unitData.ActivityStatus = 0;
+            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].ActivityStatus = 0;
             ErosionData.InstanceID = -1;
         }
 

@@ -1151,7 +1151,6 @@ public class BattleReadySystem : MonoBehaviour
             }
         }
 
-        // 모든 딕셔너리와 리스트 초기화
         DDOManager.UseWeaponDatas.UseWeaponDataDic.Clear();
         DDOManager.UseWeaponDatas.UseWeaponDatas.Clear();
         DDOManager.UnitParticipateDatas.UnitParticipateDataDic.Clear();

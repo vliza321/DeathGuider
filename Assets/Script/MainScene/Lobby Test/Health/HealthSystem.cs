@@ -311,7 +311,7 @@ public class HealthSystem : MonoBehaviour
 
     public void CheckAndResetHealthSystemState()
     {
-        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;
+        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day;
 
         if (currentDate != lastCheckedDate)
         {
@@ -332,16 +332,16 @@ public class HealthSystem : MonoBehaviour
             int recoveryRate = 2;
             int recoveryAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].HealthEnhance * recoveryRate);
 
-            if (unitData.ActivityStatus == 2)
+            if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].ActivityStatus == 2)
             {
-                unitData.HealthPoint += recoveryAmount;
-                if (unitData.HealthPoint > unitData.MaxHealthPoint)
+                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].HealthPoint += recoveryAmount;
+                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].HealthPoint > DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].MaxHealthPoint)
                 {
-                    unitData.HealthPoint = unitData.MaxHealthPoint;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].HealthPoint = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].MaxHealthPoint;
                 }
             }
 
-            unitData.ActivityStatus = 0;
+            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].ActivityStatus = 0;
             healthData.InstanceID = -1;
         }
 
