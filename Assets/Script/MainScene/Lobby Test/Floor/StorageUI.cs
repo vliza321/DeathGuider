@@ -38,8 +38,9 @@ public class StorageUI : MonoBehaviour
 
     public void UpdateDaysUI()
     {
-        if (daysText != null || DDOManager == null || GameManager == null)
+        if (daysText != null || DDOManager != null || GameManager != null)
         {
+            //Debug.Log(DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day);
             daysText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day}¿œ";
         }
     }

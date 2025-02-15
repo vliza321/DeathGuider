@@ -197,7 +197,6 @@ public class BattleReadySystem : MonoBehaviour
                 Image headImage = chooseManager.transform.Find("HeadImage").GetComponent<Image>();
 
                 DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
-
                 if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
                 {
                     crimeSlots[unit.Crime].crimeCount += 1;
@@ -341,6 +340,7 @@ public class BattleReadySystem : MonoBehaviour
                         PartyID = 0,
                         Position = i + 1
                     };
+
                     DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
 
                     if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
@@ -354,6 +354,7 @@ public class BattleReadySystem : MonoBehaviour
                     weaponSlots[i + 1].isCheck = true;
                     UpdateBattleReadyUI(unit);
                     DisplayBattleReadyUnits();
+                    
                     return;
                 }
             }

@@ -15,8 +15,8 @@ public class BusRandomPrisoner : MonoBehaviour
     public GameObject unitUIPrefab;
     public Transform gridParent;
 
-    public int dailyAcceptCount = 0;
-    public int totalAcceptCount = 0;
+    private int dailyAcceptCount = 0;
+    private int totalAcceptCount = 0;
     private int maxDailyAcceptCount = 3;
     public int availablePrisoner = 6;
     public Button changeDaysButton;
@@ -62,8 +62,6 @@ public class BusRandomPrisoner : MonoBehaviour
             GenerateRandomPrisoner();
         }
         changeDays();
-        UpdateUI();
-        DisplayUnitDataUI();
     }
 
     public void UpdateUI()
@@ -217,16 +215,18 @@ public class BusRandomPrisoner : MonoBehaviour
 
     private void AcceptUnitUI(GameObject unitUI)
     {
-        if (dailyAcceptCount >= maxDailyAcceptCount)
-        {
-            return;
-        }
-
         int floor = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Floor;
         int maxTotalAcceptCount = floor * 4;
 
-        if (totalAcceptCount >= maxTotalAcceptCount)
+        if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].UnitInstanceCounter >= maxTotalAcceptCount)
         {
+            Debug.Log("최대 인원을 초과했습니다.");
+            return;
+        }
+
+        if (dailyAcceptCount >= maxDailyAcceptCount)
+        {
+            Debug.Log("오늘 수락 횟수를 초과했습니다.");
             return;
         }
 
@@ -311,10 +311,10 @@ public class BusRandomPrisoner : MonoBehaviour
 
     public void changeDays()
     {
-        storageUI.UpdateDaysUI();
-        storageUI.UpdateGold();
-        storageUI.UpdatedeathEssence();
-        storageUI.UpdatedarkEssence();
+        //storageUI.UpdateDaysUI();
+        //storageUI.UpdateGold();
+        //storageUI.UpdatedeathEssence();
+        //storageUI.UpdatedarkEssence();
         dailyAcceptCount = 0;
         unitDatas.Clear();
         ClearExistingUnitUIs();
