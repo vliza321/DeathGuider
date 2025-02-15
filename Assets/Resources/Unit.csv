@@ -1,5 +1,5 @@
 UserID,PrototypeUnitID,InstanceID,Name,Level,EXP,MaxHealthPoint,HealthPoint,Strength,Defense,Handicraft,DeathErosion,Enforce,HealthEnforce,StrengthEnforce,DefenseEnforce,HandicraftEnforce,Crime,ActivityStatus,HeadID,BodyID
-0,0,0,기본,85899350,2147483596,100,100,10,1,1,11,0,0,0,0,0,1,0,0,0
+0,0,0,기본,107374187,2147483596,100,100,10,1,1,13,0,0,0,0,0,1,4,0,0
 0,1,0,형님,1,0,100,100,10,1,1,0,0,0,0,0,0,2,0,1,1
 0,100,0,조픾꺭,21474839,2147483596,77,77,6,9,7,5,0,0,0,0,0,1,0,1,0
 0,100,1,장흤핛,21474839,2147483596,74,74,5,3,1,5,0,0,0,0,0,4,0,0,0

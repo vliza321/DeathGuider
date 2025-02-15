@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class DontDestroyObjectManager : MonoBehaviour
 {
@@ -189,17 +190,20 @@ public class DontDestroyObjectManager : MonoBehaviour
         useWeaponDatas.UseWeaponDataDic.Clear();
         weaponDatas.WeaponDataDic.Clear();
 
-        //csvmanager불러오기
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "CSVManager")
+            if(ddo.name == "CSVManager")
+            {
+                Debug.Log("asdf");
+            }
+            if (ddo.CompareTag("DDO") && ddo.name == "CSVManager")// && SceneManager.GetActiveScene() != ddo.scene)
             {
                 csvManager = ddo.GetComponent<CSVManager>();
             }
-            if(ddo.name == "GameManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager")// && SceneManager.GetActiveScene() != ddo.scene)
             {
-                gameManager = ddo.GetComponent<GameManager>();
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
         }
         DDO = null;
@@ -246,24 +250,12 @@ public class DontDestroyObjectManager : MonoBehaviour
         weaponDatas.TranslateDicToListAtSaveDatas();
         return csvManager.SaveToCSVAllFile(dataBaseDic);
     }
-}
 
-public static class ScriptableObjectLoader
-{
-    /*
-    public static List<DataScriptableObjects> LoadAllScriptableObjects()
+    public void Update()
     {
-        /*
-        // Resources 폴더에서 특정 타입의 모든 객체 로드
-        Object[] objects = Resources.LoadAll("", typeof(DataScriptableObjects));
-        List<DataScriptableObjects> scriptableObjects = new List<DataScriptableObjects>();
-        foreach(var obj in objects)
+        if(UnitDatas.UnitDatas.Count == 0)
         {
-            if(obj is DataScriptableObjects so)
-            {
-                scriptableObjects.Add(so);
-            }
+            Debug.Log("초기화초기화");
         }
-        return scriptableObjects;
-    }*/
+    }
 }

@@ -125,11 +125,6 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-        Initialized();
-    }
-
-    public void Initialized()
-    {
         if (instance == null)
         {
             instance = this;
@@ -137,10 +132,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+
             Destroy(gameObject); // 중복 생성 방지
             return;
         }
+    }
 
+    public void Initialized()
+    {
         FieldInfo fieldInfo;
         object[] objects;
         Type type;
