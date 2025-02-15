@@ -1028,6 +1028,7 @@ public class BattleReadySystem : MonoBehaviour
             GameManager.SelectStageID = index;
 
             Debug.Log($"선택된 스테이지 ID: {GameManager.SelectStageID}");
+            SceneManager.LoadScene("Loading");
         }
     }
 

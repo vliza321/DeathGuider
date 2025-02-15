@@ -1,4 +1,4 @@
-﻿ID,Name,MaxHealthPoint,Strength,Defense,Handicraft,Crime,HeadID,BodyID
+ID,Name,MaxHealthPoint,Strength,Defense,Handicraft,Crime,HeadID,BodyID
 0,이영상,150,15,15,2,1,0,0
 1,장영규,200,18,20,1,2,1,1
 100,NULL,100,10,10,1,0,100,100
