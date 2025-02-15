@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerHp : MonoBehaviour
 {
@@ -38,6 +40,15 @@ public class PlayerHp : MonoBehaviour
         this.damage = damage;
     }
 
+    public float DDOResist()
+    {
+        return heartPoint;
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(this);
+    }
     // Update is called once per frame
     void Update()
     {

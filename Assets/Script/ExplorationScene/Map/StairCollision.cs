@@ -47,8 +47,10 @@ public class StairCollision : MonoBehaviour
     {
         if(collision.CompareTag(playerTagName))
         {
+            resultManager.FadeInOutUI = fadeInOutUI;
             resultManager.PlayerEscape();
             monsterManager.PlayerEscape();
+            SceneManager.LoadScene("Result");
         }
     }
 }

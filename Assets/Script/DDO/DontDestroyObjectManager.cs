@@ -9,6 +9,9 @@ public class DontDestroyObjectManager : MonoBehaviour
     private static DontDestroyObjectManager instance;
 
     [SerializeField]
+    private ResultManager resultManager;
+
+    [SerializeField]
     private AppearDataList appearDatas;
     [SerializeField]
     private DialogDataList dialogDatas;
@@ -193,10 +196,6 @@ public class DontDestroyObjectManager : MonoBehaviour
         GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         foreach (var ddo in DDO)
         {
-            if(ddo.name == "CSVManager")
-            {
-                Debug.Log("asdf");
-            }
             if (ddo.CompareTag("DDO") && ddo.name == "CSVManager")// && SceneManager.GetActiveScene() != ddo.scene)
             {
                 csvManager = ddo.GetComponent<CSVManager>();
@@ -227,9 +226,17 @@ public class DontDestroyObjectManager : MonoBehaviour
         weaponDatas.TranslateListToDic();
         
     }
-    public void Init()
+    public void setResultManager(ResultManager resultManager)
     {
+        this.resultManager = resultManager;
+    }
 
+    public void Update()
+    {
+        if(resultManager == null)
+        {
+            Debug.Log("resultManager missing");
+        }
     }
 
     public bool SaveData()
@@ -249,13 +256,5 @@ public class DontDestroyObjectManager : MonoBehaviour
         useWeaponDatas.TranslateDicToListAtSaveDatas();
         weaponDatas.TranslateDicToListAtSaveDatas();
         return csvManager.SaveToCSVAllFile(dataBaseDic);
-    }
-
-    public void Update()
-    {
-        if(UnitDatas.UnitDatas.Count == 0)
-        {
-            Debug.Log("초기화초기화");
-        }
     }
 }

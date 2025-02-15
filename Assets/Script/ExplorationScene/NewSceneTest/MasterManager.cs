@@ -46,7 +46,7 @@ public class MasterManager : MonoBehaviour
             }
         }
         DDO = null;
-        ddoManager.Init();
+        //ddoManager.Init();
         //gameManager.SelectStageID = 11;
 
         MonsterSpawnManagerObject = new GameObject();

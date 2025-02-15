@@ -123,14 +123,13 @@ public class PlayerManager : MonoBehaviour
                 guiderInParty = true;
                 damage = ddoManager.MonsterDatas.MonsterDataDic[gameManager.SelectStageID].Strength + gameManager.SelectStageID;
                 guiderHp.Init(ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)], damage);
-                
-                guider.GetComponent<PlayerMove>().HeadAnimation.runtimeAnimatorController
-                    = gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
+
                 guider.GetComponent<PlayerMove>().BodyAnimation.runtimeAnimatorController
                     = gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
+                guider.GetComponent<PlayerMove>().HeadAnimation.runtimeAnimatorController
+                   = gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
 
-                resultManager.Units.Add(guiderHp.Stat);
-                resultManager.PosToUnitData.Add(0, guiderHp);
+                resultManager.AddNewStat(0,guiderHp);
             }
         }
         foreach (var UW in ddoManager.UseWeaponDatas.UseWeaponDatas)
@@ -171,7 +170,7 @@ public class PlayerManager : MonoBehaviour
         swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
         if (playerUnitCounter == 0) {
             guider.SetActive(false);
-            resultManager.PlayerEscape();
+            resultManager.PlayerDefeated();
             return;
         }
 

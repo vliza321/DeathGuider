@@ -81,8 +81,10 @@ public class FollowerManager : MonoBehaviour
                 if (UP.Position == i)
                 {
                     follower[position].gameObject.GetComponentInChildren<PlayerHp>().Init(DDOManager.UnitDatas.UnitDataDic[((UP.UserID, UP.PrototypeUnitID, UP.InstanceID))], damage);
-                    resultManager.Units.Add(follower[position].gameObject.GetComponentInChildren<PlayerHp>().Stat);
-                    resultManager.PosToUnitData.Add(i, follower[position].gameObject.GetComponentInChildren<PlayerHp>());
+                    /*resultManager.Units.Add(follower[position].gameObject.GetComponentInChildren<PlayerHp>().Stat);
+                    resultManager.PosToUnitData.Add(i, follower[position].gameObject.GetComponentInChildren<PlayerHp>());*/
+
+                    resultManager.AddNewStat(i, follower[position].gameObject.GetComponentInChildren<PlayerHp>());
 
                     var temt = DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
                     follower[position].InitAnimator(DDOManager.GameManager.PrisonerHeadAnim[temt.HeadID], DDOManager.GameManager.PrisonerBodyAnim[temt.BodyID]);

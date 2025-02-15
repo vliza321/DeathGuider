@@ -9,16 +9,22 @@ public class SceneLoad : MonoBehaviour
     public Slider progressbar;
     public Text loadtext;
     AsyncOperation operation;
+
+    public bool isDone;
     private void Start()
     {
         StartCoroutine(LoadScene());
         operation = SceneManager.LoadSceneAsync("FieldExploration");
+        isDone = false;
     }
 
     private void Update()
     {
 
-        
+        if(isDone)
+        {
+            SceneManager.LoadScene("FieldExploration");
+        }
     }
 
     IEnumerator LoadScene()
@@ -45,7 +51,8 @@ public class SceneLoad : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.Space)&&progressbar.value >= 1f && operation.progress >= 0.9f)
             {
-                operation.allowSceneActivation = true;
+                //operation.allowSceneActivation = true;
+                isDone = true;
             }
 
             
