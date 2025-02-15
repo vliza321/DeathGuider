@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static GYMSystem;
+using UnityEngine.SceneManagement;
 
 public class BusRandomPrisoner : MonoBehaviour
 {
@@ -40,12 +41,12 @@ public class BusRandomPrisoner : MonoBehaviour
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            DDO = null;
         }
+        DDO = null;
 
         if (changeDaysButton != null)
         {

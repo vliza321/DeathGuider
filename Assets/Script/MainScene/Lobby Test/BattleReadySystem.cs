@@ -67,8 +67,8 @@ public class BattleReadySystem : MonoBehaviour
             {
                 GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
-            DDO = null;
         }
+        DDO = null;
 
         if (stageEnterButton != null)
         {
