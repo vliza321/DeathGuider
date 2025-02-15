@@ -54,6 +54,7 @@ public class BattleReadySystem : MonoBehaviour
     private GameManager GameManager;
     private void Start()
     {
+        //GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
@@ -907,9 +908,9 @@ public class BattleReadySystem : MonoBehaviour
                                             Position = i
                                         };
 
-                                        DDOManager.WeaponDatas.WeaponDataDic[(weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID)].ActivityStatus = 1;
-                                        DDOManager.UseWeaponDatas.UseWeaponDataDic[(weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID, weaponData.PartyID)] = weaponData;
                                         DDOManager.UseWeaponDatas.UseWeaponDatas.Add(weaponData);
+                                        DDOManager.UseWeaponDatas.UseWeaponDataDic[(weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID, weaponData.PartyID)] = weaponData;
+                                        DDOManager.WeaponDatas.WeaponDataDic[(weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID)].ActivityStatus = 1;
                                     }
                                 }
                             }
@@ -978,7 +979,6 @@ public class BattleReadySystem : MonoBehaviour
         {
             if (am.StageID == index)
             {
-                Debug.Log($"tlqk {am.StageID} / {am.MonsterID}");
                 appearMonster.AddLast(am.MonsterID);
             }
         }

@@ -52,19 +52,19 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
-        foreach (var ddo in DDO)
-        {
-            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
-            {
-                ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
-            }
-            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
-            {
-                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
-            }
-        }
-        DDO = null;
+        //GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
+        //foreach (var ddo in DDO)
+        //{
+        //    if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
+        //    {
+        //        ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
+        //    }
+        //    if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+        //    {
+        //        gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+        //    }
+        //}
+        //DDO = null;
 
         weaponEffectPool = this.transform.GetChild(this.transform.childCount - 1).gameObject;
         attackDirectional = this.transform.GetChild(1).gameObject.GetComponent<AttackDirectional>();
@@ -76,19 +76,19 @@ public class PlayerManager : MonoBehaviour
             {
                 treasureBoxEscapeStairManager = manager.GetComponent<TreasureBoxEscapeStairManager>();
             }
-            if(manager.name == "MonsterSpawnManager")
+            if (manager.name == "MonsterSpawnManager")
             {
                 monsterManager = manager.transform.gameObject.GetComponent<MonsterManager>();
             }
-            if(manager.name == "CameraManager")
+            if (manager.name == "CameraManager")
             {
                 cameraManager = manager.transform.gameObject.GetComponent<CameraManager>();
             }
-            if(manager.name == "FollowerManager")
+            if (manager.name == "FollowerManager")
             {
                 followerManager = manager.transform.gameObject.GetComponent<FollowerManager>();
             }
-            if(manager.name == "ResultManager")
+            if (manager.name == "ResultManager")
             {
                 resultManager = manager.GetComponent<ResultManager>();
             }
@@ -105,11 +105,26 @@ public class PlayerManager : MonoBehaviour
         guiderFollowerMove = guider.GetComponent<FollowerMove>();
         guider.GetComponent<FollowerMove>().enabled = false;
         guiderHp = guider.GetComponent<PlayerHp>();
-        
+
     }
 
     private void Start()
     {
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
+        foreach (var ddo in DDO)
+        {
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
+        }
+        DDO = null;
+
+       
         bool guiderInParty = false;
         float damage;
 
