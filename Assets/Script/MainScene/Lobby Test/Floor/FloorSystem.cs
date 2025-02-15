@@ -56,15 +56,15 @@ public class FloorSystem : MonoBehaviour
 
         if (DDOManager != null)
         {
-            float initialCost = 100 * Mathf.Pow(1.1f, DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor - 1);
-            initialCost *= (1 - 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance);
+            float initialCost = 100 * Mathf.Pow(1.1f, DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Floor - 1);
+            initialCost *= (1 - 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].PrisonEnhance);
 
             upgradeCostData = new FloorUpgradeCost
             {
-                CurrentFloor = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor,
+                CurrentFloor = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Floor,
                 BaseCost = 100,
                 CostIncreaseRate = 2.0f,
-                DiscountRate = 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance,
+                DiscountRate = 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].PrisonEnhance,
                 calculatedCost = (int)initialCost
             };
         }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using static GYMSystem;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class BusRandomPrisoner : MonoBehaviour
 {
@@ -72,7 +73,17 @@ public class BusRandomPrisoner : MonoBehaviour
         if (totalAcceptCountText != null)
         {
             int floorCount = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
-            totalAcceptCountText.text = $"전체 수락 횟수: {totalAcceptCount} / {4 * floorCount}";
+
+            int prisonerCount = 0;
+            foreach (var unit in DDOManager.UnitDatas.UnitDatas)
+            {
+                if (unit.PrototypeUnitID == 100)
+                {
+                    prisonerCount++;
+                }
+            }
+
+            totalAcceptCountText.text = $"전체 수락 횟수: {prisonerCount} / {4 * floorCount}";
         }
     }
 
@@ -93,7 +104,7 @@ public class BusRandomPrisoner : MonoBehaviour
         newUnit.HandicraftEnforce = 0;
         newUnit.Crime = Random.Range(0, 7);
         newUnit.ActivityStatus = 0;
-        newUnit.HeadID = Random.Range(0, 6);
+        newUnit.HeadID = Random.Range(0, 3);
         newUnit.BodyID = Random.Range(0, 3);
 
         unitDatas.Add(newUnit);
@@ -299,7 +310,6 @@ public class BusRandomPrisoner : MonoBehaviour
 
     public void changeDays()
     {
-        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day++;
         storageUI.UpdateDaysUI();
         storageUI.UpdateGold();
         storageUI.UpdatedeathEssence();
@@ -318,6 +328,7 @@ public class BusRandomPrisoner : MonoBehaviour
         }
         UpdateUI();
         DisplayUnitDataUI();
+        DDOManager.SaveData();
     }
 
     private void ClearExistingUnitUIs()
