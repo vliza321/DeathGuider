@@ -30,7 +30,6 @@ public class ProgressDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class ProgressData
 {
     public int UserID;

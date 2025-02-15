@@ -31,7 +31,7 @@ public class StageDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
+
 public class StageData
 {
     public int ID;

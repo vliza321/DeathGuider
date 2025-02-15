@@ -44,7 +44,6 @@ public class UnitDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class UnitData
 {
     public int UserID;

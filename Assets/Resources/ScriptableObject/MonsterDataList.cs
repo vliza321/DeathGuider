@@ -27,7 +27,6 @@ public class MonsterDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class MonsterData
 {
     public int ID;

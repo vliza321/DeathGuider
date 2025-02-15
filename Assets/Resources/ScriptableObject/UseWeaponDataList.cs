@@ -26,7 +26,6 @@ public class UseWeaponDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class UseWeaponData
 {
     public int UserID;

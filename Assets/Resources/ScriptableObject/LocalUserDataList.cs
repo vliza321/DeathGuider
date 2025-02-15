@@ -42,7 +42,6 @@ public class LocalUserDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class LocalUserData
 {
     public int ID;

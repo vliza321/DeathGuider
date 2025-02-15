@@ -12,12 +12,9 @@ public class WeaponDataList : DataScriptableObjects
     public bool TranslateListToDic()
     {
         bool result = true;
-        int zero = 0;
         foreach (var data in WeaponDatas)
         {
-            zero = data.PrototypeWeaponID % 1000;
-            data.Rank = zero;
-           WeaponDataDic.Add((data.UserID,data.PrototypeWeaponID,data.InstanceID), data);
+            WeaponDataDic.Add((data.UserID,data.PrototypeWeaponID,data.InstanceID), data);
         }
 
         return result;
@@ -38,7 +35,6 @@ public class WeaponDataList : DataScriptableObjects
     }
 }
 
-[System.Serializable]
 public class WeaponData
 {
     public int UserID;

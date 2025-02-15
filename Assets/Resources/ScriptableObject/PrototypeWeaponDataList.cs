@@ -28,7 +28,7 @@ public class PrototypeWeaponDataList : DataScriptableObjects
     }
 }
 
-[System.Serializable]
+
 public class PrototypeWeaponData
 {
     public int ID;

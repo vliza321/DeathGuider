@@ -26,7 +26,6 @@ public class PrototypeUnitDataList : DataScriptableObjects
     }
 }
 
-[System.Serializable]
 public class PrototypeUnitData
 {
     public int ID;

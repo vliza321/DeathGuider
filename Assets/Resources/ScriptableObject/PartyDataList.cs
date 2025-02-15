@@ -27,7 +27,6 @@ public class PartyDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class PartyData
 {
     public int ID;

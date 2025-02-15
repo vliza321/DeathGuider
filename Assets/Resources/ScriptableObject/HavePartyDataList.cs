@@ -27,7 +27,6 @@ public class HavePartyDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class HavePartyData
 {
     public int UserID;

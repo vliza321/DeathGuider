@@ -28,7 +28,6 @@ public class UnitParticipateDataList : DataScriptableObjects
 }
 
 
-[System.Serializable]
 public class UnitParticipateData
 {
     public int UserID;
