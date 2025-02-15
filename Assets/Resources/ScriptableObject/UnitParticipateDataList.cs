@@ -23,7 +23,10 @@ public class UnitParticipateDataList : DataScriptableObjects
 
     public void TranslateDicToListAtSaveDatas()
     {
-        UnitParticipateDatas.Clear();
+        foreach (var data in UnitParticipateDatas)
+        {
+            data.Position = UnitParticipateDataDic[(data.UserID, data.PrototypeUnitID, data.InstanceID, data.PartyID)].Position;
+        }
     }
 }
 

@@ -21,7 +21,10 @@ public class UseWeaponDataList : DataScriptableObjects
     }
     public void TranslateDicToListAtSaveDatas()
     {
-        UseWeaponDatas.Clear();
+        foreach (var data in UseWeaponDatas)
+        {
+            data.Position = UseWeaponDataDic[(data.UserID,data.PrototypeWeaponID,data.InstanceID,data.PartyID)].Position;
+        }
     }
 }
 
