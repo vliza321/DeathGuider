@@ -123,6 +123,11 @@ public class GameManager : MonoBehaviour
         "terrain",
     };
 
+    public void Start()
+    {
+        Initialized();
+    }
+
     public void Initialized()
     {
         if (instance == null)
@@ -133,6 +138,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject); // 중복 생성 방지
+            return;
         }
 
         FieldInfo fieldInfo;

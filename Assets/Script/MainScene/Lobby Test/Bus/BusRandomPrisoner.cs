@@ -62,6 +62,7 @@ public class BusRandomPrisoner : MonoBehaviour
             GenerateRandomPrisoner();
         }
         changeDays();
+       
     }
 
     public void UpdateUI()
