@@ -782,7 +782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &41761367
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7343,17 +7343,6 @@ MonoBehaviour:
   upgradeButton: {fileID: 549588717}
   prisonerInfoPrefab: {fileID: 179703159443851489, guid: d6a33991a371cd5438dc566b7f65c4f2, type: 3}
   contentParent: {fileID: 900957176}
-  headSprites:
-  - {fileID: 21300000, guid: 9bb79105d3dab7149b4f2e1c783577ea, type: 3}
-  - {fileID: 21300000, guid: 20a97f20a5a1dba449543c2214aaa928, type: 3}
-  - {fileID: 21300000, guid: c96b562ae79f7904c891ef7e371f8d5a, type: 3}
-  - {fileID: 21300000, guid: a95caf0295bf5344586b986df70b7bb3, type: 3}
-  - {fileID: 21300000, guid: 575cb10338120334890e1ff09866b7e9, type: 3}
-  - {fileID: 21300000, guid: ce655a10cd9729c488849c685f1a8a33, type: 3}
-  bodySprites:
-  - {fileID: 21300000, guid: e4389bea4b464cf4f95bb5a77455c9ed, type: 3}
-  - {fileID: 21300000, guid: 4baf4eab6af2c9a4a9a2ed6e3363dec1, type: 3}
-  - {fileID: 21300000, guid: dbbfb2b7c8f057d4d87d3ddf489222eb, type: 3}
   DDOManager: {fileID: 0}
   upgradeCostData:
     CurrentFloor: 0
@@ -7378,17 +7367,6 @@ MonoBehaviour:
   GYMTrainingPrefab: {fileID: 85463975858731218, guid: bd982cca37ed12d43a751e76828578e7, type: 3}
   contentUnitParent: {fileID: 482298772}
   contentTrainParent: {fileID: 686834984}
-  headSprites:
-  - {fileID: 21300000, guid: 9bb79105d3dab7149b4f2e1c783577ea, type: 3}
-  - {fileID: 21300000, guid: 20a97f20a5a1dba449543c2214aaa928, type: 3}
-  - {fileID: 21300000, guid: c96b562ae79f7904c891ef7e371f8d5a, type: 3}
-  - {fileID: 21300000, guid: a95caf0295bf5344586b986df70b7bb3, type: 3}
-  - {fileID: 21300000, guid: 575cb10338120334890e1ff09866b7e9, type: 3}
-  - {fileID: 21300000, guid: ce655a10cd9729c488849c685f1a8a33, type: 3}
-  bodySprites:
-  - {fileID: 21300000, guid: e4389bea4b464cf4f95bb5a77455c9ed, type: 3}
-  - {fileID: 21300000, guid: 4baf4eab6af2c9a4a9a2ed6e3363dec1, type: 3}
-  - {fileID: 21300000, guid: dbbfb2b7c8f057d4d87d3ddf489222eb, type: 3}
   trainingRoomCount: 3
   maxTrainingSlots: 3
   lastCheckedDate: -1
@@ -7409,17 +7387,6 @@ MonoBehaviour:
   HealthRoomPrefab: {fileID: 85463975858731218, guid: 95482b4e818f8544799ecdf9d9d2b875, type: 3}
   contentUnitParent: {fileID: 866560309}
   contentRoomParent: {fileID: 1068337690}
-  headSprites:
-  - {fileID: 21300000, guid: 9bb79105d3dab7149b4f2e1c783577ea, type: 3}
-  - {fileID: 21300000, guid: 20a97f20a5a1dba449543c2214aaa928, type: 3}
-  - {fileID: 21300000, guid: c96b562ae79f7904c891ef7e371f8d5a, type: 3}
-  - {fileID: 21300000, guid: a95caf0295bf5344586b986df70b7bb3, type: 3}
-  - {fileID: 21300000, guid: 575cb10338120334890e1ff09866b7e9, type: 3}
-  - {fileID: 21300000, guid: ce655a10cd9729c488849c685f1a8a33, type: 3}
-  bodySprites:
-  - {fileID: 21300000, guid: e4389bea4b464cf4f95bb5a77455c9ed, type: 3}
-  - {fileID: 21300000, guid: 4baf4eab6af2c9a4a9a2ed6e3363dec1, type: 3}
-  - {fileID: 21300000, guid: dbbfb2b7c8f057d4d87d3ddf489222eb, type: 3}
   healthRoomCount: 1
   lastCheckedDate: -1
   HealthDataList: []
@@ -7439,17 +7406,6 @@ MonoBehaviour:
   ErosionRoomPrefab: {fileID: 85463975858731218, guid: 5125f499feee34d4db891fc0c2289e32, type: 3}
   contentUnitParent: {fileID: 340859846}
   contentRoomParent: {fileID: 1068981398}
-  headSprites:
-  - {fileID: 21300000, guid: 9bb79105d3dab7149b4f2e1c783577ea, type: 3}
-  - {fileID: 21300000, guid: 20a97f20a5a1dba449543c2214aaa928, type: 3}
-  - {fileID: 21300000, guid: c96b562ae79f7904c891ef7e371f8d5a, type: 3}
-  - {fileID: 21300000, guid: a95caf0295bf5344586b986df70b7bb3, type: 3}
-  - {fileID: 21300000, guid: 575cb10338120334890e1ff09866b7e9, type: 3}
-  - {fileID: 21300000, guid: ce655a10cd9729c488849c685f1a8a33, type: 3}
-  bodySprites:
-  - {fileID: 21300000, guid: e4389bea4b464cf4f95bb5a77455c9ed, type: 3}
-  - {fileID: 21300000, guid: 4baf4eab6af2c9a4a9a2ed6e3363dec1, type: 3}
-  - {fileID: 21300000, guid: dbbfb2b7c8f057d4d87d3ddf489222eb, type: 3}
   ErosionRoomCount: 1
   lastCheckedDate: -1
   ErosionDataList: []
@@ -7590,13 +7546,6 @@ MonoBehaviour:
   BattleReadyWeaponPrefab: {fileID: 452649499913678941, guid: b632c6e47e5b7194ca6f50dfd7ff552e, type: 3}
   BattleReadyPrisonerParent: {fileID: 1845790659}
   BattleReadyWeaponParent: {fileID: 999787461}
-  headSprites:
-  - {fileID: 21300000, guid: 9bb79105d3dab7149b4f2e1c783577ea, type: 3}
-  - {fileID: 21300000, guid: 20a97f20a5a1dba449543c2214aaa928, type: 3}
-  - {fileID: 21300000, guid: c96b562ae79f7904c891ef7e371f8d5a, type: 3}
-  - {fileID: 21300000, guid: a95caf0295bf5344586b986df70b7bb3, type: 3}
-  - {fileID: 21300000, guid: 575cb10338120334890e1ff09866b7e9, type: 3}
-  - {fileID: 21300000, guid: ce655a10cd9729c488849c685f1a8a33, type: 3}
   chooseManager: {fileID: 624064591}
   battleReadyPrisonerUI:
   - {fileID: 2043663731}
@@ -21304,43 +21253,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7730c33427c5f84dbb2a593840d2577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitDatas: []
-  testUnit:
-    UserID: 0
-    PrototypeUnitID: 0
-    InstanceID: 0
-    Name: 
-    Level: 0
-    EXP: 0
-    MaxHealthPoint: 0
-    HealthPoint: 0
-    Strength: 0
-    Defense: 0
-    Handicraft: 0
-    DeathErosion: 0
-    Enforce: 0
-    HealthEnforce: 0
-    StrengthEnforce: 0
-    DefenseEnforce: 0
-    HandicraftEnforce: 0
-    Crime: 0
-    ActivityStatus: 0
-    HeadID: 0
-    BodyID: 0
   storageUI: {fileID: 2080645610}
   unitUIPrefab: {fileID: 179703159443851489, guid: e538c521395fa2c43bf60d6670b2d320, type: 3}
   gridParent: {fileID: 601467149}
-  headSprites:
-  - {fileID: -4651660442500085344, guid: fd6b57130fd4f9c478102f38d8d2569d, type: 3}
-  - {fileID: -541547923088138363, guid: fd6b57130fd4f9c478102f38d8d2569d, type: 3}
-  - {fileID: 5591411801790118966, guid: fd6b57130fd4f9c478102f38d8d2569d, type: 3}
-  - {fileID: -6403390977361312450, guid: fd6b57130fd4f9c478102f38d8d2569d, type: 3}
-  - {fileID: 3478526595294982121, guid: fd6b57130fd4f9c478102f38d8d2569d, type: 3}
-  - {fileID: 8233354266542458805, guid: fd6b57130fd4f9c478102f38d8d2569d, type: 3}
-  bodySprites:
-  - {fileID: 21300000, guid: e4389bea4b464cf4f95bb5a77455c9ed, type: 3}
-  - {fileID: 21300000, guid: 4baf4eab6af2c9a4a9a2ed6e3363dec1, type: 3}
-  - {fileID: 21300000, guid: dbbfb2b7c8f057d4d87d3ddf489222eb, type: 3}
   dailyAcceptCount: 0
   totalAcceptCount: 0
   availablePrisoner: 6
