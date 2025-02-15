@@ -124,9 +124,6 @@ public class PlayerManager : MonoBehaviour
                 damage = ddoManager.MonsterDatas.MonsterDataDic[gameManager.SelectStageID].Strength + gameManager.SelectStageID;
                 guiderHp.Init(ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)], damage);
 
-                guider.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = gameManager.GuiderHeadImg[guiderHp.Stat.HeadID];
-                guider.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = gameManager.GuiderBodyImg[guiderHp.Stat.BodyID];
-
                 guider.GetComponent<PlayerMove>().BodyAnimation.runtimeAnimatorController
                     = gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
                 guider.GetComponent<PlayerMove>().HeadAnimation.runtimeAnimatorController
