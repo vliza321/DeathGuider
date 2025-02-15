@@ -6,20 +6,36 @@ using UnityEngine.UIElements;
 
 public class PlayerHp : MonoBehaviour
 {
+    private UnitData stat;
     private float HitDelay;
     private float MaxHP;
     [SerializeField]
-    private float HeartPoint;
+    private float heartPoint;
 
     private string MonsterTagName = "Monster";
     private Vector3 cashingVector;
-    // Start is called before the first frame update
-    void Start()
+    private float damage;
+    public UnitData Stat
     {
+        get { return stat; }
+        set { stat = value; }
+    }
+
+    public float HeartPoint
+    {
+        get { return heartPoint; }
+        set { heartPoint = value; }
+    }
+
+    // Start is called before the first frame update
+    public void Init(UnitData stat, float damage)
+    {
+        this.stat = stat;
         cashingVector = Vector3.zero;
         HitDelay = 0.5f;
-        MaxHP = 100;
-        HeartPoint = MaxHP;
+        MaxHP = stat.MaxHealthPoint;
+        heartPoint = MaxHP;
+        this.damage = damage;
     }
 
     // Update is called once per frame
@@ -34,22 +50,22 @@ public class PlayerHp : MonoBehaviour
 
     float GetHp()
     {
-        return HeartPoint;
+        return heartPoint;
     }
 
     void SetHp(float hp)
     {
-        HeartPoint += hp;
+        heartPoint += hp;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(MonsterTagName))
         {
-            HeartPoint--;
-            if (HeartPoint <= 0)
+            heartPoint--;
+            if (heartPoint <= 0)
             {
-                HeartPoint = MaxHP;
+                heartPoint = MaxHP;
             }
         }
     }
@@ -61,10 +77,10 @@ public class PlayerHp : MonoBehaviour
         {
             if (collision.gameObject.CompareTag(MonsterTagName))
             {
-                HeartPoint--;
-                if (HeartPoint <= 0)
+                heartPoint--;
+                if (heartPoint <= 0)
                 {
-                    HeartPoint = MaxHP;
+                    heartPoint = MaxHP;
                 }
             }
         }

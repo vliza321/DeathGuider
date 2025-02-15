@@ -29,8 +29,10 @@ public class SetalliteTypeWeaponManager : Weapon
         float AngleColculateFloat;
         float PI = Mathf.PI;
 
-        setalliteCount = 1 + (weaponData.Rank) * (2 + (int)(weaponData.Enforce / 2.4f)) + (int)(weaponData.Enforce / 3);
-
+        setalliteCount = 2 + (int)(weaponData.PrototypeWeaponID * 0.001f) * (2 + (int)(weaponData.Enforce / 2.4f)) + (int)(weaponData.Enforce / 2.4f);
+        Debug.Log("rank : " + weaponData.PrototypeWeaponID * 0.001f);
+        Debug.Log("enforce : " + weaponData.Enforce);
+        Debug.Log("count : " + setalliteCount);
         for (int i = 0; i < setalliteCount; i++)
         {
             AngleColculateFloat = (360.0f / setalliteCount) * i / 180.0f * PI;

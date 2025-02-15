@@ -37,6 +37,7 @@ public class TileSet : MonoBehaviour
     private GameObject terrain;
     public void Init(TileSpriteImageStorage tileSpriteImageStorage)
     {
+        terrain = this.gameObject;
         constant = 0;
         tile = new SpriteRenderer[this.transform.childCount];
         TileMap = this.transform.parent.gameObject.GetComponent<TileMap>();
@@ -60,7 +61,7 @@ public class TileSet : MonoBehaviour
         constant = (TileSpriteImageStorages.randConst.x) * (absColumn % 4) - (TileSpriteImageStorages.randConst.y) * (absRow % 4);
         constant = (constant >= 0 ? constant : -(constant));
 
-        terrain = terrainSpawner.GetTerrain(constant % 8, tile[constant%100].transform.position);
+        terrain = terrainSpawner.GetTerrain(constant % 9, tile[constant%100].transform.position);
     }
 
     public void ChangeMatrix(int a, int b)
@@ -71,11 +72,12 @@ public class TileSet : MonoBehaviour
 
     public void ReleaseTerrain()
     {
-        if (terrain == null)
+        if (terrain == this.gameObject)
         {
             return;
         }
         terrain.SetActive(false);
-        terrainSpawner.ReleaseTerrain(constant % 8, terrain);
+        terrainSpawner.ReleaseTerrain(constant % 9, terrain);
+        terrain = this.gameObject;
     }
 }

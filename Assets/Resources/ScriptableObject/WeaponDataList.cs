@@ -28,10 +28,12 @@ public class WeaponDataList : DataScriptableObjects
         foreach (var data in WeaponDatas)
         {
             data.PrototypeWeaponID = WeaponDataDic[(data.UserID,data.PrototypeWeaponID,data.InstanceID)].PrototypeWeaponID;
-            data.Name = WeaponDataDic[(data.UserID,data.PrototypeWeaponID,data.InstanceID)].Name;
+            data.InstanceID = WeaponDataDic[(data.UserID,data.PrototypeWeaponID,data.InstanceID)].InstanceID;
+            data.Name = WeaponDataDic[(data.UserID,data.PrototypeWeaponID, data.InstanceID)].Name;
             data.AttackPoint = WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].AttackPoint;
             data.Durability = WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].Durability;
             data.Enforce= WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].Enforce;
+            data.Rank = WeaponDataDic[(data.UserID, data.PrototypeWeaponID, data.InstanceID)].Rank;
         }
     }
 }

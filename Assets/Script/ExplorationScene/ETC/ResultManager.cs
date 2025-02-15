@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System;
 public class ResultManager : MonoBehaviour
 {
     private static ResultManager instance;
@@ -23,7 +23,7 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private int deathEssense;
     [SerializeField] private float exp;
 
-    
+    private Dictionary<int, PlayerHp> posToUnitData = new Dictionary<int, PlayerHp>();
 
     private float explorationProgress;
     private float currentExplorationProgress;
@@ -64,6 +64,12 @@ public class ResultManager : MonoBehaviour
     {
         get { return units; }
         set { units = value; }
+    }
+
+    public Dictionary<int, PlayerHp> PosToUnitData
+    {
+        get { return posToUnitData; }
+        set { posToUnitData = value; }
     }
 
     void Awake()
@@ -157,15 +163,15 @@ public class ResultManager : MonoBehaviour
         units = new List<UnitData>();
         int userID = gameManager.SelectUserID;
 
-        foreach (var unit in DDOManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
+        foreach (var unit in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
         {
             if (unit.UserID == userID)
             {
                 var key = (unit.UserID, unit.PrototypeUnitID, unit.InstanceID);
 
-                if (DDOManager.UnitDatas.UnitDataDic.ContainsKey(key))
+                if (ddoManager.UnitDatas.UnitDataDic.ContainsKey(key))
                 {
-                    UnitData originalUnit = DDOManager.UnitDatas.UnitDataDic[key];
+                    UnitData originalUnit = ddoManager.UnitDatas.UnitDataDic[key];
 
                     UnitData copiedUnit = new UnitData
                     {
@@ -210,7 +216,7 @@ public class ResultManager : MonoBehaviour
         int userID = gameManager.SelectUserID;
         int stageID = gameManager.SelectStageID;
 
-
+        timer = (timer >= (300 + stageID * 10) ? timer = (300 + stageID * 10) : timer);
         // **?? 1. 전투 결과 데이터 저장 **
         // + 결과 데이터 저장 중 진척도 관련 처리
         // 기존 진척도 + 기본 10 + 시간 비례 추가(최소 5 / 최대 20)
@@ -218,28 +224,36 @@ public class ResultManager : MonoBehaviour
         //DDOManager.ProgressDatas.ProgressDataDic[userID].BattleTime = timer;
         //DDOManager.ProgressDatas.ProgressDataDic[userID].ExplorationProgress = explorationProgress;
         // 진척도 누적 예시 코드
+        /*
         if (ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress != 100)
-            ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress += 10;// + 시간 비례식 필요 
+            ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress += 10 + (int)(timer / (15+stageID*3));// + 시간 비례식 필요 
+
+        if(ddoManager.ProgressDatas.ProgressDataDic[(userID,stageID)].Progress >= 100)
+            ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress = 100;// + 시간 비례식 필요 */
+
 
         // **?? 2. 획득한 재화 업데이트**
         //+추가사항 : 전투 실패시 gold, darkEssense 획득량 절반
-        ddoManager.LocalUserDatas.LocalUserDataDic[userID].Gold += (int)gold;
-        ddoManager.LocalUserDatas.LocalUserDataDic[userID].DarkEssence += (int)darkEssense;
-        ddoManager.LocalUserDatas.LocalUserDataDic[userID].DeathEssence += deathEssense;
-        
+
+        /*
+            ddoManager.LocalUserDatas.LocalUserDataDic[userID].Gold += (int)gold;
+            ddoManager.LocalUserDatas.LocalUserDataDic[userID].DarkEssence += (int)darkEssense;
+            ddoManager.LocalUserDatas.LocalUserDataDic[userID].DeathEssence += deathEssense;
+        */
         // **?? 3. 유닛의 체력 정보 업데이트 (HealthData 사용)**
         // 이 스크립트의 List<UnitData> Unit 에 있는 데이터를 가져와서 작업해야함
         // 예시 코드
-        var key = (1,1,1); // dictionary 타입의 key를 정의 및 임시 초기화
+        //var key = (1,1,1); // dictionary 타입의 key를 정의 및 임시 초기화
         // 전투에 참여한 units의 순회
 
         UpdateBattleProgress(userID, stageID, isVictory);
         UpdateResources(userID, isVictory);
         //health 오류
         UpdateUnitHealth(userID);
-        UpdateWeaponDurability(userID);
+        UpdateWeaponDurability(userID,stageID);
+        UpdateUnitErosion(userID, stageID);
         AddNewWeapons(userID);
-        DDOManager.SaveData();
+        ddoManager.SaveData();
     }
 
     // **1. 전투 결과 데이터 저장 **
@@ -251,8 +265,12 @@ public class ResultManager : MonoBehaviour
     //    DDOManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress += 10;// + 시간 비례식 필요 
     private void UpdateBattleProgress(int userID, int stageID, bool isVictory)
     {
-        if (DDOManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress != 100)
-            DDOManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress += 10; // + 시간 비례식 필요
+        // 진척도 누적 예시 코드
+        if (ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress != 100)
+            ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress += 10 + (int)(timer / (15 + stageID * 3));// + 시간 비례식 필요 
+
+        if (ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress >= 100)
+            ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress = 100;// + 시간 비례식 필요 
     }
 
     // **?? 2. 획득한 재화 업데이트**
@@ -263,9 +281,10 @@ public class ResultManager : MonoBehaviour
     private void UpdateResources(int userID, bool isVictory)
     {
         float multiplier = isVictory ? 1f : 0.5f;
-        DDOManager.LocalUserDatas.LocalUserDataDic[userID].Gold += (int)(gold * multiplier);
-        DDOManager.LocalUserDatas.LocalUserDataDic[userID].DarkEssence += (int)(darkEssense * multiplier);
-        DDOManager.LocalUserDatas.LocalUserDataDic[userID].DeathEssence += deathEssense;
+        multiplier += multiplier * (ddoManager.LocalUserDatas.LocalUserDataDic[userID].BattleEfficiency) / 10;
+        ddoManager.LocalUserDatas.LocalUserDataDic[userID].Gold += (int)(gold * multiplier);
+        ddoManager.LocalUserDatas.LocalUserDataDic[userID].DarkEssence += (int)(darkEssense * multiplier);
+        ddoManager.LocalUserDatas.LocalUserDataDic[userID].DeathEssence += deathEssense;
     }
 
     // **?? 3. 유닛의 체력 정보 업데이트 (HealthData 사용)**
@@ -303,6 +322,36 @@ public class ResultManager : MonoBehaviour
     //}
     private void UpdateUnitHealth(int userID)
     {
+        int aliveUnitCount = 0;
+        foreach(var u in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
+        {
+            var key = (userID, u.PrototypeUnitID, u.InstanceID);
+            ddoManager.UnitDatas.UnitDataDic[key].HealthPoint = 
+                (posToUnitData[u.Position].HeartPoint % 1 > 0 ? (int)(posToUnitData[u.Position].HeartPoint + 1): (int)(posToUnitData[u.Position].HeartPoint)) ; 
+            if(ddoManager.UnitDatas.UnitDataDic[key].HealthPoint == 0)
+            {
+                ddoManager.UnitDatas.UnitDataDic.Remove(key);
+                ddoManager.UnitDatas.UnitDatas.RemoveAll(unit => unit.UserID == userID && unit.PrototypeUnitID == u.PrototypeUnitID && unit.InstanceID == u.InstanceID);
+            }
+            aliveUnitCount++;
+        }
+
+        foreach (var u in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
+        {
+            var key = (userID, u.PrototypeUnitID, u.InstanceID);
+            float gainExp = exp / (aliveUnitCount * MathF.Log(
+                ddoManager.UnitDatas.UnitDataDic[key].Level
+                ,2));
+            ddoManager.UnitDatas.UnitDataDic[key].EXP = (int)(gainExp);
+
+            while(ddoManager.UnitDatas.UnitDataDic[key].EXP < 100)
+            {
+                ddoManager.UnitDatas.UnitDataDic[key].Level++;
+                ddoManager.UnitDatas.UnitDataDic[key].EXP -= 100;
+            }
+        }
+
+        /*
         //오류
         foreach (var unit in units)
         {
@@ -334,7 +383,7 @@ public class ResultManager : MonoBehaviour
             {
                 ddoManager.UnitDatas.UnitDataDic[key].HealthPoint = unit.HealthPoint;
             }
-        }
+        }*/
     }    
 
     /*
@@ -352,12 +401,30 @@ public class ResultManager : MonoBehaviour
         } */
 
 
-    private void UpdateWeaponDurability(int userID)
+    private void UpdateWeaponDurability(int userID, int stageID)
     {
-        foreach (var useWeapon in DDOManager.UseWeaponDatas.UseWeaponDataDic.Values)
+        foreach (var useWeapon in ddoManager.UseWeaponDatas.UseWeaponDataDic.Values)
         {
             var key = (userID, useWeapon.PrototypeWeaponID, useWeapon.InstanceID);
-            DDOManager.WeaponDatas.WeaponDataDic[key].Durability -= 5; // + 시간 비례식 필요
+            ddoManager.WeaponDatas.WeaponDataDic[key].Durability -= 5 + (int)(timer / (60 - stageID * 1));// + 시간 비례식 필요 
+
+            if(ddoManager.WeaponDatas.WeaponDataDic[key].Durability < 0)
+            {
+                ddoManager.WeaponDatas.WeaponDataDic.Remove(key);
+                ddoManager.WeaponDatas.WeaponDatas.RemoveAll(w => w.UserID == userID && w.PrototypeWeaponID == useWeapon.PrototypeWeaponID && w.InstanceID == useWeapon.InstanceID);
+            }
+        }
+
+
+    }
+
+
+    private void UpdateUnitErosion(int userID, int stageID)
+    {
+        foreach (var u in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
+        {
+            var key = (userID, u.PrototypeUnitID, u.InstanceID);
+            ddoManager.UnitDatas.UnitDataDic[key].DeathErosion += 2 + (int)(timer / (60 - stageID * 3));// + 시간 비례식 필요 
         }
     }
 
@@ -433,6 +500,6 @@ public class ResultManager : MonoBehaviour
 
     private void LoadMainScene()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("LobbyTest");
     }
 }

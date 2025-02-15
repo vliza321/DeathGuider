@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     private GameObject guider;
     private GameObject swapedObject;
+    [SerializeField]
     private TreasureBoxEscapeStairManager treasureBoxEscapeStairManager;
     private AttackDirectional attackDirectional;
     public AttackDirectional AttackDirectional
@@ -45,7 +46,7 @@ public class PlayerManager : MonoBehaviour
 
     private ResultManager resultManager;
 
-    private PlayerState GuiderState;
+    private PlayerHp guiderHp;
     private GameManager gameManager;
     private DontDestroyObjectManager ddoManager;
 
@@ -103,50 +104,56 @@ public class PlayerManager : MonoBehaviour
         guider.GetComponent<PlayerMove>().Camera = cameraManager;
         guiderFollowerMove = guider.GetComponent<FollowerMove>();
         guider.GetComponent<FollowerMove>().enabled = false;
-        playerUnitCounter = 1;
-        GuiderState = guider.GetComponent<PlayerState>();
+        guiderHp = guider.GetComponent<PlayerHp>();
         
     }
 
     private void Start()
     {
-        playerUnitCounter += followerManager.gameObject.transform.childCount;
+        bool guiderInParty = false;
+        float damage;
+
+        playerUnitCounter = ddoManager.UnitParticipateDatas.UnitParticipateDatas.Count;
+        guiderHp = guider.GetComponentInChildren<PlayerHp>();
 
         foreach (var UP in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
         {
             if (UP.Position == 0)
             {
-                GuiderState.Stat = ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
+                guiderInParty = true;
+                damage = ddoManager.MonsterDatas.MonsterDataDic[gameManager.SelectStageID].Strength + gameManager.SelectStageID;
+                guiderHp.Init(ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)], damage);
+                
                 guider.GetComponent<PlayerMove>().HeadAnimation.runtimeAnimatorController
-                    = gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
+                    = gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController;
                 guider.GetComponent<PlayerMove>().BodyAnimation.runtimeAnimatorController
-                    = gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
+                    = gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController;
 
-                Debug.Log(GuiderState.Stat.HealthEnforce);
-
-                resultManager.Units.Add(GuiderState.Stat);
+                resultManager.Units.Add(guiderHp.Stat);
+                resultManager.PosToUnitData.Add(0, guiderHp);
             }
         }
-        float damage;
         foreach (var UW in ddoManager.UseWeaponDatas.UseWeaponDatas)
         {
             if (UW.Position == 0)
             {
                 weapon = Instantiate(gameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
-                weapon.transform.SetParent(GuiderState.transform);
+                weapon.transform.SetParent(guiderHp.transform.parent.transform);
                 weapon.GetComponent<Weapon>().WeaponData = ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID,UW.PrototypeWeaponID,UW.InstanceID)];
-                damage = (GuiderState.Stat.Strength + ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * GuiderState.Stat.Handicraft;
-                if (GuiderState.Stat.Crime == ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
+                damage = (guiderHp.Stat.Strength + ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * guiderHp.Stat.Handicraft;
+                if (guiderHp.Stat.Crime == ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
                 weapon.transform.localScale = new Vector3(1, 1, 1);
-                weapon.GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage,damage,guider.transform);
+                weapon.GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage,damage,guider.transform,ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)]);
                 break;
             }
         }
         followerManager.AddUnitDataList(ddoManager,resultManager);
-        followerManager.WeaponCreate(ddoManager,gameManager, monsterManager);
+        followerManager.WeaponCreate(ddoManager, gameManager, monsterManager, resultManager);
         guider.GetComponent<PlayerMove>().InitSprite(
-            gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<SpriteRenderer>(),
-            gameManager.PrototypeUnit[GuiderState.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<SpriteRenderer>());
+            gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<SpriteRenderer>(),
+            gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<SpriteRenderer>());
+
+        if (!guiderInParty) SwapPlayer();
         
     }
     // Update is called once per frame
@@ -162,7 +169,7 @@ public class PlayerManager : MonoBehaviour
     {
         playerUnitCounter--;
         swapedObject = followerManager.gameObject.transform.GetChild(0).gameObject;
-        if (playerUnitCounter == 1) {
+        if (playerUnitCounter == 0) {
             guider.SetActive(false);
             resultManager.PlayerEscape();
             return;
@@ -174,7 +181,7 @@ public class PlayerManager : MonoBehaviour
         monsterManager.PlayerSwap(swapedObject.GetComponent<PlayerMove>());
         guiderFollowerMove = followerManager.SwapGuider(guider, swapedObject, cameraManager, attackDirectional,guiderFollowerMove);
         cameraManager.Guider = swapedObject;
-        treasureBoxEscapeStairManager.player = swapedObject;
+        treasureBoxEscapeStairManager.Player = swapedObject;
         attackDirectional.Guider = swapedObject;
 
         //변경 후 처리 (죽은 가이더 끄기, 몬스터 넉백)
@@ -184,18 +191,4 @@ public class PlayerManager : MonoBehaviour
         //MonsterKnockBack();
         if(playerUnitCounter == 0) attackDirectional.gameObject.SetActive(false);
     }
-    /*
-    void MonsterKnockBack()
-    {
-        MonsterManager ms = monsterManager.GetComponent<MonsterManager>();
-        for (int i =0; i < ms.EnabledMonster;i++)
-        {
-            if (ms.Monster[i].GetComponent<MonsterMove>().Distance < 9.0f)
-            { 
-                ms.Monster[i].GetComponent<MonsterMove>().IsKnockBack = true;
-                ms.Monster[i].GetComponent<MonsterMove>().KnockBackTimer = 300 - 300 * (int)(ms.Monster[i].GetComponent<MonsterMove>().Distance / 9.0f);
-                ms.Monster[i].GetComponent<MonsterMove>().MonsterVelocityVector *= -2;
-            }
-        }
-    }*/
 }

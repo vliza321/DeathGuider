@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class TerrainSpawner : MonoBehaviour
 {
-    private Dictionary<int, ListQueue<GameObject>> terrainsDic;
+    private Dictionary<int, Queue<GameObject>> terrainsDic;
 
     private GameObject cachingObject;
     // Start is called before the first frame update
     public void Init(GameManager gameManager)
     {
         
-        terrainsDic = new Dictionary<int, ListQueue<GameObject>>();
+        terrainsDic = new Dictionary<int, Queue<GameObject>>();
 
         int stageID = gameManager.SelectStageID;
         for (int i = 0; i < 9; i++)
         {
-            ListQueue<GameObject> newList = new ListQueue<GameObject>();
+            Queue<GameObject> newList = new Queue<GameObject>();
             int spawnTerrainID = stageID * 10 + i;
             for (int j = 0; j < 18; j++)
             {

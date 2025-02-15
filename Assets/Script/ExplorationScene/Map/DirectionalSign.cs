@@ -41,7 +41,7 @@ public class DirectionalSign : MonoBehaviour
         try
         {
             TreasureBoxEscapeStairManager = targetObj.parent.transform.parent.GetComponent<TreasureBoxEscapeStairManager>();
-            player = TreasureBoxEscapeStairManager.player.transform;
+            player = TreasureBoxEscapeStairManager.Player.transform;
         }
         catch
         {
@@ -55,7 +55,7 @@ public class DirectionalSign : MonoBehaviour
                 }
                 Manager = null;
             }
-            player = TreasureBoxEscapeStairManager.player.transform;
+            player = TreasureBoxEscapeStairManager.Player.transform;
         }
         finally
         {

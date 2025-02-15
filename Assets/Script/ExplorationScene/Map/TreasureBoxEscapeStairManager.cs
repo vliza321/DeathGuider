@@ -11,39 +11,40 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
 
     private Vector2Int RandConst; // 보물상자와 탈출계단의 타일 셋 안에서 xy위치
 
-    private GameObject TreasureBox;
-    private GameObject EscapeStair;
+    private GameObject treasureBox;
+    private GameObject escapeStair;
 
     private int stairPosition;
     private int boxPosition;
 
     [SerializeField]
-    private List<GameObject> TreasureBoxList;
+    private List<GameObject> treasureBoxList;
     [SerializeField]
-    private List<GameObject> EscapeStairList;
+    private List<GameObject> escapeStairList;
 
-    public List<GameObject> treasureBoxList
+    public List<GameObject> TreasureBoxList
     {
-        get { return TreasureBoxList; }        
+        get { return treasureBoxList; }        
     }
-    public List<GameObject> escapeStairList
+    public List<GameObject> EscapeStairList
     {
-        get { return EscapeStairList; }
+        get { return escapeStairList; }
     }
 
-    private GameObject Player;
-    public GameObject player
+    private GameObject player;
+    public GameObject Player
     {
-        get { return Player; }
+        get { return player; }
         set 
         {
-            Player = value.gameObject;
-            for(int i = 0;i<this.transform.childCount;i++)
+            player = value.gameObject;
+            foreach(var t in treasureBoxList)
             {
-                for(int j =0;j<this.transform.GetChild(i).transform.childCount;j++ )
-                {
-                   this.transform.GetChild(i).transform.GetChild(j).transform.GetChild(0).GetComponent<DirectionalSign>().Player = value.transform;
-                }
+                t.GetComponentInChildren<DirectionalSign>().Player = value.transform;
+            }
+            foreach (var s in escapeStairList)
+            {
+                s.GetComponentInChildren<DirectionalSign>().Player = value.transform;
             }
         }
     }
@@ -53,26 +54,26 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     private void Awake()
     {
         cashingVector = Vector3.zero;
-        Player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player");
 
-        TreasureBoxList = new List<GameObject>();
-        EscapeStairList = new List<GameObject>();   
+        treasureBoxList = new List<GameObject>();
+        escapeStairList = new List<GameObject>();   
 
         RandConst = GameObject.Find("TileSpriteImageStorage").GetComponent<TileSpriteImageStorage>().randConst;
 
-        TreasureBox = this.gameObject.transform.GetChild(0).gameObject;
-        EscapeStair = this.gameObject.transform.GetChild(1).gameObject;
+        treasureBox = this.gameObject.transform.GetChild(0).gameObject;
+        escapeStair = this.gameObject.transform.GetChild(1).gameObject;
 
-        for (int i  = 0; i < TreasureBox.transform.childCount; i++)
+        for (int i  = 0; i < treasureBox.transform.childCount; i++)
         {
-            TreasureBoxList.Add(TreasureBox.transform.GetChild(i).gameObject);
+            treasureBoxList.Add(treasureBox.transform.GetChild(i).gameObject);
         }
-        for (int i = 0; i < EscapeStair.transform.childCount; i++)
+        for (int i = 0; i < escapeStair.transform.childCount; i++)
         {
-            EscapeStairList.Add(EscapeStair.transform.GetChild(i).gameObject);
+            escapeStairList.Add(escapeStair.transform.GetChild(i).gameObject);
         }
 
-        foreach (var t in TreasureBoxList)
+        foreach (var t in treasureBoxList)
         {
             treasureBoxConst.x = Random.Range(0, 20);
             treasureBoxConst.y = Random.Range(0, 20);
@@ -82,7 +83,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
             t.transform.position = new Vector3((treasureBoxConst.x - 10) * 12.8f + 0.64f, (treasureBoxConst.y - 10) * 12.8f - 0.64f);
             t.transform.position += new Vector3((int)((boxPosition % 10) - 5) * 1.28f, (int)((boxPosition / 10) - 5) * 1.28f);
         }
-        foreach(var e in EscapeStairList)
+        foreach(var e in escapeStairList)
         {
             escapeStairConst.x = Random.Range(0, 30);
             escapeStairConst.y = Random.Range(0, 30);
@@ -98,14 +99,14 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     {
         if(obj.tag == stairName)
         {
-            EscapeStairList.Add(obj);
+            escapeStairList.Add(obj);
         }
     }
     public void AddInBoxList(GameObject obj)
     {
         if (obj.tag == boxName)
         {
-            TreasureBoxList.Add(obj);
+            treasureBoxList.Add(obj);
         }
     }
 
@@ -113,7 +114,7 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     {
         if (obj.tag == boxName)
         {
-            TreasureBoxList.Remove(obj);
+            treasureBoxList.Remove(obj);
             obj.gameObject.SetActive(false);
         }
     }
@@ -122,25 +123,25 @@ public class TreasureBoxEscapeStairManager : MonoBehaviour
     {
         if (obj.tag == stairName)
         {
-            EscapeStairList.Remove(obj);
+            escapeStairList.Remove(obj);
             obj.gameObject.SetActive(false);
         }
     }
 
-    public void EventSwapTile( int column, int row)
+    public void EventSwapTile(int row, int column)
     {
-        foreach(var e in EscapeStairList)
+        foreach(var e in escapeStairList)
         {
-            cashingVector.x = 12.8f * row;
-            cashingVector.y = 12.8f * (-column);
+            cashingVector.x = 12.8f * column;
+            cashingVector.y = 12.8f * -row;
             cashingVector.z = 0;
             e.transform.position += cashingVector;
         }
 
-        foreach (var t in TreasureBoxList)
+        foreach (var t in treasureBoxList)
         {
-            cashingVector.x = 12.8f * row;
-            cashingVector.y = 12.8f * (-column);
+            cashingVector.x = 12.8f * column;
+            cashingVector.y = 12.8f * -row;
             cashingVector.z = 0;
             t.transform.position += cashingVector;
         }

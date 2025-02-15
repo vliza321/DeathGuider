@@ -100,7 +100,6 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
-        playerState = this.gameObject.GetComponent<PlayerState>();
         playHeadAnim = new AnimGet(PlayHeadAnim);
         playBodyAnim = new AnimGet(PlayBodyAnim); 
         pauseHeadAnim = new AnimGet(PauseHeadAnim); 
@@ -137,8 +136,9 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (playerState.CanMove) canMove = true;
-        else canMove = false;
+        else canMove = false;*/
         playerVelocityVector.x = Input.GetAxisRaw("Horizontal");
         playerVelocityVector.y = Input.GetAxisRaw("Vertical");
         if(Input.GetAxisRaw("Horizontal")!=0)

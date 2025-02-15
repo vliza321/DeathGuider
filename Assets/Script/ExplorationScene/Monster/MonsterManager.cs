@@ -11,7 +11,7 @@ public class autorizedObject : MonoBehaviour
 public class MonsterManager : MonoBehaviour
 {
     [SerializeField]
-    Dictionary<GameObject, float> weaponDamage;
+    Dictionary<GameObject, float> weaponDamage = new Dictionary<GameObject, float>();
     [SerializeField]    
     private ObjectPool<MonsterState> monsterSpawnPool;
     [SerializeField]
@@ -148,7 +148,7 @@ public class MonsterManager : MonoBehaviour
             newMonster.GetComponent<MonsterState>().Init(DDOManager.MonsterDatas.MonsterDataDic[GameManager.SelectStageID],monsterRespawnPool,this,a);
         }
 
-        weaponDamage = new Dictionary<GameObject, float>(DDOManager.UseWeaponDatas.UseWeaponDatas.Count);
+       
 
         signX = 0;
         signY = 0;

@@ -68,14 +68,19 @@ public class TileSpawnManager : MonoBehaviour
 
 
         baseTileMap = new TileMap[2];
+
         baseTileMap[0] = this.transform.GetChild(0).GetComponent<TileMap>();
         baseTileMap[1] = this.transform.GetChild(1).GetComponent<TileMap>();
+
         baseTileMap[0].gameObject.SetActive(true);
         baseTileMap[1].gameObject.SetActive(true);
+
         baseTileMap[0].Init(tileSpriteImageStorage);
         baseTileMap[1].Init(tileSpriteImageStorage);
+
         baseTileMap[0].ChangeTerrain(0, 0);
         baseTileMap[1].ChangeMatrix(0, 0);
+        baseTileMap[1].ReleaseTerrain();
     }
     // Update is called once per frame
     void Start()
@@ -88,13 +93,12 @@ public class TileSpawnManager : MonoBehaviour
 
     public void swapTileMap(Transform transform, int row, int column)
     {
-        baseTileMap[0].ReleaseTerrain();
-        baseTileMap[1].ReleaseTerrain();
 
         guider = playerManager.Guider;
 
         if (baseTileMap[0].gameObject.activeSelf == true)
         {
+            baseTileMap[1].ReleaseTerrain();
             if ((baseTileMap[0].Row + row - 2 < 1 ) || (baseTileMap[0].Row + row - 2 > 9))
             {
                 discriminationState = RangeOut.rowRangeOut;
@@ -114,6 +118,7 @@ public class TileSpawnManager : MonoBehaviour
         }
         else
         {
+            baseTileMap[0].ReleaseTerrain();
             // spawnManager의 상태 체크 부분
             if ((baseTileMap[1].Row + row - 2 < 1 ) || (baseTileMap[1].Row + row - 2 > 9))
             {
@@ -180,8 +185,8 @@ public class TileSpawnManager : MonoBehaviour
                     else
                     {
                         baseTileMap[1].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-                        baseTileMap[1].ChangeTerrain(-5, 0);
-                        baseTileMap[0].ChangeMatrix(-5, 0);
+                        baseTileMap[1].ChangeTerrain(-4, 0);
+                        baseTileMap[0].ChangeMatrix(-4, 0);
                     }
                     guider.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     playerAttackDirectional.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
@@ -190,20 +195,14 @@ public class TileSpawnManager : MonoBehaviour
                     monsterManager.DarkEssenseSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     monsterManager.ExpSpawn.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     treasureBoxEscapeStairManager.EventSwapTile((5 - baseTileMap[0].Row ), 0);
+                    
+
+                    monsterManager.transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
 
                     for (int i = 0; i < followercounter; i++)
                     {
 
                         followerManager.transform.GetChild(i).transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-                    }
-
-                    for (int i = 0; i < monsterManager.MaxMonster; i++)
-                    {
-                        if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
-                        {
-                            break;
-                        }
-                        monsterManager.transform.GetChild(i).Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     }
 
                     for (int i = 0; i < weaponEffectPool.Length; i++)
@@ -239,20 +238,14 @@ public class TileSpawnManager : MonoBehaviour
                     monsterManager.ExpSpawn.transform.Translate(0, 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
                     treasureBoxEscapeStairManager.EventSwapTile((5 - baseTileMap[1].Row ), 0);
 
+                    monsterManager.transform.Translate(0, 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
+
                     for (int i = 0; i < followercounter; i++)
                     {
 
                         followerManager.transform.GetChild(i).transform.Translate(0, 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
                     }
 
-                    for (int i = 0; i < monsterManager.MaxMonster; i++)
-                    {
-                        if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
-                        {
-                            break;
-                        }
-                        monsterManager.transform.GetChild(i).Translate(0, 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
-                    }
 
                     for (int i = 0; i < weaponEffectPool.Length; i++)
                     {
@@ -297,19 +290,14 @@ public class TileSpawnManager : MonoBehaviour
                     monsterManager.ExpSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                     treasureBoxEscapeStairManager.EventSwapTile(0, (5 - baseTileMap[0].Column));
 
+                    monsterManager.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
+
                     for (int i = 0; i < followercounter; i++)
                     {
                         followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                     }
 
-                    for (int i = 0; i < monsterManager.MaxMonster; i++)
-                    {
-                        if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
-                        {
-                            break;
-                        }
-                        monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
-                    }
+
 
                     for (int i = 0; i < weaponEffectPool.Length; i++)
                     {
@@ -346,19 +334,13 @@ public class TileSpawnManager : MonoBehaviour
                     treasureBoxEscapeStairManager.EventSwapTile(0, (5 - baseTileMap[1].Column));
 
 
+                    monsterManager.transform.Translate(12.8f * (5 - baseTileMap[1].Column), 0, 0, Space.Self);
+
                     for (int i = 0; i < followercounter; i++)
                     {
                         followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[1].Column), 0, 0, Space.Self);
                     }
 
-                    for (int i = 0; i < monsterManager.MaxMonster; i++)
-                    {
-                        if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
-                        {
-                            break;
-                        }
-                        monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[1].Column), 0, 0, Space.Self);
-                    }
 
                     for (int i = 0; i < weaponEffectPool.Length; i++)
                     {
@@ -415,24 +397,15 @@ public class TileSpawnManager : MonoBehaviour
                     monsterManager.GoldSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     monsterManager.DarkEssenseSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     monsterManager.ExpSpawn.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-                    treasureBoxEscapeStairManager.EventSwapTile((5 - baseTileMap[0].Column), (baseTileMap[0].Row - 5));
+                    treasureBoxEscapeStairManager.EventSwapTile((baseTileMap[0].Row - 5), (5 - baseTileMap[0].Column));
+
+                    monsterManager.transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
 
                     for (int i = 0; i < followercounter; i++)
                     {
 
                         followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     }
-
-                    for (int i = 0; i < monsterManager.MaxMonster; i++)
-                    {
-                        if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
-                        {
-                            continue;
-                        }
-                        monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
-
-                    }
-
                     for (int i = 0; i < weaponEffectPool.Length; i++)
                     {
                         weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
@@ -474,7 +447,9 @@ public class TileSpawnManager : MonoBehaviour
                     monsterManager.GoldSpawn.transform.Translate(12.8f * (5 - baseTileMap[1].Column), 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
                     monsterManager.DarkEssenseSpawn.transform.Translate(12.8f * (5 - baseTileMap[1].Column), 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
                     monsterManager.ExpSpawn.transform.Translate(12.8f * (5 - baseTileMap[1].Column), 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
-                    treasureBoxEscapeStairManager.EventSwapTile((5 - baseTileMap[1].Column), (baseTileMap[1].Row - 5));
+                    treasureBoxEscapeStairManager.EventSwapTile((baseTileMap[1].Row - 5), (5 - baseTileMap[1].Column));
+                    
+                    monsterManager.transform.Translate(12.8f * (5 - baseTileMap[1].Column), 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
 
                     for (int i = 0; i < followercounter; i++)
                     {
@@ -482,15 +457,6 @@ public class TileSpawnManager : MonoBehaviour
                         followerManager.transform.GetChild(i).transform.Translate(12.8f * (5 - baseTileMap[1].Column), 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
                     }
 
-                    for (int i = 0; i < monsterManager.MaxMonster; i++)
-                    {
-                        if (monsterManager.transform.GetChild(i).gameObject.activeSelf == false)
-                        {
-                            continue;
-                        }
-                        monsterManager.transform.GetChild(i).Translate(12.8f * (5 - baseTileMap[1].Column), 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
-
-                    }
 
                     for (int i = 0; i < weaponEffectPool.Length; i++)
                     {

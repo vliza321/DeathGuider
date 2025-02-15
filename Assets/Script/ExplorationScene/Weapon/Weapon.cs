@@ -106,7 +106,6 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        weaponData = new WeaponData();
         if (this.transform.childCount == 0) return;
 
         Transform[] temtchild = new Transform[this.transform.childCount];
@@ -118,8 +117,9 @@ public class Weapon : MonoBehaviour
         temtchild = null;
     }
 
-    public void Initialize(Dictionary<GameObject, float> weaponDamage,float damage,Transform baseParent)
+    public void Initialize(Dictionary<GameObject, float> weaponDamage,float damage,Transform baseParent,WeaponData weaponData)
     {
+        this.weaponData = weaponData;
         if (weaponType == WeaponType.Close)
         {
             weapon = new CloseTypeWeapon(
@@ -135,7 +135,7 @@ public class Weapon : MonoBehaviour
                 this.transform,
                 this.transform.GetChild(0).gameObject,
                 this.transform.parent.GetComponent<PlayerMove>().AttactDirectional,
-               baseParent.parent.GetChild(baseParent.parent.childCount - 1),
+                baseParent.parent.GetChild(baseParent.parent.childCount - 1),
                 weaponData);
         }
         if (weaponType == WeaponType.Setallite)

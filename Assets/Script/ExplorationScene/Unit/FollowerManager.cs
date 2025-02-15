@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FollowerManager : MonoBehaviour
 {
+    [SerializeField]
     GameObject[] weapon = new GameObject[4];
 
     [SerializeField]
@@ -72,44 +73,54 @@ public class FollowerManager : MonoBehaviour
     public void AddUnitDataList(DontDestroyObjectManager DDOManager, ResultManager resultManager)
     {
         int position = 0;
-        foreach (var UP in DDOManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
+        float damage = DDOManager.MonsterDatas.MonsterDataDic[DDOManager.GameManager.SelectStageID].Strength + DDOManager.GameManager.SelectStageID;
+        for (int i = 1; i<5; i++)
         {
-            if (UP.Position != 0)
+            foreach(var UP in DDOManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
             {
-                position = UP.Position;
-                follower[position - 1].gameObject.GetComponent<PlayerState>().Stat = DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
-                resultManager.Units.Add(follower[position - 1].gameObject.GetComponent<PlayerState>().Stat);
+                if (UP.Position == i)
+                {
+                    follower[position].gameObject.GetComponentInChildren<PlayerHp>().Init(DDOManager.UnitDatas.UnitDataDic[((UP.UserID, UP.PrototypeUnitID, UP.InstanceID))], damage);
+                    resultManager.Units.Add(follower[position].gameObject.GetComponentInChildren<PlayerHp>().Stat);
+                    resultManager.PosToUnitData.Add(i, follower[position].gameObject.GetComponentInChildren<PlayerHp>());
 
-                var temt = DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
-                follower[position - 1].InitAnimator(DDOManager.GameManager.PrisonerHeadAnim[temt.HeadID], DDOManager.GameManager.PrisonerBodyAnim[temt.BodyID]);
-                follower[position - 1].InitSprite(DDOManager.GameManager.PrisonerHeadImg[temt.HeadID], DDOManager.GameManager.PrisonerBodyImg[temt.BodyID]);
+                    var temt = DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
+                    follower[position].InitAnimator(DDOManager.GameManager.PrisonerHeadAnim[temt.HeadID], DDOManager.GameManager.PrisonerBodyAnim[temt.BodyID]);
+                    follower[position].InitSprite(DDOManager.GameManager.PrisonerHeadImg[temt.HeadID], DDOManager.GameManager.PrisonerBodyImg[temt.BodyID]);
+                    position++;
+                    continue;
+                }
             }
         }
+        for(int j = position;j<follower.Length;j++)
+        {
+            follower[j].gameObject.SetActive(false);
+        }
     }
-    public void WeaponCreate(DontDestroyObjectManager DDOManager, GameManager GameManager, MonsterManager monsterManager)
+
+    public void WeaponCreate(DontDestroyObjectManager DDOManager, GameManager GameManager, MonsterManager monsterManager, ResultManager resultManager)
     {
         int position = 0;
         float damage = 0;
-        foreach (var UW in DDOManager.UseWeaponDatas.UseWeaponDatas)
+        for (int i = 1; i < 5; i++)
         {
-            position = UW.Position;
-            if (UW.Position == 0)
+            foreach (var UW in DDOManager.UseWeaponDatas.UseWeaponDatas)
             {
-                continue;
+                if (UW.Position == i)
+                {
+                    weapon[i - 1] = Instantiate(GameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
+                    weapon[i - 1].GetComponent<Weapon>().WeaponData = DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)];
+                    weapon[i - 1].transform.SetParent(resultManager.PosToUnitData[i].transform.parent.transform);
+                    weapon[i - 1].transform.localScale = new Vector3(1, 1, 1);
+                    weapon[i - 1].GetComponent<Weapon>().WeaponData = DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)];
+                    UnitData temtData = follower[position].gameObject.GetComponentInChildren<PlayerHp>().Stat;
+                    damage = (temtData.Strength + DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * temtData.Handicraft;
+                    if (temtData.Crime == DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
+                    weapon[i - 1].GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage, damage, follower[position].transform, DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)]);
+                    position++;
+                }
             }
-            weapon[position - 1] = Instantiate(GameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
-            weapon[position - 1].GetComponent<Weapon>().WeaponData = DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID,UW.PrototypeWeaponID,UW.InstanceID)];
-            weapon[position - 1].transform.SetParent(follower[position - 1].transform);
-            weapon[position - 1].transform.localScale = new Vector3(1, 1, 1);
-            weapon[position - 1].GetComponent<Weapon>().WeaponData = DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)];
-            UnitData temtData = follower[position - 1].gameObject.GetComponent<PlayerState>().Stat;
-            position = UW.Position;
-            damage = (temtData.Strength + DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * temtData.Handicraft;
-            if (temtData.Crime == DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
-            weapon[position - 1].GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage,damage,follower[position - 1].transform);
         }
-        
-
     }
 
 

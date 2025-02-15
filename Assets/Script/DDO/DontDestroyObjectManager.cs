@@ -123,7 +123,7 @@ public class DontDestroyObjectManager : MonoBehaviour
 
     private void Initialize()
     {
-        Debug.Log("DDO√ ±‚»≠");
+
         dataBaseDic = new Dictionary<string, DataScriptableObjects>();
 
         appearDatas = new AppearDataList();
