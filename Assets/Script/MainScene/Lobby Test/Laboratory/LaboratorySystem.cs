@@ -39,6 +39,7 @@ public class LaboratorySystem : MonoBehaviour
     public List<LabButtonPrice> labButtonPrices = new List<LabButtonPrice>();
 
     private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
 
     void Start()
     {
@@ -48,6 +49,10 @@ public class LaboratorySystem : MonoBehaviour
             if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.name == "GameManager")
+            {
+                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
         }
         DDO = null;

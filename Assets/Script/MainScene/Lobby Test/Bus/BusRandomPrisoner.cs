@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static GYMSystem;
+using UnityEngine.SceneManagement;
 
 public class BusRandomPrisoner : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class BusRandomPrisoner : MonoBehaviour
     private int maxDailyAcceptCount = 3;
     public int availablePrisoner = 6;
     public Button changeDaysButton;
+    public TextMeshProUGUI dailyAcceptCountText;
+    public TextMeshProUGUI totalAcceptCountText;
 
     private readonly char[] name1 = new char[] { 'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' };
     private readonly char[] name2 = new char[] { 'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ' };
@@ -38,12 +41,12 @@ public class BusRandomPrisoner : MonoBehaviour
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            DDO = null;
         }
+        DDO = null;
 
         if (changeDaysButton != null)
         {
@@ -54,8 +57,22 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             GenerateRandomPrisoner();
         }
-
+        UpdateUI();
         DisplayUnitDataUI();
+    }
+
+    public void UpdateUI()
+    {
+        // 오늘 수락 횟수 / 최대 수락 횟수
+        if (dailyAcceptCountText != null)
+            dailyAcceptCountText.text = $"오늘 수락 횟수: {dailyAcceptCount} / {maxDailyAcceptCount}";
+
+        // 전체 수락 횟수 / (4 * DDOManager.Floor)
+        if (totalAcceptCountText != null)
+        {
+            int floorCount = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;  // DDOManager.Floor를 이용한 계산
+            totalAcceptCountText.text = $"전체 수락 횟수: {totalAcceptCount} / {4 * floorCount}";
+        }
     }
 
     public void GenerateRandomPrisoner()
@@ -175,7 +192,7 @@ public class BusRandomPrisoner : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
 
-        //Debug.Log($"Content 크기 갱신 완료: {newHeight}");
+        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     private string GetCrimeDescription(int crimeId)
@@ -245,6 +262,7 @@ public class BusRandomPrisoner : MonoBehaviour
 
         dailyAcceptCount++;
         totalAcceptCount++;
+        UpdateUI();
         Debug.Log($"오늘 수락: {dailyAcceptCount}/{maxDailyAcceptCount}, 총 수락: {totalAcceptCount}/{maxTotalAcceptCount}");
     }
 
@@ -253,16 +271,16 @@ public class BusRandomPrisoner : MonoBehaviour
         string unitName = unitUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text;
 
         UnitData unitToRemove = null;
-        foreach(var unit in unitDatas)
+        foreach (var unit in unitDatas)
         {
-            if(unit.Name == unitName)
+            if (unit.Name == unitName)
             {
                 unitToRemove = unit;
                 break;
             }
         }
 
-        if(unitToRemove != null)
+        if (unitToRemove != null)
         {
             unitDatas.Remove(unitToRemove);
         }
@@ -289,6 +307,7 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             GenerateRandomPrisoner();
         }
+        UpdateUI();
         DisplayUnitDataUI();
     }
 
@@ -311,6 +330,7 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             GenerateRandomPrisoner();
         }
+        UpdateUI();
         DisplayUnitDataUI();
     }
 
