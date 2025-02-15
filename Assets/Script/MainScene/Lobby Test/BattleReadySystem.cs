@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static BattleReadySystem;
 using static UnityEngine.UI.CanvasScaler;
@@ -16,9 +17,6 @@ public class BattleReadySystem : MonoBehaviour
 
     public Transform BattleReadyPrisonerParent;
     public Transform BattleReadyWeaponParent;
-
-    public Sprite[] headSprites;
-    //public Sprite[] bodySprites;
 
     public GameObject chooseManager;
     public GameObject[] battleReadyPrisonerUI = new GameObject[4];
@@ -59,11 +57,11 @@ public class BattleReadySystem : MonoBehaviour
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            if (ddo.name == "GameManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
@@ -131,12 +129,12 @@ public class BattleReadySystem : MonoBehaviour
 
         if (unit.PrototypeUnitID == 100)
         {
-            if (unit.HeadID >= 0 && unit.HeadID < headSprites.Length)
+            if (unit.HeadID >= 0 && unit.HeadID < GameManager.PrisonerHeadImg.Count)
             {
-                unitUI.transform.Find("HeadImage").GetComponent<Image>().sprite = headSprites[unit.HeadID];
+                unitUI.transform.Find("HeadImage").GetComponent<Image>().sprite = GameManager.PrisonerHeadImg[unit.HeadID];
             }
 
-            if (unit.BodyID >= 0 && unit.BodyID < GameManager.PrisonerBodyImg.Count)//bodySprites.Length)
+            if (unit.BodyID >= 0 && unit.BodyID < GameManager.PrisonerBodyImg.Count)
             {
                 unitUI.transform.Find("BodyImage").GetComponent<Image>().sprite = GameManager.PrisonerBodyImg[unit.BodyID];
             }
@@ -269,10 +267,13 @@ public class BattleReadySystem : MonoBehaviour
                         {
                             for (int i = 0; i < weaponSlots.Length; i++)
                             {
-                                if (weaponSlots[i].equipableState == -10)
+                                if (weaponSlots[i].equipableState < 0)
                                 {
-                                    weaponSlots[i].equipableState = -1;
-                                    weaponSlots[i].instanceID = -1;
+                                    if (weaponSlots[i].equipableState == -10)
+                                    {
+                                        weaponSlots[i].equipableState = -1;
+                                        weaponSlots[i].instanceID = -1;
+                                    }
                                 }
                             }
                         }
@@ -340,7 +341,7 @@ public class BattleReadySystem : MonoBehaviour
                         PartyID = 0,
                         Position = i + 1
                     };
-                    DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 4;
 
                     if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
                     {
@@ -349,7 +350,7 @@ public class BattleReadySystem : MonoBehaviour
                     }
 
                     DDOManager.UnitParticipateDatas.UnitParticipateDatas.Add(newData);
-                    DDOManager.UnitParticipateDatas.UnitParticipateDataDic[(newData.UserID, newData.PrototypeUnitID, newData.InstanceID, newData.PartyID)] = newData;
+                    DDOManager.UnitParticipateDatas.UnitParticipateDataDic[(GameManager.SelectUserID, newData.PrototypeUnitID, newData.InstanceID, newData.PartyID)] = newData;
                     weaponSlots[i + 1].isCheck = true;
                     UpdateBattleReadyUI(unit);
                     DisplayBattleReadyUnits();
@@ -413,16 +414,16 @@ public class BattleReadySystem : MonoBehaviour
                     Image prisonerBodyImage = prisonerUI.transform.Find("BodyImage")?.GetComponent<Image>();
                     Image prisonerHeadImage = prisonerUI.transform.Find("HeadImage")?.GetComponent<Image>();
 
-                    if (prisonerBodyImage != null && battleReadyPrisoners[i].BodyID >= 0 && battleReadyPrisoners[i].BodyID < GameManager.PrisonerBodyImg.Count /*bodySprites.Length*/)
+                    if (prisonerBodyImage != null && battleReadyPrisoners[i].BodyID >= 0 && battleReadyPrisoners[i].BodyID < GameManager.PrisonerBodyImg.Count)
                     {
                         prisonerBodyImage.gameObject.SetActive(true);
-                        prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[battleReadyPrisoners[i].BodyID];
+                        prisonerBodyImage.sprite = GameManager.PrisonerBodyImg[battleReadyPrisoners[i].BodyID];
                     }
 
-                    if (prisonerHeadImage != null && battleReadyPrisoners[i].HeadID >= 0 && battleReadyPrisoners[i].HeadID < headSprites.Length)
+                    if (prisonerHeadImage != null && battleReadyPrisoners[i].HeadID >= 0 && battleReadyPrisoners[i].HeadID < GameManager.PrisonerHeadImg.Count)
                     {
                         prisonerHeadImage.gameObject.SetActive(true);
-                        prisonerHeadImage.sprite = headSprites[battleReadyPrisoners[i].HeadID];
+                        prisonerHeadImage.sprite = GameManager.PrisonerHeadImg[battleReadyPrisoners[i].HeadID];
                     }
 
 
@@ -457,7 +458,8 @@ public class BattleReadySystem : MonoBehaviour
                                     Debug.Log($"슬롯 {index}의 무기 버튼 클릭됨");
                                     for (int j = 0; j < weaponSlots.Length; j++)
                                     {
-                                        if (j != index)
+
+                                        if (j != index && weaponSlots[j].equipableState < 0)
                                         {
                                             weaponSlots[j].equipableState = -1;
                                             weaponSlots[j].instanceID = -1;
@@ -489,7 +491,6 @@ public class BattleReadySystem : MonoBehaviour
                             {
                                 var weaponKey = (userID, weaponEquipableState, weaponInstanceID);
 
-                                // WeaponDataDic에서 제거
                                 if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(weaponKey))
                                 {
                                     DDOManager.WeaponDatas.WeaponDataDic[weaponKey].ActivityStatus = 0;
@@ -520,14 +521,6 @@ public class BattleReadySystem : MonoBehaviour
                                         data.InstanceID == keyToRemove.Item3);
                                     Debug.Log($"UseWeaponDatas 리스트에서 제거된 개수: {removedFromList}");
                                 }
-                                else
-                                {
-                                    Debug.LogWarning($"UseWeaponDataDic에서 해당 키를 찾을 수 없습니다. (PrototypeWeaponID: {weaponEquipableState}, InstanceID: {weaponInstanceID})");
-                                }
-                            }
-                            else
-                            {
-                                Debug.LogWarning($"유효하지 않은 무기 데이터: equipableState = {weaponEquipableState}, instanceID = {weaponInstanceID}");
                             }
 
                             weaponSlots[index].equipableState = -1;
@@ -549,10 +542,6 @@ public class BattleReadySystem : MonoBehaviour
                         });
                     }
 
-                }
-                else
-                {
-                    Debug.LogWarning($"battleReadyPrisonerUI[{i}]가 null입니다.");
                 }
             }
         }
@@ -592,21 +581,19 @@ public class BattleReadySystem : MonoBehaviour
                 weaponImage.gameObject.SetActive(false);
             }
 
-            if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0)
+            if (bodyImage != null && GameManager.PrisonerBodyImg.Count > 0)
             {
                 bodyImage.gameObject.SetActive(false);
-                bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
+                bodyImage.sprite = GameManager.PrisonerBodyImg[0];
             }
-            if (headImage != null && headSprites.Length > 0)
+            if (headImage != null && GameManager.PrisonerHeadImg.Count > 0)
             {
                 headImage.gameObject.SetActive(false);
-                headImage.sprite = headSprites[0];
+                headImage.sprite = GameManager.PrisonerHeadImg[0];
             }
 
-            Debug.Log(selectedManagerUnit.ActivityStatus); // 4
             DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, selectedManagerUnit.PrototypeUnitID, selectedManagerUnit.InstanceID)].ActivityStatus = 0;
             DDOManager.UnitDatas.UnitDatas.Find(data => data.UserID == unit.UserID && data.PrototypeUnitID == unit.PrototypeUnitID && data.InstanceID == unit.InstanceID).ActivityStatus = 0;
-            Debug.Log(selectedManagerUnit.ActivityStatus); // 0 
 
             int index = weaponSlots[0].equipableState;
             int instanceID = weaponSlots[0].instanceID;
@@ -624,6 +611,8 @@ public class BattleReadySystem : MonoBehaviour
             var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
     .FirstOrDefault(kv => kv.Value.UserID == GameManager.SelectUserID && kv.Value.PrototypeWeaponID == weaponSlots[0].equipableState).Key;
 
+            //제발 되라
+            DDOManager.WeaponDatas.WeaponDataDic[(GameManager.SelectUserID, keyToRemove.Item2, keyToRemove.Item3)].ActivityStatus = 0;
             bool removedFromDic = DDOManager.UseWeaponDatas.UseWeaponDataDic.Remove(keyToRemove);
 
             int removedFromList = DDOManager.UseWeaponDatas.UseWeaponDatas.RemoveAll(data =>
@@ -670,16 +659,11 @@ public class BattleReadySystem : MonoBehaviour
                     int index = weaponSlots[i + 1].equipableState;
                     int instanceID = weaponSlots[i + 1].instanceID;
 
-                    if (index != -1)
+                    if (index >= 0)
                     {
-                        // 무기 딕셔너리에서 활동 상태 0으로 설정
-                        if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey((0, index, instanceID)))
+                        if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey((GameManager.SelectUserID, index, instanceID)))
                         {
-                            DDOManager.WeaponDatas.WeaponDataDic[(0, index, instanceID)].ActivityStatus = 0;
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"WeaponDataDic에 {(0, index, instanceID)} 키가 존재하지 않습니다.");
+                            DDOManager.WeaponDatas.WeaponDataDic[(GameManager.SelectUserID, index, instanceID)].ActivityStatus = 0;
                         }
                     }
 
@@ -738,18 +722,18 @@ public class BattleReadySystem : MonoBehaviour
                             weaponImage.gameObject.SetActive(false);
                         }
 
-                        if (prisonerBodyImage != null && GameManager.PrisonerBodyImg.Count/*bodySprites.Length*/ > 0)
+                        if (prisonerBodyImage != null && GameManager.PrisonerBodyImg.Count> 0)
                         {
                             prisonerBodyImage.gameObject.SetActive(false);
-                            prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
+                            prisonerBodyImage.sprite = GameManager.PrisonerBodyImg[0];
                         }
-                        if (prisonerHeadImage != null && headSprites.Length > 0)
+                        if (prisonerHeadImage != null && GameManager.PrisonerHeadImg.Count > 0)
                         {
                             prisonerHeadImage.gameObject.SetActive(false);
-                            prisonerHeadImage.sprite = headSprites[0];
+                            prisonerHeadImage.sprite = GameManager.PrisonerHeadImg[0];
                         }
 
-                        DDOManager.UnitDatas.UnitDataDic[(0, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
+                        DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, unit.PrototypeUnitID, unit.InstanceID)].ActivityStatus = 0;
 
                         if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
                         {
@@ -767,10 +751,6 @@ public class BattleReadySystem : MonoBehaviour
             }
             DisplayBattleReadyUnits();
             DisplayBattleReadyWeapons();
-        }
-        else
-        {
-            Debug.Log("오류");
         }
         DisplayBattleReadyWeapons();
         DisplayBattleReadyUnits();
@@ -894,7 +874,6 @@ public class BattleReadySystem : MonoBehaviour
                             {
                                 if (battleReadyPrisoners != null)
                                 {
-                                    Debug.Log("들어왔디롱");
                                     if (i > 0 && battleReadyPrisoners[i - 1] != null)
                                     {
                                         Debug.Log(i - 1);
@@ -1054,7 +1033,7 @@ public class BattleReadySystem : MonoBehaviour
 
     public void CheckAndResetDungeonSystemState()
     {
-        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;
+        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day;
 
         if (currentDate != lastCheckedDate)
         {
@@ -1065,7 +1044,6 @@ public class BattleReadySystem : MonoBehaviour
 
     private void ResetAllDungeonStates()
     {
-        // 모든 슬롯 초기화
         foreach (var slot in weaponSlots)
         {
             slot.equipableState = -1;
@@ -1108,8 +1086,16 @@ public class BattleReadySystem : MonoBehaviour
                 weaponImage.sprite = null;
                 weaponImage.gameObject.SetActive(false);
             }
-            if (bodyImage != null && /*bodySprites.Length*/GameManager.PrisonerBodyImg.Count > 0) bodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
-            if (headImage != null && headSprites.Length > 0) headImage.sprite = headSprites[0];
+            if (bodyImage != null && GameManager.PrisonerBodyImg.Count > 0) 
+            {
+                bodyImage.sprite = GameManager.PrisonerBodyImg[0];
+                bodyImage.gameObject.SetActive(false);
+            }
+            if (headImage != null && GameManager.PrisonerHeadImg.Count > 0)
+            {
+                headImage.sprite = GameManager.PrisonerHeadImg[0];
+                headImage.gameObject.SetActive(false);
+            }
         }
 
         for (int i = 0; i < battleReadyPrisoners.Length; i++)
@@ -1151,10 +1137,17 @@ public class BattleReadySystem : MonoBehaviour
                 weaponImage.sprite = null;
                 weaponImage.gameObject.SetActive(false);
             }
-            if (prisonerBodyImage != null && GameManager.PrisonerBodyImg.Count/*bodySprites.Length*/ > 0)
-                prisonerBodyImage.sprite = /*bodySprites*/GameManager.PrisonerBodyImg[0];
-            if (prisonerHeadImage != null && headSprites.Length > 0)
-                prisonerHeadImage.sprite = headSprites[0];
+            if (prisonerBodyImage != null && GameManager.PrisonerBodyImg.Count> 0)
+            {
+                prisonerBodyImage.gameObject.SetActive(false);
+                prisonerBodyImage.sprite = GameManager.PrisonerBodyImg[0];
+            }
+                
+            if (prisonerHeadImage != null && GameManager.PrisonerHeadImg.Count > 0)
+            {
+                prisonerHeadImage.gameObject.SetActive(false);
+                prisonerHeadImage.sprite = GameManager.PrisonerHeadImg[0];
+            }
         }
 
         // 모든 딕셔너리와 리스트 초기화

@@ -12,6 +12,7 @@ public class StorageUI : MonoBehaviour
     public TextMeshProUGUI darkEssenceText;
 
     private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
     void Start()
     {
         GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
@@ -20,6 +21,11 @@ public class StorageUI : MonoBehaviour
             if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                GameManager = ddo.GetComponent<GameManager>();
             }
         }
         DDO = null;
@@ -32,39 +38,39 @@ public class StorageUI : MonoBehaviour
 
     public void UpdateDaysUI()
     {
-        if (daysText != null)
+        if (daysText != null || DDOManager == null || GameManager == null)
         {
-            daysText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].Day}¿œ";
+            daysText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day}¿œ";
         }
     }
 
     public void UpdateGold()
     {
-        if(goldText == null || DDOManager == null)
+        if(goldText == null || DDOManager == null || GameManager == null)
         {
             return;
         }
 
-        goldText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold:N0} G";
+        goldText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold:N0} G";
     }
 
     public void UpdatedeathEssence()
     {
-        if (deathEssenceText == null || DDOManager == null)
+        if (deathEssenceText == null || DDOManager == null || GameManager == null)
         {
             return;
         }
 
-        deathEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].DeathEssence:N0} D";
+        deathEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DeathEssence:N0} D";
     }
 
     public void UpdatedarkEssence()
     {
-        if (darkEssenceText == null || DDOManager == null)
+        if (darkEssenceText == null || DDOManager == null || GameManager == null)
         {
             return;
         }
 
-        darkEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence:N0} K";
+        darkEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence:N0} K";
     }
 }

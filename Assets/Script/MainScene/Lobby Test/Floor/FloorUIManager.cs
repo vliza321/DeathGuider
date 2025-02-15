@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FloorUIManager : MonoBehaviour
 {
@@ -32,13 +33,14 @@ public class FloorUIManager : MonoBehaviour
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            if (ddo.name == "GameManager")
+
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
-                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+                GameManager = ddo.GetComponent<GameManager>();
             }
         }
         DDO = null;

@@ -20,11 +20,10 @@ public class FloorSystem : MonoBehaviour
 
     public GameObject prisonerInfoPrefab;
     public Transform contentParent;
-    public Sprite[] headSprites;
-    public Sprite[] bodySprites;
 
     [SerializeField]
     private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
     public FloorUpgradeCost upgradeCostData;
 
     [System.Serializable]
@@ -46,6 +45,11 @@ public class FloorSystem : MonoBehaviour
             if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                GameManager = ddo.GetComponent<GameManager>();
             }
         }
         DDO = null;
@@ -69,19 +73,11 @@ public class FloorSystem : MonoBehaviour
         {
             upgradeButton.onClick.AddListener(OnUpgradeButtonClicked);
         }
-        else
-        {
-            Debug.LogWarning("Upgrade 버튼이 설정되지 않았습니다!");
-        }
 
         GameObject firstFloor = GameObject.Find("Floor 1");
         if (firstFloor != null)
         {
             floors.Add(firstFloor);
-        }
-        else
-        {
-            Debug.LogError("Floor 1이 Hierarchy에 없습니다!");
         }
     }
 
@@ -117,35 +113,33 @@ public class FloorSystem : MonoBehaviour
     {
         if (floors.Count > 0)
         {
-            float discountMultiplier = DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance * upgradeCostData.DiscountRate;
+            float discountMultiplier = upgradeCostData.DiscountRate;
             float upgradeCost = CalculateUpgradeCostWithDiscount(discountMultiplier);
 
-            if (DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold >= upgradeCost)
+            if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold >= upgradeCost)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= (int)upgradeCost;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold -= (int)upgradeCost;
 
                 GameObject topFloor = floors[floors.Count - 1];
                 Vector2 newPosition = new Vector2(topFloor.transform.position.x, topFloor.transform.position.y + 192);
                 CreateFloor(newPosition);
 
                 upgradeCostData.CurrentFloor++;
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Floor++;
 
                 storageUI.UpdateGold();
 
                 busRandomPrisoner.UpdateUI();
                 UpdateUpgradeCostData();
             }
-            else
-            {
-                Debug.LogWarning("골드가 부족합니다!");
-            }
         }
     }
 
     private float CalculateUpgradeCostWithDiscount(float discountMultiplier)
     {
-        return upgradeCostData.BaseCost + (upgradeCostData.CurrentFloor - 1) * upgradeCostData.CostIncreaseRate - (DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance * discountMultiplier);
+        float costBeforeDiscount = upgradeCostData.BaseCost
+                                 * Mathf.Pow(upgradeCostData.CostIncreaseRate, upgradeCostData.CurrentFloor - 1);
+        return costBeforeDiscount * (1 - discountMultiplier);
     }
 
     private void UpdateUpgradeCostData()
@@ -193,12 +187,7 @@ public class FloorSystem : MonoBehaviour
     {
         moveCamera.UpdateMinY();
 
-        //if (!DDOManager.SaveData())
-        //{
-        //    Debug.Log("Fail Save Data");
-        //}
-
-        int currentFloor = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
+        int currentFloor = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Floor;
 
         if (floorPrefab != null)
         {
@@ -212,20 +201,9 @@ public class FloorSystem : MonoBehaviour
             {
                 floorButton.onClick.AddListener(() =>
                 {
-                    Debug.Log($"{newFloor.name} 클릭됨!");
                     floorUIManager.OpenFloorPrisonerUI();
                 });
             }
-            else
-            {
-                Debug.LogWarning($"Floor {currentFloor}에 Button 컴포넌트가 없습니다.");
-            }
-
-            Debug.Log($"{newFloor.name}이 생성되었습니다.");
-        }
-        else
-        {
-            Debug.LogWarning("FloorPrefab이 설정되지 않았습니다!");
         }
     }
 
@@ -238,7 +216,6 @@ public class FloorSystem : MonoBehaviour
 
         if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
         {
-            Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
             return;
         }
 
@@ -246,7 +223,6 @@ public class FloorSystem : MonoBehaviour
         {
             if (prisoner == null)
             {
-                Debug.LogWarning("UnitData 객체가 null입니다.");
                 return false;
             }
 
@@ -258,12 +234,7 @@ public class FloorSystem : MonoBehaviour
             foreach (var prisoner in filteredPrisoners)
             {
                 CreatePrisonerUI(prisoner);
-                Debug.Log($"PrototypeUnitID 100: {prisoner.Name}");
             }
-        }
-        else
-        {
-            Debug.LogWarning("PrototypeUnitID가 100인 죄수 데이터가 없습니다.");
         }
 
         RectTransform contentRect = contentParent.GetComponent<RectTransform>();
@@ -280,8 +251,6 @@ public class FloorSystem : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
-
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     private void CreatePrisonerUI(UnitData prisoner)
@@ -295,23 +264,15 @@ public class FloorSystem : MonoBehaviour
         prisonerUI.transform.Find("CrimeText").GetComponent<TextMeshProUGUI>().text = GetCrimeDescription(prisoner.Crime);
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
-        if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+        if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
         {
-            headImage.sprite = headSprites[prisoner.HeadID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+            headImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
-        if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+        if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
         {
-            bodyImage.sprite = bodySprites[prisoner.BodyID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
+            bodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
         }
 
         Button prisonerButton = prisonerUI.transform.Find("FloorPrisonerButton").GetComponent<Button>();
@@ -319,13 +280,8 @@ public class FloorSystem : MonoBehaviour
         {
             prisonerButton.onClick.AddListener(() =>
             {
-                Debug.Log("Prisoner button clicked!");
                 floorUIManager.openFloorPrisonerInfoUI(prisoner);
             });
-        }
-        else
-        {
-            Debug.LogWarning("Prisoner button is missing!");
         }
     }
 
@@ -360,15 +316,15 @@ public class FloorSystem : MonoBehaviour
             prisonerInfoUI.transform.Find("DeathErosionText").GetComponent<TextMeshProUGUI>().text = $"DES: {prisoner.DeathErosion}/100";
 
             Image headImage = prisonerInfoUI.transform.Find("HeadImage").GetComponent<Image>();
-            if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+            if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
             {
-                headImage.sprite = headSprites[prisoner.HeadID];
+                headImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
             }
 
             Image bodyImage = prisonerInfoUI.transform.Find("BodyImage").GetComponent<Image>();
-            if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+            if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
             {
-                bodyImage.sprite = bodySprites[prisoner.BodyID];
+                bodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
             }
 
             Slider levelSlider = prisonerInfoUI.transform.Find("LevelSlider").GetComponent<Slider>();
@@ -390,10 +346,6 @@ public class FloorSystem : MonoBehaviour
             {
                 deathErosionSlider.maxValue = 100;
                 deathErosionSlider.value = prisoner.DeathErosion;
-            }
-            else
-            {
-                Debug.LogWarning("DeathErosionSlider를 찾을 수 없습니다!");
             }
         }
     }

@@ -94,39 +94,33 @@ public class SmithSystem : MonoBehaviour
     }
 
     private Dictionary<int, EnforceCost> enforceCosts = new Dictionary<int, EnforceCost>
-{
-    { 0, new EnforceCost(100, 50) },  // 기본 가격
-    { 1, new EnforceCost(200, 100) },
-    { 2, new EnforceCost(300, 150) },
-    { 3, new EnforceCost(400, 200) },
-    { 4, new EnforceCost(500, 250) },
-    { 5, new EnforceCost(600, 300) }
-};
+    {
+        { 0, new EnforceCost(100, 50) },  // 기본 가격
+        { 1, new EnforceCost(200, 100) },
+        { 2, new EnforceCost(300, 150) },
+        { 3, new EnforceCost(400, 200) },
+        { 4, new EnforceCost(500, 250) },
+        { 5, new EnforceCost(600, 300) }
+    };
 
-    // 각 Type에 맞게 가격을 조정하기 위해 곱할 배수 정의
-    private float[] typeMultipliers = new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
+    private float[] rankMultipliers = new float[] { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
 
     public EnforceCost GetAdjustedEnforceCost(int weaponRank, int level)
     {
-        // 유효한 weaponRank, level 값 확인
         if (weaponRank < 0 || weaponRank > 5 || level < 0 || level > 5)
         {
             Debug.LogError("잘못된 weaponType 또는 level");
             return new EnforceCost(0, 0);
         }
 
-        // 기본 가격을 가져온 뒤, 해당 Type의 배수로 가격을 조정
         EnforceCost baseCost = enforceCosts[level];
-        float multiplier = typeMultipliers[weaponRank];
+        float multiplier = rankMultipliers[weaponRank];
 
-        // smithEnhance 적용: SmithEnhance 값에 따라 강화 비용을 감소시킴
-        float smithEnhanceMultiplier = 1.0f - (DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance * 0.1f);
+        float smithEnhanceMultiplier = 1.0f - (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].SmithEnhance * 0.1f);
 
-        // 타입에 따른 배수와 smithEnhance를 적용한 최종 가격 계산
         int adjustedGoldCost = Mathf.CeilToInt(baseCost.GoldCost * multiplier * smithEnhanceMultiplier);
         int adjustedDarkCost = Mathf.CeilToInt(baseCost.DarkCost * multiplier * smithEnhanceMultiplier);
 
-        // 계산된 강화 비용 반환
         return new EnforceCost(adjustedGoldCost, adjustedDarkCost);
     }
 
@@ -142,10 +136,9 @@ public class SmithSystem : MonoBehaviour
         }
     }
 
-    // 무기의 진화 비용을 가져오는 메서드
     private EvolveCost GetAdjustedEvolveCost(int weaponRank)
     {
-        int smithEnhance = DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance;
+        int smithEnhance = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].SmithEnhance;
 
         EvolveCost baseCost = weaponRank switch
         {
@@ -165,17 +158,13 @@ public class SmithSystem : MonoBehaviour
         return new EvolveCost(discountedGoldCost, discountedDarkCost);
     }
 
-    // 수리 비용을 계산하는 함수
     private RepairCost CalculateRepairCost(WeaponData weaponData)
     {
-        // 기본 수리 비용 계산 (레벨과 랭크에 따른)
         int baseGoldCost = 100 + weaponData.Rank * 500 + weaponData.Enforce * 200;
         int baseDarkCost = 10 + weaponData.Rank * 30 + weaponData.Enforce * 10;
 
-        // SmithEnhance에 따른 할인 계산 (예: 1당 5% 할인)
-        float smithEnhanceDiscount = 1 - (DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance * 0.05f);
+        float smithEnhanceDiscount = 1 - (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].SmithEnhance * 0.05f);
 
-        // 할인된 수리 비용
         int discountedGoldCost = Mathf.Max(1, Mathf.FloorToInt(baseGoldCost * smithEnhanceDiscount));
         int discountedDarkCost = Mathf.Max(1, Mathf.FloorToInt(baseDarkCost * smithEnhanceDiscount));
 
@@ -186,8 +175,6 @@ public class SmithSystem : MonoBehaviour
         };
     }
 
-
-    // 수리 비용을 나타내는 구조체
     public struct RepairCost
     {
         public int GoldCost;
@@ -292,14 +279,11 @@ public class SmithSystem : MonoBehaviour
             {
                 int level = weaponData.Enforce;
 
-                // 강화 가능 레벨이 5 이상이면 진화 비용을 표시
                 if (level >= 5)
                 {
-                    // 진화 비용을 계산
                     EvolveCost adjustedEvolveCost = GetAdjustedEvolveCost(weaponData.Rank);
                     weaponEnforceCost.text = $"{adjustedEvolveCost.GoldCost}G / {adjustedEvolveCost.DarkCost}D";
 
-                    // 버튼 텍스트를 "진화"로 변경
                     if (weaponEnforceButton != null)
                     {
                         enforceButtonText.text = "진화";
@@ -307,11 +291,9 @@ public class SmithSystem : MonoBehaviour
                 }
                 else
                 {
-                    // 강화 비용을 계산
                     EnforceCost adjustedCost = GetAdjustedEnforceCost(weaponData.Rank, level);
                     weaponEnforceCost.text = $"{adjustedCost.GoldCost}G / {adjustedCost.DarkCost}D";
 
-                    // 버튼 텍스트를 "강화"로 유지
                     if (weaponEnforceButton != null)
                     {
                         enforceButtonText.text = "강화";
@@ -321,19 +303,15 @@ public class SmithSystem : MonoBehaviour
 
             if (weaponRepairCost != null)
             {
-                // 수리 비용 계산
                 RepairCost repairCost = CalculateRepairCost(weaponData);
 
-                // 수리 비용을 텍스트로 표시
                 weaponRepairCost.text = $"{repairCost.GoldCost}G / {repairCost.DarkCost}D";
             }
 
             if (weaponSaleCost != null)
             {
-                // 판매 금액 계산
-                int salePrice = CalculateSalePrice(weaponData); // 판매 금액을 계산하는 함수 (기존에 정의된 함수)
+                int salePrice = CalculateSalePrice(weaponData);
 
-                // 판매 금액을 텍스트로 표시
                 weaponSaleCost.text = $"{salePrice}G";
             }
 
@@ -364,44 +342,36 @@ public class SmithSystem : MonoBehaviour
 
     private void EnforceButtonClick(WeaponData weaponData, TextMeshProUGUI enforceCostText, TextMeshProUGUI attackText, Slider levelSlider, TextMeshProUGUI enforceButtonText)
     {
-        int level = weaponData.Enforce; // 현재 레벨
+        int level = weaponData.Enforce;
 
-        // 레벨이 5 이상이면 강화 불가
         if (level >= 5)
         {
-            // Rank와 Enforce가 모두 5일 경우 'Max' 표시
             if (weaponData.Rank >= 5 && weaponData.Enforce >= 5)
             {
                 enforceButtonText.text = "Max";
                 return;
             }
 
-            // Rank가 5일 경우 진화 불가
             if (weaponData.Rank >= 5)
             {
                 Debug.Log("최대 레벨입니다. 더 이상 진화할 수 없습니다.");
                 return;
             }
 
-            // 진화 가능
             EvolveCost evolveCost = GetAdjustedEvolveCost(weaponData.Rank);
 
-            // 필요 골드와 다크가 부족한지 확인
-            if (DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold < evolveCost.GoldCost ||
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence < evolveCost.DarkCost)
+            if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold < evolveCost.GoldCost ||
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence < evolveCost.DarkCost)
             {
                 Debug.Log("진화에 필요한 재화가 부족합니다.");
                 return;
             }
 
-            // 진화 비용 차감
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= evolveCost.GoldCost;
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= evolveCost.DarkCost;
+            DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold -= evolveCost.GoldCost;
+            DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence -= evolveCost.DarkCost;
 
-            //임시코드
             weaponData.AttackPoint += GetEvolveAttackBonus(weaponData.Rank);
 
-            // 진화: Enforce를 0으로 리셋하고, Rank를 +1
             weaponData.Durability = 100;
             weaponData.Enforce = 0;
             weaponData.Rank++;
@@ -409,7 +379,6 @@ public class SmithSystem : MonoBehaviour
             var key = (weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID);
             if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(key))
             {
-                // 무기 데이터를 업데이트
                 DDOManager.WeaponDatas.WeaponDataDic[key] = weaponData;
                 Debug.Log($"[딕셔너리 업데이트] {weaponData.Name} 진화 완료: 새로운 등급: {weaponData.Rank}, 새로운 공격력: {weaponData.AttackPoint}");
             }
@@ -430,40 +399,33 @@ public class SmithSystem : MonoBehaviour
             //weaponData.Enforce = 0;
             //weaponData.Rank++;
 
-            // 버튼 텍스트 변경
             enforceButtonText.text = (weaponData.Rank >= 5) ? "Max" : "강화";
 
-
-            // 진화 후 비용을 강화 비용으로 변경
             EnforceCost nextCost = GetAdjustedEnforceCost(weaponData.Rank, weaponData.Enforce);
             enforceCostText.text = $"{nextCost.GoldCost}G / {nextCost.DarkCost}D"; // 강화 비용 업데이트
 
             Debug.Log($"진화 완료: {weaponData.Name}, 새로운 등급: {weaponData.Rank}, 새로운 공격력: {weaponData.AttackPoint}");
 
             GenerateHaveWeaponDatas();
-            // UI 업데이트
             storageUI.UpdateGold();
             storageUI.UpdatedarkEssence();
             return;
         }
 
-        // 레벨이 5 미만일 때는 기존 강화 코드 실행
-        if (!enforceCosts.ContainsKey(level)) return; // 해당 레벨에 대한 비용이 존재하는지 확인
+        if (!enforceCosts.ContainsKey(level)) return;
 
-        // 강화 비용을 조정하여 가져오기
         EnforceCost adjustedCost = GetAdjustedEnforceCost(weaponData.Type, level);
 
-        // 필요 골드와 다크가 부족한지 확인
-        if (DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold < adjustedCost.GoldCost ||
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence < adjustedCost.DarkCost)
+        if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold < adjustedCost.GoldCost ||
+            DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence < adjustedCost.DarkCost)
         {
             Debug.Log("강화에 필요한 재화가 부족합니다.");
             return;
         }
 
         // 재화 차감
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= adjustedCost.GoldCost;
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= adjustedCost.DarkCost;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold -= adjustedCost.GoldCost;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence -= adjustedCost.DarkCost;
 
         // 공격력 증가 (강화 시 증가량 적용)
         weaponData.AttackPoint += GetEnforceAttackBonus(weaponData.Rank, weaponData.Enforce);
@@ -495,7 +457,14 @@ public class SmithSystem : MonoBehaviour
             if (weaponData.Enforce >= 5)
             {
                 EvolveCost nextEvolveCost = GetAdjustedEvolveCost(weaponData.Rank);
-                enforceCostText.text = $"최고 단계";
+                if(weaponData.Rank >= 5)
+                {
+                    enforceCostText.text = "Max";
+                }
+                else
+                {
+                    enforceCostText.text = $"{nextEvolveCost.GoldCost}G / {nextEvolveCost.DarkCost}D";
+                }
             }
             else
             {
@@ -527,7 +496,6 @@ public class SmithSystem : MonoBehaviour
 
         Debug.Log($"무기 강화 완료: {weaponData.Name}, 새로운 레벨: {weaponData.Enforce}, 새로운 공격력: {weaponData.AttackPoint}");
 
-        // UI 업데이트
         storageUI.UpdateGold();
         storageUI.UpdatedarkEssence();
     }
@@ -544,20 +512,17 @@ public class SmithSystem : MonoBehaviour
 
     private void RepairButtonClick(WeaponData weaponData, TextMeshProUGUI weaponRepairCost)
     {
-        // 내구도가 100이면 수리 불가
         if (weaponData.Durability >= 100)
         {
             Debug.Log($"[수리 불가] {weaponData.Name}의 내구도가 이미 최대치입니다. 내구도: {weaponData.Durability}");
             return;
         }
 
-        // 수리 비용 계산
         RepairCost repairCost = CalculateRepairCost(weaponData);
         Debug.Log($"[수리 비용] {weaponData.Name} 수리 비용 계산 완료: {repairCost.GoldCost}G / {repairCost.DarkCost}D");
 
-        // 유저가 필요한 자원이 있는지 확인 (골드 및 다크에센스)
-        int userGold = DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold;
-        int userDark = DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence;
+        int userGold = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold;
+        int userDark = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence;
 
         Debug.Log($"[자원 확인] 현재 유저 자원: {userGold}G / {userDark}D");
 
@@ -567,33 +532,28 @@ public class SmithSystem : MonoBehaviour
             return;
         }
 
-        // 자원 차감
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= repairCost.GoldCost;
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= repairCost.DarkCost;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold -= repairCost.GoldCost;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence -= repairCost.DarkCost;
         Debug.Log($"[자원 차감] 수리 비용 차감: {repairCost.GoldCost}G / {repairCost.DarkCost}D");
 
         // SmithEnhance에 따라 내구도 회복 (2씩 회복)
-        int recoverAmount = 2 + DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance * 2;
+        int recoverAmount = 2 + DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].SmithEnhance * 2;
         Debug.Log($"[회복량 계산] SmithEnhance에 따른 회복량: {recoverAmount} (SmithEnhance: {DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance})");
 
         weaponData.Durability += recoverAmount;
         Debug.Log($"[내구도 변경] 수리 후 내구도: {weaponData.Durability}");
 
-        // 내구도가 100을 넘지 않도록 제한
         if (weaponData.Durability > 100)
         {
             weaponData.Durability = 100;
             Debug.Log("[내구도 제한] 내구도가 100을 초과하여 100으로 제한되었습니다.");
         }
 
-        // 딕셔너리에서 해당 무기 데이터 찾기 (수정만 하면 됨)
         var key = (weaponData.UserID, weaponData.PrototypeWeaponID, weaponData.InstanceID);
         Debug.Log($"[딕셔너리 키 확인] 딕셔너리 키: ({key.UserID}, {key.PrototypeWeaponID}, {key.InstanceID})");
 
-        // 수리 후 내구도 업데이트
         if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(key))
         {
-            // 내구도를 업데이트
             DDOManager.WeaponDatas.WeaponDataDic[key].Durability = weaponData.Durability;
             Debug.Log($"[딕셔너리 업데이트] {weaponData.Name} 내구도 업데이트 완료: {weaponData.Durability}");
         }
@@ -601,23 +561,18 @@ public class SmithSystem : MonoBehaviour
         {
             Debug.LogError("[딕셔너리 오류] 무기 데이터가 딕셔너리에 존재하지 않습니다.");
         }
-
-        // UI 갱신 (골드 및 다크에센스 업데이트)
         storageUI.UpdateGold();
         storageUI.UpdatedarkEssence();
         Debug.Log("[UI 업데이트] 골드 및 다크에센스 UI 갱신 완료.");
 
-        // 수리 완료 로그
         Debug.Log($"[수리 완료] {weaponData.Name} 수리 완료: 새로운 내구도 = {weaponData.Durability}");
 
-        // 수리 비용 텍스트 갱신
         if (weaponRepairCost != null)
         {
             weaponRepairCost.text = $"{repairCost.GoldCost}G / {repairCost.DarkCost}D";
             Debug.Log($"[수리 비용 텍스트 갱신] 수리 비용: {repairCost.GoldCost}G / {repairCost.DarkCost}D");
         }
 
-        // UI 갱신
         GenerateHaveWeaponDatas();
         Debug.Log("[UI 갱신] 수리 후 보유 무기 목록 UI 갱신 완료.");
     }
@@ -626,7 +581,7 @@ public class SmithSystem : MonoBehaviour
     {
         int salePrice = CalculateSalePrice(weaponData);
         
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold += salePrice;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold += salePrice;
         Debug.Log($"무기 판매 완료: {weaponData.Name}, 판매 금액: {salePrice}G");
 
         // 무기 데이터를 삭제할 때, 딕셔너리와 리스트에서 제거
@@ -655,7 +610,7 @@ public class SmithSystem : MonoBehaviour
 
         int plusPrice = weaponData.Rank * 1000 + weaponData.Enforce * 500;
 
-        float smithEnhanceMultiplier = 1.0f + (DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance * 0.2f);
+        float smithEnhanceMultiplier = 1.0f + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].SmithEnhance * 0.2f);
         smithEnhanceMultiplier = Mathf.Clamp(smithEnhanceMultiplier, 1.0f, 2.0f);
 
         int adjustedPrice = Mathf.RoundToInt((basePrice + plusPrice) * smithEnhanceMultiplier);
@@ -665,7 +620,7 @@ public class SmithSystem : MonoBehaviour
 
     public void UpdateWeaponUI(newWeaponDataList newWeapon, TextMeshProUGUI goldText, TextMeshProUGUI darkText)
     {
-        int smithEnhance = Mathf.Clamp(DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance, 0, 5);
+        int smithEnhance = Mathf.Clamp(DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].SmithEnhance, 0, 5);
 
         newWeapon.calculatedGoldCost = Mathf.Max(0, newWeapon.GoldCost - smithEnhance);
         newWeapon.calculatedDarkCost = Mathf.Max(0, newWeapon.DarkCost - smithEnhance);
@@ -883,8 +838,8 @@ public class SmithSystem : MonoBehaviour
         int newKey = weaponDataDic.Count;
         var selectedWeapon = newWeaponDatas[index]; // index로 선택된 무기 찾기
 
-        int userGold = DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold;
-        int userDark = DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence;
+        int userGold = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold;
+        int userDark = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence;
 
         if (userGold < selectedWeapon.calculatedGoldCost || userDark < selectedWeapon.calculatedDarkCost)
         {
@@ -892,8 +847,8 @@ public class SmithSystem : MonoBehaviour
             return;
         }
 
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= selectedWeapon.calculatedGoldCost;
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= selectedWeapon.calculatedDarkCost;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold -= selectedWeapon.calculatedGoldCost;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence -= selectedWeapon.calculatedDarkCost;
         storageUI.UpdateGold();
         storageUI.UpdatedarkEssence();
 

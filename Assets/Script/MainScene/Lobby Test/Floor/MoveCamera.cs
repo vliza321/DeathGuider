@@ -13,6 +13,7 @@ public class MoveCamera : MonoBehaviour, IDragHandler
     public float moveSpeed = 5f;
 
     private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
     private Vector2 targetPosition;
     private bool isMoving = false;
 
@@ -25,6 +26,11 @@ public class MoveCamera : MonoBehaviour, IDragHandler
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
+
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                GameManager = ddo.GetComponent<GameManager>();
+            }
         }
         DDO = null;
 
@@ -34,7 +40,7 @@ public class MoveCamera : MonoBehaviour, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (isMoving) return; // 이동 중에는 드래그 금지
+        if (isMoving) return;
 
         Vector2 newPosition = rectTransform.anchoredPosition + new Vector2(0, eventData.delta.y);
         newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
@@ -45,7 +51,7 @@ public class MoveCamera : MonoBehaviour, IDragHandler
     {
         if (DDOManager != null)
         {
-            minY = -200 * (DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor -1);
+            minY = -200 * (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Floor -1);
         }
     }
 

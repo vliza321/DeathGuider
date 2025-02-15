@@ -50,9 +50,10 @@ public class LaboratorySystem : MonoBehaviour
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            if (ddo.name == "GameManager")
+
+            if(ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
-                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+                GameManager = ddo.GetComponent<GameManager>();
             }
         }
         DDO = null;
@@ -112,7 +113,7 @@ public class LaboratorySystem : MonoBehaviour
             if (labButtonPrice.labLevelSlider != null)
             {
                 labButtonPrice.labLevelSlider.maxValue = 5;
-                labButtonPrice.labLevelSlider.value = Mathf.Min(DDOManager.LocalUserDatas.LocalUserDataDic[0].BusEnhance, 5);
+                labButtonPrice.labLevelSlider.value = Mathf.Min(DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].BusEnhance, 5);
             }
         }
     }
@@ -300,11 +301,11 @@ public class LaboratorySystem : MonoBehaviour
     {
         LabButtonPrice selectedButtonPrice = labButtonPrices[index];
 
-        if (DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold >= selectedButtonPrice.calculatedGoldPrice &&
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence >= selectedButtonPrice.calculatedDarkPrice)
+        if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold >= selectedButtonPrice.calculatedGoldPrice &&
+            DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence >= selectedButtonPrice.calculatedDarkPrice)
         { 
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].Gold -= selectedButtonPrice.calculatedGoldPrice;
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].DarkEssence -= selectedButtonPrice.calculatedDarkPrice;
+            DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold -= selectedButtonPrice.calculatedGoldPrice;
+            DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence -= selectedButtonPrice.calculatedDarkPrice;
 
             selectedButtonPrice.calculatedGoldPrice = Mathf.FloorToInt(selectedButtonPrice.baseGoldPrice * Mathf.Pow(selectedButtonPrice.goldMultiplier, selectedButtonPrice.upgradeCount + 1));
             selectedButtonPrice.calculatedDarkPrice = Mathf.FloorToInt(selectedButtonPrice.baseDarkPrice * Mathf.Pow(selectedButtonPrice.darkMultiplier, selectedButtonPrice.upgradeCount + 1));
@@ -317,20 +318,20 @@ public class LaboratorySystem : MonoBehaviour
             if (index == 0 && selectedButtonPrice.upgradeCount <= 5)
             {
                 busRandomPrisoner.availablePrisoner++;
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].BusEnhance++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].BusEnhance++;
             }
             else if (index == 1 && selectedButtonPrice.upgradeCount <= 5)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].PrisonEnhance++;
                 floorSystem.upgradeCostData.DiscountRate = 0.1f * DDOManager.LocalUserDatas.LocalUserDataDic[0].PrisonEnhance;
             }
             else if(index == 2 && selectedButtonPrice.upgradeCount <= 5)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].GYMEnhance++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].GYMEnhance++;
             }
             else if(index == 3 && selectedButtonPrice.upgradeCount <= 5)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].HealthEnhance++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].HealthEnhance++;
                 healthSystem.healthRoomCount++;
 
                 while (healthSystem.HealthDataList.Count < healthSystem.healthRoomCount)
@@ -340,7 +341,7 @@ public class LaboratorySystem : MonoBehaviour
             }
             else if (index == 4 && selectedButtonPrice.upgradeCount <= 5)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].ErosionEnhance++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].ErosionEnhance++;
                 erosionSystem.ErosionRoomCount++;
 
                 while (erosionSystem.ErosionDataList.Count < erosionSystem.ErosionRoomCount)
@@ -350,17 +351,17 @@ public class LaboratorySystem : MonoBehaviour
             }
             else if (index == 5 && selectedButtonPrice.upgradeCount <= 5)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].SmithEnhance++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].SmithEnhance++;
                 smithSystem.UpdateSmithEnhanceAndUI();
                 smithSystem.currentWeaponRank++;
             }
             else if (index == 6 && selectedButtonPrice.upgradeCount <= 5)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].BattleEfficiency++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].BattleEfficiency++;
             }
             else if(index == 7 && selectedButtonPrice.upgradeCount <= 5)
             {
-                DDOManager.LocalUserDatas.LocalUserDataDic[0].BattleReward++;
+                DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].BattleReward++;
             }
 
             storageUI.UpdateGold();
@@ -383,10 +384,6 @@ public class LaboratorySystem : MonoBehaviour
             }
             UpdateUpgradePageText(selectedButtonPrice);
         }
-        else
-        {
-            Debug.Log("업그레이드에 필요한 자원이 부족합니다.");
-        }
     }
 
     public void CloseUpgradePage()
@@ -394,7 +391,6 @@ public class LaboratorySystem : MonoBehaviour
         if (UpgradePage != null)
         {
             UpgradePage.SetActive(false);
-            Debug.Log("UpgradePage 비활성화됨");
         }
 
         foreach (var labButtonPrice in labButtonPrices)
@@ -408,7 +404,6 @@ public class LaboratorySystem : MonoBehaviour
             button.interactable = true;
         }
     }
-
 
     void UpdateUpgradePageText(LabButtonPrice selectedButtonPrice)
     {

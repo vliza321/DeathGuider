@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ErosionSystem : MonoBehaviour
@@ -13,8 +14,8 @@ public class ErosionSystem : MonoBehaviour
     public Transform contentUnitParent;
     public Transform contentRoomParent;
 
-    public Sprite[] headSprites;
-    public Sprite[] bodySprites;
+    //public Sprite[] headSprites;
+    //public Sprite[] bodySprites;
 
     public int ErosionRoomCount = 1;
     public int lastCheckedDate = -1;
@@ -32,21 +33,27 @@ public class ErosionSystem : MonoBehaviour
     }
 
     private DontDestroyObjectManager DDOManager;
-
+    private GameManager GameManager;
     private void Start()
     {
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
         foreach (var ddo in DDO)
         {
-            if (ddo.name == "DDOManager")
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
+
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                GameManager = ddo.GetComponent<GameManager>();
+            }
         }
+        DDO = null;
 
         for (int i = 0; i < ErosionRoomCount; i++)
         {
-            ErosionData newErosionData = new ErosionData(); // InstanceID는 0부터 시작
+            ErosionData newErosionData = new ErosionData();
             ErosionDataList.Add(newErosionData);
         }
     }
@@ -79,11 +86,9 @@ public class ErosionSystem : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
 
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
-
         if (filteredPrisoners.Count > 0)
         {
-            int prisonerIndex = 0; // 초기화된 인덱스 사용
+            int prisonerIndex = 0;
             foreach (var prisoner in filteredPrisoners)
             {
                 GameObject prisonerUI = contentUnitParent.Find($"Erosion Prisoner{prisonerIndex + 1}")?.gameObject;
@@ -92,10 +97,6 @@ public class ErosionSystem : MonoBehaviour
                 UpdateErosionPrisonerUI(prisonerUI, prisoner);
                 prisonerIndex++;
             }
-        }
-        else
-        {
-            Debug.LogWarning("조건에 맞는 죄수 데이터가 없습니다.");
         }
     }
 
@@ -106,23 +107,15 @@ public class ErosionSystem : MonoBehaviour
         prisonerUI.transform.Find("ErosionText").GetComponent<TextMeshProUGUI>().text = $"Erosion: {prisoner.DeathErosion} / 100";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
-        if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+        if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
         {
-            headImage.sprite = headSprites[prisoner.HeadID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+            headImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
-        if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+        if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
         {
-            bodyImage.sprite = bodySprites[prisoner.BodyID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
+            bodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
         }
     }
 
@@ -134,23 +127,15 @@ public class ErosionSystem : MonoBehaviour
         prisonerUI.transform.Find("ErosionText").GetComponent<TextMeshProUGUI>().text = $"Erosion: {prisoner.DeathErosion} / 100";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
-        if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+        if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
         {
-            headImage.sprite = headSprites[prisoner.HeadID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+            headImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
-        if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+        if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
         {
-            bodyImage.sprite = bodySprites[prisoner.BodyID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
+            bodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
         }
 
         Button chooseButton = prisonerUI.transform.Find("ChooseButton").GetComponent<Button>();
@@ -199,26 +184,22 @@ public class ErosionSystem : MonoBehaviour
                                 HPslideBar.maxValue = 100;
                                 HPslideBar.value = prisoner.DeathErosion;
                             }
-                            else
-                            {
-                                Debug.LogWarning("ErosionSlider가 없거나 Slider 컴포넌트를 찾을 수 없습니다.");
-                            }
 
                             Image BodyImage = prisonerImageTransform.Find("BodyImage").GetComponent<Image>();
-                            if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+                            if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
                             {
                                 BodyImage.gameObject.SetActive(true);
-                                BodyImage.sprite = bodySprites[prisoner.BodyID];
+                                BodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
                             }
 
                             Image HeadImage = prisonerImageTransform.Find("HeadImage").GetComponent<Image>();
-                            if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+                            if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
                             {
                                 HeadImage.gameObject.SetActive(true);
-                                HeadImage.sprite = headSprites[prisoner.HeadID];
+                                HeadImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
                             }
                         }
-                        DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 3;
+                        DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, prisoner.PrototypeUnitID, prisoner.InstanceID)].ActivityStatus = 3;
                         Destroy(prisonerUI);
                         break;
                     }
@@ -299,8 +280,6 @@ public class ErosionSystem : MonoBehaviour
                             ErosionDataList[roomIndex].InstanceID = -1;
 
                             DisplayErosionPrisoners();
-
-                            Debug.Log($"ErosionRoom {roomIndex + 1} 초기화 완료");
                         }
                     });
                 }
@@ -313,17 +292,13 @@ public class ErosionSystem : MonoBehaviour
         float spacingY = gridLayoutGroup.spacing.y;
         float paddingUp = gridLayoutGroup.padding.top;
 
-        // 새로운 높이 계산
-        int currentChildCount = contentRoomParent.childCount;  // 현재 자식 수를 가져옴
+        int currentChildCount = contentRoomParent.childCount;
         float newHeight = (cellHeight + spacingY) * currentChildCount - spacingY + paddingUp;
 
-        // RectTransform 크기 변경
         RectTransform contentRect = contentRoomParent.GetComponent<RectTransform>();
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
-
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     public void CheckAndResetErosionSystemState()
@@ -344,12 +319,12 @@ public class ErosionSystem : MonoBehaviour
             if (ErosionData.InstanceID == -1)
                 continue;
 
-            var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, ErosionData.InstanceID)];
+            var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)];
 
             int erosionRate = 2;
-            int erosionAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[0].ErosionEnhance * erosionRate);
+            int erosionAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].ErosionEnhance * erosionRate);
 
-            if (unitData.ActivityStatus == 4)
+            if (unitData.ActivityStatus == 3)
             {
                 unitData.DeathErosion -= erosionAmount;
                 if (unitData.DeathErosion < 0)
@@ -368,7 +343,7 @@ public class ErosionSystem : MonoBehaviour
             if (prisonerImageTransform != null)
             {
                 prisonerImageTransform.Find("NameText")?.GetComponent<TextMeshProUGUI>().SetText("| -------");
-                prisonerImageTransform.Find("ErosionText")?.GetComponent<TextMeshProUGUI>().SetText("clatlreh");
+                prisonerImageTransform.Find("ErosionText")?.GetComponent<TextMeshProUGUI>().SetText("침식도");
 
                 Slider HPslideBar = healthRoom.Find("ErosionSlider")?.GetComponent<Slider>();
                 if (HPslideBar != null)

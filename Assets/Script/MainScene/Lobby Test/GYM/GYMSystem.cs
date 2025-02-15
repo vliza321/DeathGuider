@@ -16,8 +16,8 @@ public class GYMSystem : MonoBehaviour
 
     public Transform contentUnitParent;
     public Transform contentTrainParent;
-    public Sprite[] headSprites;
-    public Sprite[] bodySprites;
+    //public Sprite[] headSprites;
+    //public Sprite[] bodySprites;
 
     public int trainingRoomCount = 3;
     public int maxTrainingSlots = 3;
@@ -76,7 +76,6 @@ public class GYMSystem : MonoBehaviour
 
         if (DDOManager.UnitDatas == null || DDOManager.UnitDatas.UnitDatas == null)
         {
-            Debug.LogError("UnitDatas 리스트가 초기화되지 않았습니다.");
             return;
         }
 
@@ -93,15 +92,8 @@ public class GYMSystem : MonoBehaviour
             {
                 GameObject prisonerUI = CreateGYMPrisonerUI(prisoner);
                 prisonerUI.name = $"Gym Prisoner{prisonerIndex}";
-
-                Debug.Log($"PrototypeUnitID 100, Enforce >= 1: {prisoner.Name}, Enforce: {prisoner.Enforce}, InstanceID: {prisoner.InstanceID}");
-
                 prisonerIndex++;
             }
-        }
-        else
-        {
-            Debug.LogWarning("조건에 맞는 죄수 데이터가 없습니다.");
         }
 
         RectTransform contentRect = contentUnitParent.GetComponent<RectTransform>();
@@ -118,8 +110,6 @@ public class GYMSystem : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
-
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     private GameObject CreateGYMPrisonerUI(UnitData prisoner)
@@ -135,23 +125,15 @@ public class GYMSystem : MonoBehaviour
         prisonerUI.transform.Find("HandicraftEnforceText").GetComponent<TextMeshProUGUI>().text = $"HCT 강화: {prisoner.HandicraftEnforce}";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
-        if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+        if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
         {
-            headImage.sprite = headSprites[prisoner.HeadID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+            headImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
-        if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+        if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
         {
-            bodyImage.sprite = bodySprites[prisoner.BodyID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
+            bodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
         }
 
         Button chooseButton = prisonerUI.transform.Find("ChooseButton").GetComponent<Button>();
@@ -171,8 +153,7 @@ public class GYMSystem : MonoBehaviour
                             Transform gymTrainingImage = prisonerTransform.Find("GymTrainingImage");
                             Transform trainingSelect = FindTrainingSelectForData(roomData, roomData.GYMDataList.IndexOf(gymData));
 
-                            gymData.InstanceID = DDOManager.UnitDatas.UnitDataDic[(0,100,prisoner.InstanceID)].InstanceID;
-                            Debug.Log($"Room에서 InstanceID가 -10인 값이 인스턴스 아이디로 변경되었습니다.");
+                            gymData.InstanceID = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID,prisoner.PrototypeUnitID,prisoner.InstanceID)].InstanceID;
                             UpdateRoomInstanceAndUI(gymData.InstanceID, trainingSelect);
                             Destroy(prisonerUI);
                         }
@@ -208,8 +189,6 @@ public class GYMSystem : MonoBehaviour
         float newHeight = (cellHeight + spacingY) * trainingRoomCount - spacingY + paddingUp;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
-
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
 
         for (int i = 0; i < TrainDatas.Count; i++)
         {
@@ -275,11 +254,6 @@ public class GYMSystem : MonoBehaviour
                             if (clickedData.InstanceID < 0)
                             {
                                 clickedData.InstanceID = -10;
-                                Debug.Log($"Room {roomIndex}: 선택된 값이 -10으로 변경되었습니다.");
-                            }
-                            else
-                            {
-                                Debug.Log($"Room {roomIndex}: InstanceID가 0 이상인 값은 변경되지 않습니다.");
                             }
 
                             UpdateAllTrainStateToWaiting(contentTrainParent, roomIndex, buttonIndex);
@@ -296,7 +270,6 @@ public class GYMSystem : MonoBehaviour
                         Debug.Log(clickedData.InstanceID);
                         if (clickedData.InstanceID < 0)
                         {
-                            Debug.Log("InstanceID가 음수이므로 클릭할 수 없습니다.");
                             return;
                         }
 
@@ -318,8 +291,7 @@ public class GYMSystem : MonoBehaviour
 
                         if (activityStatus != -1)
                         {
-                            DDOManager.UnitDatas.UnitDataDic[(0, 100, clickedData.InstanceID)].ActivityStatus = activityStatus;
-                            Debug.Log($"ActivityStatus가 {activityStatus}로 변경되었습니다.");
+                            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, clickedData.InstanceID)].ActivityStatus = activityStatus;
                         }
 
                         if (textImage != null)
@@ -343,10 +315,9 @@ public class GYMSystem : MonoBehaviour
 
     private void UpdateRoomInstanceAndUI(int instanceID, Transform trainingSelect)
     {
-        // InstanceID를 기반으로 HeadID와 BodyID를 업데이트
         if (instanceID >= 0)
         {
-            var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, instanceID)];
+            var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, instanceID)];
 
             // HeadID와 BodyID 업데이트
             int headID = unitData.HeadID;
@@ -355,32 +326,23 @@ public class GYMSystem : MonoBehaviour
             Transform headImage = trainingSelect.Find("HeadImage");
             if (headImage != null)
             {
-                if (headID >= 0 && headID < headSprites.Length)
+                if (headID >= 0 && headID < GameManager.PrisonerHeadImg.Count)
                 {
-                    headImage.GetComponent<Image>().sprite = headSprites[headID];
+                    headImage.GetComponent<Image>().sprite = GameManager.PrisonerHeadImg[headID];
                     headImage.gameObject.SetActive(true);
-                }
-                else
-                {
-                    Debug.LogWarning($"Invalid HeadID: {headID}");
                 }
             }
 
             Transform bodyImage = trainingSelect.Find("BodyImage");
             if (bodyImage != null)
             {
-                if (bodyID >= 0 && bodyID < bodySprites.Length)
+                if (bodyID >= 0 && bodyID < GameManager.PrisonerBodyImg.Count)
                 {
-                    bodyImage.GetComponent<Image>().sprite = bodySprites[bodyID];
+                    bodyImage.GetComponent<Image>().sprite = GameManager.PrisonerBodyImg[bodyID];
                     bodyImage.gameObject.SetActive(true);
-                }
-                else
-                {
-                    Debug.LogWarning($"Invalid BodyID: {bodyID}");
                 }
             }
 
-            // NameText 업데이트
             Transform textImage = trainingSelect.Find("TextImage");
             if (textImage != null)
             {
@@ -388,21 +350,8 @@ public class GYMSystem : MonoBehaviour
                 if (nameText != null)
                 {
                     nameText.GetComponent<TextMeshProUGUI>().text = unitData.Name;
-                    Debug.Log($"NameText가 {unitData.Name}로 변경되었습니다.");
-                }
-                else
-                {
-                    Debug.LogWarning("NameText를 찾을 수 없습니다.");
                 }
             }
-            else
-            {
-                Debug.LogWarning("TextImage를 찾을 수 없습니다.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid InstanceID: {instanceID}");
         }
     }
 
@@ -451,7 +400,6 @@ public class GYMSystem : MonoBehaviour
 
     private void UpdateOtherRoomsData(int oldValue, int newValue, Transform parentTransform, int roomIndex, int buttonIndex)
     {
-        // 1. 먼저 TrainDatas에서 각 GYMData의 InstanceID를 업데이트
         foreach (RoomData r in TrainDatas)
         {
             foreach (GYMData data in r.GYMDataList)
@@ -459,7 +407,6 @@ public class GYMSystem : MonoBehaviour
                 if (data.InstanceID == oldValue)
                 {
                     data.InstanceID = newValue;
-                    Debug.Log($"Room {r}: {oldValue}이(가) {newValue}로 변경되었습니다.");
 
                     Transform trainingSelect = FindTrainingSelectForData(r, TrainDatas.IndexOf(r));
                     if (trainingSelect != null)
@@ -470,8 +417,7 @@ public class GYMSystem : MonoBehaviour
             }
         }
 
-        // 3. 각 room의 버튼 상태를 업데이트
-        for (int k = 1; k <= 3; k++) // TrainingRoom 1~3까지 반복
+        for (int k = 1; k <= 3; k++)
         {
             Transform trainingRoom = parentTransform.Find($"TrainingRoom{k}");
             if (trainingRoom != null)
@@ -479,7 +425,6 @@ public class GYMSystem : MonoBehaviour
                 Transform gymTrainingImage = trainingRoom.Find("GymTrainingImage");
                 if (gymTrainingImage != null)
                 {
-                    // 4. TrainingSelect 1~3까지 반복
                     for (int l = 1; l <= 3; l++)
                     {
                         Transform trainingSelect = gymTrainingImage.Find($"TrainingSelect{l}");
@@ -542,10 +487,8 @@ public class GYMSystem : MonoBehaviour
 
     public void CheckAndResetGYMSystemState()
     {
-        // DDOManager에서 현재 날짜를 가져옵니다
-        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[0].Day;
+        int currentDate = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day;
 
-        // 이전 날짜와 비교해서 날짜가 바뀌었으면 상태 초기화
         if (currentDate != lastCheckedDate)
         {
             ResetAllTrainingStates();
@@ -565,7 +508,7 @@ public class GYMSystem : MonoBehaviour
                 var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)];
 
                 int expGrowthRate = 2;
-                int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[0].GYMEnhance * expGrowthRate);
+                int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].GYMEnhance * expGrowthRate);
 
                 if (unitData.ActivityStatus == 11)
                 {
@@ -591,7 +534,6 @@ public class GYMSystem : MonoBehaviour
 
                 unitData.ActivityStatus = 0;
                 unitData.Enforce++;
-                //DDOManager.UnitDatas.UnitDataDic[(0, 100, gymData.InstanceID)].ActivityStatus = 0;
                 gymData.InstanceID = -1;
                 gymData.check = false;
             }

@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class HealthSystem : MonoBehaviour
     public Transform contentUnitParent;
     public Transform contentRoomParent;
 
-    public Sprite[] headSprites;
-    public Sprite[] bodySprites;
+    //public Sprite[] headSprites;
+    //public Sprite[] bodySprites;
 
     public int healthRoomCount = 1;
     public int lastCheckedDate = -1;
@@ -32,7 +33,7 @@ public class HealthSystem : MonoBehaviour
     }
 
     private DontDestroyObjectManager DDOManager;
-
+    private GameManager GameManager;
     private void Start()
     {
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
@@ -42,8 +43,12 @@ public class HealthSystem : MonoBehaviour
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
             }
-            DDO = null;
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                GameManager = ddo.GetComponent<GameManager>();
+            }
         }
+        DDO = null;
 
         for (int i = 0; i < healthRoomCount; i++)
         {
@@ -86,8 +91,6 @@ public class HealthSystem : MonoBehaviour
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
 
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
-
         if (filteredPrisoners.Count > 0)
         {
             int prisonerIndex = 0; // 초기화된 인덱스 사용
@@ -100,10 +103,6 @@ public class HealthSystem : MonoBehaviour
                 prisonerIndex++;
             }
         }
-        else
-        {
-            Debug.LogWarning("조건에 맞는 죄수 데이터가 없습니다.");
-        }
     }
 
     private void UpdateHealthPrisonerUI(GameObject prisonerUI, UnitData prisoner)
@@ -113,23 +112,15 @@ public class HealthSystem : MonoBehaviour
         prisonerUI.transform.Find("HealthText").GetComponent<TextMeshProUGUI>().text = $"HP: {prisoner.HealthPoint}/{prisoner.MaxHealthPoint}";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
-        if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+        if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
         {
-            headImage.sprite = headSprites[prisoner.HeadID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+            headImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
-        if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+        if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
         {
-            bodyImage.sprite = bodySprites[prisoner.BodyID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
+            bodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
         }
     }
 
@@ -141,23 +132,15 @@ public class HealthSystem : MonoBehaviour
         prisonerUI.transform.Find("HealthText").GetComponent<TextMeshProUGUI>().text = $"HP: {prisoner.HealthPoint}/{prisoner.MaxHealthPoint}";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
-        if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+        if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
         {
-            headImage.sprite = headSprites[prisoner.HeadID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid HeadID: {prisoner.HeadID}");
+            headImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
         }
 
         Image bodyImage = prisonerUI.transform.Find("BodyImage").GetComponent<Image>();
-        if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+        if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
         {
-            bodyImage.sprite = bodySprites[prisoner.BodyID];
-        }
-        else
-        {
-            Debug.LogWarning($"Invalid BodyID: {prisoner.BodyID}");
+            bodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
         }
 
         Button chooseButton = prisonerUI.transform.Find("ChooseButton").GetComponent<Button>();
@@ -205,26 +188,22 @@ public class HealthSystem : MonoBehaviour
                                 HPslideBar.maxValue = prisoner.MaxHealthPoint;
                                 HPslideBar.value = prisoner.HealthPoint;
                             }
-                            else
-                            {
-                                Debug.LogWarning("HealthSlider가 없거나 Slider 컴포넌트를 찾을 수 없습니다.");
-                            }
 
                             Image BodyImage = prisonerImageTransform.Find("BodyImage").GetComponent<Image>();
-                            if (prisoner.BodyID >= 0 && prisoner.BodyID < bodySprites.Length)
+                            if (prisoner.BodyID >= 0 && prisoner.BodyID < GameManager.PrisonerBodyImg.Count)
                             {
                                 BodyImage.gameObject.SetActive(true);
-                                BodyImage.sprite = bodySprites[prisoner.BodyID];
+                                BodyImage.sprite = GameManager.PrisonerBodyImg[prisoner.BodyID];
                             }
 
                             Image HeadImage = prisonerImageTransform.Find("HeadImage").GetComponent<Image>();
-                            if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
+                            if (prisoner.HeadID >= 0 && prisoner.HeadID < GameManager.PrisonerHeadImg.Count)
                             {
                                 HeadImage.gameObject.SetActive(true);
-                                HeadImage.sprite = headSprites[prisoner.HeadID];
+                                HeadImage.sprite = GameManager.PrisonerHeadImg[prisoner.HeadID];
                             }
                         }
-                        DDOManager.UnitDatas.UnitDataDic[(0, 100, prisoner.InstanceID)].ActivityStatus = 2;
+                        DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, prisoner.PrototypeUnitID, prisoner.InstanceID)].ActivityStatus = 2;
                         Destroy(prisonerUI);
                         break;
                     }
@@ -306,8 +285,6 @@ public class HealthSystem : MonoBehaviour
                             HealthDataList[roomIndex].InstanceID = -1;
 
                             DisplayHealthPrisoners();
-
-                            Debug.Log($"HealthRoom {roomIndex + 1} 초기화 완료");
                         }
                     });
                 }
@@ -330,8 +307,6 @@ public class HealthSystem : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
-
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     public void CheckAndResetHealthSystemState()
@@ -352,10 +327,10 @@ public class HealthSystem : MonoBehaviour
             if (healthData.InstanceID == -1)
                 continue;
 
-            var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, healthData.InstanceID)];
+            var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)];
 
             int recoveryRate = 2;
-            int recoveryAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[0].HealthEnhance * recoveryRate);
+            int recoveryAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].HealthEnhance * recoveryRate);
 
             if (unitData.ActivityStatus == 2)
             {
@@ -400,7 +375,6 @@ public class HealthSystem : MonoBehaviour
                 }
             }
         }
-
         DisplayHealthPrisoners();
         DisplayHealthRoomUI();
     }

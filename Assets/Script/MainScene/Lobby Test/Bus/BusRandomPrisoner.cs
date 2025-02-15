@@ -13,8 +13,6 @@ public class BusRandomPrisoner : MonoBehaviour
     public StorageUI storageUI;
     public GameObject unitUIPrefab;
     public Transform gridParent;
-    public Sprite[] headSprites;
-    public Sprite[] bodySprites;
 
     public int dailyAcceptCount = 0;
     public int totalAcceptCount = 0;
@@ -35,7 +33,7 @@ public class BusRandomPrisoner : MonoBehaviour
     public SmithSystem smithSystem;
     public BattleReadySystem battleReadySystem;
     private DontDestroyObjectManager DDOManager;
-
+    private GameManager GameManager;
     private void Start()
     {
         GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
@@ -44,6 +42,11 @@ public class BusRandomPrisoner : MonoBehaviour
             if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+
+            if(ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                GameManager = ddo.GetComponent<GameManager>();
             }
         }
         DDO = null;
@@ -63,14 +66,12 @@ public class BusRandomPrisoner : MonoBehaviour
 
     public void UpdateUI()
     {
-        // 오늘 수락 횟수 / 최대 수락 횟수
         if (dailyAcceptCountText != null)
             dailyAcceptCountText.text = $"오늘 수락 횟수: {dailyAcceptCount} / {maxDailyAcceptCount}";
 
-        // 전체 수락 횟수 / (4 * DDOManager.Floor)
         if (totalAcceptCountText != null)
         {
-            int floorCount = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;  // DDOManager.Floor를 이용한 계산
+            int floorCount = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
             totalAcceptCountText.text = $"전체 수락 횟수: {totalAcceptCount} / {4 * floorCount}";
         }
     }
@@ -140,18 +141,18 @@ public class BusRandomPrisoner : MonoBehaviour
             unitUI.transform.Find("DefenseText").GetComponent<TextMeshProUGUI>().text = "DEF:" + unit.Defense;
             unitUI.transform.Find("CrimeText").GetComponent<TextMeshProUGUI>().text = "Crime: " + GetCrimeDescription(unit.Crime);
 
-            if (unit.HeadID >= 0 && unit.HeadID < headSprites.Length)
+            if (unit.HeadID >= 0 && unit.HeadID < GameManager.PrisonerHeadImg.Count)
             {
-                unitUI.transform.Find("HeadImage").GetComponent<Image>().sprite = headSprites[unit.HeadID];
+                unitUI.transform.Find("HeadImage").GetComponent<Image>().sprite = GameManager.PrisonerHeadImg[unit.HeadID];
             }
             else
             {
                 Debug.LogWarning($"Invalid HeadID: {unit.HeadID}");
             }
 
-            if (unit.BodyID >= 0 && unit.BodyID < bodySprites.Length)
+            if (unit.BodyID >= 0 && unit.BodyID < GameManager.PrisonerBodyImg.Count)
             {
-                unitUI.transform.Find("BodyImage").GetComponent<Image>().sprite = bodySprites[unit.BodyID];
+                unitUI.transform.Find("BodyImage").GetComponent<Image>().sprite = GameManager.PrisonerBodyImg[unit.BodyID];
             }
             else
             {
@@ -162,18 +163,12 @@ public class BusRandomPrisoner : MonoBehaviour
             if (acceptButton != null)
             {
                 acceptButton.onClick.AddListener(() => AcceptUnitUI(unitUI));
-
-
             }
 
             Button rejectButton = unitUI.transform.Find("RejectButton").GetComponent<Button>();
             if (rejectButton != null)
             {
                 rejectButton.onClick.AddListener(() => RemoveUnitUI(unitUI));
-            }
-            else
-            {
-                Debug.LogWarning("RejectButton not found in prefab.");
             }
         }
 
@@ -191,8 +186,6 @@ public class BusRandomPrisoner : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, newHeight);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentRect);
-
-        Debug.Log($"Content 크기 갱신 완료: {newHeight}");
     }
 
     private string GetCrimeDescription(int crimeId)
@@ -214,16 +207,14 @@ public class BusRandomPrisoner : MonoBehaviour
     {
         if (dailyAcceptCount >= maxDailyAcceptCount)
         {
-            Debug.Log("하루 수락 가능 횟수를 초과했습니다!");
             return;
         }
 
-        int floor = DDOManager.LocalUserDatas.LocalUserDataDic[0].Floor;
+        int floor = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Floor;
         int maxTotalAcceptCount = floor * 4;
 
         if (totalAcceptCount >= maxTotalAcceptCount)
         {
-            Debug.Log("전체 수락 가능 횟수를 초과했습니다!");
             return;
         }
 
@@ -243,27 +234,19 @@ public class BusRandomPrisoner : MonoBehaviour
         {
             unitToRemove.UserID = 0;
             unitToRemove.PrototypeUnitID = 100;
-            unitToRemove.InstanceID = DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter;
-
-            Debug.Log($"Before Adding to DDOManager: Level = {unitToRemove.Level}");
+            unitToRemove.InstanceID = DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].UnitInstanceCounter;
 
             DDOManager.UnitDatas.UnitDatas.Add(unitToRemove);
-            DDOManager.UnitDatas.UnitDataDic.Add((0, 100, DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter), unitToRemove);
-            DDOManager.LocalUserDatas.LocalUserDataDic[0].UnitInstanceCounter++;
-
-            Debug.Log($"After Adding to DDOManager: EXP = {unitToRemove.Level}");
+            DDOManager.UnitDatas.UnitDataDic.Add((GameManager.SelectUserID, 100, DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].UnitInstanceCounter), unitToRemove);
+            DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].UnitInstanceCounter++;
 
             unitDatas.Remove(unitToRemove);
-
-            Debug.Log($"BodyID in DDOManager: {DDOManager.UnitDatas.UnitDatas[^1].BodyID}");
-
         }
         Destroy(unitUI);
 
         dailyAcceptCount++;
         totalAcceptCount++;
         UpdateUI();
-        Debug.Log($"오늘 수락: {dailyAcceptCount}/{maxDailyAcceptCount}, 총 수락: {totalAcceptCount}/{maxTotalAcceptCount}");
     }
 
     private void RemoveUnitUI(GameObject unitUI)
@@ -287,10 +270,13 @@ public class BusRandomPrisoner : MonoBehaviour
         Destroy(unitUI);
     }
 
-    //이는 임시 프로토임
+
     private void OnChangeDaysButtonClicked()
     {
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day++;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold = 1000000;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DeathEssence = 1000000;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence = 1000000;
         storageUI.UpdateDaysUI();
         storageUI.UpdateGold();
         storageUI.UpdatedeathEssence();
@@ -313,7 +299,7 @@ public class BusRandomPrisoner : MonoBehaviour
 
     public void changeDays()
     {
-        DDOManager.LocalUserDatas.LocalUserDataDic[0].Day++;
+        DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Day++;
         storageUI.UpdateDaysUI();
         storageUI.UpdateGold();
         storageUI.UpdatedeathEssence();
