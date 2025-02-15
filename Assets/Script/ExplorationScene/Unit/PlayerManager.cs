@@ -52,19 +52,19 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
-        //GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
-        //foreach (var ddo in DDO)
-        //{
-        //    if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
-        //    {
-        //        ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
-        //    }
-        //    if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
-        //    {
-        //        gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
-        //    }
-        //}
-        //DDO = null;
+        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
+        foreach (var ddo in DDO)
+        {
+            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
+            }
+        }
+        DDO = null;
 
         weaponEffectPool = this.transform.GetChild(this.transform.childCount - 1).gameObject;
         attackDirectional = this.transform.GetChild(1).gameObject.GetComponent<AttackDirectional>();
@@ -109,22 +109,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Start()
-    {
-        GameObject[] DDO = GameObject.FindObjectsOfType<GameObject>(false);
-        foreach (var ddo in DDO)
-        {
-            if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
-            {
-                ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
-            }
-            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
-            {
-                gameManager = ddo.transform.gameObject.GetComponent<GameManager>();
-            }
-        }
-        DDO = null;
-
-       
+    {       
         bool guiderInParty = false;
         float damage;
 
