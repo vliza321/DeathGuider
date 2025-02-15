@@ -6,30 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoad : MonoBehaviour
 {
-    DontDestroyObjectManager ddoManager;
     public Slider progressbar;
     public Text loadtext;
     AsyncOperation operation;
     private void Start()
     {
         StartCoroutine(LoadScene());
-        
-        GameObject[] DDO = GameObject.FindGameObjectsWithTag("DDO");
-        foreach (var ddo in DDO)
-        {
-            if (ddo.name == "DDOManager")
-            {
-                ddoManager = ddo.GetComponent<DontDestroyObjectManager>();
-            }
-        }
-
+        operation = SceneManager.LoadSceneAsync("FieldExploration");
     }
 
     private void Update()
     {
-        operation = SceneManager.LoadSceneAsync("FieldExploration");
-        /*if (ddoManager.SaveData())
-        */
+
+        
     }
 
     IEnumerator LoadScene()
