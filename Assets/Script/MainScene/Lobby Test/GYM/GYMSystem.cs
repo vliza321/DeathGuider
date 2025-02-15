@@ -34,6 +34,7 @@ public class GYMSystem : MonoBehaviour
     }
 
     private DontDestroyObjectManager DDOManager;
+    private GameManager GameManager;
 
     private void Start()
     {
@@ -43,6 +44,10 @@ public class GYMSystem : MonoBehaviour
             if (ddo.CompareTag("DDO") && ddo.name == "DDOManager" && SceneManager.GetActiveScene() != ddo.scene)
             {
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
+            }
+            if (ddo.CompareTag("DDO") && ddo.name == "GameManager" && SceneManager.GetActiveScene() != ddo.scene)
+            {
+                GameManager = ddo.transform.gameObject.GetComponent<GameManager>();
             }
         }
         DDO = null;
@@ -76,7 +81,7 @@ public class GYMSystem : MonoBehaviour
         }
 
         var filteredPrisoners = DDOManager.UnitDatas.UnitDatas
-            .Where(prisoner => prisoner != null && prisoner.ActivityStatus == 0 && prisoner.PrototypeUnitID == 100 && prisoner.Enforce >= 0 && prisoner.Enforce <= 15)
+            .Where(prisoner => prisoner != null && prisoner.ActivityStatus == 0 && prisoner.PrototypeUnitID == 100 && prisoner.Enforce >= 0 && prisoner.Enforce < 15)
             .OrderByDescending(prisoner => prisoner.Enforce)
             .ThenBy(prisoner => prisoner.InstanceID)
             .ToList();
@@ -123,11 +128,11 @@ public class GYMSystem : MonoBehaviour
         prisonerUI.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = prisoner.Name;
         prisonerUI.transform.Find("LevelText").GetComponent<TextMeshProUGUI>().text = $"Lv: {prisoner.Level}";
         prisonerUI.transform.Find("EXPText").GetComponent<TextMeshProUGUI>().text = $"LV_EXP: {prisoner.EXP}";
-        prisonerUI.transform.Find("EnforceCountText").GetComponent<TextMeshProUGUI>().text = $"Cnt_EXP: {prisoner.Enforce}";
-        prisonerUI.transform.Find("HealthEnforceText").GetComponent<TextMeshProUGUI>().text = $"HP_EXP: {prisoner.HealthEnforce}";
-        prisonerUI.transform.Find("StrengthEnforceText").GetComponent<TextMeshProUGUI>().text = $"STR_EXP: {prisoner.StrengthEnforce}";
-        prisonerUI.transform.Find("DefenseEnforceText").GetComponent<TextMeshProUGUI>().text = $"DEF_EXP: {prisoner.DefenseEnforce}";
-        prisonerUI.transform.Find("HandicraftEnforceText").GetComponent<TextMeshProUGUI>().text = $"HCT_EXP: {prisoner.HandicraftEnforce}";
+        prisonerUI.transform.Find("EnforceCountText").GetComponent<TextMeshProUGUI>().text = $"강화 횟수: {prisoner.Enforce} / 15";
+        prisonerUI.transform.Find("HealthEnforceText").GetComponent<TextMeshProUGUI>().text = $"HP 강화: {prisoner.HealthEnforce}";
+        prisonerUI.transform.Find("StrengthEnforceText").GetComponent<TextMeshProUGUI>().text = $"STR 강화: {prisoner.StrengthEnforce}";
+        prisonerUI.transform.Find("DefenseEnforceText").GetComponent<TextMeshProUGUI>().text = $"DEF 강화: {prisoner.DefenseEnforce}";
+        prisonerUI.transform.Find("HandicraftEnforceText").GetComponent<TextMeshProUGUI>().text = $"HCT 강화: {prisoner.HandicraftEnforce}";
 
         Image headImage = prisonerUI.transform.Find("HeadImage").GetComponent<Image>();
         if (prisoner.HeadID >= 0 && prisoner.HeadID < headSprites.Length)
@@ -557,7 +562,7 @@ public class GYMSystem : MonoBehaviour
                 if (gymData.InstanceID == -1)
                     continue;
 
-                var unitData = DDOManager.UnitDatas.UnitDataDic[(0, 100, gymData.InstanceID)];
+                var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)];
 
                 int expGrowthRate = 2;
                 int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[0].GYMEnhance * expGrowthRate);
@@ -570,7 +575,6 @@ public class GYMSystem : MonoBehaviour
                 else if (unitData.ActivityStatus == 12)
                 {
                     unitData.HandicraftEnforce++;
-                    
                 }
                 else if (unitData.ActivityStatus == 13)
                 {
@@ -585,7 +589,9 @@ public class GYMSystem : MonoBehaviour
                     unitData.EXP -= 100;
                 }
 
-                DDOManager.UnitDatas.UnitDataDic[(0, 100, gymData.InstanceID)].ActivityStatus = 0;
+                unitData.ActivityStatus = 0;
+                unitData.Enforce++;
+                //DDOManager.UnitDatas.UnitDataDic[(0, 100, gymData.InstanceID)].ActivityStatus = 0;
                 gymData.InstanceID = -1;
                 gymData.check = false;
             }

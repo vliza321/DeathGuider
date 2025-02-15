@@ -603,9 +603,10 @@ public class BattleReadySystem : MonoBehaviour
                 headImage.sprite = headSprites[0];
             }
 
-            Debug.Log($"{GameManager.SelectUserID} {selectedManagerUnit.PrototypeUnitID} {selectedManagerUnit.InstanceID}");
+            Debug.Log(selectedManagerUnit.ActivityStatus); // 4
             DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, selectedManagerUnit.PrototypeUnitID, selectedManagerUnit.InstanceID)].ActivityStatus = 0;
             DDOManager.UnitDatas.UnitDatas.Find(data => data.UserID == unit.UserID && data.PrototypeUnitID == unit.PrototypeUnitID && data.InstanceID == unit.InstanceID).ActivityStatus = 0;
+            Debug.Log(selectedManagerUnit.ActivityStatus); // 0 
 
             int index = weaponSlots[0].equipableState;
             int instanceID = weaponSlots[0].instanceID;
@@ -616,19 +617,17 @@ public class BattleReadySystem : MonoBehaviour
 
             if (unit.Crime >= 0 && unit.Crime < crimeSlots.Length)
             {
-                crimeSlots[unit.Crime].crimeCount -= 1;
-                crimeSlots[unit.Crime].crimeText.text = $"{crimeSlots[unit.Crime].crimeCount}";
+                crimeSlots[selectedManagerUnit.Crime].crimeCount -= 1;
+                crimeSlots[selectedManagerUnit.Crime].crimeText.text = $"{crimeSlots[selectedManagerUnit.Crime].crimeCount}";
             }
 
             var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
     .FirstOrDefault(kv => kv.Value.UserID == GameManager.SelectUserID && kv.Value.PrototypeWeaponID == weaponSlots[0].equipableState).Key;
 
             bool removedFromDic = DDOManager.UseWeaponDatas.UseWeaponDataDic.Remove(keyToRemove);
-            Debug.Log($"딕셔너리에서 제거 성공 여부: {removedFromDic}");
 
             int removedFromList = DDOManager.UseWeaponDatas.UseWeaponDatas.RemoveAll(data =>
                 data.UserID == keyToRemove.Item1 && data.PrototypeWeaponID == keyToRemove.Item2);
-            Debug.Log($"리스트에서 제거된 개수: {removedFromList}");
 
             var key = (selectedManagerUnit.UserID, selectedManagerUnit.PrototypeUnitID, selectedManagerUnit.InstanceID, 0);
             Debug.Log($"키: {key}");
@@ -903,13 +902,11 @@ public class BattleReadySystem : MonoBehaviour
 
                                         if (battleReadyWeaponNameText != null)
                                         {
-                                            Debug.Log("시발");
                                             string battleReadyWeaponName = "무기 없음";
 
                                             if (!string.IsNullOrEmpty(weaponSlots[i].weaponName))
                                             {
                                                 battleReadyWeaponName = weaponSlots[i].weaponName;
-                                                Debug.Log("WTF");
                                             }
                                             battleReadyWeaponNameText.text = battleReadyWeaponName;
                                         }
