@@ -26,7 +26,7 @@ public class FollowerMove : MonoBehaviour
     private PlayerMove thisPlayerMove;
     private FollowerMove thisFollowerMove;
     private CapsuleCollider2D thisCollider;
-
+    private SpriteRenderer spriteRenderer;
     public Animator BodyAnimation
     {
         get { return bodyAnimation; }
@@ -39,12 +39,11 @@ public class FollowerMove : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         cashingVector = Vector3.zero;
         headAnimation = this.transform.GetChild(0).GetComponent<Animator>();
         bodyAnimation = this.transform.GetChild(1).GetComponent<Animator>();
-        guider = this.transform.parent.GetComponent<FollowerManager>().PlayerManager.transform.GetChild(0).gameObject;
         follower = this.gameObject;
         followerVelocityVector = new Vector2(0, 0);
        
@@ -56,12 +55,19 @@ public class FollowerMove : MonoBehaviour
         thisPlayerMove = this.gameObject.GetComponent<PlayerMove>();
         thisFollowerMove = this.gameObject.GetComponent<FollowerMove>();
         thisCollider = this.gameObject.GetComponent<CapsuleCollider2D>();
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        guider = this.transform.parent.GetComponent<FollowerManager>().PlayerManager.transform.GetChild(0).gameObject;
+
     }
 
     public void InitSprite(Sprite head, Sprite body)
     {
-        this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = head;
-        this.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = body;
+        spriteRenderer.sprite = head;
+        spriteRenderer.sprite = body;
     }
 
     public void InitAnimator(RuntimeAnimatorController head, RuntimeAnimatorController body)

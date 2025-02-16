@@ -88,7 +88,7 @@ public class FollowerManager : MonoBehaviour
 
                     var temt = DDOManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)];
                     follower[position].InitAnimator(DDOManager.GameManager.PrisonerHeadAnim[temt.HeadID], DDOManager.GameManager.PrisonerBodyAnim[temt.BodyID]);
-                    follower[position].InitSprite(DDOManager.GameManager.PrisonerHeadImg[temt.HeadID], DDOManager.GameManager.PrisonerBodyImg[temt.BodyID]);
+                    //follower[position].InitSprite(DDOManager.GameManager.PrisonerHeadImg[temt.HeadID], DDOManager.GameManager.PrisonerBodyImg[temt.BodyID]);
                     position++;
                     continue;
                 }
