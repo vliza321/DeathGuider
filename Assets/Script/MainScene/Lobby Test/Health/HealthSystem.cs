@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static HealthSystem;
 
 public class HealthSystem : MonoBehaviour
 {
@@ -55,7 +56,6 @@ public class HealthSystem : MonoBehaviour
             HealthData newHealthData = new HealthData(); // InstanceID는 0부터 시작
             HealthDataList.Add(newHealthData);
         }
-
     }
 
     public void DisplayHealthPrisoners()
@@ -323,28 +323,39 @@ public class HealthSystem : MonoBehaviour
 
     private void ResetAllHealthStates()
     {
-        foreach (var healthData in HealthDataList)
+        foreach (var unit in DDOManager.UnitDatas.UnitDataDic.Values)
         {
-            if (healthData.InstanceID == -1)
-                continue;
-
-            var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)];
-
-            int recoveryRate = 2;
-            int recoveryAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].HealthEnhance * recoveryRate);
-
-            if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].ActivityStatus == 2)
+            if (unit.ActivityStatus == 2)
             {
-                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].HealthPoint += recoveryAmount;
-                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].HealthPoint > DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].MaxHealthPoint)
-                {
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].HealthPoint = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].MaxHealthPoint;
-                }
-            }
+                int recoveryRate = 2;
+                int recoveryAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].HealthEnhance * recoveryRate);
 
-            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].ActivityStatus = 0;
-            healthData.InstanceID = -1;
+                unit.HealthPoint += recoveryAmount;
+                if (unit.HealthPoint > unit.MaxHealthPoint)
+                {
+                    unit.HealthPoint = unit.MaxHealthPoint;
+                }
+                unit.ActivityStatus = 0;
+            }
         }
+
+        //foreach (var healthData in HealthDataList)
+        //{
+        //    if (healthData.InstanceID == -1)
+        //        continue;
+
+        //    var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)];
+
+            
+
+        //    if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].ActivityStatus == 2)
+        //    {
+                
+        //    }
+
+        //    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, healthData.InstanceID)].ActivityStatus = 0;
+        //    healthData.InstanceID = -1;
+        //}
 
         foreach (Transform healthRoom in contentRoomParent)
         {

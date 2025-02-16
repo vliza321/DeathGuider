@@ -496,52 +496,92 @@ public class GYMSystem : MonoBehaviour
 
     private void ResetAllTrainingStates()
     {
-        foreach (var roomData in TrainDatas)
+        foreach (var unit in DDOManager.UnitDatas.UnitDataDic.Values)
         {
-            foreach (var gymData in roomData.GYMDataList)
+            int expGrowthRate = 2;
+            int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].GYMEnhance * expGrowthRate);
+
+            if (unit.ActivityStatus == 11)
             {
-                if (gymData.InstanceID == -1)
-                    continue;
+                unit.StrengthEnforce++;
+                unit.HealthEnforce++;
+                unit.MaxHealthPoint += 6;
+                unit.HealthPoint += 6;
+                unit.Strength += 2;
+                unit.Enforce++;
+                unit.ActivityStatus = 0;
+            }
+            else if (unit.ActivityStatus == 12)
+            {
+                unit.HandicraftEnforce++;
+                unit.Handicraft += 2;
+                unit.Enforce++;
+                unit.ActivityStatus = 0;
+            }
+            else if (unit.ActivityStatus == 13)
+            {
+                unit.DefenseEnforce++;
+                unit.HealthEnforce++;
+                unit.MaxHealthPoint += 6;
+                unit.HealthPoint += 6;
+                unit.DefenseEnforce += 2;
+                unit.Enforce++;
+                unit.ActivityStatus = 0;
+            }
 
-                var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)];
-
-                int expGrowthRate = 2;
-                int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].GYMEnhance * expGrowthRate);
-
-                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 11)
-                {
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].StrengthEnforce++;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].MaxHealthPoint += 6;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthPoint += 6;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Strength += 2;
-                }
-                else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 12)
-                {
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HandicraftEnforce++;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Handicraft += 2;
-                }
-                else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 13)
-                {
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].DefenseEnforce++;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].MaxHealthPoint += 6;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthPoint += 6;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].DefenseEnforce += 2;
-                }
-
-                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP += expGain;
-                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP > 100)
-                {
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP = 100;
-                }
-
-                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus = 0;
-                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Enforce++;
-                gymData.InstanceID = -1;
-                gymData.check = false;
+            unit.EXP += expGain;
+            if (unit.EXP > 100)
+            {
+                unit.EXP = 100;
             }
         }
+
+        //foreach (var roomData in TrainDatas)
+        //{
+        //    foreach (var gymData in roomData.GYMDataList)
+        //    {
+        //        if (gymData.InstanceID == -1)
+        //            continue;
+
+        //        var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)];
+
+        //        int expGrowthRate = 2;
+        //        int expGain = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].GYMEnhance * expGrowthRate);
+
+        //        if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 11)
+        //        {
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].StrengthEnforce++;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].MaxHealthPoint += 6;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthPoint += 6;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Strength += 2;
+        //        }
+        //        else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 12)
+        //        {
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HandicraftEnforce++;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Handicraft += 2;
+        //        }
+        //        else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 13)
+        //        {
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].DefenseEnforce++;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].MaxHealthPoint += 6;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthPoint += 6;
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].DefenseEnforce += 2;
+        //        }
+
+        //        DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP += expGain;
+        //        if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP > 100)
+        //        {
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP = 100;
+        //        }
+
+        //        DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus = 0;
+        //        DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Enforce++;
+        //        gymData.InstanceID = -1;
+        //        gymData.check = false;
+        //    }
+        //}
     }
 
 }

@@ -312,10 +312,6 @@ public class BusRandomPrisoner : MonoBehaviour
 
     public void changeDays()
     {
-        //storageUI.UpdateDaysUI();
-        //storageUI.UpdateGold();
-        //storageUI.UpdatedeathEssence();
-        //storageUI.UpdatedarkEssence();
         dailyAcceptCount = 0;
         unitDatas.Clear();
         ClearExistingUnitUIs();

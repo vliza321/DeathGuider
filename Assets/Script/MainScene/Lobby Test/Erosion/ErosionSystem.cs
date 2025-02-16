@@ -315,28 +315,45 @@ public class ErosionSystem : MonoBehaviour
 
     private void ResetAllErosionStates()
     {
-        foreach (var ErosionData in ErosionDataList)
+        foreach (var unit in DDOManager.UnitDatas.UnitDataDic.Values)
         {
-            if (ErosionData.InstanceID == -1)
-                continue;
-
-            var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)];
-
-            int erosionRate = 2;
-            int erosionAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].ErosionEnhance * erosionRate);
-
-            if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].ActivityStatus == 3)
+            if (unit.ActivityStatus == 3)
             {
-                DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion -= erosionAmount;
-                if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion < 0)
-                {
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion = 0;
-                }
-            }
+                int erosionRate = 2;
+                int erosionAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].ErosionEnhance * erosionRate);
 
-            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].ActivityStatus = 0;
-            ErosionData.InstanceID = -1;
+                unit.DeathErosion -= erosionAmount;
+                if (unit.DeathErosion < 0)
+                {
+                    unit.DeathErosion = 0;
+                }
+
+                unit.ActivityStatus = 0;
+            }
         }
+
+        //foreach (var ErosionData in ErosionDataList)
+        //{
+        //    if (ErosionData.InstanceID == -1)
+        //        continue;
+
+        //    var unitData = DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)];
+
+        //    int erosionRate = 2;
+        //    int erosionAmount = 10 + (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].ErosionEnhance * erosionRate);
+
+        //    if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].ActivityStatus == 3)
+        //    {
+        //        DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion -= erosionAmount;
+        //        if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion < 0)
+        //        {
+        //            DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].DeathErosion = 0;
+        //        }
+        //    }
+
+        //    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, ErosionData.InstanceID)].ActivityStatus = 0;
+        //    ErosionData.InstanceID = -1;
+        //}
 
         foreach (Transform erosionRoom in contentRoomParent)
         {
