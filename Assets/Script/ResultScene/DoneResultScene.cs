@@ -63,7 +63,6 @@ public class DoneResultScene : MonoBehaviour
     public void OnButtonClick()
     {
         Debug.Log("결과보기");
-        
     }
 
 }
