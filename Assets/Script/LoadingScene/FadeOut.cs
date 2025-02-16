@@ -51,7 +51,10 @@ public class FadeOut : MonoBehaviour
 
     public void StartFadeOut()
     {
-        alpha = 0.01f;
-        isFadeOut = false;
+        if(isFadeOut)
+        {
+            alpha = 0.01f;
+            isFadeOut = false;
+        }
     }
 }

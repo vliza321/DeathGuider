@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\uB098\uBB34 \uADF8\uB9BC\uC790"
       objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 686f53ceed137684c885385dee75fa4d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 686f53ceed137684c885385dee75fa4d, type: 3}
       propertyPath: m_RootOrder
       value: 0

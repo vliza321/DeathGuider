@@ -61,7 +61,7 @@ public class ResultSceneManager : MonoBehaviour
         darkEssenceText.text = "  " + resultManager.DarkEssense + " D";
         deathEssenceText.text = "  " + resultManager.DeathEssense + " EA";
         expText.text = "  " + resultManager.Exp + " EXP";
-        timerText.text = "  " + (int)(resultManager.Timer / 60) + " : " + (int)(resultManager.Timer % 60) + "." + (resultManager.Timer % 100)+ " ";
+        timerText.text = "  " + (int)(resultManager.Timer / 60) + " : " + (int)(resultManager.Timer % 60) + "." + (resultManager.Timer % 1)+ " ";
 
         // 유닛 생존 여부 표시
         int survivingUnits = resultManager.Units.Count;

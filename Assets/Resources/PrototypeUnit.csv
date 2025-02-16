@@ -1,4 +1,4 @@
-ID,Name,MaxHealthPoint,Strength,Defense,Handicraft,Crime,HeadID,BodyID
+﻿ID,Name,MaxHealthPoint,Strength,Defense,Handicraft,Crime,HeadID,BodyID
 0,기본,120,18,16,110,1,0,0
 1,형님,145,22,18,90,2,1,1
 100,NULL,100,10,10,100,0,100,100

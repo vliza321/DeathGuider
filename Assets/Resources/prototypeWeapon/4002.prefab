@@ -76,12 +76,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2381178483671265070, guid: 2fa4825f31b223246b9f9387960e9420, type: 3}
+  m_Sprite: {fileID: 2399360497773508393, guid: e6503035f5b9651498d0ac7f071a4938, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 0.55, y: 0.55}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 1801377529603573351}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2f90dd0d8b8b11c4d9fe384c13c075e1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6453a31aacc2c7e459999206b31b7ab0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -126,7 +126,7 @@ PolygonCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.64, y: 0.64}
-    newSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.55, y: 0.55}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -135,14 +135,14 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0.16, y: 0.099999994}
       - {x: -0.17999999, y: 0.099999994}
-      - {x: -0.18437994, y: 0.092157334}
-      - {x: -0.25708345, y: 0.010759186}
-      - {x: -0.21225002, y: -0.009333536}
-      - {x: -0.1438612, y: -0.07106494}
-      - {x: 0.0017966181, y: -0.04589831}
-      - {x: 0.13772243, y: -0.02170387}
-      - {x: 0.21568534, y: -0.00525932}
-      - {x: 0.33033326, y: 0.05279629}
+      - {x: -0.32, y: 0.06}
+      - {x: -0.32, y: -0.02}
+      - {x: -0.25, y: -0.11}
+      - {x: -0.19, y: -0.12}
+      - {x: 0.14999999, y: -0.12}
+      - {x: 0.22999999, y: -0.099999994}
+      - {x: 0.28, y: -0.049999997}
+      - {x: 0.28, y: 0.049999997}
 --- !u!114 &1801377529603573345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 1801377530407524577}
   - component: {fileID: 701399914569905396}
   m_Layer: 0
-  m_Name: 2
+  m_Name: 4002
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,12 +230,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7199509242507996107, guid: c84cd5612a9a6234a9a88ef54f22963b, type: 3}
+  m_Sprite: {fileID: -1634372516579277654, guid: 5c4bfe354e333bf43a78fa5591b6d699, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.52, y: 0.53}
+  m_Size: {x: 0.55, y: 0.55}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -708,7 +708,7 @@ SpriteRenderer:
   m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &555074282
@@ -1232,7 +1232,7 @@ RectTransform:
   - {fileID: 1858506141}
   - {fileID: 933841992}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1773,7 +1773,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1435110999
 PrefabInstance:
@@ -2804,7 +2804,7 @@ SpriteRenderer:
   m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1858506140
@@ -3144,11 +3144,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 223943830719991355, guid: d8dacdf96355ef2429c8b360d89fdef6, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 223943830719991355, guid: d8dacdf96355ef2429c8b360d89fdef6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5.84
       objectReference: {fileID: 0}
     - target: {fileID: 223943830719991355, guid: d8dacdf96355ef2429c8b360d89fdef6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3186,6 +3186,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3476598475039297166, guid: d8dacdf96355ef2429c8b360d89fdef6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 2f90dd0d8b8b11c4d9fe384c13c075e1, type: 2}
     - target: {fileID: 5104297233484640838, guid: d8dacdf96355ef2429c8b360d89fdef6, type: 3}
       propertyPath: m_Name
       value: SlashEffect1_0
@@ -3205,7 +3209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9095842368144439921, guid: da34e0162e282e6488227ece72def585, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9095842368144439921, guid: da34e0162e282e6488227ece72def585, type: 3}
       propertyPath: m_LocalPosition.x
