@@ -92,10 +92,9 @@ public class PlayerHp : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log(HitDelay);
+       
         if (collision.gameObject.CompareTag("Monster") && HitDelay < 0)
         {
-            Debug.Log("ÇÇ°Ý :" + hitConstant);
             HitDelay = 0.5f;
             heartPoint -= hitConstant;
             if (heartPoint <= 0)

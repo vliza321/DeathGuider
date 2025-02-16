@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 using System;
 public class ResultManager : MonoBehaviour
 {
+
+    private int aliveUnitCount;
+    public int AliveUnitCount
+    {
+        get { return aliveUnitCount; }
+
+    }
+
     private static Dictionary<int, float> posToHp;
     private static ResultManager instance;
 
@@ -28,6 +36,11 @@ public class ResultManager : MonoBehaviour
 
     private float explorationProgress;
     private float currentExplorationProgress;
+
+    public float Timer
+    {
+        get { return timer; }
+    }
 
     public GameManager GameManager
     {
@@ -87,8 +100,14 @@ public class ResultManager : MonoBehaviour
 
     void Awake()
     {
+        if (posToUnitData != null)
+        {
+            posToUnitData.Clear();
+        }
+        if (units != null) units.Clear();
+        if (newWeapons != null) newWeapons.Clear();
+        if (posToHp != null) posToHp.Clear();
 
-        
         if (instance == null)
         {
             instance = this;
@@ -115,13 +134,6 @@ public class ResultManager : MonoBehaviour
 
     private void InitializeManagers()
     {
-        if (posToUnitData != null)
-        {
-            posToUnitData.Clear();
-        }
-        if (units != null) units.Clear();
-        if (newWeapons != null) newWeapons.Clear();
-        if (posToHp != null) posToHp.Clear();
 
         posToUnitData = new Dictionary<int, PlayerHp>();
         units = new List<UnitData>();
@@ -273,9 +285,11 @@ public class ResultManager : MonoBehaviour
         ddoManager.LocalUserDatas.LocalUserDataDic[userID].DeathEssence += deathEssense;
     }
 
+
+
     private void UpdateUnitHealth(int userID)
     {
-        int aliveUnitCount = 0;
+        aliveUnitCount = 0;
         foreach (var u in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
         {
             var key = (userID, u.PrototypeUnitID, u.InstanceID);
