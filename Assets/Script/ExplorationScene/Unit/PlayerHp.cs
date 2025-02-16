@@ -41,7 +41,7 @@ public class PlayerHp : MonoBehaviour
         HitDelay = 0.5f;
         MaxHP = stat.MaxHealthPoint;
         heartPoint = MaxHP;
-        this.damage = damage / 2.0f;
+        this.damage = damage;
         hitConstant = this.damage / (stat.Defense + 10.0f);
         followerManager = manager;
     }
@@ -77,10 +77,10 @@ public class PlayerHp : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(MonsterTagName) && HitDelay == 0)
+        if (collision.gameObject.CompareTag("Monster") && HitDelay < 0)
         {
             Debug.Log("피격 :" + hitConstant);
-            HitDelay -= 0.5f;
+            HitDelay = 0.5f;
             heartPoint -= hitConstant;
             if (heartPoint <= 0)
             {
@@ -92,11 +92,11 @@ public class PlayerHp : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        
-        if (collision.gameObject.CompareTag(MonsterTagName) && HitDelay == 0)
+        Debug.Log(HitDelay);
+        if (collision.gameObject.CompareTag("Monster") && HitDelay < 0)
         {
             Debug.Log("피격 :" + hitConstant);
-            HitDelay -= 0.5f;
+            HitDelay = 0.5f;
             heartPoint -= hitConstant;
             if (heartPoint <= 0)
             {
