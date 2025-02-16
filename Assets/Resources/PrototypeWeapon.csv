@@ -1,6 +1,5 @@
-﻿ID,Name,AttackPoint,Type,Crime,InstanceCounter
+ID,Name,AttackPoint,Type,Crime,InstanceCounter
 0,기본 위성,10,2,1,1
 1,기본 근접,15,0,2,1
 2,기본 원거리,12,1,3,1
-3,기본 설치,8,3,4,0
-4002,흑린궁,60,1,7,1
+3,흑린궁,60,1,6,1

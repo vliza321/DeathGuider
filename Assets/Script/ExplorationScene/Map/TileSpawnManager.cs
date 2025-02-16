@@ -210,6 +210,7 @@ public class TileSpawnManager : MonoBehaviour
                     {
                         weaponEffectPool[i].transform.Translate(0, 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     }
+                    baseTileMap[1].gameObject.SetActive(true);
                 }
 
                 // 범위 벗어난 시점 충돌한 타일 맵이 1번이면
@@ -252,6 +253,7 @@ public class TileSpawnManager : MonoBehaviour
                     {
                         weaponEffectPool[i].transform.Translate(0, 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
                     }
+                    baseTileMap[0].gameObject.SetActive(true);
                 }
 
 
@@ -259,8 +261,6 @@ public class TileSpawnManager : MonoBehaviour
 
                 baseTileMap[0].Row = 5;
                 baseTileMap[1].Row = 5;
-                baseTileMap[0].gameObject.SetActive(true);
-                baseTileMap[1].gameObject.SetActive(true);
                 break;
 
             case RangeOut.columnRangeOut:
@@ -304,7 +304,7 @@ public class TileSpawnManager : MonoBehaviour
                     {
                         weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 0, 0, Space.Self);
                     }
-
+                    baseTileMap[1].gameObject.SetActive(true);
                 }
 
                 // 범위 벗어난 시점 충돌한 타일 맵이 1번이면
@@ -347,14 +347,12 @@ public class TileSpawnManager : MonoBehaviour
                     {
                         weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[1].Column), 0, 0, Space.Self);
                     }
-
+                    baseTileMap[0].gameObject.SetActive(true);
                 }
 
 
                 baseTileMap[0].Column = 5;
                 baseTileMap[1].Column = 5;
-                baseTileMap[0].gameObject.SetActive(true);
-                baseTileMap[1].gameObject.SetActive(true);
 
                 break;
 
@@ -362,6 +360,7 @@ public class TileSpawnManager : MonoBehaviour
                 int x = 0; 
                 int y = 0;
 
+                
                 // 범위 벗어난 시점 충돌한 타일 맵이 0번이면
                 if (baseTileMap[0].gameObject.activeSelf == true)
                 {
@@ -411,6 +410,7 @@ public class TileSpawnManager : MonoBehaviour
                     {
                         weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[0].Column), 12.8f * (baseTileMap[0].Row - 5), 0, Space.Self);
                     }
+                    baseTileMap[1].gameObject.SetActive(true);
                 }
                 // 범위 벗어난 시점 충돌한 타일 맵이 1번이면
                 else
@@ -463,6 +463,7 @@ public class TileSpawnManager : MonoBehaviour
                     {
                         weaponEffectPool[i].transform.Translate(12.8f * (5 - baseTileMap[1].Column), 12.8f * (baseTileMap[1].Row - 5), 0, Space.Self);
                     }
+                    baseTileMap[0].gameObject.SetActive(true);
                 }
 
 
@@ -471,8 +472,6 @@ public class TileSpawnManager : MonoBehaviour
                 baseTileMap[1].Row = 5;
                 baseTileMap[0].Column = 5;
                 baseTileMap[1].Column = 5;
-                baseTileMap[0].gameObject.SetActive(true);
-                baseTileMap[1].gameObject.SetActive(true);
 
                 //EditorApplication.isPaused = true;
                 break;

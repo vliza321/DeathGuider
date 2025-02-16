@@ -451,13 +451,11 @@ public class BattleReadySystem : MonoBehaviour
                         prisonerChooseButton.onClick.RemoveAllListeners();
                         prisonerChooseButton.onClick.AddListener(() =>
                         {
-                            Debug.Log(index);
                             for (int i = 0; i < weaponSlots.Length; i++)
                             {
                                 Button button = weaponSlots[i].button;
                                 if (button != null)
                                 {
-                                    Debug.Log($"슬롯 {index}의 무기 버튼 클릭됨");
                                     for (int j = 0; j < weaponSlots.Length; j++)
                                     {
 
@@ -465,14 +463,12 @@ public class BattleReadySystem : MonoBehaviour
                                         {
                                             weaponSlots[j].equipableState = -1;
                                             weaponSlots[j].instanceID = -1;
-                                            Debug.Log($"슬롯 {j} 상태가 -1로 변경됨");
                                         }
                                     }
 
                                     if (weaponSlots[index].equipableState == -1)
                                     {
                                         weaponSlots[index].equipableState = -10;
-                                        Debug.Log($"슬롯 {index} 상태가 -10으로 변경됨");
                                     }
                                 }
                             }
@@ -499,7 +495,6 @@ public class BattleReadySystem : MonoBehaviour
                                 }
                                 else
                                 {
-                                    Debug.LogWarning($"WeaponDataDic에서 해당 키({weaponKey})를 찾을 수 없습니다.");
                                 }
 
                                 var keyToRemove = DDOManager.UseWeaponDatas.UseWeaponDataDic
@@ -509,19 +504,16 @@ public class BattleReadySystem : MonoBehaviour
                     kv.Value.InstanceID == weaponInstanceID
                 ).Key;
 
-                                Debug.Log($"찾은 키: {keyToRemove}");
 
                                 // UseWeaponDataDic에서 존재하는지 확인 후 제거
                                 if (DDOManager.UseWeaponDatas.UseWeaponDataDic.ContainsKey(keyToRemove))
                                 {
                                     bool removedFromDic = DDOManager.UseWeaponDatas.UseWeaponDataDic.Remove(keyToRemove);
-                                    Debug.Log($"UseWeaponDataDic에서 제거 성공 여부: {removedFromDic}");
 
                                     int removedFromList = DDOManager.UseWeaponDatas.UseWeaponDatas.RemoveAll(data =>
                                         data.UserID == keyToRemove.Item1 &&
                                         data.PrototypeWeaponID == keyToRemove.Item2 &&
                                         data.InstanceID == keyToRemove.Item3);
-                                    Debug.Log($"UseWeaponDatas 리스트에서 제거된 개수: {removedFromList}");
                                 }
                             }
 
@@ -878,7 +870,6 @@ public class BattleReadySystem : MonoBehaviour
                                 {
                                     if (i > 0 && battleReadyPrisoners[i - 1] != null)
                                     {
-                                        Debug.Log(i - 1);
                                         TextMeshProUGUI battleReadyWeaponNameText = battleReadyPrisonerUI[i - 1].transform.Find("PrisonerImage/PrisonerNameText").GetComponent<TextMeshProUGUI>();
 
                                         if (battleReadyWeaponNameText != null)

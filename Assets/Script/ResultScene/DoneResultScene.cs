@@ -42,7 +42,6 @@ public class DoneResultScene : MonoBehaviour
             myButton.onClick.RemoveAllListeners();
             myButton.onClick.AddListener(() =>
             {
-                Debug.Log("결과보기");
                 resultManager.SaveBattleResult(resultManager.IsVictory);
                 resultSceneManager.DisplayResults();
                 text.text = "이동하기";

@@ -125,8 +125,8 @@ public class PlayerManager : MonoBehaviour
                 guiderHp.Init(ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)], damage,followerManager);
 
                 guider.transform.GetComponent<FollowerMove>().InitAnimator(
-                    gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController,
-                    gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController);
+                    gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(0).GetComponent<Animator>().runtimeAnimatorController,
+                    gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController);
 
                 resultManager.AddNewStat(0,guiderHp);
             }

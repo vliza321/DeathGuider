@@ -354,7 +354,6 @@ public class SmithSystem : MonoBehaviour
 
             if (weaponData.Rank >= 5)
             {
-                Debug.Log("최대 레벨입니다. 더 이상 진화할 수 없습니다.");
                 return;
             }
 
@@ -363,7 +362,6 @@ public class SmithSystem : MonoBehaviour
             if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold < evolveCost.GoldCost ||
                 DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence < evolveCost.DarkCost)
             {
-                Debug.Log("진화에 필요한 재화가 부족합니다.");
                 return;
             }
 
@@ -380,11 +378,9 @@ public class SmithSystem : MonoBehaviour
             if (DDOManager.WeaponDatas.WeaponDataDic.ContainsKey(key))
             {
                 DDOManager.WeaponDatas.WeaponDataDic[key] = weaponData;
-                Debug.Log($"[딕셔너리 업데이트] {weaponData.Name} 진화 완료: 새로운 등급: {weaponData.Rank}, 새로운 공격력: {weaponData.AttackPoint}");
             }
             else
             {
-                Debug.LogError("[딕셔너리 오류] 무기 데이터가 딕셔너리에 존재하지 않습니다.");
             }
 
             // 추후 업데이트 되어야하는 코드
@@ -404,7 +400,6 @@ public class SmithSystem : MonoBehaviour
             EnforceCost nextCost = GetAdjustedEnforceCost(weaponData.Rank, weaponData.Enforce);
             enforceCostText.text = $"{nextCost.GoldCost}G / {nextCost.DarkCost}D"; // 강화 비용 업데이트
 
-            Debug.Log($"진화 완료: {weaponData.Name}, 새로운 등급: {weaponData.Rank}, 새로운 공격력: {weaponData.AttackPoint}");
 
             GenerateHaveWeaponDatas();
             storageUI.UpdateGold();
@@ -419,7 +414,6 @@ public class SmithSystem : MonoBehaviour
         if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].Gold < adjustedCost.GoldCost ||
             DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence < adjustedCost.DarkCost)
         {
-            Debug.Log("강화에 필요한 재화가 부족합니다.");
             return;
         }
 
@@ -438,11 +432,9 @@ public class SmithSystem : MonoBehaviour
         {
             // 무기 데이터를 업데이트
             DDOManager.WeaponDatas.WeaponDataDic[keyEnforce] = weaponData;
-            Debug.Log($"[딕셔너리 업데이트] {weaponData.Name} 강화 완료: 새로운 레벨: {weaponData.Enforce}, 새로운 공격력: {weaponData.AttackPoint}");
         }
         else
         {
-            Debug.LogError("[딕셔너리 오류] 무기 데이터가 딕셔너리에 존재하지 않습니다.");
         }
 
         // 레벨 슬라이더 업데이트

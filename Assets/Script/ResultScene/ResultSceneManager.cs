@@ -57,11 +57,11 @@ public class ResultSceneManager : MonoBehaviour
 
         // 결과 출력
         resultText.text = resultManager.IsVictory ? "Victory!" : "Defeat";
-        goldText.text = "  " + resultManager.Gold + " G";
+        goldText.text = "  " + (int)resultManager.Gold + " G";
         darkEssenceText.text = "  " + resultManager.DarkEssense + " D";
         deathEssenceText.text = "  " + resultManager.DeathEssense + " EA";
         expText.text = "  " + resultManager.Exp + " EXP";
-        timerText.text = "  " + (int)(resultManager.Timer / 60) + " : " + (int)(resultManager.Timer % 60) + "." + (resultManager.Timer % 1)+ " ";
+        timerText.text = "  " + (int)(resultManager.Timer / 60) + " : " + (int)(resultManager.Timer % 60) + " ";
 
         // 유닛 생존 여부 표시
         int survivingUnits = resultManager.Units.Count;

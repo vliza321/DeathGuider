@@ -301,6 +301,7 @@ public class ResultManager : MonoBehaviour
                 continue;
             }
 
+            Debug.Log(posToUnitData[u.Position].HeartPoint);
             ddoManager.UnitDatas.UnitDataDic[key].HealthPoint = 
                 (posToUnitData[u.Position].HeartPoint % 1 > 0 ? (int)(posToUnitData[u.Position].HeartPoint + 1) : (int)(posToUnitData[u.Position].HeartPoint));
             aliveUnitCount++;

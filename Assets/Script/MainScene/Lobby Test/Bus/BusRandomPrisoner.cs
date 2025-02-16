@@ -94,11 +94,11 @@ public class BusRandomPrisoner : MonoBehaviour
         newUnit.Name = GenerateRandomName();
         newUnit.Level = 1;
         newUnit.EXP = 0;
-        newUnit.MaxHealthPoint = Random.Range(1, 101);
+        newUnit.MaxHealthPoint = Random.Range(80, 111);
         newUnit.HealthPoint = newUnit.MaxHealthPoint;
-        newUnit.Strength = Random.Range(1, 11);
-        newUnit.Defense = Random.Range(1, 11);
-        newUnit.Handicraft = Random.Range(1, 11);
+        newUnit.Strength = Random.Range(6, 12);
+        newUnit.Defense = Random.Range(6, 12);
+        newUnit.Handicraft = Random.Range(90, 105);
         newUnit.DeathErosion = 0;
         newUnit.Enforce = 0;
         newUnit.HandicraftEnforce = 0;
@@ -221,13 +221,11 @@ public class BusRandomPrisoner : MonoBehaviour
 
         if (DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].UnitInstanceCounter >= maxTotalAcceptCount)
         {
-            Debug.Log("최대 인원을 초과했습니다.");
             return;
         }
 
         if (dailyAcceptCount >= maxDailyAcceptCount)
         {
-            Debug.Log("오늘 수락 횟수를 초과했습니다.");
             return;
         }
 

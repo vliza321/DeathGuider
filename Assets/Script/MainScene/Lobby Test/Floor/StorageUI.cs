@@ -73,6 +73,6 @@ public class StorageUI : MonoBehaviour
             return;
         }
 
-        darkEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence:N0} K";
+        darkEssenceText.text = $"{DDOManager.LocalUserDatas.LocalUserDataDic[GameManager.SelectUserID].DarkEssence:N0} EA";
     }
 }

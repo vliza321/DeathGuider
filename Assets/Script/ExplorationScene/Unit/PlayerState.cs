@@ -95,7 +95,6 @@ public class PlayerState : MonoBehaviour
         level++;
         experienceToNextLevel = Mathf.RoundToInt(experienceToNextLevel * 1.2f); // 다음 레벨업에 필요한 경험치 증가
         // 추후 레벨업 시 추가 기능(능력치 증가 등) 구현자리
-        Debug.Log("Level Up! New Level: " + level);
     }
 
     private void SwapUnit()
