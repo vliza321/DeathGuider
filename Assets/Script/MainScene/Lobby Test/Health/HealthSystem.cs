@@ -186,6 +186,7 @@ public class HealthSystem : MonoBehaviour
 
                                 HPslideBar.maxValue = prisoner.MaxHealthPoint;
                                 HPslideBar.value = prisoner.HealthPoint;
+                                HPslideBar.interactable = false;
                             }
 
                             Image BodyImage = prisonerImageTransform.Find("BodyImage").GetComponent<Image>();
@@ -264,6 +265,7 @@ public class HealthSystem : MonoBehaviour
                             {
                                 HPslideBar.maxValue = 1;
                                 HPslideBar.value = 0;
+                                HPslideBar.interactable = false;
                             }
 
                             Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();
@@ -357,6 +359,7 @@ public class HealthSystem : MonoBehaviour
                 {
                     HPslideBar.maxValue = 1;
                     HPslideBar.value = 0;
+                    HPslideBar.interactable = false;
                 }
 
                 Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();

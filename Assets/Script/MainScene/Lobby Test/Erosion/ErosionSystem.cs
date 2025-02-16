@@ -182,6 +182,7 @@ public class ErosionSystem : MonoBehaviour
 
                                 HPslideBar.maxValue = 100;
                                 HPslideBar.value = prisoner.DeathErosion;
+                                HPslideBar.interactable = false;
                             }
 
                             Image BodyImage = prisonerImageTransform.Find("BodyImage").GetComponent<Image>();
@@ -259,6 +260,7 @@ public class ErosionSystem : MonoBehaviour
                             {
                                 ErosionSlideBar.maxValue = 100;
                                 ErosionSlideBar.value = 0;
+                                ErosionSlideBar.interactable = false;
                             }
 
                             Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();
@@ -336,19 +338,20 @@ public class ErosionSystem : MonoBehaviour
             ErosionData.InstanceID = -1;
         }
 
-        foreach (Transform healthRoom in contentRoomParent)
+        foreach (Transform erosionRoom in contentRoomParent)
         {
-            Transform prisonerImageTransform = healthRoom.Find("PrisonerImage");
+            Transform prisonerImageTransform = erosionRoom.Find("PrisonerImage");
             if (prisonerImageTransform != null)
             {
                 prisonerImageTransform.Find("NameText")?.GetComponent<TextMeshProUGUI>().SetText("| -------");
                 prisonerImageTransform.Find("ErosionText")?.GetComponent<TextMeshProUGUI>().SetText("Ä§½Äµµ");
 
-                Slider HPslideBar = healthRoom.Find("ErosionSlider")?.GetComponent<Slider>();
-                if (HPslideBar != null)
+                Slider erosionSlider = erosionRoom.Find("ErosionSlider")?.GetComponent<Slider>();
+                if (erosionSlider != null)
                 {
-                    HPslideBar.maxValue = 1;
-                    HPslideBar.value = 0;
+                    erosionSlider.maxValue = 1;
+                    erosionSlider.value = 0;
+                    erosionSlider.interactable = false;
                 }
 
                 Image headImage = prisonerImageTransform.Find("HeadImage")?.GetComponent<Image>();
