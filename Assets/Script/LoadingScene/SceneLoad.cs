@@ -10,6 +10,8 @@ public class SceneLoad : MonoBehaviour
     public Text loadtext;
     AsyncOperation operation;
 
+    public FadeOut fadeOut;
+
     public bool isDone;
     private void Start()
     {
@@ -20,10 +22,13 @@ public class SceneLoad : MonoBehaviour
 
     private void Update()
     {
-
         if(isDone)
         {
-            SceneManager.LoadScene("FieldExploration");
+            operation.allowSceneActivation = true;
+        }
+        if (fadeOut.Alpha >0.99f)
+        {
+            isDone = true;
         }
     }
 
@@ -51,8 +56,9 @@ public class SceneLoad : MonoBehaviour
 
             if(Input.GetKeyDown(KeyCode.Space)&&progressbar.value >= 1f && operation.progress >= 0.9f)
             {
+                fadeOut.StartFadeOut();
                 //operation.allowSceneActivation = true;
-                isDone = true;
+                //isDone = true;
             }
 
             

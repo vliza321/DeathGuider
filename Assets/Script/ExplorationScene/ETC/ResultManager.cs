@@ -252,10 +252,16 @@ public class ResultManager : MonoBehaviour
     {
         // 진척도 누적 예시 코드
         if (ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress != 100)
+        {
             ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress += 10 + (int)(timer / (15 + stageID * 3));// + 시간 비례식 필요 
 
-        if (ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress >= 100)
-            ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress = 100;// + 시간 비례식 필요 
+            if(ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress >= 100)
+            {
+                ddoManager.ProgressDatas.ProgressDataDic[(userID, stageID)].Progress = 100;
+                if (stageID == ddoManager.StageDatas.StageDatas.Count - 1) return;
+                ddoManager.StageDatas.StageDataDic[stageID++].IsOpen = 1;
+            }
+        }
     }
 
     private void UpdateResources(int userID, bool isVictory)
@@ -266,19 +272,23 @@ public class ResultManager : MonoBehaviour
         ddoManager.LocalUserDatas.LocalUserDataDic[userID].DarkEssence += (int)(darkEssense * multiplier);
         ddoManager.LocalUserDatas.LocalUserDataDic[userID].DeathEssence += deathEssense;
     }
+
     private void UpdateUnitHealth(int userID)
     {
         int aliveUnitCount = 0;
         foreach (var u in ddoManager.UnitParticipateDatas.UnitParticipateDataDic.Values)
         {
             var key = (userID, u.PrototypeUnitID, u.InstanceID);
-            ddoManager.UnitDatas.UnitDataDic[key].HealthPoint =
-                (posToUnitData[u.Position].HeartPoint % 1 > 0 ? (int)(posToUnitData[u.Position].HeartPoint + 1) : (int)(posToUnitData[u.Position].HeartPoint));
+
             if (ddoManager.UnitDatas.UnitDataDic[key].HealthPoint == 0)
             {
                 ddoManager.UnitDatas.UnitDataDic.Remove(key);
                 ddoManager.UnitDatas.UnitDatas.RemoveAll(unit => unit.UserID == userID && unit.PrototypeUnitID == u.PrototypeUnitID && unit.InstanceID == u.InstanceID);
+                continue;
             }
+
+            ddoManager.UnitDatas.UnitDataDic[key].HealthPoint = 
+                (posToUnitData[u.Position].HeartPoint % 1 > 0 ? (int)(posToUnitData[u.Position].HeartPoint + 1) : (int)(posToUnitData[u.Position].HeartPoint));
             aliveUnitCount++;
         }
 
@@ -286,14 +296,20 @@ public class ResultManager : MonoBehaviour
         {
             var key = (userID, u.PrototypeUnitID, u.InstanceID);
             float gainExp = exp / (aliveUnitCount * MathF.Log(
-                ddoManager.UnitDatas.UnitDataDic[key].Level
+                ddoManager.UnitDatas.UnitDataDic[key].Level + 1
                 , 2));
             ddoManager.UnitDatas.UnitDataDic[key].EXP = (int)(gainExp);
 
-            while (ddoManager.UnitDatas.UnitDataDic[key].EXP < 100)
+            while (ddoManager.UnitDatas.UnitDataDic[key].EXP > 100)
             {
                 ddoManager.UnitDatas.UnitDataDic[key].Level++;
                 ddoManager.UnitDatas.UnitDataDic[key].EXP -= 100;
+
+                ddoManager.UnitDatas.UnitDataDic[key].MaxHealthPoint += 6;
+                ddoManager.UnitDatas.UnitDataDic[key].HealthPoint += 6;
+                ddoManager.UnitDatas.UnitDataDic[key].Strength += 2;
+                ddoManager.UnitDatas.UnitDataDic[key].Defense += 2;
+                ddoManager.UnitDatas.UnitDataDic[key].Handicraft += 2;
             }
         }
     }

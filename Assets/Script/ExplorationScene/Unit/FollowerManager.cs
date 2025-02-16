@@ -116,7 +116,7 @@ public class FollowerManager : MonoBehaviour
                     weapon[i - 1].transform.localScale = new Vector3(1, 1, 1);
                     weapon[i - 1].GetComponent<Weapon>().WeaponData = DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)];
                     UnitData temtData = follower[position].gameObject.GetComponentInChildren<PlayerHp>().Stat;
-                    damage = (temtData.Strength + DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * temtData.Handicraft;
+                    damage = (temtData.Strength + DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * (temtData.Handicraft / 100);
                     if (temtData.Crime == DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
                     weapon[i - 1].GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage, damage, follower[position].transform, DDOManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)]);
                     position++;

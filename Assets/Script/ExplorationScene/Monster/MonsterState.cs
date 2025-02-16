@@ -44,7 +44,6 @@ public class MonsterState : autorizedObject
     public void Init(MonsterData prototypeData, ObjectPool<MonsterState> respawnPool, MonsterManager monsterManager, int num)
     {
         healthPoint = prototypeData.MaxHealthPoint;
-        Debug.Log(healthPoint);
         status = prototypeData;
         hitConstant = 1.0f / (status.Defense + 10.0f);
         monsterMove = this.gameObject.GetComponent<MonsterMove>();

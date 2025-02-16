@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
 
-public class FadeInOut : MonoBehaviour
+public class FadeOut : MonoBehaviour
 {
     private float alpha;
     private float vectorAlpha;
@@ -27,41 +27,26 @@ public class FadeInOut : MonoBehaviour
         img = this.gameObject.GetComponent<Image>();
         screenSize = new Vector2(Screen.width, Screen.height);
         alpha = 0.01f;
-        vectorAlpha = 0.01f;
-        StartFadeIn();
+        vectorAlpha = 0.66f;
         alpha = 0.01f;
         screenSize.x = Screen.width;
         screenSize.y = Screen.height;
+        isFadeOut = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if(isFadeOut)
+
+        if (!isFadeOut)
         {
-            if(alpha < 0.99f)
-            {
-                rt.sizeDelta = screenSize;
-                img.color = Color.Lerp(Color.black, Color.clear, alpha);
-                alpha += vectorAlpha;
-            }
-        }
-        else
-        {
-            if(alpha < 0.99f)
+            if (alpha < 0.99f)
             {
                 rt.sizeDelta = screenSize;
                 img.color = Color.Lerp(Color.clear, Color.black, alpha);
-                alpha += vectorAlpha;
+                alpha += vectorAlpha * Time.deltaTime;
             }
         }
-    }
-
-    public void StartFadeIn()
-    {
-        alpha = 0.01f;
-        isFadeOut = true;
     }
 
     public void StartFadeOut()

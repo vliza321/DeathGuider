@@ -121,7 +121,7 @@ public class PlayerManager : MonoBehaviour
             if (UP.Position == 0)
             {
                 guiderInParty = true;
-                damage = ddoManager.MonsterDatas.MonsterDataDic[gameManager.SelectStageID].Strength + gameManager.SelectStageID;
+                damage = (ddoManager.MonsterDatas.MonsterDataDic[gameManager.SelectStageID].Strength + gameManager.SelectStageID);
                 guiderHp.Init(ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)], damage,followerManager);
 
                 guider.transform.GetComponent<FollowerMove>().InitAnimator(
@@ -138,7 +138,7 @@ public class PlayerManager : MonoBehaviour
                 weapon = Instantiate(gameManager.PrototypeWeapon[UW.PrototypeWeaponID]);
                 weapon.transform.SetParent(guiderHp.transform.parent.transform);
                 weapon.GetComponent<Weapon>().WeaponData = ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID,UW.PrototypeWeaponID,UW.InstanceID)];
-                damage = (guiderHp.Stat.Strength + ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * guiderHp.Stat.Handicraft;
+                damage = (guiderHp.Stat.Strength + ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].AttackPoint) * (guiderHp.Stat.Handicraft/100);
                 if (guiderHp.Stat.Crime == ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)].Crime) damage = damage * 1.1f;
                 weapon.transform.localScale = new Vector3(1, 1, 1);
                 weapon.GetComponent<Weapon>().Initialize(monsterManager.WeaponDamage,damage,guider.transform,ddoManager.WeaponDatas.WeaponDataDic[(UW.UserID, UW.PrototypeWeaponID, UW.InstanceID)]);
