@@ -512,22 +512,28 @@ public class GYMSystem : MonoBehaviour
                 {
                     DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].StrengthEnforce++;
                     DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].MaxHealthPoint += 6;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthPoint += 6;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Strength += 2;
                 }
                 else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 12)
                 {
                     DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HandicraftEnforce++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Handicraft += 2;
                 }
                 else if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus == 13)
                 {
                     DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].DefenseEnforce++;
                     DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthEnforce++;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].MaxHealthPoint += 6;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].HealthPoint += 6;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].DefenseEnforce += 2;
                 }
 
                 DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP += expGain;
                 if (DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP > 100)
                 {
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].Level++;
-                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP -= 100;
+                    DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].EXP = 100;
                 }
 
                 DDOManager.UnitDatas.UnitDataDic[(GameManager.SelectUserID, 100, gymData.InstanceID)].ActivityStatus = 0;
