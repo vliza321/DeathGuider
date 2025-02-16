@@ -8,8 +8,8 @@ public class StorageUI : MonoBehaviour
 {
     public TextMeshProUGUI daysText;
     public TextMeshProUGUI goldText;
-    public TextMeshProUGUI deathEssenceText;
     public TextMeshProUGUI darkEssenceText;
+    public TextMeshProUGUI deathEssenceText;
 
     private DontDestroyObjectManager DDOManager;
     private GameManager GameManager;
