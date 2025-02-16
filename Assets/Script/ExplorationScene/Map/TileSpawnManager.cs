@@ -82,6 +82,7 @@ public class TileSpawnManager : MonoBehaviour
         baseTileMap[1].ChangeMatrix(0, 0);
         baseTileMap[1].ReleaseTerrain();
     }
+
     // Update is called once per frame
     void Start()
     {

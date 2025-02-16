@@ -122,7 +122,7 @@ public class PlayerManager : MonoBehaviour
             {
                 guiderInParty = true;
                 damage = ddoManager.MonsterDatas.MonsterDataDic[gameManager.SelectStageID].Strength + gameManager.SelectStageID;
-                guiderHp.Init(ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)], damage);
+                guiderHp.Init(ddoManager.UnitDatas.UnitDataDic[(UP.UserID, UP.PrototypeUnitID, UP.InstanceID)], damage,followerManager);
 
                 guider.transform.GetComponent<FollowerMove>().InitAnimator(
                     gameManager.PrototypeUnit[guiderHp.Stat.PrototypeUnitID].transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController,
@@ -170,6 +170,7 @@ public class PlayerManager : MonoBehaviour
         if (playerUnitCounter == 0) {
             guider.SetActive(false);
             resultManager.PlayerDefeated();
+            monsterManager.PlayerEscape();
             return;
         }
 

@@ -390,8 +390,7 @@ public class MonsterManager : MonoBehaviour
 
                 if (monsterSpawnPool.PoolQueue.Count == 0) break;
                 newMonster = monsterSpawnPool.GetObject();
-                newMonster.GetComponent<MonsterState>().monsterSpawn();
-                newMonster.GetComponent<MonsterMove>().ActionState = MonsterActionState.Spawning;
+                newMonster.monsterSpawn();
                 switch (Random.Range(0, 2))
                 {
                     default:

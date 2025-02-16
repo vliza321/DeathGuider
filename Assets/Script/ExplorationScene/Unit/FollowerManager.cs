@@ -80,7 +80,7 @@ public class FollowerManager : MonoBehaviour
             {
                 if (UP.Position == i)
                 {
-                    follower[position].gameObject.GetComponentInChildren<PlayerHp>().Init(DDOManager.UnitDatas.UnitDataDic[((UP.UserID, UP.PrototypeUnitID, UP.InstanceID))], damage);
+                    follower[position].gameObject.GetComponentInChildren<PlayerHp>().Init(DDOManager.UnitDatas.UnitDataDic[((UP.UserID, UP.PrototypeUnitID, UP.InstanceID))], damage, this);
                     /*resultManager.Units.Add(follower[position].gameObject.GetComponentInChildren<PlayerHp>().Stat);
                     resultManager.PosToUnitData.Add(i, follower[position].gameObject.GetComponentInChildren<PlayerHp>());*/
 

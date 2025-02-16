@@ -31,6 +31,7 @@ public class StairCollision : MonoBehaviour
             if(m.name == "ResultManager")
             {
                 resultManager = m.GetComponent<ResultManager>();
+                resultManager.FadeInOutUI = fadeInOutUI;
             }
         }
         UI = null;
@@ -47,7 +48,6 @@ public class StairCollision : MonoBehaviour
     {
         if(collision.CompareTag(playerTagName))
         {
-            resultManager.FadeInOutUI = fadeInOutUI;
             resultManager.PlayerEscape();
             monsterManager.PlayerEscape();
             SceneManager.LoadScene("Result");

@@ -1,4 +1,4 @@
 UserID,PrototypeWeaponID,InstanceID,Name,AttackPoint,Durability,Type,Enforce,Crime,Rank,EffectID,ActivityStatus
-0,0,0,기본 근접,10,100,0,0,1,0,0,0
-0,1,0,기본 위성,5,100,1,0,2,0,1,0
-0,2,0,기본 원거리,8,100,2,0,3,0,2,0
+0,0,0,기본 위성,10,100,2,0,1,0,0,0
+0,1,0,기본 근접,15,100,0,0,2,0,1,0
+0,2,0,기본 원거리,12,100,1,0,3,0,2,0

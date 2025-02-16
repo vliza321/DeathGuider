@@ -75,7 +75,6 @@ public class HealthSystem : MonoBehaviour
     .Where(prisoner => prisoner != null && prisoner.ActivityStatus == 0 && prisoner.PrototypeUnitID == 100 && prisoner.HealthPoint != prisoner.MaxHealthPoint)
     .OrderBy(prisoner => prisoner.InstanceID)
     .ToList();
-        Debug.Log(filteredPrisoners.Count);
         RectTransform contentRect = contentUnitParent.GetComponent<RectTransform>();
 
         GridLayoutGroup gridLayoutGroup = contentUnitParent.GetComponent<GridLayoutGroup>();

@@ -70,7 +70,6 @@ public class ErosionSystem : MonoBehaviour
     .OrderBy(prisoner => prisoner.InstanceID)
     .ToList();
 
-        Debug.Log(filteredPrisoners.Count);
         RectTransform contentRect = contentUnitParent.GetComponent<RectTransform>();
 
         GridLayoutGroup gridLayoutGroup = contentUnitParent.GetComponent<GridLayoutGroup>();

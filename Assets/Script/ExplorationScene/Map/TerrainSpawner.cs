@@ -40,6 +40,7 @@ public class TerrainSpawner : MonoBehaviour
     public void ReleaseTerrain(int terrainID, GameObject terrain)
     {
         terrain.SetActive(false);
+        terrain.transform.SetParent(this.transform);
         terrainsDic[terrainID].Enqueue(terrain);
         terrain.transform.position = Vector3.zero;
     }

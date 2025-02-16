@@ -224,6 +224,7 @@ public class ResultManager : MonoBehaviour
         }
         fadeInOutUI.StartFadeOut();
         isVictory = false;
+        SceneManager.LoadScene("Result");
         //SaveBattleResult(false);
         //Invoke("LoadMainScene", 3f);
     }

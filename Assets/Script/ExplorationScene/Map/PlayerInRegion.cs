@@ -41,6 +41,7 @@ public class PlayerInRegion : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
+
         int row;
         int column;
         if (collision.gameObject.CompareTag(playerTagName))

@@ -62,6 +62,7 @@ public class TileSet : MonoBehaviour
         constant = (constant >= 0 ? constant : -(constant));
 
         terrain = terrainSpawner.GetTerrain(constant % 9, tile[constant%100].transform.position);
+        terrain.transform.SetParent(this.transform);
     }
 
     public void ChangeMatrix(int a, int b)
@@ -72,6 +73,7 @@ public class TileSet : MonoBehaviour
 
     public void ReleaseTerrain()
     {
+        
         if (terrain == this.gameObject)
         {
             return;

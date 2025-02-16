@@ -43,8 +43,8 @@ public class MonsterState : autorizedObject
 
     public void Init(MonsterData prototypeData, ObjectPool<MonsterState> respawnPool, MonsterManager monsterManager, int num)
     {
-
         healthPoint = prototypeData.MaxHealthPoint;
+        Debug.Log(healthPoint);
         status = prototypeData;
         hitConstant = 1.0f / (status.Defense + 10.0f);
         monsterMove = this.gameObject.GetComponent<MonsterMove>();
@@ -63,6 +63,7 @@ public class MonsterState : autorizedObject
     {
         if (collision.gameObject.CompareTag(weaponTagName) && monsterMove.ActionState == MonsterActionState.Moving)
         {
+            Debug.Log("Å¸°Ý :" + (1 + monsterManager.WeaponDamage[collision.gameObject] * hitConstant));
             monsterMove.ActionState = MonsterActionState.KnockBack;
             healthPoint -= 1 + monsterManager.WeaponDamage[collision.gameObject] * hitConstant;
             

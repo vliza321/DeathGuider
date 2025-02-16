@@ -56,7 +56,7 @@ public class UnitData
     public int HealthPoint;
     public int Strength;
     public int Defense;
-    public int Handicraft;
+    public float Handicraft;
     public int DeathErosion;
     public int Enforce;
     public int HealthEnforce;
