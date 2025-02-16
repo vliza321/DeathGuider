@@ -331,6 +331,7 @@ public class FloorSystem : MonoBehaviour
             {
                 levelSlider.maxValue = 100;
                 levelSlider.value = prisoner.EXP;
+                levelSlider.interactable = false;
             }
 
             Slider healthSlider = prisonerInfoUI.transform.Find("HealthSlider").GetComponent<Slider>();
@@ -338,6 +339,7 @@ public class FloorSystem : MonoBehaviour
             {
                 healthSlider.maxValue = prisoner.MaxHealthPoint;
                 healthSlider.value = prisoner.HealthPoint;
+                healthSlider.interactable = false;
             }
 
             Slider deathErosionSlider = prisonerInfoUI.transform.Find("DeathErosionSlider").GetComponent<Slider>();
@@ -345,6 +347,7 @@ public class FloorSystem : MonoBehaviour
             {
                 deathErosionSlider.maxValue = 100;
                 deathErosionSlider.value = prisoner.DeathErosion;
+                deathErosionSlider.interactable = false;
             }
         }
     }
