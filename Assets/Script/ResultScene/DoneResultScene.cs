@@ -37,7 +37,6 @@ public class DoneResultScene : MonoBehaviour
                 ChangeButton();
             });
         }
-        
     }
 
     public void ChangeButton()

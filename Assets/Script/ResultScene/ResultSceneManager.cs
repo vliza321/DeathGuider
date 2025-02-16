@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 
 public class ResultSceneManager : MonoBehaviour
@@ -38,6 +37,7 @@ public class ResultSceneManager : MonoBehaviour
             if (ddo.name == "DDOManager")
                 DDOManager = ddo.GetComponent<DontDestroyObjectManager>();
         }
+        DDO = null;
 
         resultManager = FindObjectOfType<ResultManager>();
     }
@@ -45,8 +45,10 @@ public class ResultSceneManager : MonoBehaviour
     private void DisplayResults()
     {
         if (resultManager == null)
-        {
-            Debug.LogError("ResultManager not found!");
+        { 
+        //{
+        //    Debug.Log("¾î³ç")
+        //    Debug.LogError("ResultManager not found!");
             return;
         }
 
